@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/codigo"      android:title="Codigo"/>
+    <item android:id="@+id/estado"      android:title="Estado"/>
+    <item android:id="@+id/descripcion" android:title="Descripcion"/>
+    <item android:id="@+id/monto"       android:title="Monto"/>
+<!--    <item
+        android:id="@+id/action_addItem"
+        android:orderInCategory="100"
+        android:title="Add New Item"
+        app:showAsAction="never"/>-->
+</menu>

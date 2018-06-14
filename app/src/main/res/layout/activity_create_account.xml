@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.overall.developer.liquidacionesapp.ui.user.view.CreateAccount.CreateAccountActivity"
+    tools:layout_editor_absoluteY="81dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/login01"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/edittext_style"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txvTittle"/>
+
+    <TextView
+        android:id="@+id/txvTittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/createTittle"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txvMessage"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5" />
+
+    <TextView
+        android:id="@+id/txvMessage"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="310dp"
+        android:layout_marginTop="109dp"
+        android:gravity="center"
+        android:text="@string/createMessage"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegistrar"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+        android:id="@+id/imgPerfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:padding="20dp"
+        android:src="@drawable/ic_add_a_photo"
+        app:layout_constraintBottom_toTopOf="@+id/etxUserDni"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5"
+        app:shape_mode="circle"
+        app:stroke_width="3dp" />
+
+
+    <EditText
+        android:id="@+id/etxUserDni"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/edittext_style"
+        android:ems="10"
+        android:hint="@string/createUserDni"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/etxPassword"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5" />
+
+    <EditText
+        android:id="@+id/etxPassword"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/edittext_style"
+        android:ems="10"
+        android:hint="@string/createPassword"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/etxEmail"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5" />
+
+
+    <EditText
+        android:id="@+id/etxEmail"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/edittext_style"
+        android:ems="10"
+        android:hint="@string/createEmail"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/etxPhone"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5" />
+
+    <EditText
+        android:id="@+id/etxPhone"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/edittext_style"
+        android:ems="10"
+        android:hint="@string/createPhone"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegistrar"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5" />
+
+    <io.rmiri.buttonloading.ButtonLoading
+        android:id="@+id/btnRegistrar"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="87dp"
+        android:text="Button"
+        android:textColor="@color/white"
+        app:BL_backgroundColor="#50090009"
+        app:BL_circleColor="#00AFEF"
+        app:BL_circleColorSecond="#8000AFEF"
+        app:BL_enable="true"
+        app:BL_stateShow="normal"
+        app:BL_text="@string/Registered"
+        app:BL_textColor="#FFFFFF"
+        app:BL_textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/txvMessage" />
+
+
+</android.support.constraint.ConstraintLayout>

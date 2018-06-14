@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_soliRend"
+            android:icon="@drawable/ic_description"
+            android:title="@string/solicitar_rendicion" />
+        <item
+            android:id="@+id/nav_actContra"
+            android:icon="@drawable/ic_lock"
+            android:title="@string/actulizar_contraseña" />
+        <item
+            android:id="@+id/nav_actCorreo"
+            android:icon="@drawable/ic_email"
+            android:title="@string/actulizar_correo"
+            />
+        <item
+            android:id="@+id/nav_liqPend"
+            android:icon="@drawable/ic_list"
+            android:title="@string/liquidaciones_pendientes" />
+        <item
+            android:id="@+id/nav_reenbolso"
+            android:icon="@drawable/ic_sync"
+            android:title="@string/reenbolso" />
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/configuracion" />
+    </group>
+
+    <item android:title="Complementos">
+        <menu>
+            <item
+                android:id="@+id/nav_sesion"
+                android:icon="@drawable/ic_exit_to_app"
+                android:title="@string/cerrar_sesion" />
+        </menu>
+    </item>
+
+</menu>

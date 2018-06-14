@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Razon Social"/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Razon Social:"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Periodo del:   "/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:hint="inicio"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Al: "/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:hint="fin"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Fecha"/>
+
+                    <com.libizo.CustomEditText
+                        android:id="@+id/etxCalendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Fecha"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="N° Documento"/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="N: Documento"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Datos del Trabajador: "/>
+
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Datos del trabajador"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Motivo:  "/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Motivo"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Destino:  "/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Destino del desplazamiento"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Monto:  "/>
+
+                    <com.libizo.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="Monto Gastado"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Tipo Gasto: "/>
+
+                    <TextView
+                        android:id="@+id/spnTipoGasto"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

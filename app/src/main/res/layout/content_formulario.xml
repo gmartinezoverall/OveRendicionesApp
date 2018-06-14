@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/datos_generales_background"
+            android:layout_margin="@dimen/margin_layout">
+
+
+                        <FrameLayout
+                            android:id="@+id/fytFormularios"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="61dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="0dp"/>
+
+                <com.asksira.dropdownview.DropDownView
+                    android:id="@+id/dropdownview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    app:arrow_drawable="@drawable/ic_arrow_drop_down"
+                    app:arrow_width="24dp"
+                    app:divider_color="@color/backgroundtext_card"
+                    app:dropDownItem_height="36dp"
+                    app:dropDownItem_text_color_selected="@color/azul_per01"
+                    app:dropDownItem_text_size_selected="16sp"
+                    app:filter_bar_background_color="@android:color/white"
+                    app:filter_text_color="@android:color/black"
+                    app:placeholder_text="Seleccionar Formulario"/>
+
+        </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

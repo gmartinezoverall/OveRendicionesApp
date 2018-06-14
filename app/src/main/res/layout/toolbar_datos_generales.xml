@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity">
+
+    <com.github.florent37.awesomebar.AwesomeBar
+        android:id="@+id/toolbarDatosGenerales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbarColor"
+        android:elevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/lyt1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignLeft="@+id/lyt2"
+                android:gravity="right|center"
+                android:paddingRight="140dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left">
+
+                    <TextView
+                        android:id="@+id/txvTMonto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Monto: " />
+
+                    <TextView
+                        android:id="@+id/txvDGMonto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Activity Title"
+                        android:transitionName="monto" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left">
+
+                    <TextView
+                        android:id="@+id/txvTACuenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Acuenta: " />
+
+                    <TextView
+                        android:id="@+id/txvDGAcuenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Toolbar Title"
+                        android:transitionName="acuenta" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="right|bottom"
+                android:paddingBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txvTSaldo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Saldo: "
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txvDGSaldo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:text="Toolbar"
+                        android:transitionName="saldo"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+    </com.github.florent37.awesomebar.AwesomeBar>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF3DA5FD</color>
+    <color name="PendienteBackGround">#cccccc</color>
+    <color name="toolbarColor">#3278e2</color>
+
+    <color name="colorDefaultStroke">#cccccc</color>
+
+    <color name="pendienteColor">#ff0000</color>
+    <color name="canceladoColor">#3F51B5</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#50050005</color>
+    <color name="backgroundtext_card">#53292929</color>
+
+    <color name="azul_per01">#FF3DA5FD</color>
+
+    <!--cardView rendicion-->
+    <color name="swipeoption_green">#36CF8E</color>
+    <color name="swipeoption_blue">#3693D0</color>
+    <color name="swipeoption_purple">#ff1744</color>
+</resources>

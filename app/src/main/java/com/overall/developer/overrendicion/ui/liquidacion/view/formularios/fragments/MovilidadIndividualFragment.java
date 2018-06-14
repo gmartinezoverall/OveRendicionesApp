@@ -1,0 +1,148 @@
+package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.libizo.CustomEditText;
+import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import info.hoang8f.android.segmented.SegmentedGroup;
+
+public class MovilidadIndividualFragment extends Fragment {
+
+    @BindView(R.id.txvFechaInicioDisable)
+    CustomEditText txvFechaInicioDisable;
+    @BindView(R.id.txvFechaHastaDisable)
+    CustomEditText txvFechaHastaDisable;
+    @BindView(R.id.btnIndividual)
+    RadioButton btnIndividual;
+    @BindView(R.id.btnMasivo)
+    RadioButton btnMasivo;
+    @BindView(R.id.segmented2)
+    SegmentedGroup segmented2;
+    @BindView(R.id.etxFechaDesde)
+    CustomEditText etxFechaDesde;
+    @BindView(R.id.txtFechaHasta)
+    TextView txtFechaHasta;
+    @BindView(R.id.etxFechaHasta)
+    CustomEditText etxFechaHasta;
+    @BindView(R.id.etxMotivo)
+    CustomEditText etxMotivo;
+    @BindView(R.id.etxDestino)
+    CustomEditText etxDestino;
+    @BindView(R.id.etxMonto)
+    CustomEditText etxMonto;
+    @BindView(R.id.spnTipoGasto)
+    TextView spnTipoGasto;
+    @BindView(R.id.btnGuardar)
+    Button btnGuardar;
+    @BindView(R.id.btnAgregarFoto)
+    Button btnAgregarFoto;
+    @BindView(R.id.lytfechaFinal)
+    LinearLayout lytfechaFinal;
+
+    private SpinnerDialog spinnerDialog;
+    private String idProvincia;
+
+    Unbinder unbinder;
+    View mView;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_movilidad_individual, container, false);
+        unbinder = ButterKnife.bind(this, mView);
+
+
+        etxFechaDesde.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) showDatePickerDialog(1);
+        });
+        etxFechaHasta.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) showDatePickerDialog(2);
+        });
+
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto, spnTipoGasto);
+
+        ArrayList<Object> itemList = new ArrayList<>();
+        itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
+
+        if (itemList.size() == 1) spnTipoGasto.setText(itemList.get(0).toString());
+        spinnerDialog = new SpinnerDialog( getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog.bindOnSpinerListener((item, position) ->
+        {
+            spnTipoGasto.setText(((TipoGastoEntity)item).getRtgDes().toString());
+            idProvincia = ((TipoGastoEntity)item).getRtgId().toString();
+        });
+
+
+
+
+        return mView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    private void showDatePickerDialog(int tipo) {
+        int mYear, mMonth, mDay;
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
+        {
+            if (tipo == 1)etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+            if (tipo == 2)etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+
+        }, mYear, mMonth, mDay);
+
+        datePickerDialog.show();
+
+    }
+
+    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnAgregarFoto})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnIndividual:
+                lytfechaFinal.setVisibility(View.GONE);
+                etxFechaHasta.setText("");
+                break;
+            case R.id.btnMasivo:
+                lytfechaFinal.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.spnTipoGasto:
+                spinnerDialog.showSpinerDialog();
+                break;
+            case R.id.btnGuardar:
+                break;
+            case R.id.btnAgregarFoto:
+                break;
+        }
+    }
+}

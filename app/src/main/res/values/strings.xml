@@ -1,0 +1,153 @@
+<resources>
+    <string name="app_name">OverRendicion</string>
+
+    <string name="name_pendiente">Pendientes</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="Complete">Completado</string>
+    <string name="Error">Error</string>
+    <string name="Upload">Subiendo</string>
+    <string name="Bienvenido">Bienvenido</string>
+    <string name="Mensaje">Aplicación para solicitar gastos de viaticos, movilidad, entregas a rendir y Registo de rendiciones pendientes</string>
+    <string name="Recovery">Recuperar</string>
+    <string name="Register">Registrar</string>
+    <string name="Registered">Registrarse</string>
+
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+
+    <string name="createTittle">Crear Cuenta</string>
+    <string name="createMessage">Nesecitas una cuenta para solicitar tus viaticos, llenando estos sencillos pasos tendras una cuenta poco tiempo</string>
+    <string name="createUserDni">Numero DNI</string>
+    <string name="createEmail">Correo electronico</string>
+    <string name="createPassword">Contraseña</string>
+    <string name="recoveryPassword">Recuperar Contraseña</string>
+    <string name="createPhone">Telefono</string>
+    <string name="createButton">Registrarse</string>
+
+    <string name="loginSucces">Usuario logeado</string>
+    <string name="loginUnSucces">Usuario No logeado</string>
+
+    <string name="send">Enviar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="hello_blank_fragment">hola 1</string>
+    <string name="toolbar">Home</string>
+    <string name="transitionname_picture">transitionnamepicture</string>
+
+    <!--datos del drawer-->
+    <string name="solicitar_rendicion">Solicitar Rendicion</string>
+    <string name="actulizar_contraseña">Actualizar Contraseña</string>
+    <string name="actulizar_correo">Actualizar Correo</string>
+    <string name="liquidaciones_pendientes">Liquidaciones Pendientes</string>
+    <string name="reenbolso">Reenbolso</string>
+    <string name="configuracion">Configuracion</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+
+    <!--Apis Login-->
+    <string name="servidorSuccess">OK</string>
+    <string name="servidorError">Error al conectar con el servidor</string>
+    <string name="sessionError">Usuario o Contraseña incorrectas</string>
+    <string name="createAccountSucces">El usuario a sido CREADO</string>
+    <string name="createAccountError">El usuario no existe</string>
+    <string name="errorUpdateLiquidacion">Ocurrio un error al Actualizar los datos</string>
+
+    <!--Apis Login-->
+    <string name="successPendienteList">Se listo Correctamente los Pendientes</string>
+    <string name="errorPendienteList">Ocurrio un error al listar los Pendientes</string>
+
+    <!--RecyclearViewEffect-->
+    <integer name="material_in_fade_anim_duration">1000</integer>
+    <integer name="material_in_slide_anim_duration">1000</integer>
+
+
+    <string name="error_date">No puede seleccionar la fecha anterior.</string>
+    <string name="updateSuccess">Se Guardaron Correctamente</string>
+
+
+    <string name="tittleSpinerSearch">Selecciona una Provincia</string>
+
+    <array name="tipo_liquidacion">
+        <item>Nacional</item>
+        <item>Extranjero</item>
+    </array>
+
+    <array name="tipo_moneda">
+        <item>Soles</item>
+        <item>Dolares</item>
+    </array>
+
+    <array name="tipo_ingreso">
+        <item>Individual</item>
+        <item>Masivo</item>
+    </array>
+
+    <array name="tipo_gasto_aereo">
+        <item>OTROS GASTOS DE VIAJE</item>
+        <item>TRANSPORTE DE PASAJEROS (AEREO/TERRESTRE)</item>
+    </array>
+
+    <array name="tipo_gasto">
+        <item>gasto 1</item>
+        <item>gasto 2</item>
+        <item>gasto 3</item>
+        <item>gasto 4</item>
+        <item>gasto 5</item>
+    </array>
+
+    <array name="tipo_documento_arrendamiento">
+        <item>documento 1</item>
+        <item>documento 2</item>
+        <item>documento 3</item>
+        <item>documento 4</item>
+        <item>documento 5</item>
+    </array>
+
+    <array name="tipo_documento">
+        <item>DNI</item>
+        <item>Carnet de Extranjeria</item>
+        <item>REG:Unico de Contribuyentes</item>
+        <item>Pasaporte</item>
+        <item>Partida de Nacimiento</item>
+    </array>
+
+    <array name="tipo_gasto_arrendamiento">
+        <item>gasto 1</item>
+        <item>gasto 2</item>
+        <item>gasto 3</item>
+        <item>gasto 4</item>
+        <item>gasto 5</item>
+    </array>
+
+    <array name="tipo_destinos">
+        <item>destinos 1</item>
+        <item>destinos 2</item>
+        <item>destinos 3</item>
+        <item>destinos 4</item>
+        <item>destinos 5</item>
+    </array>
+
+    <array name="formularios">
+        <item>Arrendamiento</item>
+        <item>Boleta de Venta</item>
+        <item>Boleto Aereo</item>
+        <item>Boleto Terrestre</item>
+        <item>Carta de Porte Aereo</item>
+        <item>Descuento Boleta</item>
+        <item>Factura</item>
+        <item>Movilidad</item>
+        <item>Nota de Credito</item>
+        <item>Otros Descuentos</item>
+        <item>Recibo por Honorarios</item>
+        <item>Varios Trabajadores-Mov. Multiple</item>
+        <item>Sin Sustento Tributario</item>
+        <item>Ticket Maquina Registradora</item>
+        <item>Voucher Bancario</item>
+    </array>
+
+
+</resources>
+
