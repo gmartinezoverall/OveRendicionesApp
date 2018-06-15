@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asksira.dropdownview.DropDownView;
 import com.overall.developer.overrendicion.R;
@@ -158,5 +159,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         startActivity(new Intent(this, RendicionActivity.class));
         customType(this, "fadein-to-fadeout");
 
+    }
+
+    @Override
+    public void setCodRendicionSuccess(String codRendicion)
+    {
+        //Toast.makeText(this, codRendicion, Toast.LENGTH_LONG).show();
     }
 }

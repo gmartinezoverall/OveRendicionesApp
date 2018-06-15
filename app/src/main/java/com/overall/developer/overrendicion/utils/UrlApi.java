@@ -13,6 +13,7 @@ public class UrlApi
     public static String urlLiquidationUpdate = BuildConfig.URL_BASE + "liquidation/UpdateLiquidacion";
     public static String urlTiposDocumentos = BuildConfig.URL_BASE + "liquidation/TiposDoc";
     public static String urlInsertarRendicion = BuildConfig.URL_BASE + "liquidation/InsertarRendicion";
+    public static String urlEliminarRendicion = BuildConfig.URL_BASE + "liquidation/EliminarRendicion";
 
 
 }

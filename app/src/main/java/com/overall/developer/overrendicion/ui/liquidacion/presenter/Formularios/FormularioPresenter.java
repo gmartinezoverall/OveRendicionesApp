@@ -17,4 +17,6 @@ public interface FormularioPresenter
     List<String> getDefaultValues();
 
     RendicionEntity setRendicionForEdit(String idRendicion);
+
+    void setCodRendicionSuccess(String codRendicion);
 }

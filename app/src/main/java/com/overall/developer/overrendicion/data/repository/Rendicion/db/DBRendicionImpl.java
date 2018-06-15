@@ -30,13 +30,30 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public void deleteRendicionForCodDB(int position)
+    public String deleteRendicionForCodDB(int position)
     {
         Realm mRealm = Realm.getDefaultInstance();
-
-        RendicionBean  rendicionBean = mRealm.where(RendicionBean.class).equalTo("idRendicion",position).findFirst();
+        String codRendicion;
+        RendicionBean rendicionBean = mRealm.where(RendicionBean.class).equalTo("idRendicion",position).findFirst();
+        codRendicion = rendicionBean.getCodRendicion();
         mRealm.executeTransaction(realm -> rendicionBean.deleteFromRealm());
 
+        return codRendicion;
+    }
+
+    @Override
+    public void changeStatusLiquidacion()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status", true).findFirst();
+        if (liquidacionBean != null)
+        {
+            mRealm.executeTransaction(realm ->
+            {
+                liquidacionBean.setStatus(false);
+                mRealm.insertOrUpdate(liquidacionBean);
+            });
+        }
     }
 
 }

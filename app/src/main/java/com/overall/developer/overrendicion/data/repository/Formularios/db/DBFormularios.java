@@ -11,11 +11,13 @@ public interface DBFormularios
 {
     List<TipoDocumentoBean> getDocumentForIdDB(String idDocumento);
     List<ProvinciaBean> getProvinciaDestinoList();
-    void saveDataDB(RendicionBean rendicionBean);
+    Integer saveDataDB(RendicionBean rendicionBean);
 
     String getCodLiquidacionDB();
 
     String getIdUsuarioDB();
 
     RendicionBean setRendicionForEditDB(Integer idRendicion);
+
+    void setCodRendicion(String codRendicion, Integer idRendicion);
 }

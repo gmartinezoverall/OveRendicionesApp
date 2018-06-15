@@ -52,4 +52,9 @@ public class FormularioPresenterImpl implements FormularioPresenter
     public RendicionEntity setRendicionForEdit(String idRendicion) {
         return mInteractor.setRendicionForEdit(idRendicion);
     }
+
+    @Override
+    public void setCodRendicionSuccess(String codRendicion) {
+        mView.setCodRendicionSuccess(codRendicion);
+    }
 }

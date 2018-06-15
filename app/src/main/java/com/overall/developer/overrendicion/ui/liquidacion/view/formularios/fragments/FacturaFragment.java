@@ -139,7 +139,7 @@ public class FacturaFragment extends Fragment {
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
 
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                        String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(chkAfectoIgv.isChecked()), String.valueOf(txvMontoIGV.getText()),
+                        String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)),String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                         String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), idProvincia, String.valueOf(etxObservaciones.getText())));
                 break;
             case R.id.btnAgregarFoto:

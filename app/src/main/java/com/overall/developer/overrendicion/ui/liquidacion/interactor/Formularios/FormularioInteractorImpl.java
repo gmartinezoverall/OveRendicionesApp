@@ -10,6 +10,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
+import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepositoryImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
@@ -70,18 +71,18 @@ public class FormularioInteractorImpl implements FormularioInteractor
                 entity.getNumeroDoc(), entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(),
                 entity.getFechaDocumento(), entity.getFechaVencimiento(), entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(),
                 entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(), entity.getCodSuspencionH(), entity.getTipoMoneda(),
-                entity.getTipoCambio());
+                entity.getTipoCambio(), false);
 
-        mRepository.saveDataDB(bean);
+        Integer idRendicion = mRepository.saveDataDB(bean);
 
         entity.setCodRendicion("");
+        RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
+                entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
+                entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
+                entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
 
-        if (Util.isOnline())mRepository.sendDataApi(entity);
-    }
 
-    @Override
-    public void saveDataSuccess()
-    {
+        if (Util.isOnline())mRepository.sendDataApi(request, idRendicion);
         mPresenter.saveDataSuccess();
     }
 
@@ -103,9 +104,15 @@ public class FormularioInteractorImpl implements FormularioInteractor
         RendicionEntity entity = new RendicionEntity(bean.getIdRendicion(), bean.getCodRendicion(), bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
                 bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(), bean.getFechaVencimiento(),
                 bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(), bean.getCodDestino(), bean.getAfectoRetencion(),
-                bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio());
+                bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend());
 
         return entity;
+    }
+
+    @Override
+    public void setCodRendicionSuccess(String codRendicion)
+    {
+        mPresenter.setCodRendicionSuccess(codRendicion);
     }
 
 

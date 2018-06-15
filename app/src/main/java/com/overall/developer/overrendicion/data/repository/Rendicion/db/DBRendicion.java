@@ -8,6 +8,7 @@ public interface DBRendicion
 {
     List<RendicionBean> listRendicion();
 
-    void deleteRendicionForCodDB(int position);
+    String deleteRendicionForCodDB(int position);
 
+    void changeStatusLiquidacion();
 }

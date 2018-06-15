@@ -106,6 +106,9 @@ dependencies {
     //Libreria radioButton
     implementation 'info.hoang8f:android-segmented:1.0.6'
 
+    //Libreria de Floating Buttons
+    implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'
+
     //Libreria de Botones
     implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'

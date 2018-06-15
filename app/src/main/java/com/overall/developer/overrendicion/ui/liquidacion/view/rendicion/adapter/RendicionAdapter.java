@@ -37,7 +37,7 @@ public class RendicionAdapter extends RecyclerView.Adapter<RendicionAdapter.Rend
             rlyDetMovilidad = itemView.findViewById(R.id.btnDetalle);
             lytRemove = itemView.findViewById(R.id.lytRemove);
 
-
+            txvDocumento.setSelected(true);
         }
     }
 

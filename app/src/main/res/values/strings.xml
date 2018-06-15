@@ -70,6 +70,8 @@
 
     <string name="tittleSpinerSearch">Selecciona una Provincia</string>
 
+    <string name="IGV">0.18</string>
+
     <array name="tipo_liquidacion">
         <item>Nacional</item>
         <item>Extranjero</item>
@@ -90,13 +92,10 @@
         <item>TRANSPORTE DE PASAJEROS (AEREO/TERRESTRE)</item>
     </array>
 
-    <array name="tipo_gasto">
-        <item>gasto 1</item>
-        <item>gasto 2</item>
-        <item>gasto 3</item>
-        <item>gasto 4</item>
-        <item>gasto 5</item>
-    </array>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorOverlayLight">#40000000</color>
+    <color name="colorOverlayDark">#AA000000</color>
 
     <array name="tipo_documento_arrendamiento">
         <item>documento 1</item>

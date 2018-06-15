@@ -30,13 +30,22 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
-    public void deleteRendicionForCodDB(int position)
+    public String deleteRendicionForCodDB(int position)
     {
-        mDbRendicion.deleteRendicionForCodDB(position);
+        return mDbRendicion.deleteRendicionForCodDB(position);
 
     }
 
+    @Override
+    public void deleteRendicionForCodApi(String codCodRendicion)
+    {
+        mApiRendicion.deleteRendicionForCodApi(codCodRendicion);
+    }
 
+    @Override
+    public void changeStatusLiquidacionDB() {
+        mDbRendicion.changeStatusLiquidacion();
+    }
 
 
 }

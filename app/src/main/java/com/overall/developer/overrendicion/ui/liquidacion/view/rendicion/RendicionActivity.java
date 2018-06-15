@@ -7,14 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
-
+import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.OnActivityTouchListener;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.RecyclerTouchListener;
@@ -33,12 +36,14 @@ import static maes.tech.intentanim.CustomIntent.customType;
  * Created by cesar on 3/25/2018.
  */
 
-public class RendicionActivity extends AppCompatActivity implements RendicionView {
+public class RendicionActivity extends AppCompatActivity implements RendicionView, OnFABMenuSelectedListener {
 
     @BindView(R.id.rcvRendicion)
     RecyclerView rcvRendicion;
-    @BindView(R.id.fbAgregar)
-    FloatingActionButton fbAgregar;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.fabMenu)
+    FABRevealMenu fabMenu;
     private RecyclerTouchListener onTouchListener;
     private OnActivityTouchListener touchListener;
 
@@ -55,7 +60,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         List<RendicionEntity> entityList = mPresenter.listRendicion();
 
-        rcvRendicion.setAdapter(new RendicionAdapter(this,entityList));
+        rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
         rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
 
         onTouchListener = new RecyclerTouchListener(this, rcvRendicion);
@@ -76,8 +81,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                 .setSwipeOptionViews(R.id.btnDetalle, R.id.edit, R.id.lytRemove)
                 .setSwipeable(R.id.rowFG, R.id.rowBG, (viewID, position) -> {
                     String message = "";
-                    if (viewID == R.id.edit)
-                    {
+                    if (viewID == R.id.edit) {
                         Intent intent = new Intent(this, FormularioActivity.class);
                         intent.putExtra("idRendicion", String.valueOf(entityList.get(position).getIdRendicion()));
                         startActivity(intent);
@@ -94,6 +98,17 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                     }
 
                 });
+        try {
+            if (fab != null && fabMenu != null) {
+                //setFabMenu(fabMenu);
+                //attach menu to fab
+                fabMenu.bindAnchorView(fab);
+                //set menu selection listener
+                fabMenu.setOnFABMenuSelectedListener(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -131,13 +146,28 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     //endregion
 
-    @OnClick(R.id.fbAgregar)
-    public void onViewClicked()
+
+    @Override
+    public void onMenuItemSelected(View view, int id)
     {
-        startActivity(new Intent(this, FormularioActivity.class));
-        customType(this, "fadein-to-fadeout");
+        if (id == R.id.menu_add)
+        {
+            startActivity(new Intent(this, FormularioActivity.class));
+            customType(this, "fadein-to-fadeout");
+
+        } else if (id == R.id.menu_list)
+        {
+            mPresenter.changeStatusLiquidacion();
+            startActivity(new Intent(this, PendienteActivity.class));
+            customType(this, "fadein-to-fadeout");
+        } else if (id == R.id.menu_refresh) {
+
+        } else if (id == R.id.menu_sync) {
+
+        }
 
     }
+
     //endregion
 
 }

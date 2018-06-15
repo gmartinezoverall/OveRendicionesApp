@@ -5,6 +5,7 @@ import android.util.Log;
 import com.androidnetworking.common.Priority;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 import com.overall.developer.overrendicion.utils.UrlApi;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
@@ -31,16 +32,16 @@ public class ApiFormulariosImpl implements ApiFormularios
     }
 
     @Override
-    public void sendDataApi(RendicionEntity entity)
+    public void sendDataApi(RendicionRequest request, Integer idRendicion)
     {
-        sendRendicionApi(entity);
+        sendRendicionApi(request, idRendicion);
     }
 
-    private void sendRendicionApi(RendicionEntity entity)
+    private void sendRendicionApi(RendicionRequest request, Integer idRendicion)
     {
         Rx2AndroidNetworking.post(UrlApi.urlInsertarRendicion)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
-                .addBodyParameter(entity)
+                .addBodyParameter(request)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getJSONObjectObservable()
@@ -55,8 +56,22 @@ public class ApiFormulariosImpl implements ApiFormularios
                     @Override
                     public void onNext(JSONObject jsonObject)
                     {
-                        Log.i("NDa", jsonObject.toString());
+                        try
+                        {
+                            if (jsonObject.getString("code").equals("0"))
+                            {
+                                mRepository.insertRendicionSuccess(String.valueOf(jsonObject.getString("codRendicion")), idRendicion);
 
+                            }else
+                            {
+                                //mRepository.insertRendicionError(String.valueOf(jsonObject.getString("message")));
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            Log.i("DatosLog",String.valueOf(e.getMessage()));
+                        }
                     }
 
                     @Override

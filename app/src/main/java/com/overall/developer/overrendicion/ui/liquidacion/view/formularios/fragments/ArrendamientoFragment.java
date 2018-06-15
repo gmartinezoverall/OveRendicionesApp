@@ -49,8 +49,8 @@ public class ArrendamientoFragment extends Fragment {
         mSpnTipoDocumento.setAdapter(tipoDocumentoAdapter);
 
 
-        ArrayAdapter<String> tipoGastoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_gasto));
-        mSpnTipoGasto.setAdapter(tipoGastoAdapter);
+/*        ArrayAdapter<String> tipoGastoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_gasto));
+        mSpnTipoGasto.setAdapter(tipoGastoAdapter);*/
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();

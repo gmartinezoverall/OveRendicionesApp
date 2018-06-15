@@ -31,7 +31,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
             rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDescipcion(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
                     bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
-                    bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio()));
+                    bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend()));
         }
 
         return rendicionList;
@@ -40,7 +40,16 @@ public class RendicionInteractorImpl implements RendicionInteractor
     @Override
     public void deleteRendicionForCod(int position)
     {
-        mRepository.deleteRendicionForCodDB(position);
+        String codCodRendicion = mRepository.deleteRendicionForCodDB(position);
+        if (!codCodRendicion.equals("-")) mRepository.deleteRendicionForCodApi(codCodRendicion);;
+
+    }
+
+    @Override
+    public void changeStatusLiquidacion()
+    {
+        mRepository.changeStatusLiquidacionDB();
+
     }
 
 

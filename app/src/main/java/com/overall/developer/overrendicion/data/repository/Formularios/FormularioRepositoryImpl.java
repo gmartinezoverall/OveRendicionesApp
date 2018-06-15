@@ -4,6 +4,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormularios;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormulariosImpl;
 import com.overall.developer.overrendicion.data.repository.Formularios.db.DBFormularios;
@@ -36,16 +37,15 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public void saveDataDB(RendicionBean rendicionBean)
+    public Integer saveDataDB(RendicionBean rendicionBean)
     {
-        mDbFormularios.saveDataDB(rendicionBean);
-        mInteractor.saveDataSuccess();
+        return mDbFormularios.saveDataDB(rendicionBean);
     }
 
     @Override
-    public void sendDataApi(RendicionEntity entity)
+    public void sendDataApi(RendicionRequest request, Integer idRendicion)
     {
-        mApiFormularios.sendDataApi(entity);
+        mApiFormularios.sendDataApi(request, idRendicion);
 
     }
 
@@ -63,6 +63,17 @@ public class FormularioRepositoryImpl implements FormularioRepository
     @Override
     public RendicionBean setRendicionForEditDB(Integer idRendicion) {
         return mDbFormularios.setRendicionForEditDB(idRendicion);
+    }
+
+    @Override
+    public void insertRendicionSuccess(String codRendicion, Integer idRendicion)
+    {
+        mDbFormularios.setCodRendicion(codRendicion, idRendicion);
+    }
+
+    @Override
+    public void setCodRendicionSuccess(String codRendicion) {
+        mInteractor.setCodRendicionSuccess(codRendicion);
     }
 
 }

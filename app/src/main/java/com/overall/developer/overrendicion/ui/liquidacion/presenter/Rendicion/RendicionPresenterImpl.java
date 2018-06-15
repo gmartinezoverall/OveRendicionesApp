@@ -33,4 +33,9 @@ public class RendicionPresenterImpl implements RendicionPresenter
 
     }
 
+    @Override
+    public void changeStatusLiquidacion() {
+        mInteractor.changeStatusLiquidacion();
+    }
+
 }

@@ -12,10 +12,9 @@ public interface FormularioInteractor
     List<String> getProvinciaDestinoList();
     void saveData(List<String> typeFragment, Object objectDinamyc);
 
-
-    void saveDataSuccess();
-
     List<String> getDefaultValues();
 
     RendicionEntity setRendicionForEdit(String idRendicion);
+
+    void setCodRendicionSuccess(String codRendicion);
 }

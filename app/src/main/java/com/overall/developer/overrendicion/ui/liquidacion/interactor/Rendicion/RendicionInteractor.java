@@ -12,4 +12,5 @@ public interface RendicionInteractor
 
     void deleteRendicionForCod(int position);
 
+    void changeStatusLiquidacion();
 }

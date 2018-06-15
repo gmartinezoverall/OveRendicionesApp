@@ -39,7 +39,7 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
-    public void saveDataDB(RendicionBean rendicionBean)
+    public Integer saveDataDB(RendicionBean rendicionBean)
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
@@ -50,7 +50,7 @@ public class DBFormulariosImpl implements DBFormularios
 
             mRealm.insertOrUpdate(rendicionBean);
         });
-
+        return rendicionBean.getIdRendicion();
     }
 
     @Override
@@ -74,5 +74,20 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         RendicionBean rendicionBean = mRealm.where(RendicionBean.class).equalTo("idRendicion",idRendicion).findFirst();
         return rendicionBean;
+    }
+
+    @Override
+    public void setCodRendicion(String codRendicion, Integer idRendicion)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RendicionBean bean = mRealm.where(RendicionBean.class).equalTo("idRendicion", idRendicion).findFirst();
+        mRealm.executeTransaction(realm ->
+        {
+            bean.setCodRendicion(codRendicion);
+            mRealm.insertOrUpdate(bean);
+            mRepository.setCodRendicionSuccess(codRendicion);
+        });
+
+
     }
 }

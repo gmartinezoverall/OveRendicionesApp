@@ -15,7 +15,7 @@
         android:background="@color/PendienteBackGround"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_rendicion" />
+        <include layout="@layout/toolbar_formularios" />
 
         <include layout="@layout/content_formulario" />
     </LinearLayout>

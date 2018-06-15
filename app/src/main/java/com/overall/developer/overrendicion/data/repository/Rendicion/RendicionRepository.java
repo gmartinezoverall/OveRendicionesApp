@@ -9,6 +9,9 @@ public interface RendicionRepository
 {
     List<RendicionBean> listRendicion();
 
-    void deleteRendicionForCodDB(int position);
+    String deleteRendicionForCodDB(int position);
 
+    void deleteRendicionForCodApi(String codCodRendicion);
+
+    void changeStatusLiquidacionDB();
 }
