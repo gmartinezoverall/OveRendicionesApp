@@ -65,10 +65,8 @@ public class PendienteInteractorImpl implements PendienteInteractor
     public void listPendiente(String dniUser)
     {
         if (Util.isOnline()) mRepository.listPendienteApi(dniUser);
-        else
-        {
-            listUserForDNI(dniUser);
-        }
+        else listUserForDNI(dniUser);
+
 
     }
 

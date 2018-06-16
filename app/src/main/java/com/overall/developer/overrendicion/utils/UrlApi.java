@@ -14,6 +14,7 @@ public class UrlApi
     public static String urlTiposDocumentos = BuildConfig.URL_BASE + "liquidation/TiposDoc";
     public static String urlInsertarRendicion = BuildConfig.URL_BASE + "liquidation/InsertarRendicion";
     public static String urlEliminarRendicion = BuildConfig.URL_BASE + "liquidation/EliminarRendicion";
+    public static String urlListarRendicion = BuildConfig.URL_BASE + "liquidation/listarRendiciones";
 
 
 }

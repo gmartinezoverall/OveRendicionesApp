@@ -2,8 +2,10 @@ package com.overall.developer.overrendicion.data.repository.Rendicion.db;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 
+import java.nio.MappedByteBuffer;
 import java.util.List;
 
 import io.realm.Realm;
@@ -54,6 +56,62 @@ public class DBRendicionImpl implements DBRendicion
                 mRealm.insertOrUpdate(liquidacionBean);
             });
         }
+    }
+
+    @Override
+    public String getCodLiquidacionDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status", true).findFirst();
+        String codLiquidacion  = liquidacionBean.getCodLiquidacion().substring(liquidacionBean.getCodLiquidacion().length() - 6 , liquidacionBean.getCodLiquidacion().length());
+        return codLiquidacion;
+    }
+
+    @Override
+    public void insertListRendicionInDB(List<RendicionBean> mRendionList)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            RealmResults<RendicionBean> initId = mRealm.where(RendicionBean.class).findAll();
+            int nextID = initId.size() == 0 ? 1 : initId.last().getIdRendicion()+1;
+            for (RendicionBean bean : mRendionList)
+            {
+
+                RendicionBean rendicionBean = realm.where(RendicionBean.class).equalTo("codRendicion", bean.getCodRendicion()).findFirst();
+                if (rendicionBean != null) rendicionBean.deleteFromRealm();
+
+                bean.setIdRendicion(nextID);
+                nextID++;
+            }
+            mRealm.insertOrUpdate(mRendionList);
+
+        });
+    }
+
+    @Override
+    public LiquidacionBean getForCodLiquidacion(String codLiquidacion)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+
+        List<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
+        if (listBean != null)
+        {
+            mRealm.executeTransaction(realm ->
+            {
+                for(LiquidacionBean beam : listBean) beam.setStatus(false);
+                mRealm.insertOrUpdate(listBean);
+            });
+        }
+
+        LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("codLiquidacion",codLiquidacion).findFirst();
+        mRealm.executeTransaction(realm ->
+        {
+            liquidacionBean.setStatus(true);
+            mRealm.insertOrUpdate(liquidacionBean);
+
+        });
+        return liquidacionBean;
     }
 
 }

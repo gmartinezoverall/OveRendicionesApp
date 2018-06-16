@@ -294,9 +294,9 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
                         , String.valueOf(mTxvDetMotivo.getText()),  idProvincia, String.valueOf(mTxvFInicio.getText())
                         , String.valueOf(mTxvFFin.getText()), String.valueOf(mSpnTipoViatico.getText()));
 
-                if (mPresenter.existsRendicion())startActivity(new Intent(this, FormularioActivity.class));
-                else startActivity(new Intent(this, RendicionActivity.class));
+                startActivity(new Intent(this, RendicionActivity.class));
                 customType(this, "fadein-to-fadeout");
+
                 break;
 
 

@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.rendicion;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bluehomestudio.progresswindow.ProgressWindow;
+import com.bluehomestudio.progresswindow.ProgressWindowConfiguration;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenterImpl;
@@ -23,6 +28,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recycle
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.RecyclerTouchListener;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,6 +55,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     RendicionPresenter mPresenter;
     private RealmBrowser realmBrowser;
+    private LiquidacionEntity mLiquidacionEntity;
+
+    List<RendicionEntity> entityList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +66,10 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         ButterKnife.bind(this);
 
         mPresenter = new RendicionPresenterImpl(this, this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) mLiquidacionEntity = mPresenter.getForCodLiquidacion(String.valueOf(bundle.getString("CodLiquidacion")));
 
-        List<RendicionEntity> entityList = mPresenter.listRendicion();
+        mPresenter.listRendicion();
 
         rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
         rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
@@ -142,8 +153,14 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     protected void onPause() {
         super.onPause();
         rcvRendicion.removeOnItemTouchListener(onTouchListener);
+
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mPresenter.changeStatusLiquidacion();
+    }
     //endregion
 
 
@@ -160,6 +177,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
             mPresenter.changeStatusLiquidacion();
             startActivity(new Intent(this, PendienteActivity.class));
             customType(this, "fadein-to-fadeout");
+            finish();
         } else if (id == R.id.menu_refresh) {
 
         } else if (id == R.id.menu_sync) {
@@ -167,41 +185,31 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         }
 
     }
-
     //endregion
 
+
+
+    @Override
+    public void getListRendicion(List<RendicionEntity> rendicionList)
+    {
+        entityList = rendicionList;
+
+    }
+
+    @Override
+    public void updateListRendicion(List<RendicionEntity> rendicionBeans)
+    {
+        rcvRendicion.setAdapter(new RendicionAdapter(this, rendicionBeans));
+        rcvRendicion.getAdapter().notifyDataSetChanged();
+        if (rendicionBeans.isEmpty())
+        {
+            startActivity(new Intent(this, FormularioActivity.class));
+            customType(this, "fadein-to-fadeout");
+            finish();
+        }
+
+    }
 }
 
 
-
-
-/*
-        Toolbar mToolbar = findViewById(R.id.);
-        final TextView mTextView =  mToolbar.findViewById(R.id.tv_title);
-        final TextView mTextView2 = mToolbar.findViewById(R.id.txvTittle2);
-        final TextView mTextView3 = mToolbar.findViewById(R.id.txvTittle3);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTextView.setTransitionName("monto");
-            mTextView2.setTransitionName("acuenta");
-            mTextView3.setTransitionName("saldo");
-        }*/
-
-/*
-    public void showToolbar(String tittle, boolean upButton){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(tittle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
-
-        final TextView mTextView = (TextView) toolbar.findViewById(R.id.toolbar);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-
-            mTextView.setTransitionName("Toolbar");
-        }
-
-    }*/
 

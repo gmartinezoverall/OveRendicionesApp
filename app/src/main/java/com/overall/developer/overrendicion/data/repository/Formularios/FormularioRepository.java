@@ -23,5 +23,4 @@ public interface FormularioRepository
 
     void insertRendicionSuccess(String codRendicion, Integer idRendicion);
 
-    void setCodRendicionSuccess(String codRendicion);
 }

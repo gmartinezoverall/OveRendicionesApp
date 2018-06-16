@@ -19,9 +19,13 @@ import android.widget.TextView;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.ui.liquidacion.view.datosGenerales.DatosGeneralesActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.List;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 /**
  * Created by terry on 1/20/2017.
@@ -103,6 +107,14 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             Pair<View, String> p3 = Pair.create(holder.txvSaldo, "saldo");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, p0, p1, p2, p3);
             activity.startActivity(intent, options.toBundle());
+
+        });
+        holder.btnRendicion.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(mContext, RendicionActivity.class);
+            intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
+            mContext.startActivity(intent);
+            customType(mContext, "fadein-to-fadeout");
 
         });
 

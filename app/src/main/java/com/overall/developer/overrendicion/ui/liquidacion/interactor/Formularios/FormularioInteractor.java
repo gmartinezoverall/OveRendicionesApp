@@ -16,5 +16,4 @@ public interface FormularioInteractor
 
     RendicionEntity setRendicionForEdit(String idRendicion);
 
-    void setCodRendicionSuccess(String codRendicion);
 }

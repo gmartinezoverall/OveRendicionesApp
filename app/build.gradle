@@ -109,11 +109,12 @@ dependencies {
     //Libreria de Floating Buttons
     implementation 'com.hlab.fabrevealmenu:fab-reveal-menu:1.0.3'
 
+    //Libreria de Floating Buttons
+    implementation 'com.github.mmoamenn:ProgressWindow_Android:0.0.2'
+
     //Libreria de Botones
     implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'
     }
-
-
 
 }

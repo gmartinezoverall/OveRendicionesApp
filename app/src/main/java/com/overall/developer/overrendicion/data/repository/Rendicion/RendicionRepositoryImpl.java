@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion;
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.api.ApiRendicion;
 import com.overall.developer.overrendicion.data.repository.Rendicion.api.ApiRendicionImpl;
 import com.overall.developer.overrendicion.data.repository.Rendicion.db.DBRendicion;
@@ -47,5 +49,32 @@ public class RendicionRepositoryImpl implements RendicionRepository
         mDbRendicion.changeStatusLiquidacion();
     }
 
+    @Override
+    public void insertListRendicionesApi(String codLiquidacion)
+    {
+        mApiRendicion.insertListRendicionesApi(codLiquidacion);
+    }
+
+    @Override
+    public String getCodLiquidacionDB() {
+        return mDbRendicion.getCodLiquidacionDB();
+    }
+
+    @Override
+    public void insertListRendicionInDB(List<RendicionBean> mRendionList) {
+        mDbRendicion.insertListRendicionInDB(mRendionList);
+    }
+
+    @Override
+    public void insertListCompleted()
+    {
+        mInteractor.updateListRendicion(mDbRendicion.listRendicion());
+    }
+
+    @Override
+    public LiquidacionBean getForCodLiquidacionDB(String codLiquidacion)
+    {
+        return mDbRendicion.getForCodLiquidacion(codLiquidacion);
+    }
 
 }

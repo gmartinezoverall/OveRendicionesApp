@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -276,22 +277,26 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     //endregion
 
-/*    //region Estados Actividad
+    //region Estados Actividad
     @Override
     protected void onResume() {
         super.onResume();
-        realmBrowser = new RealmBrowser();
+
+        Log.i("NDa","NDa");
+/*        realmBrowser = new RealmBrowser();
         realmBrowser.start();
-        realmBrowser.showServerAddress(this);
+        realmBrowser.showServerAddress(this);*/
     }
+
+
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (realmBrowser != null) {
+/*        if (realmBrowser != null) {
             realmBrowser.stop();
-        }
-    }*/
+        }*/
+    }
 
 
     @Override

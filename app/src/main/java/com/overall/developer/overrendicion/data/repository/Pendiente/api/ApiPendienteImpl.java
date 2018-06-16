@@ -98,7 +98,6 @@ public class ApiPendienteImpl implements ApiPendiente
 
     private Observable listPendiente(final String dniUser)
     {
-
         Rx2AndroidNetworking.post(UrlApi.urlListPendiente)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
                 .addBodyParameter("dni", dniUser)

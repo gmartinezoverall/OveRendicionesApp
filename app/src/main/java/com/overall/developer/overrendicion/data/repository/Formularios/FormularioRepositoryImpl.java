@@ -71,9 +71,5 @@ public class FormularioRepositoryImpl implements FormularioRepository
         mDbFormularios.setCodRendicion(codRendicion, idRendicion);
     }
 
-    @Override
-    public void setCodRendicionSuccess(String codRendicion) {
-        mInteractor.setCodRendicionSuccess(codRendicion);
-    }
 
 }

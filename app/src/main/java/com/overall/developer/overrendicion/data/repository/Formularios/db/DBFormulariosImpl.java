@@ -81,13 +81,7 @@ public class DBFormulariosImpl implements DBFormularios
     {
         Realm mRealm = Realm.getDefaultInstance();
         RendicionBean bean = mRealm.where(RendicionBean.class).equalTo("idRendicion", idRendicion).findFirst();
-        mRealm.executeTransaction(realm ->
-        {
-            bean.setCodRendicion(codRendicion);
-            mRealm.insertOrUpdate(bean);
-            mRepository.setCodRendicionSuccess(codRendicion);
-        });
-
+        mRealm.executeTransaction(realm -> bean.deleteFromRealm(bean));
 
     }
 }

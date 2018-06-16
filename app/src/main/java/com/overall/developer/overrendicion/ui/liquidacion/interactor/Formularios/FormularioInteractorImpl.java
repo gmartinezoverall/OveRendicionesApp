@@ -109,13 +109,6 @@ public class FormularioInteractorImpl implements FormularioInteractor
         return entity;
     }
 
-    @Override
-    public void setCodRendicionSuccess(String codRendicion)
-    {
-        mPresenter.setCodRendicionSuccess(codRendicion);
-    }
-
-
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)
     {
         RendicionEntity entity = new RendicionEntity();

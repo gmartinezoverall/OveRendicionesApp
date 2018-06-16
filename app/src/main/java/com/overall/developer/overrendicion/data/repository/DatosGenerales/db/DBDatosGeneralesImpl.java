@@ -26,6 +26,20 @@ public class DBDatosGeneralesImpl implements DBDatosGenerales
     public LiquidacionBean getForCodLiquidacionDB(String codLiquidacion)
     {
         Realm mRealm = Realm.getDefaultInstance();
+
+        List<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
+
+        if (listBean != null)
+        {
+            mRealm.executeTransaction(realm ->
+            {
+                for(LiquidacionBean beam : listBean) beam.setStatus(false);
+                mRealm.insertOrUpdate(listBean);
+            });
+
+        }
+
+
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("codLiquidacion",codLiquidacion).findFirst();
         mRealm.executeTransaction(realm ->
         {

@@ -2,6 +2,8 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion;
 
 import android.content.Context;
 
+import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractorImpl;
@@ -21,9 +23,9 @@ public class RendicionPresenterImpl implements RendicionPresenter
     }
 
     @Override
-    public List<RendicionEntity> listRendicion()
+    public void listRendicion()
     {
-        return mInteractor.listRendicion();
+        mInteractor.listRendicion();
     }
 
     @Override
@@ -36,6 +38,24 @@ public class RendicionPresenterImpl implements RendicionPresenter
     @Override
     public void changeStatusLiquidacion() {
         mInteractor.changeStatusLiquidacion();
+    }
+
+    @Override
+    public void getListRendicion(List<RendicionEntity> rendicionList)
+    {
+        mView.getListRendicion(rendicionList);
+    }
+
+    @Override
+    public void updateListRendicion(List<RendicionEntity> rendicionBeans)
+    {
+        mView.updateListRendicion(rendicionBeans);
+    }
+
+    @Override
+    public LiquidacionEntity getForCodLiquidacion(String codLiquidacion)
+    {
+        return mInteractor.getForCodLiquidacion(codLiquidacion);
     }
 
 }

@@ -89,7 +89,6 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
             dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity.getRdoId())));//formulario para editar
         } else dropdownview.setSelectingPosition(6);//formulario por defecto
 
-
         replaceFragment(dropdownview.getSelectingPosition());
 
         dropdownview.setOnSelectionListener((view, position) ->
@@ -159,11 +158,5 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         startActivity(new Intent(this, RendicionActivity.class));
         customType(this, "fadein-to-fadeout");
 
-    }
-
-    @Override
-    public void setCodRendicionSuccess(String codRendicion)
-    {
-        //Toast.makeText(this, codRendicion, Toast.LENGTH_LONG).show();
     }
 }

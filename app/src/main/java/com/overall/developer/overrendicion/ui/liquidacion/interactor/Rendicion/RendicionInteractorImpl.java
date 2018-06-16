@@ -1,11 +1,14 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepositoryImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
+import com.overall.developer.overrendicion.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,40 @@ public class RendicionInteractorImpl implements RendicionInteractor
     }
 
     @Override
-    public List<RendicionEntity> listRendicion()
+    public void listRendicion()
+    {
+        List<RendicionEntity> rendicionList= new ArrayList<>();
+
+        if (Util.isOnline())mRepository.insertListRendicionesApi(mRepository.getCodLiquidacionDB());
+
+            for (RendicionBean bean : mRepository.listRendicion())
+            {
+                rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDescipcion(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
+                        bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
+                        bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
+                        bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend()));
+            }
+
+
+        mPresenter.getListRendicion(rendicionList);
+    }
+
+    @Override
+    public void deleteRendicionForCod(int position)
+    {
+        String codCodRendicion = mRepository.deleteRendicionForCodDB(position);
+        if (!codCodRendicion.equals("-")) mRepository.deleteRendicionForCodApi(codCodRendicion);
+    }
+
+    @Override
+    public void changeStatusLiquidacion()
+    {
+        mRepository.changeStatusLiquidacionDB();
+
+    }
+
+    @Override
+    public void updateListRendicion(List<RendicionBean> rendicionBeans)
     {
         List<RendicionEntity> rendicionList= new ArrayList<>();
         for (RendicionBean bean : mRepository.listRendicion())
@@ -33,23 +69,17 @@ public class RendicionInteractorImpl implements RendicionInteractor
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                     bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend()));
         }
-
-        return rendicionList;
+        mPresenter.updateListRendicion(rendicionList);
     }
 
     @Override
-    public void deleteRendicionForCod(int position)
+    public LiquidacionEntity getForCodLiquidacion(String codLiquidacion)
     {
-        String codCodRendicion = mRepository.deleteRendicionForCodDB(position);
-        if (!codCodRendicion.equals("-")) mRepository.deleteRendicionForCodApi(codCodRendicion);;
-
-    }
-
-    @Override
-    public void changeStatusLiquidacion()
-    {
-        mRepository.changeStatusLiquidacionDB();
-
+        LiquidacionBean bean =  mRepository.getForCodLiquidacionDB(codLiquidacion);
+        LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
+                bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
+                bean.getMotivoViaje(), "null", bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
+        return entity;
     }
 
 
