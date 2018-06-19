@@ -55,8 +55,10 @@ public class LiquidacionBean extends RealmObject
         this.estado = estado;
     }
 
-    public String getCodLiquidacion() {
+    public String getCodLiquidacion()
+    {
         return codLiquidacion;
+
     }
 
     public void setCodLiquidacion(String codLiquidacion) {

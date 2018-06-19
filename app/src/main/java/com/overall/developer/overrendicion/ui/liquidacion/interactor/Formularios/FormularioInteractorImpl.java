@@ -3,9 +3,11 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formulario
 import android.content.Context;
 
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
@@ -59,15 +61,16 @@ public class FormularioInteractorImpl implements FormularioInteractor
     @Override
     public void saveData(List<String> typeFragment, Object dinamyObj)
     {
-        String codLiqui = mRepository.getCodLiquidacionDB();
+        String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
 
         RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment
 
+        if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
         entity.setCodRendicion("-");
-        entity.setCodLiquidacion(codLiqui.substring(codLiqui.length() - 6, codLiqui.length()));
+        entity.setCodLiquidacion(codLiqui);
         entity.setIdUsuario(mRepository.getIdUsuarioDB());
 
-        RendicionBean bean = new RendicionBean(0, entity.getCodRendicion(), entity.getRdoId(), typeFragment.get(1), entity.getCodLiquidacion(), entity.getIdUsuario(),
+        RendicionBean bean = new RendicionBean(entity.getIdRendicion(), entity.getCodRendicion(), entity.getRdoId(), typeFragment.get(1), entity.getCodLiquidacion(), entity.getIdUsuario(),
                 entity.getNumeroDoc(), entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(),
                 entity.getFechaDocumento(), entity.getFechaVencimiento(), entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(),
                 entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(), entity.getCodSuspencionH(), entity.getTipoMoneda(),
@@ -75,24 +78,29 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         Integer idRendicion = mRepository.saveDataDB(bean);
 
-        entity.setCodRendicion("");
-        RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
-                entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
-                entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
-                entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
 
 
-        if (Util.isOnline())mRepository.sendDataApi(request, idRendicion);
+
+        if (Util.isOnline())
+        {
+            entity.setCodRendicion("");
+            RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
+                    entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
+                    entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
+                    entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
+            mRepository.sendDataApi(request, idRendicion);
+        }
         mPresenter.saveDataSuccess();
     }
 
     @Override
     public List<String> getDefaultValues()
     {
-        String codLiqui = mRepository.getCodLiquidacionDB();
+        LiquidacionBean bean = mRepository.getCodLiquidacionDB();
         List<String> mList = new ArrayList<>();
-        mList.add(codLiqui.substring(codLiqui.length() - 6, codLiqui.length()));
-        mList.add(mRepository.getIdUsuarioDB());
+        mList.add(String.valueOf(bean.getaCuenta()));
+        mList.add(String.valueOf(bean.getMonto()));
+        mList.add(String.valueOf(bean.getSaldo()));
         return mList;
     }
 
@@ -107,6 +115,21 @@ public class FormularioInteractorImpl implements FormularioInteractor
                 bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend());
 
         return entity;
+    }
+
+    @Override
+    public UserBean getUser() {
+        return mRepository.getUserDB();
+    }
+
+    @Override
+    public void finisLogin() {
+        mRepository.finisLoginDB();
+    }
+
+    @Override
+    public String getCodLiquidacion() {
+        return  mRepository.getCodLiquidacionDB().getCodLiquidacion();
     }
 
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)

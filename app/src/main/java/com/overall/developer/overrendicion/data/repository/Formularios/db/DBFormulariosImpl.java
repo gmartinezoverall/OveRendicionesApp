@@ -44,9 +44,12 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            RealmResults<RendicionBean> initId = mRealm.where(RendicionBean.class).findAll();
-            int nextID = initId.size() == 0 ? 1 : initId.last().getIdRendicion()+1;
-            rendicionBean.setIdRendicion(nextID);
+            if (rendicionBean.getIdRendicion() == null)
+            {
+                Number id = realm.where(RendicionBean.class).max("idRendicion");
+                int nextID = (id == null) ? 1 : id.intValue() + 1;
+                rendicionBean.setIdRendicion(nextID);
+            }
 
             mRealm.insertOrUpdate(rendicionBean);
         });
@@ -54,11 +57,11 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
-    public String getCodLiquidacionDB()
+    public LiquidacionBean getCodLiquidacionDB()
     {
         Realm mRealm = Realm.getDefaultInstance();
         LiquidacionBean liquidacion = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
-        return liquidacion.getCodLiquidacion();
+        return liquidacion;
     }
 
     @Override
@@ -84,4 +87,24 @@ public class DBFormulariosImpl implements DBFormularios
         mRealm.executeTransaction(realm -> bean.deleteFromRealm(bean));
 
     }
+
+    @Override
+    public UserBean getUser() {
+        Realm mRealm = Realm.getDefaultInstance();
+        UserBean userBeans = mRealm.where(UserBean.class).equalTo("status", true).findFirst();
+        return userBeans;
+    }
+
+    @Override
+    public void finisLoginDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<UserBean> userBeanList = mRealm.where(UserBean.class).equalTo("status", true).findAll();
+        if (userBeanList.size() > 0)
+        {
+            mRealm.executeTransaction(realm ->  {for (UserBean userBean : userBeanList) userBean.setStatus(false);});
+        }
+
+    }
+
 }

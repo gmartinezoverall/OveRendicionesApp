@@ -7,7 +7,7 @@
     tools:context=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity">
 
     <com.github.florent37.awesomebar.AwesomeBar
-        android:id="@+id/toolbarDatosGenerales"
+        android:id="@+id/toolbarFormularios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbarColor"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:paddingLeft="120dp">
+                android:paddingLeft="110dp">
 
                 <TextView
                     android:id="@+id/txvTitulo"
@@ -43,10 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="120dp">
+                android:paddingLeft="100dp">
 
                 <LinearLayout
-                    android:id="@+id/lytDNI"
+                    android:id="@+id/lytMonto"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -55,12 +55,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DNI: "
+                        android:text="M:"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txvDNI"
+                        android:id="@+id/txvMonto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="dni"
@@ -69,7 +69,30 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lytCodigo"
+                    android:id="@+id/lytAcuenta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A:"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/txvAcuenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="a"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lytSaldo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -78,12 +101,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cod: "
+                        android:text="S:"
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txvCodLiquidacion"
+                        android:id="@+id/txvSaldo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"

@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.data.repository.Rendicion.db;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 
@@ -26,7 +27,7 @@ public class DBRendicionImpl implements DBRendicion
         Realm mRealm = Realm.getDefaultInstance();
 
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
-        String codLiquidacion  = liquidacionBean.getCodLiquidacion().substring(liquidacionBean.getCodLiquidacion().length() - 6 , liquidacionBean.getCodLiquidacion().length());
+        String codLiquidacion  = liquidacionBean.getCodLiquidacion();
         List<RendicionBean>  rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", codLiquidacion).findAll();
         return rendicionList;
     }
@@ -63,7 +64,7 @@ public class DBRendicionImpl implements DBRendicion
     {
         Realm mRealm = Realm.getDefaultInstance();
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status", true).findFirst();
-        String codLiquidacion  = liquidacionBean.getCodLiquidacion().substring(liquidacionBean.getCodLiquidacion().length() - 6 , liquidacionBean.getCodLiquidacion().length());
+        String codLiquidacion  = liquidacionBean.getCodLiquidacion();
         return codLiquidacion;
     }
 
@@ -112,6 +113,25 @@ public class DBRendicionImpl implements DBRendicion
 
         });
         return liquidacionBean;
+    }
+
+    @Override
+    public UserBean getUserDB() {
+        Realm mRealm = Realm.getDefaultInstance();
+        UserBean userBeans = mRealm.where(UserBean.class).equalTo("status", true).findFirst();
+        return userBeans;
+    }
+
+    @Override
+    public void finishLogin()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<UserBean> userBeanList = mRealm.where(UserBean.class).equalTo("status", true).findAll();
+        if (userBeanList.size() > 0)
+        {
+            mRealm.executeTransaction(realm ->  {for (UserBean userBean : userBeanList) userBean.setStatus(false);});
+        }
+
     }
 
 }

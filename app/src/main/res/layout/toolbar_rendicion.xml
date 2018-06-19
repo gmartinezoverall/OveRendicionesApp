@@ -7,7 +7,7 @@
     tools:context=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity">
 
     <com.github.florent37.awesomebar.AwesomeBar
-        android:id="@+id/toolbarDatosGenerales"
+        android:id="@+id/toolbarRendiciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbarColor"

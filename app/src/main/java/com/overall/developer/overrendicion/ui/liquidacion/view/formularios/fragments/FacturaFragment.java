@@ -18,6 +18,7 @@ import com.libizo.CustomEditText;
 
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -75,8 +76,7 @@ public class FacturaFragment extends Fragment {
 
     Unbinder unbinder;
     View mView;
-
-
+    RendicionEntity rendicionEntity;
 
     @Nullable
     @Override
@@ -86,6 +86,9 @@ public class FacturaFragment extends Fragment {
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null)setAllDefaultValues();
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -104,6 +107,21 @@ public class FacturaFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    private void setAllDefaultValues()
+    {
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S")? 0 : 1));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        if (rendicionEntity.getAfectoIgv().equals("1"))chkAfectoIgv.setChecked(true);
+        //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
+        etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
+
     }
 
 
@@ -141,6 +159,7 @@ public class FacturaFragment extends Fragment {
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                         String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)),String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                         String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), idProvincia, String.valueOf(etxObservaciones.getText())));
+
                 break;
             case R.id.btnAgregarFoto:
 

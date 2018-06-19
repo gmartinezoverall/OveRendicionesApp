@@ -57,7 +57,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             viewButton = itemView.findViewById(R.id.viewButton);
             btnDatos = itemView.findViewById(R.id.btnDatos);
             btnRendicion = itemView.findViewById(R.id.btnRendicion);
-            PushDownAnim.setPushDownAnimTo(btnDatos);
+            PushDownAnim.setPushDownAnimTo(btnDatos, btnRendicion);
 
 
         }

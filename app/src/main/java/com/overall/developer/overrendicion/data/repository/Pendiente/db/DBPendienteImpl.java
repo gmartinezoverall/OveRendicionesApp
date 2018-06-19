@@ -42,6 +42,7 @@ public class DBPendienteImpl implements DBPendiente
         for (TipoDocumentoBean bean : documentoBeanList)
         {
             bean.setId(nextID);
+
             nextID++;
         }
         mRealm.executeTransaction(realm -> mRealm.insert(documentoBeanList));
@@ -62,8 +63,7 @@ public class DBPendienteImpl implements DBPendiente
         RealmResults<UserBean> userBeanList = mRealm.where(UserBean.class).equalTo("status", true).findAll();
         if (userBeanList.size() > 0)
         {
-            UserBean userBeans = mRealm.where(UserBean.class).equalTo("status", true).findFirst();
-            mRealm.executeTransaction(realm -> userBeans.setStatus(false));
+            mRealm.executeTransaction(realm ->  {for (UserBean userBean : userBeanList) userBean.setStatus(false);});
         }
 
     }
@@ -112,7 +112,12 @@ public class DBPendienteImpl implements DBPendiente
     private Observable insertOrUpdatePendienteDB(List<LiquidacionBean> pendienteBean)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(pendienteBean));
+        mRealm.executeTransaction(realm ->
+        {
+            for (LiquidacionBean bean : pendienteBean) bean.setCodLiquidacion(bean.getCodLiquidacion().substring(bean.getCodLiquidacion().length()-6, bean.getCodLiquidacion().length()));
+            mRealm.insertOrUpdate(pendienteBean);
+
+        });
         return null;
 
     }

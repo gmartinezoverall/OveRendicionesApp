@@ -302,7 +302,7 @@
                             android:id="@+id/btnGuardar"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:text="Guarda"
+                            android:text="GuardaR"
                             android:textColor="@color/white"
                             android:background="@drawable/button_background"
                             android:layout_marginRight="10dp"/>

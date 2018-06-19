@@ -130,21 +130,21 @@
     </array>
 
     <array name="formularios">
-        <item>Arrendamiento</item>
-        <item>Boleta de Venta</item>
-        <item>Boleto Aereo</item>
-        <item>Boleto Terrestre</item>
-        <item>Carta de Porte Aereo</item>
-        <item>Descuento Boleta</item>
-        <item>Factura</item>
-        <item>Movilidad</item>
-        <item>Nota de Credito</item>
-        <item>Otros Descuentos</item>
-        <item>Recibo por Honorarios</item>
-        <item>Varios Trabajadores-Mov. Multiple</item>
-        <item>Sin Sustento Tributario</item>
-        <item>Ticket Maquina Registradora</item>
-        <item>Voucher Bancario</item>
+        <item>ARRENDAMIENTO</item>
+        <item>BOLETA DE VENTA</item>
+        <item>BOLETO AEREO</item>
+        <item>BOLETO TERRESTRE</item>
+        <item>CARTA DE PORTE AEREO</item>
+        <item>DESCUENTO BOLETA</item>
+        <item>FACTURA</item>
+        <item>MOVILIDAD</item>
+        <item>NOTA DE CREDITO</item>
+        <item>OTRAS DESCUENTOS</item>
+        <item>RECIBO POR HONORARIOS</item>
+        <item>VARIOS TRABAJADORES</item>
+        <item>SIN SUSTENTO TRIBUTARIO</item>
+        <item>TICKET MAQUINA REGISTRADORA</item>
+        <item>VOUCHER BANCARIO</item>
     </array>
 
 

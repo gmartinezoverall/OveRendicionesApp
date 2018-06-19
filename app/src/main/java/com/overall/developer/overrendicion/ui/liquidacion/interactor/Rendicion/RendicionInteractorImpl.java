@@ -3,6 +3,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
@@ -34,7 +35,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
 
             for (RendicionBean bean : mRepository.listRendicion())
             {
-                rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDescipcion(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
+                rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDes(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
                         bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                         bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                         bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend()));
@@ -64,7 +65,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
         List<RendicionEntity> rendicionList= new ArrayList<>();
         for (RendicionBean bean : mRepository.listRendicion())
         {
-            rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDescipcion(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
+            rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDes(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
                     bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                     bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.isSend()));
@@ -80,6 +81,18 @@ public class RendicionInteractorImpl implements RendicionInteractor
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
                 bean.getMotivoViaje(), "null", bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
         return entity;
+    }
+
+    @Override
+    public UserBean getUser()
+    {
+        return mRepository.getUserDB();
+    }
+
+    @Override
+    public void finishLogin()
+    {
+        mRepository.finishLoginDB();
     }
 
 

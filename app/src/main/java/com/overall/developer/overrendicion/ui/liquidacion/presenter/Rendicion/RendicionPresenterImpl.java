@@ -3,6 +3,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion;
 import android.content.Context;
 
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractor;
@@ -56,6 +57,17 @@ public class RendicionPresenterImpl implements RendicionPresenter
     public LiquidacionEntity getForCodLiquidacion(String codLiquidacion)
     {
         return mInteractor.getForCodLiquidacion(codLiquidacion);
+    }
+
+    @Override
+    public UserBean getUser() {
+        return mInteractor.getUser();
+    }
+
+    @Override
+    public void finisLogin()
+    {
+        mInteractor.finishLogin();
     }
 
 }

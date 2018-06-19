@@ -1,8 +1,10 @@
 package com.overall.developer.overrendicion.data.repository.Formularios;
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormularios;
@@ -50,7 +52,7 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public String getCodLiquidacionDB() {
+    public LiquidacionBean getCodLiquidacionDB() {
         return mDbFormularios.getCodLiquidacionDB();
 
     }
@@ -69,6 +71,16 @@ public class FormularioRepositoryImpl implements FormularioRepository
     public void insertRendicionSuccess(String codRendicion, Integer idRendicion)
     {
         mDbFormularios.setCodRendicion(codRendicion, idRendicion);
+    }
+
+    @Override
+    public UserBean getUserDB() {
+        return mDbFormularios.getUser();
+    }
+
+    @Override
+    public void finisLoginDB() {
+        mDbFormularios.finisLoginDB();
     }
 
 

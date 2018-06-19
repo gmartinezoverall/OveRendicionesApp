@@ -1,9 +1,11 @@
 package com.overall.developer.overrendicion.data.repository.Formularios;
 
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 
@@ -15,7 +17,7 @@ public interface FormularioRepository
     List<ProvinciaBean> getProvinciaDestinoList();
     Integer saveDataDB(RendicionBean rendicionBean);
     void sendDataApi(RendicionRequest request, Integer idRendicion);
-    String getCodLiquidacionDB();
+    LiquidacionBean getCodLiquidacionDB();
 
     String getIdUsuarioDB();
 
@@ -23,4 +25,7 @@ public interface FormularioRepository
 
     void insertRendicionSuccess(String codRendicion, Integer idRendicion);
 
+    UserBean getUserDB();
+
+    void finisLoginDB();
 }

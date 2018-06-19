@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios
 
 import android.content.Context;
 
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractor;
@@ -51,6 +52,22 @@ public class FormularioPresenterImpl implements FormularioPresenter
     @Override
     public RendicionEntity setRendicionForEdit(String idRendicion) {
         return mInteractor.setRendicionForEdit(idRendicion);
+    }
+
+    @Override
+    public UserBean getUser() {
+        return mInteractor.getUser();
+    }
+
+    @Override
+    public void finisLogin()
+    {
+        mInteractor.finisLogin();
+    }
+
+    @Override
+    public String getCodLiquidacion() {
+        return mInteractor.getCodLiquidacion();
     }
 
 }

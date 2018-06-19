@@ -63,10 +63,8 @@ public class BoletaVentaFragment extends Fragment {
     @BindView(R.id.btnAgregarFoto)
     Button btnAgregarFoto;
 
-
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
-
 
     Unbinder unbinder;
     View mView;
@@ -79,7 +77,6 @@ public class BoletaVentaFragment extends Fragment {
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
-
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto);
 
@@ -124,8 +121,6 @@ public class BoletaVentaFragment extends Fragment {
         }, mYear, mMonth, mDay);
 
         datePickerDialog.show();
-
-
     }
 
     @OnClick({R.id.btnGuardar, R.id.btnAgregarFoto, R.id.chkAfectoIgv, R.id.spnTipoGasto})

@@ -1,22 +1,26 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.rendicion;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.bluehomestudio.progresswindow.ProgressWindow;
-import com.bluehomestudio.progresswindow.ProgressWindowConfiguration;
+import com.github.florent37.awesomebar.AwesomeBar;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
@@ -26,6 +30,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.Pendien
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.OnActivityTouchListener;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.RecyclerTouchListener;
+import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 
 import java.util.ArrayList;
@@ -33,7 +38,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -42,7 +46,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
  * Created by cesar on 3/25/2018.
  */
 
-public class RendicionActivity extends AppCompatActivity implements RendicionView, OnFABMenuSelectedListener {
+public class RendicionActivity extends AppCompatActivity implements RendicionView, OnFABMenuSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.rcvRendicion)
     RecyclerView rcvRendicion;
@@ -50,6 +54,14 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     FloatingActionButton fab;
     @BindView(R.id.fabMenu)
     FABRevealMenu fabMenu;
+    @BindView(R.id.txvCodLiquidacion)
+    TextView txvCodLiquidacion;
+    @BindView(R.id.nav_view_rendicion)
+    NavigationView navViewRendicion;
+    @BindView(R.id.drawer_layout_rendicion)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.toolbarRendiciones)
+    AwesomeBar mToolbar;
     private RecyclerTouchListener onTouchListener;
     private OnActivityTouchListener touchListener;
 
@@ -58,6 +70,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     private LiquidacionEntity mLiquidacionEntity;
 
     List<RendicionEntity> entityList = new ArrayList<>();
+    String nombreUser;
+    String emailUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +81,13 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         mPresenter = new RendicionPresenterImpl(this, this);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) mLiquidacionEntity = mPresenter.getForCodLiquidacion(String.valueOf(bundle.getString("CodLiquidacion")));
-
+        if (bundle != null)
+        {
+            mLiquidacionEntity = mPresenter.getForCodLiquidacion(String.valueOf(bundle.getString("CodLiquidacion")));
+            txvCodLiquidacion.setText(String.valueOf(mLiquidacionEntity.getCodLiquidacion()));
+        }
+        sesionManager();
+        initialDrawable();
         mPresenter.listRendicion();
 
         rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
@@ -95,6 +114,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                     if (viewID == R.id.edit) {
                         Intent intent = new Intent(this, FormularioActivity.class);
                         intent.putExtra("idRendicion", String.valueOf(entityList.get(position).getIdRendicion()));
+                        customType(this, "fadein-to-fadeout");
                         startActivity(intent);
 
                     } else if (viewID == R.id.btnDetalle) {
@@ -165,15 +185,12 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
 
     @Override
-    public void onMenuItemSelected(View view, int id)
-    {
-        if (id == R.id.menu_add)
-        {
+    public void onMenuItemSelected(View view, int id) {
+        if (id == R.id.menu_add) {
             startActivity(new Intent(this, FormularioActivity.class));
             customType(this, "fadein-to-fadeout");
 
-        } else if (id == R.id.menu_list)
-        {
+        } else if (id == R.id.menu_list) {
             mPresenter.changeStatusLiquidacion();
             startActivity(new Intent(this, PendienteActivity.class));
             customType(this, "fadein-to-fadeout");
@@ -187,28 +204,83 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     }
     //endregion
 
-
-
     @Override
-    public void getListRendicion(List<RendicionEntity> rendicionList)
-    {
+    public void getListRendicion(List<RendicionEntity> rendicionList) {
         entityList = rendicionList;
 
     }
 
     @Override
-    public void updateListRendicion(List<RendicionEntity> rendicionBeans)
-    {
-        rcvRendicion.setAdapter(new RendicionAdapter(this, rendicionBeans));
+    public void updateListRendicion(List<RendicionEntity> rendicionBeans) {
+        entityList = rendicionBeans;
+        rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
         rcvRendicion.getAdapter().notifyDataSetChanged();
-        if (rendicionBeans.isEmpty())
-        {
+        if (rendicionBeans.isEmpty()) {
             startActivity(new Intent(this, FormularioActivity.class));
             customType(this, "fadein-to-fadeout");
-            finish();
         }
+    }
+
+
+    //region NavigationView
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    private void initialDrawable() {
+        mToolbar.setOnMenuClickedListener(v -> mDrawerLayout.openDrawer(Gravity.START));
+        mToolbar.displayHomeAsUpEnabled(false);
+        NavigationView navigationView = findViewById(R.id.nav_view_rendicion);
+        navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        TextView txvUserDNI = view.findViewById(R.id.txvUserNombre);
+        TextView txvUseEmail = view.findViewById(R.id.txvUserEmail);
+        txvUserDNI.setText(String.valueOf(nombreUser));
+        txvUseEmail.setText(String.valueOf(emailUser));
 
     }
+
+    //region SesionManager
+    private void sesionManager() {
+        UserBean userBean = mPresenter.getUser();
+        nombreUser = userBean.getNombre();
+        emailUser = userBean.getEmail();
+    }
+    //endregion
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_soliRend) {
+            // Handle the camera action
+        } else if (id == R.id.nav_actContra) {
+
+        } else if (id == R.id.nav_actCorreo) {
+
+        } else if (id == R.id.nav_liqPend) {
+
+        } else if (id == R.id.nav_reenbolso) {
+
+        } else if (id == R.id.nav_sesion)
+        {
+            startActivity(new Intent(this, LoginActivity.class));
+            customType(this, "fadein-to-fadeout");
+            mPresenter.finisLogin();
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_rendicion);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    //endregion
 }
 
 

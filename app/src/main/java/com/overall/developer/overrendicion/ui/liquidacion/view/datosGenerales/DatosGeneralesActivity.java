@@ -294,7 +294,9 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
                         , String.valueOf(mTxvDetMotivo.getText()),  idProvincia, String.valueOf(mTxvFInicio.getText())
                         , String.valueOf(mTxvFFin.getText()), String.valueOf(mSpnTipoViatico.getText()));
 
-                startActivity(new Intent(this, RendicionActivity.class));
+                Intent intent = new Intent(this, RendicionActivity.class);
+                intent.putExtra("CodLiquidacion", String.valueOf(mLiquidacionEntity.getCodLiquidacion()));
+                startActivity(intent);
                 customType(this, "fadein-to-fadeout");
 
                 break;

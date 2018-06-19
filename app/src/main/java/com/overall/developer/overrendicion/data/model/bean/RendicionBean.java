@@ -9,7 +9,7 @@ public class RendicionBean extends RealmObject {
     private Integer idRendicion;
     private String codRendicion;
     private String rdoId;
-    private String rdoDescipcion;
+    private String rdoDes;
     private String codLiquidacion;
     private String idUsuario;
     private String numeroDoc;
@@ -36,11 +36,12 @@ public class RendicionBean extends RealmObject {
     public RendicionBean() {
     }
 
-    public RendicionBean(Integer idRendicion, String codRendicion, String rdoId, String rdoDescipcion, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, boolean send) {
+    public RendicionBean(Integer idRendicion, String codRendicion, String rdoId, String rdoDes, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, boolean send)
+    {
         this.idRendicion = idRendicion;
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
-        this.rdoDescipcion = rdoDescipcion;
+        this.rdoDes = rdoDes;
         this.codLiquidacion = codLiquidacion;
         this.idUsuario = idUsuario;
         this.numeroDoc = numeroDoc;
@@ -89,12 +90,12 @@ public class RendicionBean extends RealmObject {
         this.rdoId = rdoId;
     }
 
-    public String getRdoDescipcion() {
-        return rdoDescipcion;
+    public String getRdoDes() {
+        return rdoDes;
     }
 
-    public void setRdoDescipcion(String rdoDescipcion) {
-        this.rdoDescipcion = rdoDescipcion;
+    public void setRdoDes(String rdoDes) {
+        this.rdoDes = rdoDes;
     }
 
     public String getCodLiquidacion() {

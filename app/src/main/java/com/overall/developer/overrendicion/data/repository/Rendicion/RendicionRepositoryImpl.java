@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.data.repository.Rendicion;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.api.ApiRendicion;
 import com.overall.developer.overrendicion.data.repository.Rendicion.api.ApiRendicionImpl;
@@ -75,6 +76,17 @@ public class RendicionRepositoryImpl implements RendicionRepository
     public LiquidacionBean getForCodLiquidacionDB(String codLiquidacion)
     {
         return mDbRendicion.getForCodLiquidacion(codLiquidacion);
+    }
+
+    @Override
+    public UserBean getUserDB() {
+        return mDbRendicion.getUserDB();
+    }
+
+    @Override
+    public void finishLoginDB()
+    {
+        mDbRendicion.finishLogin();
     }
 
 }
