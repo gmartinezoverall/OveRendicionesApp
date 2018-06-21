@@ -69,6 +69,8 @@
 
 
     <string name="tittleSpinerSearch">Selecciona una Provincia</string>
+    <string name="tittleSpinerTipoGasto">Selecciona un Tipo de Gasto</string>
+    <string name="tittleSpinerBanco">Selecciona un Banco</string>
 
     <string name="IGV">0.18</string>
 

@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.Pendiente;
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -17,13 +18,16 @@ public interface PendienteRepository
 {
     //region Gets
     //API
-    void getAllDocumentApi();
+    void setAllDocumentApi();
+    void setAllBancoApi();
     Observable listPendienteApi(String dniUser);
     void insertProvinciaApi(String dniUser);
 
     //DB
-    int getAllDocumentDB();
+    int setAllDocumentDB();
+    int setAllBancoDB();
     void registerTypeDocDB(List<TipoDocumentoBean> documentoBeanList);
+    void registerBancoDB(List<BancoBean> bancoBeans);
     UserBean getUser();
     void finisLogin();
     List<LiquidacionBean> listPendienteDB();
@@ -37,6 +41,10 @@ public interface PendienteRepository
     //region Sets
     void successPendienteList(String message, String dniUser);
     void errorPendienteList(String message);
+
+
+
+
     //endregion
 
 }

@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Formularios.db;
 
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
@@ -80,7 +81,7 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
-    public void setCodRendicion(String codRendicion, Integer idRendicion)
+    public void deleteForCodRendicion(String codRendicion, Integer idRendicion)
     {
         Realm mRealm = Realm.getDefaultInstance();
         RendicionBean bean = mRealm.where(RendicionBean.class).equalTo("idRendicion", idRendicion).findFirst();
@@ -105,6 +106,22 @@ public class DBFormulariosImpl implements DBFormularios
             mRealm.executeTransaction(realm ->  {for (UserBean userBean : userBeanList) userBean.setStatus(false);});
         }
 
+    }
+
+    @Override
+    public String getCodRendicion(Integer idRendicion)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RendicionBean bean = mRealm.where(RendicionBean.class).equalTo("idRendicion", idRendicion).findFirst();
+        return bean.getCodRendicion();
+    }
+
+    @Override
+    public List<BancoBean> getAllBancos()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<BancoBean> bancoList = mRealm.where(BancoBean.class).findAll();
+        return bancoList;
     }
 
 }

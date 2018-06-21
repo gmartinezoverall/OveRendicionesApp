@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.Pendiente;
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -34,9 +35,14 @@ public class PendienteRepositoryImpl implements PendienteRepository
 
     //region Interfaces
     @Override
-    public int getAllDocumentDB()
+    public int setAllDocumentDB()
     {
-        return mDbPendiente.getAllDocumentDB();
+        return mDbPendiente.setAllDocumentDB();
+    }
+
+    @Override
+    public int setAllBancoDB() {
+        return mDbPendiente.setAllBancoDB();
     }
 
     @Override
@@ -45,9 +51,20 @@ public class PendienteRepositoryImpl implements PendienteRepository
     }
 
     @Override
-    public void getAllDocumentApi()
+    public void registerBancoDB(List<BancoBean> bancoBeans) {
+        mDbPendiente.registerBancoDB(bancoBeans);
+    }
+
+    @Override
+    public void setAllDocumentApi()
     {
-        mApiPendiente.getAllDocumentApi();
+        mApiPendiente.setAllDocumentApi();
+    }
+
+    @Override
+    public void setAllBancoApi()
+    {
+        mApiPendiente.setAllBancoApi();
     }
 
     @Override

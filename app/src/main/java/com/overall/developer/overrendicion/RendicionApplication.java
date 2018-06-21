@@ -27,6 +27,7 @@ public class RendicionApplication extends Application
                 .build();
         Realm.setDefaultConfiguration(config);
 
+
     }
 
 

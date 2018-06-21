@@ -13,7 +13,8 @@ import java.util.List;
 public interface PendientePresenter
 {
     //region Sets
-    void getAllDocument();
+    void setAllDocument();
+    void setAllBanco();
     UserBean getUser();
     void listPendiente(String dniUser);
     void filterLiquidacion(String entidad, String texto);
@@ -30,5 +31,7 @@ public interface PendientePresenter
     void setListPendienteForUser(List<LiquidacionBean> pendienteBean);
     void searchListPendienteResult(List<LiquidacionBean> pendienteBean);
     void finisLogin();
+
+
     //endregion
 }

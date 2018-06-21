@@ -17,12 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asksira.dropdownview.DropDownView;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
@@ -77,6 +79,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     NavigationView navViewFormularios;
     @BindView(R.id.drawer_layout_formularios)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.lytDropdownview)
+    LinearLayout lytDropdownview;
     //endregion
 
     private FragmentManager fragmentManager;
@@ -99,21 +103,19 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         txvTitulo.setText("Formularios");
 
 
-        List<String> yourFilterList = Arrays.asList(getResources().getStringArray(R.array.formularios));
+        List<String> typeFormList = Arrays.asList(getResources().getStringArray(R.array.formularios));
         sesionManager();
         initialDrawable();
         fragmentManager = getSupportFragmentManager();
-        dropdownview.setDropDownListItem(yourFilterList);
+        dropdownview.setDropDownListItem(typeFormList);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             rendicionEntity = mPresenter.setRendicionForEdit(String.valueOf(bundle.getString("idRendicion")));//se llenaron los datos del formulario automaticamente
             dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity.getRdoId())));//formulario para editar
-        } else dropdownview.setSelectingPosition(6);//formulario por defecto
 
-        codLiquidacion = mPresenter.getCodLiquidacion();
 
-        replaceFragment(dropdownview.getSelectingPosition());
+        } else  dropdownview.setSelectingPosition(6);//formulario por defecto
 
         dropdownview.setOnSelectionListener((view, position) ->
         {
@@ -123,6 +125,9 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
         });
 
+        codLiquidacion = mPresenter.getCodLiquidacion();
+
+        replaceFragment(dropdownview.getSelectingPosition());
 
     }
 
@@ -169,11 +174,16 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return Util.getIdFragment(dropdownview.getSelectingPosition());
     }
 
+    public List<BancoEntity> getAllBancos() {
+        return mPresenter.getAllBancos();
+    }
+
     public void saveAndSendData(int idFragment, Object objectDinamyc) {
         List<String> typeFragment = new ArrayList<>();
         typeFragment.add(String.valueOf(idFragment));
         typeFragment.add(String.valueOf(dropdownview.getFilterTextView().getText()));
-        if (rendicionEntity != null)typeFragment.add(String.valueOf(rendicionEntity.getIdRendicion()));
+        if (rendicionEntity != null)
+            typeFragment.add(String.valueOf(rendicionEntity.getIdRendicion()));
         mPresenter.saveData(typeFragment, objectDinamyc);
     }
 

@@ -78,7 +78,6 @@ public class DBRendicionImpl implements DBRendicion
             int nextID = initId.size() == 0 ? 1 : initId.last().getIdRendicion()+1;
             for (RendicionBean bean : mRendionList)
             {
-
                 RendicionBean rendicionBean = realm.where(RendicionBean.class).equalTo("codRendicion", bean.getCodRendicion()).findFirst();
                 if (rendicionBean != null) rendicionBean.deleteFromRealm();
 

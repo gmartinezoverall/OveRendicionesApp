@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.Formularios;
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
@@ -45,10 +46,15 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public void sendDataApi(RendicionRequest request, Integer idRendicion)
+    public void sendDataForInsertApi(RendicionRequest request, Integer idRendicion)
     {
-        mApiFormularios.sendDataApi(request, idRendicion);
+        mApiFormularios.sendDataForInsertApi(request, idRendicion);
 
+    }
+
+    @Override
+    public void sendDataForUpdateApi(RendicionRequest request, Integer idRendicion) {
+        mApiFormularios.sendDataForUpdateApi(request, idRendicion);
     }
 
     @Override
@@ -68,9 +74,9 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public void insertRendicionSuccess(String codRendicion, Integer idRendicion)
+    public void deleteRendicionSend(String codRendicion, Integer idRendicion)
     {
-        mDbFormularios.setCodRendicion(codRendicion, idRendicion);
+        mDbFormularios.deleteForCodRendicion(codRendicion, idRendicion);
     }
 
     @Override
@@ -81,6 +87,16 @@ public class FormularioRepositoryImpl implements FormularioRepository
     @Override
     public void finisLoginDB() {
         mDbFormularios.finisLoginDB();
+    }
+
+    @Override
+    public String getCodRendicion(Integer idRendicion) {
+        return mDbFormularios.getCodRendicion(idRendicion);
+    }
+
+    @Override
+    public List<BancoBean> getAllBancos() {
+        return mDbFormularios.getAllBancos();
     }
 
 

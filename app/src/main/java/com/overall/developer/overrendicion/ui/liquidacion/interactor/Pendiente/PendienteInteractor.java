@@ -10,7 +10,8 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean;
 public interface PendienteInteractor
 {
     //region Gets.
-    void getAllDocument();
+    void setAllDocument();
+    void setAllBanco();
     UserBean getUser();
     void finisLogin();
     void listPendiente(String dniUser);
@@ -23,5 +24,7 @@ public interface PendienteInteractor
     //region Sets
     void successPendienteList(String message, String dniUser);
     void errorPendienteList(String message);
+
+
     //endregion
 }

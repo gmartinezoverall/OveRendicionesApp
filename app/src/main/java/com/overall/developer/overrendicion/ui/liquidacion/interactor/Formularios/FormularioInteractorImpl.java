@@ -3,15 +3,18 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formulario
 import android.content.Context;
 
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepositoryImpl;
@@ -37,7 +40,6 @@ public class FormularioInteractorImpl implements FormularioInteractor
     @Override
     public List<TipoGastoEntity> getDocumentForId(String idDocumento)
     {
-
         List<TipoGastoEntity> mList = new ArrayList<>();
 
         for (TipoDocumentoBean bean : mRepository.getDocumentForIdDB(idDocumento))
@@ -47,6 +49,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         return  mList;
     }
+
 
     @Override
     public List<String> getProvinciaDestinoList()
@@ -66,7 +69,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
         RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment
 
         if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
-        entity.setCodRendicion("-");
+        entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
         entity.setCodLiquidacion(codLiqui);
         entity.setIdUsuario(mRepository.getIdUsuarioDB());
 
@@ -76,19 +79,28 @@ public class FormularioInteractorImpl implements FormularioInteractor
                 entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(), entity.getCodSuspencionH(), entity.getTipoMoneda(),
                 entity.getTipoCambio(), false);
 
+
         Integer idRendicion = mRepository.saveDataDB(bean);
-
-
-
 
         if (Util.isOnline())
         {
-            entity.setCodRendicion("");
-            RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
-                    entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
-                    entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
-                    entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
-            mRepository.sendDataApi(request, idRendicion);
+            if (entity.getCodRendicion().equals("-"))
+            {
+                entity.setCodRendicion("");
+                RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
+                        entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
+                        entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
+                        entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
+                mRepository.sendDataForInsertApi(request, idRendicion);
+            }
+            else
+            {
+                RendicionRequest request = new RendicionRequest(entity.getCodRendicion(), entity.getRdoId(), entity.getCodLiquidacion(), entity.getIdUsuario(), entity.getNumeroDoc(),
+                        entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(), entity.getFechaDocumento(), entity.getFechaVencimiento(),
+                        entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(), entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(),
+                        entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio());
+                mRepository.sendDataForUpdateApi(request, idRendicion);
+            }
         }
         mPresenter.saveDataSuccess();
     }
@@ -132,6 +144,17 @@ public class FormularioInteractorImpl implements FormularioInteractor
         return  mRepository.getCodLiquidacionDB().getCodLiquidacion();
     }
 
+    @Override
+    public List<BancoEntity> getAllBancos()
+    {
+        List<BancoEntity> mList = new ArrayList<>();
+
+        for (BancoBean bean : mRepository.getAllBancos()) mList.add(new BancoEntity(bean.getCode(), bean.getDesc()));
+
+        return mList;
+
+    }
+
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)
     {
         RendicionEntity entity = new RendicionEntity();
@@ -143,6 +166,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
             case 2:
                 entity = new BoletaVentaEntity().getEntity(dinamyObj);
+                break;
+            case 17:
+                entity = new VoucherBancarioEntity().getEntity(dinamyObj);
                 break;
 
 

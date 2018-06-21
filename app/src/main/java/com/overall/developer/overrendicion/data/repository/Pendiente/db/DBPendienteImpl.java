@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.Pendiente.db;
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -23,7 +24,7 @@ public class DBPendienteImpl implements DBPendiente
     }
 
     @Override
-    public int getAllDocumentDB()
+    public int setAllDocumentDB()
     {
         Realm mRealm = Realm.getDefaultInstance();
         RealmResults<TipoDocumentoBean> countDocument = mRealm.where(TipoDocumentoBean.class).findAll();
@@ -31,7 +32,14 @@ public class DBPendienteImpl implements DBPendiente
         return countDocument.size();
     }
 
+    @Override
+    public int setAllBancoDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<BancoBean> countBanco = mRealm.where(BancoBean.class).findAll();
 
+        return countBanco.size();
+    }
 
     @Override
     public void registerTypeDocDB(List<TipoDocumentoBean> documentoBeanList)
@@ -103,6 +111,14 @@ public class DBPendienteImpl implements DBPendiente
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(provinciaBeanList));
+
+    }
+
+    @Override
+    public void registerBancoDB(List<BancoBean> bancoBeans)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(bancoBeans));
 
     }
 

@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.RendicionApplication;
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -39,8 +40,69 @@ public class ApiPendienteImpl implements ApiPendiente
     }
 
     @Override
-    public void getAllDocumentApi() {
-        getAllDocuments();
+    public void setAllDocumentApi() {
+        setAllDocuments();
+    }
+
+    @Override
+    public void setAllBancoApi()
+    {
+        setAllBancos();
+    }
+
+    private void setAllBancos()
+    {
+        Rx2AndroidNetworking.post(UrlApi.urlListarBancos)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getJSONObjectObservable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONObject>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(JSONObject jsonObject)
+                    {
+                        Gson gson = new Gson();
+                        try
+                        {
+                            if (jsonObject.getString("message").equals("OK"))
+                            {
+                                //Se deserializo el Jquery y se envio a la entidad PendienteBean
+                                Type collectionType = new TypeToken<Collection<BancoBean>>(){}.getType();
+                                List<BancoBean> bancoBeans = gson.fromJson(jsonObject.getString("bancos"), collectionType);
+                                mRepository.registerBancoDB(bancoBeans);
+
+                            }
+                            else
+                            {
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            e.getMessage();
+                            Log.i("NDa",  e.getMessage());
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     @Override
@@ -159,7 +221,7 @@ public class ApiPendienteImpl implements ApiPendiente
     }
 
 
-    private void getAllDocuments()
+    private void setAllDocuments()
     {
         Rx2AndroidNetworking.post(UrlApi.urlTiposDocumentos)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)

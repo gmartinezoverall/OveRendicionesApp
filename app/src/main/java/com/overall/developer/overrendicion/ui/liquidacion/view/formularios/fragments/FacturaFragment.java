@@ -72,7 +72,7 @@ public class FacturaFragment extends Fragment {
     //endregion
 
     private SpinnerDialog spinnerDialog;
-    private String idProvincia;
+    private String rtgId;
 
     Unbinder unbinder;
     View mView;
@@ -84,28 +84,27 @@ public class FacturaFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_factura, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
-        ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
-        spnTipoMoneda.setAdapter(adapterTipoMoneda);
-
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
         if (rendicionEntity != null)setAllDefaultValues();
+
+        ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
+        spnTipoMoneda.setAdapter(adapterTipoMoneda);
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto);
-
-        spinnerDialog = new SpinnerDialog( getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog = new SpinnerDialog( getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
             spnTipoGasto.setText(((TipoGastoEntity)item).getRtgDes().toString());
-            idProvincia = ((TipoGastoEntity)item).getRtgId().toString();
+            rtgId = ((TipoGastoEntity)item).getRtgId().toString();
         });
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
 
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto);
         return mView;
     }
 
@@ -116,9 +115,11 @@ public class FacturaFragment extends Fragment {
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S")? 0 : 1));
-        etxValorVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1"))chkAfectoIgv.setChecked(true);
+        txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
         //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
 
@@ -151,14 +152,12 @@ public class FacturaFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnGuardar:
-
-
                 String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
 
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                         String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)),String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), idProvincia, String.valueOf(etxObservaciones.getText())));
+                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText())));
 
                 break;
             case R.id.btnAgregarFoto:

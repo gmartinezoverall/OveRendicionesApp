@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -68,12 +69,16 @@ public class BoletaVentaFragment extends Fragment {
 
     Unbinder unbinder;
     View mView;
+    RendicionEntity rendicionEntity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_boleta_venta, container, false);
         unbinder = ButterKnife.bind(this, mView);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null)setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
@@ -99,6 +104,23 @@ public class BoletaVentaFragment extends Fragment {
 
 
         return mView;
+    }
+
+    private void setAllDefaultValues()
+    {
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S")? 0 : 1));
+        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
+        etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        if (rendicionEntity.getAfectoIgv().equals("1"))chkAfectoIgv.setChecked(true);
+        txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
+        //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
+        etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
+
     }
 
     @Override

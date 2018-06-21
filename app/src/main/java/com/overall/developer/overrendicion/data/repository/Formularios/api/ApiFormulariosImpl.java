@@ -32,12 +32,71 @@ public class ApiFormulariosImpl implements ApiFormularios
     }
 
     @Override
-    public void sendDataApi(RendicionRequest request, Integer idRendicion)
+    public void sendDataForInsertApi(RendicionRequest request, Integer idRendicion)
     {
-        sendRendicionApi(request, idRendicion);
+        sendRendicionForInsertApi(request, idRendicion);
     }
 
-    private void sendRendicionApi(RendicionRequest request, Integer idRendicion)
+    @Override
+    public void sendDataForUpdateApi(RendicionRequest request, Integer idRendicion)
+    {
+        sendRendicionForUpdateApi(request, idRendicion);
+
+    }
+
+    private void sendRendicionForUpdateApi(RendicionRequest request, Integer idRendicion)
+    {
+        Rx2AndroidNetworking.post(UrlApi.urlEditarRendicion)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter(request)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getJSONObjectObservable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONObject>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(JSONObject jsonObject)
+                    {
+                        try
+                        {
+                            if (jsonObject.getString("code").equals("0"))
+                            {
+                                mRepository.deleteRendicionSend(String.valueOf(jsonObject.getString("codRendicion")), idRendicion);
+
+                            }else
+                            {
+                                //mRepository.insertRendicionError(String.valueOf(jsonObject.getString("message")));
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            Log.i("DatosLog",String.valueOf(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        Log.i("NDa", e.toString());
+                    }
+
+                    @Override
+                    public void onComplete()
+                    {
+
+                    }
+                });
+
+    }
+
+    private void sendRendicionForInsertApi(RendicionRequest request, Integer idRendicion)
     {
         Rx2AndroidNetworking.post(UrlApi.urlInsertarRendicion)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
@@ -60,7 +119,7 @@ public class ApiFormulariosImpl implements ApiFormularios
                         {
                             if (jsonObject.getString("code").equals("0"))
                             {
-                                mRepository.insertRendicionSuccess(String.valueOf(jsonObject.getString("codRendicion")), idRendicion);
+                                mRepository.deleteRendicionSend(String.valueOf(jsonObject.getString("codRendicion")), idRendicion);
 
                             }else
                             {

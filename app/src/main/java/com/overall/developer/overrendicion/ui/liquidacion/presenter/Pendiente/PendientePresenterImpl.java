@@ -26,8 +26,13 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
-    public void getAllDocument() {
-        mInteractor.getAllDocument();
+    public void setAllDocument() {
+        mInteractor.setAllDocument();
+    }
+
+    @Override
+    public void setAllBanco() {
+        mInteractor.setAllBanco();
     }
 
     @Override

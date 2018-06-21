@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios;
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 
@@ -24,4 +25,6 @@ public interface FormularioPresenter
     void finisLogin();
 
     String getCodLiquidacion();
+
+    List<BancoEntity> getAllBancos();
 }

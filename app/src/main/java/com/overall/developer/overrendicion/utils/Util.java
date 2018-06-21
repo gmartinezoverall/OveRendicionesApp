@@ -88,6 +88,10 @@ public class Util
                 valor = 1;
                 break;
 
+            case 17://VOUCHER BANCARIO
+                valor = 14;
+                break;
+
 
             default:
                 valor = 00;

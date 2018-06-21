@@ -41,9 +41,17 @@ public class PendienteInteractorImpl implements PendienteInteractor
 
 
     @Override
-    public void getAllDocument() {
-        if (mRepository.getAllDocumentDB() == 0) mRepository.getAllDocumentApi();
+    public void setAllDocument()
+    {
+        if (mRepository.setAllDocumentDB() == 0) mRepository.setAllDocumentApi();
         else Log.i("LogNDa","La tabla documentos esta llena o tiene al menos un valor");
+    }
+
+    @Override
+    public void setAllBanco()
+    {
+        if (mRepository.setAllBancoDB() == 0) mRepository.setAllBancoApi();
+        else Log.i("LogNDa","La tabla banco esta llena o tiene al menos un valor");
     }
 
     @Override

@@ -117,4 +117,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    //AWS
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+
 }

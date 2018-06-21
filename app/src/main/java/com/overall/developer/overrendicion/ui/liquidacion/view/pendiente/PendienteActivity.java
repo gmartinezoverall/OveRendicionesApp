@@ -20,6 +20,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.overall.developer.overrendicion.R;
@@ -74,6 +77,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         initialToolbar();
         sesionManager();
         initialDrawable();
+        awsInitial();
 
         mRecyclerView = findViewById(R.id.rvPendiente);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -81,13 +85,24 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
         if (dniUser != null)mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
         mPresenter.insertProvincia(dniUser);
-        mPresenter.getAllDocument();//sets Provincias por Api
+        mPresenter.setAllDocument();//sets Provincias por Api
+        mPresenter.setAllBanco();//sets Provincias por Api
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
 
 
+    }
+
+    private void awsInitial()
+    {
+        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+                Log.d("AWS", "Conneccion exitosa a AWS :D");
+            }
+        }).execute();
     }
 
     //region Toolbar

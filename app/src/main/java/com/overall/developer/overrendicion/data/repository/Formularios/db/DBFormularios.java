@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.Formularios.db;
 
+import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
@@ -21,9 +22,13 @@ public interface DBFormularios
 
     RendicionBean setRendicionForEditDB(Integer idRendicion);
 
-    void setCodRendicion(String codRendicion, Integer idRendicion);
+    void deleteForCodRendicion(String codRendicion, Integer idRendicion);
 
     UserBean getUser();
 
     void finisLoginDB();
+
+    String getCodRendicion(Integer idRendicion);
+
+    List<BancoBean> getAllBancos();
 }

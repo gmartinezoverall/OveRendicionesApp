@@ -6,5 +6,7 @@ import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 
 public interface ApiFormularios
 {
-    void sendDataApi(RendicionRequest request, Integer idRendicion);
+    void sendDataForInsertApi(RendicionRequest request, Integer idRendicion);
+
+    void sendDataForUpdateApi(RendicionRequest request, Integer idRendicion);
 }
