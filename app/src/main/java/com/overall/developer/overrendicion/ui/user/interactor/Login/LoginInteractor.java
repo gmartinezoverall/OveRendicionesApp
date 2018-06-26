@@ -1,9 +1,6 @@
 package com.overall.developer.overrendicion.ui.user.interactor.Login;
 
 import io.reactivex.Observable;
-import android.widget.FrameLayout;
-
-import com.goka.kenburnsview.KenBurnsView;
 
 /**
  * Created by terry on 3/9/2018.
@@ -12,7 +9,6 @@ import com.goka.kenburnsview.KenBurnsView;
 public interface LoginInteractor
 {
     boolean checkLogin();
-    void backgroundAnimation(KenBurnsView kenBurnsView, FrameLayout frameLayout);
 
     void loginAccess(String usuario, String password);
     void loginRecovery(String dniUser);

@@ -8,13 +8,26 @@
     tools:context="com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <com.goka.kenburnsview.KenBurnsView
-        android:id="@+id/image"
+    <ViewSwitcher
+        android:id="@+id/viewSwitcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints" />
+        android:inAnimation="@android:anim/fade_in"
+        android:outAnimation="@android:anim/fade_out">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/login01" />
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/login02" />
+
+    </ViewSwitcher>
 
     <FrameLayout
         android:id="@+id/view_pager_frame"

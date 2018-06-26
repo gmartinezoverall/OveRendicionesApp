@@ -2,13 +2,10 @@ package com.overall.developer.overrendicion.ui.user.interactor.Login;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.goka.kenburnsview.KenBurnsView;
-import com.goka.kenburnsview.LoopViewPager;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.entity.UserEntity;
@@ -43,7 +40,6 @@ public class LoginInteractorImpl implements LoginInteractor
         mContext = context;
     }
 
-    //region Efecto BackGround
 
     @Override
     public boolean checkLogin()
@@ -51,45 +47,6 @@ public class LoginInteractorImpl implements LoginInteractor
         return mRepository.checkLogin();
     }
 
-    @Override
-    public void backgroundAnimation(KenBurnsView kenBurnsView, FrameLayout frameLayout)
-    {
-        initializeKenBurnsView(kenBurnsView,frameLayout);
-    }
-
-    private void initializeKenBurnsView(final KenBurnsView mImage, FrameLayout mViewPagerFrame)
-    {
-        mImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        List<Integer> resourceIDs = Arrays.asList(ImageList.IMAGES_RESOURCE);
-        mImage.initResourceIDs(resourceIDs);
-
-        LoopViewPager.LoopViewPagerListener listener = new LoopViewPager.LoopViewPagerListener() {
-            @Override
-            public View OnInstantiateItem(int page) {
-                TextView counterText = new TextView(RendicionApplication.getContext());
-                return counterText;
-            }
-
-            @Override
-            public void onPageScroll(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mImage.forceSelected(position);
-            }
-
-            @Override
-            public void onPageScrollChanged(int page) {
-            }
-        };
-
-        LoopViewPager loopViewPager = new LoopViewPager(RendicionApplication.getContext(), resourceIDs.size(), listener);
-        mViewPagerFrame.addView(loopViewPager);
-        mImage.setPager(loopViewPager);
-    }
-    // endregion
 
 
     //region Login

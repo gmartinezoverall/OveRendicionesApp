@@ -5,7 +5,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class UserBean extends RealmObject {
     @PrimaryKey
-    private long mId;
     private String numDocBeneficiario;
     private String password;
     private String firstLogin;
@@ -20,8 +19,7 @@ public class UserBean extends RealmObject {
     {
     }
 
-    public UserBean(long mId, String numDocBeneficiario, String password, String firstLogin, String nombre, String idUsuario, String estadoUsuario, String fechaNac, String email, boolean status) {
-        this.mId = mId;
+    public UserBean(String numDocBeneficiario, String password, String firstLogin, String nombre, String idUsuario, String estadoUsuario, String fechaNac, String email, boolean status) {
         this.numDocBeneficiario = numDocBeneficiario;
         this.password = password;
         this.firstLogin = firstLogin;
@@ -33,16 +31,8 @@ public class UserBean extends RealmObject {
         this.status = status;
     }
 
-    public void setmId(long mId) {
-        this.mId = mId;
-    }
-
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public long getmId() {
-        return mId;
     }
 
     public String getNumDocBeneficiario() {

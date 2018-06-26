@@ -1,27 +1,35 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxn.pix.Pix;
+import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
-
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.adapterImage.ImageAdapter;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -61,13 +69,15 @@ public class FacturaFragment extends Fragment {
 
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnAgregarFoto)
-    Button btnAgregarFoto;
 
     @BindView(R.id.chkAfectoIgv)
     CheckBox chkAfectoIgv;
     @BindView(R.id.txvMontoIGV)
     TextView txvMontoIGV;
+    @BindView(R.id.rcvFoto)
+    RecyclerView rcvFoto;
+    @BindView(R.id.btnFoto)
+    ImageButton btnFoto;
 
     //endregion
 
@@ -77,6 +87,7 @@ public class FacturaFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
+    ImageAdapter adapter;
 
     @Nullable
     @Override
@@ -85,7 +96,7 @@ public class FacturaFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
-        if (rendicionEntity != null)setAllDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
@@ -93,32 +104,35 @@ public class FacturaFragment extends Fragment {
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
-        spinnerDialog = new SpinnerDialog( getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
+        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity)item).getRtgDes().toString());
-            rtgId = ((TipoGastoEntity)item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
+            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto);
+        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
+        adapter = new ImageAdapter(mView.getContext());
+        rcvFoto.setAdapter(adapter);
+
+        PushDownAnim.setPushDownAnimTo(btnGuardar);
         return mView;
     }
 
-    private void setAllDefaultValues()
-    {
+    private void setAllDefaultValues() {
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
-        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S")? 0 : 1));
+        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
-        if (rendicionEntity.getAfectoIgv().equals("1"))chkAfectoIgv.setChecked(true);
+        if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
         //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
@@ -148,7 +162,7 @@ public class FacturaFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    @OnClick({R.id.btnGuardar, R.id.btnAgregarFoto, R.id.chkAfectoIgv, R.id.spnTipoGasto})
+    @OnClick({R.id.btnGuardar, R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnGuardar:
@@ -156,31 +170,62 @@ public class FacturaFragment extends Fragment {
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
 
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                        String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)),String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                        String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                         String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText())));
 
                 break;
-            case R.id.btnAgregarFoto:
 
+            case R.id.spnTipoGasto:
+                spinnerDialog.showSpinerDialog();
                 break;
 
-             case R.id.spnTipoGasto:
-                 spinnerDialog.showSpinerDialog();
+            case R.id.btnFoto:
+                Pix.start(this, 100, 5);
                 break;
 
             case R.id.chkAfectoIgv:
-                if (!etxValorVenta.getText().toString().isEmpty())
-                {
-                    txvMontoIGV.setText(chkAfectoIgv.isChecked() ?  String.valueOf(Double.valueOf(etxValorVenta.getText().toString())* 0.18): "0.00");
-                    etxPrecioVenta.setText(String.valueOf(Double.valueOf(txvMontoIGV.getText().toString())+ Double.valueOf(etxValorVenta.getText().toString())));
-                }
-                else
-                {
-                    Toast.makeText(mView.getContext(),"Debe ingresar Valor de Venta", Toast.LENGTH_LONG).show();
+                if (!etxValorVenta.getText().toString().isEmpty()) {
+                    txvMontoIGV.setText(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
+                    etxPrecioVenta.setText(String.valueOf(Double.valueOf(txvMontoIGV.getText().toString()) + Double.valueOf(etxValorVenta.getText().toString())));
+                } else {
+                    Toast.makeText(mView.getContext(), "Debe ingresar Valor de Venta", Toast.LENGTH_LONG).show();
                     chkAfectoIgv.setChecked(false);
                 }
 
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case (100): {
+                if (resultCode == Activity.RESULT_OK) {
+                    ArrayList<String> returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+                    adapter.AddImage(returnValue);
+
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermUtil.REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Pix.start(this, 100, 5);
+                } else {
+                    Toast.makeText(mView.getContext(), "Tiene que aprobar los permisos para seleccionar una Foto", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+
         }
     }
 

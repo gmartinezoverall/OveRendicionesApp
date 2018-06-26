@@ -61,8 +61,6 @@ public class BoletaVentaFragment extends Fragment {
     CustomEditText etxObservaciones;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnAgregarFoto)
-    Button btnAgregarFoto;
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
@@ -83,7 +81,7 @@ public class BoletaVentaFragment extends Fragment {
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar);
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
@@ -145,7 +143,7 @@ public class BoletaVentaFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    @OnClick({R.id.btnGuardar, R.id.btnAgregarFoto, R.id.chkAfectoIgv, R.id.spnTipoGasto})
+    @OnClick({R.id.btnGuardar, R.id.chkAfectoIgv, R.id.spnTipoGasto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnGuardar:
@@ -155,8 +153,6 @@ public class BoletaVentaFragment extends Fragment {
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletaVentaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                         String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                         String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(idProvincia), String.valueOf(etxObservaciones.getText())));
-                break;
-            case R.id.btnAgregarFoto:
                 break;
 
             case R.id.spnTipoGasto:

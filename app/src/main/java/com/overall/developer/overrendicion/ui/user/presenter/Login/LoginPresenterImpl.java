@@ -1,9 +1,6 @@
 package com.overall.developer.overrendicion.ui.user.presenter.Login;
 
 import android.content.Context;
-import android.widget.FrameLayout;
-
-import com.goka.kenburnsview.KenBurnsView;
 import com.overall.developer.overrendicion.ui.user.interactor.Login.LoginInteractor;
 import com.overall.developer.overrendicion.ui.user.interactor.Login.LoginInteractorImpl;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginView;
@@ -31,11 +28,6 @@ public class LoginPresenterImpl implements LoginPresenter
         return mInteractor.checkLogin();
     }
 
-    @Override
-    public void backgroundAnimation(KenBurnsView kenBurnsView, FrameLayout frameLayou)
-    {
-        mInteractor.backgroundAnimation(kenBurnsView, frameLayou);
-    }
 
     @Override
     public void loginAccess(String usuario, String password) {

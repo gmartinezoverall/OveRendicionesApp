@@ -58,10 +58,6 @@ public class DBLoginUserImpl implements DBLoginUser
     public void registerUserDB(UserBean userBean)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        RealmResults<UserBean> initId = mRealm.where(UserBean.class).findAll();
-        int nextID = initId.size() == 0 ? 1 : initId.size()+1;
-
-        userBean.setmId(nextID);
         userBean.setStatus(true);
 
         mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(userBean));

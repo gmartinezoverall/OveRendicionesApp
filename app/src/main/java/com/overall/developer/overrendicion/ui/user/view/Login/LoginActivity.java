@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,8 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
-import com.goka.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.Transition;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.user.presenter.Login.LoginPresenter;
@@ -30,12 +31,10 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTextChanged;
 import cn.refactor.lib.colordialog.ColorDialog;
 import io.reactivex.Observable;
 import io.rmiri.buttonloading.ButtonLoading;
 import pl.droidsonroids.gif.GifDrawable;
-import pyxis.uzuki.live.pyxinjector.annotation.OnEditTextChange;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -43,10 +42,8 @@ import static maes.tech.intentanim.CustomIntent.customType;
  * Created by terry on 3/9/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends AppCompatActivity implements LoginView, KenBurnsView.TransitionListener {
     //region injeccion de Vistas
-    @BindView(R.id.image)
-    KenBurnsView mImage;
     @BindView(R.id.view_pager_frame)
     FrameLayout mViewPagerFrame;
     @BindView(R.id.etUsuario)
@@ -67,11 +64,22 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     TextView mTextView2;
     @BindView(R.id.view6)
     View mView6;
+    @BindView(R.id.image)
+    KenBurnsView image;
+    @BindView(R.id.image2)
+    KenBurnsView image2;
+    @BindView(R.id.viewSwitcher)
+    ViewSwitcher viewSwitcher;
 
     //endregion
 
     private LoginPresenter mPresenter;
     private Animation uptodown, downtoup;
+    private static final int TRANSITIONS_TO_SWITCH = 3;
+
+    private ViewSwitcher mViewSwitcher;
+
+    private int mTransitionsCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +87,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        mPresenter = new LoginPresenterImpl(this,this);
+        mPresenter = new LoginPresenterImpl(this, this);
         checkLogin();
-        mPresenter.backgroundAnimation(mImage, mViewPagerFrame);
+        image.setTransitionListener(this);
+        image2.setTransitionListener(this);
 
         initialAnim();
 
@@ -103,8 +112,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         });
     }
 
-    private void checkLogin()
-    {
+    private void checkLogin() {
         if (mPresenter.checkLogin()) {
             startActivity(new Intent(this, PendienteActivity.class));
             finish();
@@ -129,8 +137,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     //region interfaces
     @Override
-    public Observable validacionSucces(String dniUser, String nombreUser, String emailUser)
-    {
+    public Observable validacionSucces(String dniUser, String nombreUser, String emailUser) {
         mBtnIngresar.setProgress(false);
         startActivity(new Intent(this, PendienteActivity.class));
         customType(this, "fadein-to-fadeout");
@@ -164,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             case R.id.tvRecovery:
                 try {
                     GifDrawable gifFromResource = new GifDrawable(getResources(), R.drawable.password);
-                    ColorDialog mDialog = CustomDialog.dialogGifAndEditText(view,gifFromResource, getString(R.string.recoveryPassword), null);
+                    ColorDialog mDialog = CustomDialog.dialogGifAndEditText(view, gifFromResource, getString(R.string.recoveryPassword), null);
                     mDialog.setPositiveListener(R.string.send, dialog1 ->
                     {
                         dialog1.dismiss();
@@ -186,12 +193,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event)
-    {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && mEtUsuario.requestFocus()) mEtPassword.requestFocus();
-        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && mEtPassword.getText().length()> 0)
-        {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && mEtUsuario.requestFocus())
+            mEtPassword.requestFocus();
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && mEtPassword.getText().length() > 0) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mEtPassword.getWindowToken(), 0);
             mBtnIngresar.performClick();
         }
@@ -218,8 +224,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     //region Timer
     void finishLoading() {
         //call setProgress(false) after 5 second
-        new Handler().postDelayed(() ->  mPresenter.loginAccess(String.valueOf(mEtUsuario.getText()), String.valueOf(mEtPassword.getText())), 2000);
+        new Handler().postDelayed(() -> mPresenter.loginAccess(String.valueOf(mEtUsuario.getText()), String.valueOf(mEtPassword.getText())), 2000);
     }
+
     //endregion
+
+    @Override
+    public void onTransitionStart(Transition transition) {
+
+    }
+
+    @Override
+    public void onTransitionEnd(Transition transition)
+    {
+        mTransitionsCount++;
+        if (mTransitionsCount == TRANSITIONS_TO_SWITCH) {
+            mViewSwitcher.showNext();
+            mTransitionsCount = 0;
+        }
+    }
 
 }

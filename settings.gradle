@@ -1,4 +1,4 @@
-include ':app', 'Stickytimelineview', 'DialogLibrary', 'ToolbarLibrary', 'ToolbarSearchLibrary', 'SpinnerSearchLibrary'
+include ':app', 'Stickytimelineview', 'DialogLibrary', 'ToolbarLibrary', 'ToolbarSearchLibrary', 'SpinnerSearchLibrary', 'PixLibrary'
 
 gradle.ext.set('versionCode', 3)
 gradle.ext.set('versionName', '0.0.3')
