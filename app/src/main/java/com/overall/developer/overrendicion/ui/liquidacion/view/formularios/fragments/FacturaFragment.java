@@ -88,6 +88,7 @@ public class FacturaFragment extends Fragment {
     View mView;
     RendicionEntity rendicionEntity;
     ImageAdapter adapter;
+    ArrayList<String> listImage;
 
     @Nullable
     @Override
@@ -180,7 +181,7 @@ public class FacturaFragment extends Fragment {
                 break;
 
             case R.id.btnFoto:
-                Pix.start(this, 100, 5);
+                Pix.start(this, 100, 1);
                 break;
 
             case R.id.chkAfectoIgv:
@@ -203,9 +204,8 @@ public class FacturaFragment extends Fragment {
         switch (requestCode) {
             case (100): {
                 if (resultCode == Activity.RESULT_OK) {
-                    ArrayList<String> returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-                    adapter.AddImage(returnValue);
-
+                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+                    adapter.AddImage(listImage);
                 }
             }
             break;

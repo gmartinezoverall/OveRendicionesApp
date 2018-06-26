@@ -26,12 +26,13 @@ public class RendicionEntity
     private String codSuspencionH;
     private String tipoMoneda;
     private String tipoCambio;
+    private String foto;
     private boolean send = false;
 
     public RendicionEntity() {
     }
 
-    public RendicionEntity(Integer idRendicion ,String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, boolean send) {
+    public RendicionEntity(Integer idRendicion ,String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, String foto, boolean send) {
         this.idRendicion = idRendicion;
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
@@ -56,6 +57,7 @@ public class RendicionEntity
         this.codSuspencionH = codSuspencionH;
         this.tipoMoneda = tipoMoneda;
         this.tipoCambio = tipoCambio;
+        this.foto = foto;
         this.send = send;
     }
     public Integer getIdRendicion() {
@@ -247,6 +249,14 @@ public class RendicionEntity
 
     public void setTipoCambio(String tipoCambio) {
         this.tipoCambio = tipoCambio;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public boolean isSend() {

@@ -33,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.mancj.materialsearchbar.adapter.DefaultSuggestionsAdapter;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
@@ -195,7 +195,7 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
         if (adapter instanceof DefaultSuggestionsAdapter)
             ((DefaultSuggestionsAdapter) adapter).setListener(this);
         adapter.setMaxSuggestionsCount(maxSuggestionCount);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mt_recycler);
+        RecyclerView recyclerView = findViewById(R.id.mt_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -506,7 +506,7 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
 
     private void animateSuggestions(int from, int to) {
         suggestionsVisible = to > 0;
-        final RelativeLayout last = (RelativeLayout) findViewById(R.id.last);
+        final RelativeLayout last = findViewById(R.id.last);
         final ViewGroup.LayoutParams lp = last.getLayoutParams();
         if (to == 0 && lp.height == 0)
             return;

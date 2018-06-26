@@ -149,6 +149,7 @@
         <item>VOUCHER BANCARIO</item>
     </array>
 
+    <integer name="numFotos">1</integer>
 
 </resources>
 

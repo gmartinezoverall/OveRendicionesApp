@@ -31,13 +31,13 @@ public class RendicionBean extends RealmObject {
     private String codSuspencionH;
     private String tipoMoneda;
     private String tipoCambio;
+    private String foto;
     private boolean send = false;
 
     public RendicionBean() {
     }
 
-    public RendicionBean(Integer idRendicion, String codRendicion, String rdoId, String rdoDes, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, boolean send)
-    {
+    public RendicionBean(Integer idRendicion, String codRendicion, String rdoId, String rdoDes, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, String foto, boolean send) {
         this.idRendicion = idRendicion;
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
@@ -63,6 +63,7 @@ public class RendicionBean extends RealmObject {
         this.codSuspencionH = codSuspencionH;
         this.tipoMoneda = tipoMoneda;
         this.tipoCambio = tipoCambio;
+        this.foto = foto;
         this.send = send;
     }
 
@@ -264,6 +265,14 @@ public class RendicionBean extends RealmObject {
 
     public void setTipoCambio(String tipoCambio) {
         this.tipoCambio = tipoCambio;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public boolean isSend() {

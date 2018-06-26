@@ -19,12 +19,13 @@ public class BoletaVentaEntity implements FormularioEntity
     private String precioVenta;
     private String tipoGasto;
     private String observaciones;
+    private String foto;
 
 
     public BoletaVentaEntity() {
     }
 
-    public BoletaVentaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones) {
+    public BoletaVentaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
@@ -37,6 +38,7 @@ public class BoletaVentaEntity implements FormularioEntity
         this.precioVenta = precioVenta;
         this.tipoGasto = tipoGasto;
         this.observaciones = observaciones;
+        this.foto = foto;
     }
 
 
@@ -57,6 +59,7 @@ public class BoletaVentaEntity implements FormularioEntity
         entity.setPrecioTotal(boletaVentaEntity.precioVenta);
         entity.setRtgId(boletaVentaEntity.tipoGasto);
         entity.setObservacion(boletaVentaEntity.observaciones);
+        entity.setFoto(boletaVentaEntity.foto);
 
         return entity;
     }
@@ -174,4 +177,11 @@ public class BoletaVentaEntity implements FormularioEntity
         this.observaciones = observaciones;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 }

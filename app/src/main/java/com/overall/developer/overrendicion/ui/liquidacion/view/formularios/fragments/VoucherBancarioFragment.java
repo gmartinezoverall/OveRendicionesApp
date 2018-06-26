@@ -1,16 +1,25 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fxn.pix.Pix;
+import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
@@ -18,6 +27,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.adapterImage.ImageAdapter;
 
 import org.angmarch.views.NiceSpinner;
 
@@ -42,12 +52,14 @@ public class VoucherBancarioFragment extends Fragment {
     TextView spnTipoGasto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnAgregarFoto)
-    Button btnAgregarFoto;
     @BindView(R.id.etxPrecioVenta)
     CustomEditText etxPrecioVenta;
     @BindView(R.id.etxNDocumento)
     CustomEditText etxNDocumento;
+    @BindView(R.id.rcvFoto)
+    RecyclerView rcvFoto;
+    @BindView(R.id.btnFoto)
+    ImageButton btnFoto;
 
     private SpinnerDialog spinnerDialogTipoDoc, spnDialogBanco;
     private String rtgId, banco;
@@ -56,6 +68,8 @@ public class VoucherBancarioFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
+    ImageAdapter adapter;
+    ArrayList<String> listImage;
 
     @Nullable
     @Override
@@ -64,7 +78,7 @@ public class VoucherBancarioFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
-        if (rendicionEntity != null)setAllDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
@@ -91,16 +105,19 @@ public class VoucherBancarioFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
+        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
+        adapter = new ImageAdapter(mView.getContext());
+        rcvFoto.setAdapter(adapter);
+
         return mView;
 
     }
 
-    private void setAllDefaultValues()
-    {
+    private void setAllDefaultValues() {
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
         //spnBanco.setText(String.valueOf(rendicionEntity.banco));
-        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S")? 0 : 1));
+        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
 
@@ -129,7 +146,7 @@ public class VoucherBancarioFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.spnBanco, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnAgregarFoto})
+    @OnClick({R.id.spnBanco, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnFoto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnBanco:
@@ -144,8 +161,42 @@ public class VoucherBancarioFragment extends Fragment {
                         String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId)));
 
                 break;
-            case R.id.btnAgregarFoto:
+            case R.id.btnFoto:
+                Pix.start(this, 100, 5);
                 break;
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case (100): {
+                if (resultCode == Activity.RESULT_OK) {
+                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+                    adapter.AddImage(listImage);
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermUtil.REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Pix.start(this, 100, 1);
+                } else {
+                    Toast.makeText(mView.getContext(), "Tiene que aprobar los permisos para seleccionar una Foto", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+
         }
     }
 }

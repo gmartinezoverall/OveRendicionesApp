@@ -25,11 +25,12 @@ public class RendicionRequest
     private String codSuspencionH;
     private String tipoMoneda;
     private String tipoCambio;
+    private String foto;
 
     public RendicionRequest() {
     }
 
-    public RendicionRequest( String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio) {
+    public RendicionRequest( String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, String foto) {
 
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
@@ -54,6 +55,7 @@ public class RendicionRequest
         this.codSuspencionH = codSuspencionH;
         this.tipoMoneda = tipoMoneda;
         this.tipoCambio = tipoCambio;
+        this.foto = foto;
     }
 
     public String getCodRendicion() {
@@ -238,5 +240,13 @@ public class RendicionRequest
 
     public void setTipoCambio(String tipoCambio) {
         this.tipoCambio = tipoCambio;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
