@@ -12,11 +12,12 @@ public class VoucherBancarioEntity implements FormularioEntity
     private String tipoMoneda;
     private String valorVenta;
     private String tipoGasto;
+    private String foto;
 
     public VoucherBancarioEntity() {
     }
 
-    public VoucherBancarioEntity(String tipoDocumento, String fechaDeposito, String numeroDocumento, String bcoCod, String tipoMoneda, String valorVenta, String tipoGasto) {
+    public VoucherBancarioEntity(String tipoDocumento, String fechaDeposito, String numeroDocumento, String bcoCod, String tipoMoneda, String valorVenta, String tipoGasto, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.fechaDeposito = fechaDeposito;
         this.numeroDocumento = numeroDocumento;
@@ -24,6 +25,8 @@ public class VoucherBancarioEntity implements FormularioEntity
         this.tipoMoneda = tipoMoneda;
         this.valorVenta = valorVenta;
         this.tipoGasto = tipoGasto;
+        this.foto= foto;
+
     }
 
     public String getCodLiquidacion() {
@@ -90,6 +93,14 @@ public class VoucherBancarioEntity implements FormularioEntity
         this.tipoGasto = tipoGasto;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     @Override
     public RendicionEntity getEntity(Object obj) {
         VoucherBancarioEntity voucherEntity = (VoucherBancarioEntity) obj;
@@ -102,6 +113,7 @@ public class VoucherBancarioEntity implements FormularioEntity
         entity.setTipoMoneda(voucherEntity.tipoMoneda);
         entity.setPrecioTotal(voucherEntity.valorVenta);
         entity.setRtgId(voucherEntity.tipoGasto);
+        entity.setFoto(voucherEntity.foto);
         return entity;
     }
 }

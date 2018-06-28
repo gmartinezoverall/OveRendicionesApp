@@ -5,6 +5,7 @@ import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 
+import java.io.File;
 import java.util.List;
 
 public interface FormularioPresenter
@@ -27,4 +28,6 @@ public interface FormularioPresenter
     String getCodLiquidacion();
 
     List<BancoEntity> getAllBancos();
+
+
 }

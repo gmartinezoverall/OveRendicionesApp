@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +32,12 @@ import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.adapterImage.ImageAdapter;
+import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -74,10 +78,10 @@ public class FacturaFragment extends Fragment {
     CheckBox chkAfectoIgv;
     @BindView(R.id.txvMontoIGV)
     TextView txvMontoIGV;
-    @BindView(R.id.rcvFoto)
-    RecyclerView rcvFoto;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
 
     //endregion
 
@@ -87,8 +91,8 @@ public class FacturaFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
-    ImageAdapter adapter;
-    ArrayList<String> listImage;
+/*    ImageAdapter adapter;
+    ArrayList<String> listImage;*/
 
     @Nullable
     @Override
@@ -116,11 +120,11 @@ public class FacturaFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
-        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
-        adapter = new ImageAdapter(mView.getContext());
-        rcvFoto.setAdapter(adapter);
+//        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
+//        adapter = new ImageAdapter(mView.getContext());
+//        rcvFoto.setAdapter(adapter);
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto);
         return mView;
     }
 
@@ -172,7 +176,7 @@ public class FacturaFragment extends Fragment {
 
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                         String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText())));
+                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf("ValuePath")));
 
                 break;
 
@@ -204,8 +208,12 @@ public class FacturaFragment extends Fragment {
         switch (requestCode) {
             case (100): {
                 if (resultCode == Activity.RESULT_OK) {
-                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-                    adapter.AddImage(listImage);
+/*                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+                    adapter.AddImage(listImage);*/
+
+                    String imgPath = Util.compressImage(mView.getContext(), data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
+                    imgFoto.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+
                 }
             }
             break;
@@ -228,5 +236,6 @@ public class FacturaFragment extends Fragment {
 
         }
     }
+
 
 }

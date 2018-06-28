@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
@@ -21,8 +23,14 @@ import com.overall.developer.overrendicion.data.repository.Formularios.Formulari
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.utils.Util;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import id.zelory.compressor.Compressor;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class FormularioInteractorImpl implements FormularioInteractor
 {
@@ -34,6 +42,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         this.mPresenter = presenter;
         mRepository = new FormularioRepositoryImpl(this);
+        mContext = context;
 
     }
 
@@ -154,6 +163,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
         return mList;
 
     }
+
 
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)
     {

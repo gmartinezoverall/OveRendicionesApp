@@ -158,7 +158,8 @@ public class VoucherBancarioFragment extends Fragment {
             case R.id.btnGuardar:
                 String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new VoucherBancarioEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                        String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId)));
+                        String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId),
+                        String.valueOf(listImage.get(0))));
 
                 break;
             case R.id.btnFoto:

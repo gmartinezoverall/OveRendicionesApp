@@ -18,11 +18,12 @@ public class FacturaEntity implements FormularioEntity {
     private String precioVenta;
     private String tipoGasto;
     private String observaciones;
+    private String foto;
 
     public FacturaEntity() {
     }
 
-    public FacturaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones) {
+    public FacturaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
@@ -35,6 +36,7 @@ public class FacturaEntity implements FormularioEntity {
         this.precioVenta = precioVenta;
         this.tipoGasto = tipoGasto;
         this.observaciones = observaciones;
+        this.foto = foto;
     }
 
     public String getCodLiquidacion() {
@@ -149,6 +151,14 @@ public class FacturaEntity implements FormularioEntity {
         this.observaciones = observaciones;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     @Override
     public RendicionEntity getEntity(Object obj) {
         FacturaEntity facturaEntity = (FacturaEntity) obj;
@@ -166,6 +176,7 @@ public class FacturaEntity implements FormularioEntity {
         entity.setPrecioTotal(facturaEntity.precioVenta);
         entity.setRtgId(facturaEntity.tipoGasto);
         entity.setObservacion(facturaEntity.observaciones);
+        entity.setFoto(facturaEntity.foto);
 
         return entity;
     }

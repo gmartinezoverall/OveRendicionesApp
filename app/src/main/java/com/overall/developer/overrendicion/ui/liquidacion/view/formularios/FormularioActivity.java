@@ -48,6 +48,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.Rendici
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.Util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -187,13 +188,13 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         mPresenter.saveData(typeFragment, objectDinamyc);
     }
 
-
     @Override
     public void saveDataSuccess() {
         startActivity(new Intent(this, RendicionActivity.class));
         customType(this, "fadein-to-fadeout");
         finish();
     }
+
 
     //region NavigationView
 

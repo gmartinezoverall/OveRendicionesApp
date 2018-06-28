@@ -1,15 +1,28 @@
 package com.overall.developer.overrendicion.utils;
 
-import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
+import android.util.Log;
 
 import com.overall.developer.overrendicion.RendicionApplication;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.util.concurrent.atomic.AtomicReference;
+
+import id.zelory.compressor.Compressor;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class Util
 {
+
     public static boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) RendicionApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -100,6 +113,53 @@ public class Util
 
 
         return valor;
+    }
+
+
+    public static String compressImage(Context context, String pathString)
+    {
+        File imageFile = new File(pathString);
+        AtomicReference<File> imagePath = new AtomicReference<>();
+        new Compressor(context)
+                .compressToFileAsFlowable(imageFile)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(file ->
+                {
+                    imagePath.set(file);
+                    SaveImage(file);
+                    //compressedImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                    //image = file.getAbsolutePath();
+                    //Log.i("NDaImage", String.valueOf(String.format(getReadableFileSize(file.length()))));
+
+                }, throwable ->
+                {
+                    Log.i("ErrorCompressImage", throwable.getMessage());
+
+                });
+        return imageFile.getAbsolutePath();
+
+    }
+
+    public static void SaveImage(File filepath)
+    {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/aaImage";
+        File dir = new File(path);
+        dir.mkdirs();
+        File file = new File(path,"Image-3.jpg" );
+        file.mkdirs();
+
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            Bitmap bitmap = BitmapFactory.decodeFile(filepath.getAbsolutePath());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
