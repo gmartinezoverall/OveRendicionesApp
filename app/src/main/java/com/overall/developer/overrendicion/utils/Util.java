@@ -143,7 +143,7 @@ public class Util
 
     public static void SaveImage(File filepath)
     {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/aaImage";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
         File dir = new File(path);
         dir.mkdirs();
         File file = new File(path,"Image-3.jpg" );
@@ -153,7 +153,7 @@ public class Util
         try {
             FileOutputStream out = new FileOutputStream(file);
             Bitmap bitmap = BitmapFactory.decodeFile(filepath.getAbsolutePath());
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
 
