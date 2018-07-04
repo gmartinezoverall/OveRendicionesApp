@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.data.repository.Rendicion;
 
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
@@ -31,4 +32,6 @@ public interface RendicionRepository
     UserBean getUserDB();
 
     void finishLoginDB();
+
+    ProvinciaBean getProvinciaDB(String ubigeoProvDestino);
 }

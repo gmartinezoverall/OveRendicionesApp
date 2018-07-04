@@ -2,9 +2,11 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepositoryImpl;
@@ -77,9 +79,13 @@ public class RendicionInteractorImpl implements RendicionInteractor
     public LiquidacionEntity getForCodLiquidacion(String codLiquidacion)
     {
         LiquidacionBean bean =  mRepository.getForCodLiquidacionDB(codLiquidacion);
+
+        ProvinciaBean provBean = mRepository.getProvinciaDB(bean.getUbigeoProvDestino());
+        ProvinciaEntity provinciaEntity = new ProvinciaEntity(provBean.getCode(), provBean.getDesc());
+
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
-                bean.getMotivoViaje(), "null", bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
+                bean.getMotivoViaje(), provinciaEntity, bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
         return entity;
     }
 

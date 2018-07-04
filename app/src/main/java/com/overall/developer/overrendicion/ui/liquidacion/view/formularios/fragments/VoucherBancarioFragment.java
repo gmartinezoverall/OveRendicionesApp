@@ -160,11 +160,13 @@ public class VoucherBancarioFragment extends Fragment {
                 spinnerDialogTipoDoc.showSpinerDialog();
                 break;
             case R.id.btnGuardar:
-                String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
-                ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new VoucherBancarioEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                        String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId),
-                        String.valueOf(pathImage)));
-
+                if (ValideWidgets())
+                {
+                    String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
+                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new VoucherBancarioEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
+                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId),
+                            String.valueOf(pathImage)));
+                }
                 break;
             case R.id.btnFoto:
                 Pix.start(this, 100, 5);
@@ -219,5 +221,16 @@ public class VoucherBancarioFragment extends Fragment {
 
 
         }
+    }
+
+    private boolean ValideWidgets()
+    {
+        if (etxCalendar.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnBanco.getText().toString().isEmpty()
+                || etxPrecioVenta.getText().toString().isEmpty() || spnTipoGasto.getText().toString().isEmpty() ||  pathImage == null)
+        {
+            Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
     }
 }

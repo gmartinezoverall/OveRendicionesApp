@@ -102,11 +102,11 @@ public class DBDatosGeneralesImpl implements DBDatosGenerales
     }
 
     @Override
-    public String getProvinciaDB(String idProvincia)
+    public ProvinciaBean getProvinciaDB(String idProvincia)
     {
         Realm mRealm = Realm.getDefaultInstance();
         ProvinciaBean bean = mRealm.where(ProvinciaBean.class).equalTo("code",idProvincia).findFirst();
-        if (bean != null) return bean.getDesc();
+        if (bean != null) return bean;
         else return null;
 
     }

@@ -16,7 +16,7 @@ public interface DBDatosGenerales
     void updateLiquidacionDB(LiquidacionBean liquidacionBean);
     boolean existsRendicionDB();
     void changeStatusLiquidacion();
-    String getProvinciaDB(String idProvincia);
+    ProvinciaBean getProvinciaDB(String idProvincia);
 
     void finisLogin();
 

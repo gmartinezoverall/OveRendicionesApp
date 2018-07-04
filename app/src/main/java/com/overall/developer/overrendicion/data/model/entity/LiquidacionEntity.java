@@ -14,7 +14,7 @@ public class LiquidacionEntity {
     private String dni;
     private String fechaViatico;
     private String motivoViaje;
-    private String ubigeoProvDestino;
+    private ProvinciaEntity ubigeoProvDestino;
     private String fechaDesde;
     private String fechaHasta;
     private String tipoViatico;
@@ -25,7 +25,7 @@ public class LiquidacionEntity {
     public LiquidacionEntity() {
     }
 
-    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, boolean status) {
+    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, ProvinciaEntity ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, boolean status) {
         this.codLiquidacion = codLiquidacion;
         this.tipoLiquidacion = tipoLiquidacion;
         this.descripcionLiquidacion = descripcionLiquidacion;
@@ -151,11 +151,11 @@ public class LiquidacionEntity {
         this.motivoViaje = motivoViaje;
     }
 
-    public String getUbigeoProvDestino() {
+    public ProvinciaEntity getUbigeoProvDestino() {
         return ubigeoProvDestino;
     }
 
-    public void setUbigeoProvDestino(String ubigeoProvDestino) {
+    public void setUbigeoProvDestino(ProvinciaEntity ubigeoProvDestino) {
         this.ubigeoProvDestino = ubigeoProvDestino;
     }
 

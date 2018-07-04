@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.awesomebar.AwesomeBar;
 
@@ -124,6 +126,8 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         initialBase();
         initialCalendar();
 
+        Log.i("NDaFecha", mTxvFInicio.getText().toString());
+
 
     }
 
@@ -153,6 +157,7 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
                 mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
             }
+
 
         });
         mCalendarView.buildCalendar();
@@ -201,9 +206,9 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
             mSpnTipoViatico.setSelectedIndex(mLiquidacionEntity.getTipoViatico().equals("N") ? 0 : 1);
         if (mLiquidacionEntity.getUbigeoProvDestino() != null)
         {
-            mSpnDestinoViaje.setText(mLiquidacionEntity.getUbigeoProvDestino());
+            mSpnDestinoViaje.setText(mLiquidacionEntity.getUbigeoProvDestino().getDesc());
+            idProvincia = (mLiquidacionEntity.getUbigeoProvDestino().getCode());
         }
-
 
         mToolbar.setOnMenuClickedListener(v -> mDrawerLayout.openDrawer(Gravity.START));
         mToolbar.displayHomeAsUpEnabled(false);
@@ -290,15 +295,17 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
             case R.id.btnSaveDate:
 
-                mPresenter.saveData(String.valueOf(mLiquidacionEntity.getCodLiquidacion()), String.valueOf(mTxvSysDate.getText())
-                        , String.valueOf(mTxvDetMotivo.getText()),  idProvincia, String.valueOf(mTxvFInicio.getText())
-                        , String.valueOf(mTxvFFin.getText()), String.valueOf(mSpnTipoViatico.getText()));
+                if (ValideWidgets()) {
 
-                Intent intent = new Intent(this, RendicionActivity.class);
-                intent.putExtra("CodLiquidacion", String.valueOf(mLiquidacionEntity.getCodLiquidacion()));
-                startActivity(intent);
-                customType(this, "fadein-to-fadeout");
+                    mPresenter.saveData(String.valueOf(mLiquidacionEntity.getCodLiquidacion()), String.valueOf(mTxvSysDate.getText())
+                            , String.valueOf(mTxvDetMotivo.getText()), idProvincia, String.valueOf(mTxvFInicio.getText())
+                            , String.valueOf(mTxvFFin.getText()), String.valueOf(mSpnTipoViatico.getText()));
 
+                    Intent intent = new Intent(this, RendicionActivity.class);
+                    intent.putExtra("CodLiquidacion", String.valueOf(mLiquidacionEntity.getCodLiquidacion()));
+                    startActivity(intent);
+                    customType(this, "fadein-to-fadeout");
+                }
                 break;
 
 
@@ -307,6 +314,18 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
                 break;
         }
+    }
+
+    private boolean ValideWidgets()
+    {
+        if (mTxvDetMotivo.getText().toString().isEmpty() || (mLytTipoViatico.getVisibility() == View.VISIBLE && mSpnDestinoViaje.getText().equals("Seleccionar"))
+                || mTxvFInicio.getText().equals("0001-01-01"))
+        {
+            Toast.makeText(this, getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
+
     }
     //endregion
 

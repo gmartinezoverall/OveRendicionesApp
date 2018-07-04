@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -111,7 +112,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                 .setSwipeOptionViews(R.id.btnDetalle, R.id.edit, R.id.lytRemove)
                 .setSwipeable(R.id.rowFG, R.id.rowBG, (viewID, position) -> {
                     String message = "";
-                    if (viewID == R.id.edit) {
+                    if (viewID == R.id.edit)
+                    {
+
                         Intent intent = new Intent(this, FormularioActivity.class);
                         intent.putExtra("idRendicion", String.valueOf(entityList.get(position).getIdRendicion()));
                         customType(this, "fadein-to-fadeout");
@@ -119,11 +122,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
                     } else if (viewID == R.id.btnDetalle) {
                         message += "detalle";
-                    } else if (viewID == R.id.lytRemove) {
-
-                        mPresenter.deleteRendicionForCod(entityList.get(position).getIdRendicion());
-                        entityList.remove(position);
-                        rcvRendicion.getAdapter().notifyItemRemoved(position);
+                    } else if (viewID == R.id.lytRemove)
+                    {
+                        customDialogShow(position);
 
 
                     }
@@ -281,6 +282,31 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         return true;
     }
     //endregion
+
+
+
+    private void customDialogShow(int position)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.tittleDialog);
+        builder.setMessage(R.string.messageDialog);
+        builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
+        {
+            mPresenter.deleteRendicionForCod(entityList.get(position).getIdRendicion());
+            entityList.remove(position);
+            rcvRendicion.getAdapter().notifyItemRemoved(position);
+
+        });
+        builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
+        {
+            dialog.dismiss();
+
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 }
 
 

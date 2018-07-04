@@ -151,5 +151,12 @@
 
     <integer name="numFotos">1</integer>
 
+    <string name="validarCampos">Revisar los datos, todos los campos son obligatios</string>
+    <string name="btnPositive">Aceptar</string>
+    <string name="btnNegative">Cancelar</string>
+    <string name="tittleDialog">Confirmacion</string>
+    <string name="messageDialog">¿Desea eliminar la rendicion?</string>
+
+
 </resources>
 

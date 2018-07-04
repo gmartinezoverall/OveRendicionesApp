@@ -171,10 +171,12 @@ public class FacturaFragment extends Fragment {
                 String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
 
-                ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                        String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
+                if (ValideWidgets()) {
 
+                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
+                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                            String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
+                }
                 break;
 
             case R.id.spnTipoGasto:
@@ -244,6 +246,19 @@ public class FacturaFragment extends Fragment {
 
 
         }
+    }
+
+
+    private boolean ValideWidgets()
+    {
+        if (etxRuc.getText().toString().isEmpty() || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
+                etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
+                ||  pathImage == null)
+        {
+            Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
     }
 
 }

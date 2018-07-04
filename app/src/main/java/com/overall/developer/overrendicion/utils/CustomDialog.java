@@ -1,7 +1,12 @@
 package com.overall.developer.overrendicion.utils;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+
+import com.overall.developer.overrendicion.R;
 
 import cn.refactor.lib.colordialog.ColorDialog;
 import pl.droidsonroids.gif.GifDrawable;
@@ -26,6 +31,7 @@ public class CustomDialog
         }).setNegativeListener(R.string.cancel, dialog12 -> dialog12.dismiss()).show();*/
         return dialog;
     }
+
 
 
 }

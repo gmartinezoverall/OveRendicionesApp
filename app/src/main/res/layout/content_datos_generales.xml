@@ -118,7 +118,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Detalla el movito:" />
+                android:text="Detalla el motivo:" />
 
             <EditText
                 android:id="@+id/txvDetMotivo"

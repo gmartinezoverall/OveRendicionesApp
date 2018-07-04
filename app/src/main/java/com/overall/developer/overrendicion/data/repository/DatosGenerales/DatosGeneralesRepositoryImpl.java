@@ -69,7 +69,7 @@ public class DatosGeneralesRepositoryImpl implements DatosGeneralesRepository
     }
 
     @Override
-    public String getProvinciaDB(String idProvincia)
+    public ProvinciaBean getProvinciaDB(String idProvincia)
     {
         return mDBDatosGenerales.getProvinciaDB(idProvincia);
     }

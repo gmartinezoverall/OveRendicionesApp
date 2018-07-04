@@ -18,7 +18,7 @@ public interface DatosGeneralesRepository
     void sendUpdateLiquidacionAPI(UpdateLiquidationRequest request);
     boolean existsRendicion();
     void changeStatusLiquidacion();
-    String getProvinciaDB(String idProvincia);
+    ProvinciaBean getProvinciaDB(String idProvincia);
 
 
     void updateSuccess(String message) ;
