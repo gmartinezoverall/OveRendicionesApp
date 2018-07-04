@@ -4,17 +4,21 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +31,10 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.adapterImage.ImageAdapter;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -38,7 +42,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class VoucherBancarioFragment extends Fragment {
 
@@ -56,10 +63,10 @@ public class VoucherBancarioFragment extends Fragment {
     CustomEditText etxPrecioVenta;
     @BindView(R.id.etxNDocumento)
     CustomEditText etxNDocumento;
-    @BindView(R.id.rcvFoto)
-    RecyclerView rcvFoto;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
 
     private SpinnerDialog spinnerDialogTipoDoc, spnDialogBanco;
     private String rtgId, banco;
@@ -68,8 +75,8 @@ public class VoucherBancarioFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
-    ImageAdapter adapter;
-    ArrayList<String> listImage;
+
+    String pathImage;
 
     @Nullable
     @Override
@@ -105,10 +112,6 @@ public class VoucherBancarioFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
-        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
-        adapter = new ImageAdapter(mView.getContext());
-        rcvFoto.setAdapter(adapter);
-
         return mView;
 
     }
@@ -119,6 +122,7 @@ public class VoucherBancarioFragment extends Fragment {
         //spnBanco.setText(String.valueOf(rendicionEntity.banco));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
         //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
 
     }
@@ -159,7 +163,7 @@ public class VoucherBancarioFragment extends Fragment {
                 String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new VoucherBancarioEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
                         String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(banco), String.valueOf(tipoMoneda), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId),
-                        String.valueOf(listImage.get(0))));
+                        String.valueOf(pathImage)));
 
                 break;
             case R.id.btnFoto:
@@ -176,8 +180,24 @@ public class VoucherBancarioFragment extends Fragment {
         switch (requestCode) {
             case (100): {
                 if (resultCode == Activity.RESULT_OK) {
-                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-                    adapter.AddImage(listImage);
+                    File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
+
+                    new Compressor(mView.getContext())
+                            .setQuality(95)
+                            .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .compressToFileAsFlowable(imageFile)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(file ->
+                            {
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                pathImage = file.getAbsolutePath();
+
+                            }, throwable ->
+                            {
+                                Log.i("ErrorCompressImage", throwable.getMessage());
+                            });
+
                 }
             }
             break;

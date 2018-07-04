@@ -81,13 +81,19 @@ public class FormularioInteractorImpl implements FormularioInteractor
         entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
         entity.setCodLiquidacion(codLiqui);
         entity.setIdUsuario(mRepository.getIdUsuarioDB());
+        Log.i("NDaImage", entity.getFoto());
+        String pathTemp = entity.getFoto();
+
+        entity.setFoto(Util.SaveImage(entity.getFoto()));//se guardo la foto en el archivo overRendicion
+        Log.i("NDaImage", entity.getFoto());
+        File file = new File(pathTemp);
+        file.delete();
 
         RendicionBean bean = new RendicionBean(entity.getIdRendicion(), entity.getCodRendicion(), entity.getRdoId(), typeFragment.get(1), entity.getCodLiquidacion(), entity.getIdUsuario(),
                 entity.getNumeroDoc(), entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(),
                 entity.getFechaDocumento(), entity.getFechaVencimiento(), entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(),
                 entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(), entity.getCodSuspencionH(), entity.getTipoMoneda(),
                 entity.getTipoCambio(), entity.getFoto(), false);
-
 
         Integer idRendicion = mRepository.saveDataDB(bean);
 

@@ -13,6 +13,8 @@ import com.overall.developer.overrendicion.RendicionApplication;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 import id.zelory.compressor.Compressor;
@@ -115,51 +117,29 @@ public class Util
         return valor;
     }
 
-
-    public static String compressImage(Context context, String pathString)
-    {
-        File imageFile = new File(pathString);
-        AtomicReference<File> imagePath = new AtomicReference<>();
-        new Compressor(context)
-                .compressToFileAsFlowable(imageFile)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(file ->
-                {
-                    imagePath.set(file);
-                    SaveImage(file);
-                    //compressedImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                    //image = file.getAbsolutePath();
-                    //Log.i("NDaImage", String.valueOf(String.format(getReadableFileSize(file.length()))));
-
-                }, throwable ->
-                {
-                    Log.i("ErrorCompressImage", throwable.getMessage());
-
-                });
-        return imageFile.getAbsolutePath();
-
-    }
-
-    public static void SaveImage(File filepath)
+    public static String SaveImage(String filepath)
     {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
         File dir = new File(path);
         dir.mkdirs();
-        File file = new File(path,"Image-3.jpg" );
+
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss'.jpg'").format(new Date());
+        File file = new File(path,fileName);
         file.mkdirs();
 
         if (file.exists ()) file.delete ();
         try {
             FileOutputStream out = new FileOutputStream(file);
-            Bitmap bitmap = BitmapFactory.decodeFile(filepath.getAbsolutePath());
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            Bitmap bitmap = BitmapFactory.decodeFile(filepath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out);
             out.flush();
             out.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return file.getAbsolutePath();
     }
 
 }

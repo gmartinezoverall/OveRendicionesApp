@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +31,12 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.adapterImage.ImageAdapter;
+
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -39,10 +44,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
-public class BoletaVentaFragment extends Fragment {
+public class BoletaVentaFragment extends Fragment
+{
 
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
@@ -70,10 +79,10 @@ public class BoletaVentaFragment extends Fragment {
     CustomEditText etxObservaciones;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.rcvFoto)
-    RecyclerView rcvFoto;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
@@ -81,8 +90,7 @@ public class BoletaVentaFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
-    ImageAdapter adapter;
-    ArrayList<String> listImage;
+    String pathImage;
 
     @Nullable
     @Override
@@ -115,10 +123,6 @@ public class BoletaVentaFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
-        rcvFoto.setLayoutManager(new LinearLayoutManager(mView.getContext()));
-        adapter = new ImageAdapter(mView.getContext());
-        rcvFoto.setAdapter(adapter);
-
         return mView;
     }
 
@@ -135,6 +139,7 @@ public class BoletaVentaFragment extends Fragment {
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
         //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
     }
 
@@ -169,7 +174,7 @@ public class BoletaVentaFragment extends Fragment {
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                 ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletaVentaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                         String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(idProvincia), String.valueOf(etxObservaciones.getText()), String.valueOf(listImage.get(0))));
+                        String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(idProvincia), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
                 break;
 
             case R.id.spnTipoGasto:
@@ -198,9 +203,26 @@ public class BoletaVentaFragment extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK) {
-                    listImage = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-                    adapter.AddImage(listImage);
+                if (resultCode == Activity.RESULT_OK)
+                {
+                    File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
+
+                    new Compressor(mView.getContext())
+                            .setQuality(95)
+                            .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .compressToFileAsFlowable(imageFile)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(file ->
+                            {
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                pathImage = file.getAbsolutePath();
+
+                            }, throwable ->
+                            {
+                                Log.i("ErrorCompressImage", throwable.getMessage());
+                            });
+
                 }
             }
             break;
