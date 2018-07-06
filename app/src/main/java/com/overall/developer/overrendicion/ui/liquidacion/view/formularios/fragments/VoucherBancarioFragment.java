@@ -75,6 +75,7 @@ public class VoucherBancarioFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
+    TipoGastoEntity gastoEntity;
 
     String pathImage;
 
@@ -116,14 +117,19 @@ public class VoucherBancarioFragment extends Fragment {
 
     }
 
-    private void setAllDefaultValues() {
+    private void setAllDefaultValues()
+    {
+        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGasto();
+
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
         //spnBanco.setText(String.valueOf(rendicionEntity.banco));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
-        //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
+
+        spnTipoGasto.setText(gastoEntity.getRtgDes());
+        rtgId = (gastoEntity.getRtgId());
 
     }
 

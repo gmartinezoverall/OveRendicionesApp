@@ -124,4 +124,12 @@ public class DBFormulariosImpl implements DBFormularios
         return bancoList;
     }
 
+    @Override
+    public TipoDocumentoBean getDefaultTipoGastoDB(String rtgId)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        TipoDocumentoBean bean = mRealm.where(TipoDocumentoBean.class).equalTo("rtgId", rtgId).findFirst();
+        return bean;
+    }
+
 }

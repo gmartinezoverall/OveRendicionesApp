@@ -92,6 +92,7 @@ public class FacturaFragment extends Fragment {
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
+    TipoGastoEntity gastoEntity;
     String pathImage;
 
     @Nullable
@@ -124,7 +125,10 @@ public class FacturaFragment extends Fragment {
         return mView;
     }
 
-    private void setAllDefaultValues() {
+    private void setAllDefaultValues()
+    {
+        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGasto();
+
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
@@ -135,7 +139,8 @@ public class FacturaFragment extends Fragment {
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
-        //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
+        spnTipoGasto.setText(gastoEntity.getRtgDes());
+        rtgId = (gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
         imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 

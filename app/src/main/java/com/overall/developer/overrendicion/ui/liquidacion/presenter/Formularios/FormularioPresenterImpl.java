@@ -77,4 +77,10 @@ public class FormularioPresenterImpl implements FormularioPresenter
         return mInteractor.getAllBancos();
     }
 
+    @Override
+    public TipoGastoEntity getDefaultTipoGasto(String rtgId)
+    {
+        return mInteractor.getDefaultTipoGasto(rtgId);
+    }
+
 }

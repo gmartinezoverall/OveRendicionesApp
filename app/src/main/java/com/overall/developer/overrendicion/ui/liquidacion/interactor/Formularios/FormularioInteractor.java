@@ -27,4 +27,5 @@ public interface FormularioInteractor
 
     List<BancoEntity> getAllBancos();
 
+    TipoGastoEntity getDefaultTipoGasto(String rtgId);
 }

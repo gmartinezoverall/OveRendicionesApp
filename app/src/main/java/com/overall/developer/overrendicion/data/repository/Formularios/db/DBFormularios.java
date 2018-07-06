@@ -31,4 +31,6 @@ public interface DBFormularios
     String getCodRendicion(Integer idRendicion);
 
     List<BancoBean> getAllBancos();
+
+    TipoDocumentoBean getDefaultTipoGastoDB(String rtgId);
 }

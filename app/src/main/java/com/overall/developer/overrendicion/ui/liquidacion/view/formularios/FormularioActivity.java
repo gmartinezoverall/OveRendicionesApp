@@ -163,6 +163,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return rendicionEntity;//devuelve los valores por defecto
     }
 
+    public TipoGastoEntity getDefaultTipoGasto()
+    {
+        return mPresenter.getDefaultTipoGasto(rendicionEntity.getRtgId());
+    }
+
     public List<TipoGastoEntity> getListSpinner() {
         return mPresenter.getDocumentForId(String.valueOf(Util.getIdFragment(dropdownview.getSelectingPosition())));
     }

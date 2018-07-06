@@ -170,6 +170,14 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
     }
 
+    @Override
+    public TipoGastoEntity getDefaultTipoGasto(String rtgId)
+    {
+        TipoDocumentoBean bean = mRepository.getDefaultTipoGastoDB(rtgId);
+        TipoGastoEntity entity = new TipoGastoEntity(bean.getRtgId(), bean.getRtgDes());
+        return entity;
+    }
+
 
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)
     {

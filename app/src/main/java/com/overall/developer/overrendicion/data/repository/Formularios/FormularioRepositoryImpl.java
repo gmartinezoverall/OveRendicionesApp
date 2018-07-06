@@ -99,5 +99,10 @@ public class FormularioRepositoryImpl implements FormularioRepository
         return mDbFormularios.getAllBancos();
     }
 
+    @Override
+    public TipoDocumentoBean getDefaultTipoGastoDB(String rtgId) {
+        return mDbFormularios.getDefaultTipoGastoDB(rtgId);
+    }
+
 
 }

@@ -85,11 +85,12 @@ public class BoletaVentaFragment extends Fragment
     ImageView imgFoto;
 
     private SpinnerDialog spinnerDialog;
-    private String idProvincia;
+    private String rtgId;
 
     Unbinder unbinder;
     View mView;
     RendicionEntity rendicionEntity;
+    TipoGastoEntity gastoEntity;
     String pathImage;
 
     @Nullable
@@ -116,7 +117,7 @@ public class BoletaVentaFragment extends Fragment
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
             spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            idProvincia = ((TipoGastoEntity) item).getRtgId().toString();
+            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
@@ -126,7 +127,10 @@ public class BoletaVentaFragment extends Fragment
         return mView;
     }
 
-    private void setAllDefaultValues() {
+    private void setAllDefaultValues()
+    {
+        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGasto();
+
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
@@ -137,7 +141,8 @@ public class BoletaVentaFragment extends Fragment
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
-        //spnTipoGasto.setText(String.valueOf(rendicionEntity.tipo));
+        spnTipoGasto.setText(gastoEntity.getRtgDes());
+        rtgId = (gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
         imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
@@ -177,7 +182,7 @@ public class BoletaVentaFragment extends Fragment
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletaVentaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                             String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                            String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(idProvincia), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
+                            String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
 
                 }
