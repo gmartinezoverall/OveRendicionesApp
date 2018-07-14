@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -196,7 +197,10 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
             startActivity(new Intent(this, PendienteActivity.class));
             customType(this, "fadein-to-fadeout");
             finish();
-        } else if (id == R.id.menu_refresh) {
+        } else if (id == R.id.menu_refresh)
+        {
+            mPresenter.listRendicion();
+            Log.i("Rendicion","Listando");
 
         } else if (id == R.id.menu_sync) {
 

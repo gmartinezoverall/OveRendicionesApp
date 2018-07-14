@@ -11,6 +11,7 @@ public class FacturaEntity implements FormularioEntity {
     private String numeroDocumento;
     private String fechaDocumento;
     private String tipoMoneda;
+    private String valorNeto;
     private String valorVenta;
     private String igv;
     private String afectoIgv;
@@ -23,7 +24,7 @@ public class FacturaEntity implements FormularioEntity {
     public FacturaEntity() {
     }
 
-    public FacturaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones, String foto) {
+    public FacturaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String valorNeto, String precioVenta, String tipoGasto, String observaciones, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
@@ -33,6 +34,7 @@ public class FacturaEntity implements FormularioEntity {
         this.igv = igv;
         this.afectoIgv = afectoIgv;
         this.otrosGatos = otrosGatos;
+        this.valorNeto = valorNeto;
         this.precioVenta = precioVenta;
         this.tipoGasto = tipoGasto;
         this.observaciones = observaciones;
@@ -93,6 +95,14 @@ public class FacturaEntity implements FormularioEntity {
 
     public void setTipoMoneda(String tipoMoneda) {
         this.tipoMoneda = tipoMoneda;
+    }
+
+    public String getValorNeto() {
+        return valorNeto;
+    }
+
+    public void setValorNeto(String valorNeto) {
+        this.valorNeto = valorNeto;
     }
 
     public String getValorVenta() {
@@ -173,6 +183,7 @@ public class FacturaEntity implements FormularioEntity {
         entity.setIgv(facturaEntity.igv);
         entity.setAfectoIgv(facturaEntity.afectoIgv);
         entity.setOtroGasto(facturaEntity.otrosGatos);
+        entity.setValorNeto(facturaEntity.valorNeto);
         entity.setPrecioTotal(facturaEntity.precioVenta);
         entity.setRtgId(facturaEntity.tipoGasto);
         entity.setObservacion(facturaEntity.observaciones);

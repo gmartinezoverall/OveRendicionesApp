@@ -58,21 +58,33 @@ public class DBLoginUserImpl implements DBLoginUser
     public void registerUserDB(UserBean userBean)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        userBean.setStatus(true);
+        mRealm.executeTransaction(realm ->
+        {
+            userBean.setStatus(true);
+            mRealm.insertOrUpdate(userBean);
 
-        mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(userBean));
+        });
 
     }
 
     private UserBean validateUserRealm(String user, String password)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        final UserBean userBeans = mRealm.where(UserBean.class).
-                equalTo("mUser",user).
+        final UserBean userBean = mRealm.where(UserBean.class).
+                equalTo("numDocBeneficiario",user).
                 and().
-                equalTo("mPassword", password).findFirst();
+                equalTo("password", password).findFirst();
 
-        return userBeans;
+
+
+        mRealm.executeTransaction(realm ->
+        {
+            userBean.setStatus(true);
+            mRealm.insertOrUpdate(userBean);
+
+        });
+
+        return userBean;
 
     }
 

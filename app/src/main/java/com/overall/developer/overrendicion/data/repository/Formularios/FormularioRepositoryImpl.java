@@ -104,5 +104,10 @@ public class FormularioRepositoryImpl implements FormularioRepository
         return mDbFormularios.getDefaultTipoGastoDB(rtgId);
     }
 
+    @Override
+    public BancoBean getDefaultBancoDB(String bcoCod) {
+        return mDbFormularios.getDefaultBancoDB(bcoCod);
+    }
+
 
 }

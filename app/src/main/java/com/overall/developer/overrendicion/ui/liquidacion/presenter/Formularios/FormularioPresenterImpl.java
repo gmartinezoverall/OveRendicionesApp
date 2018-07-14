@@ -83,4 +83,9 @@ public class FormularioPresenterImpl implements FormularioPresenter
         return mInteractor.getDefaultTipoGasto(rtgId);
     }
 
+    @Override
+    public BancoEntity getDefaultBanco(String bcoCod) {
+        return mInteractor.getDefaultBanco(bcoCod);
+    }
+
 }

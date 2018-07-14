@@ -7,6 +7,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 
@@ -130,6 +131,15 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         TipoDocumentoBean bean = mRealm.where(TipoDocumentoBean.class).equalTo("rtgId", rtgId).findFirst();
         return bean;
+    }
+
+    @Override
+    public BancoBean getDefaultBancoDB(String bcoCod)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        BancoBean bean = mRealm.where(BancoBean.class).equalTo("code", bcoCod).findFirst();
+        return bean;
+
     }
 
 }

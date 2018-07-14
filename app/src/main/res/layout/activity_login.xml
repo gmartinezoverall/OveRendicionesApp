@@ -21,12 +21,6 @@
             android:layout_height="match_parent"
             android:src="@drawable/login01" />
 
-        <com.flaviofaria.kenburnsview.KenBurnsView
-            android:id="@+id/image2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/login02" />
-
     </ViewSwitcher>
 
     <FrameLayout
@@ -76,7 +70,7 @@
         android:background="@drawable/edittext_style"
         android:ems="10"
         android:hint="@string/user"
-        android:text="42620807"
+
         android:inputType="number"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -97,7 +91,6 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:text="developers"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"

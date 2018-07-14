@@ -33,4 +33,6 @@ public interface DBFormularios
     List<BancoBean> getAllBancos();
 
     TipoDocumentoBean getDefaultTipoGastoDB(String rtgId);
+
+    BancoBean getDefaultBancoDB(String bcoCod);
 }

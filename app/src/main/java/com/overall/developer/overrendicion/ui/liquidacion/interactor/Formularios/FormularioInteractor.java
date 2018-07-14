@@ -28,4 +28,6 @@ public interface FormularioInteractor
     List<BancoEntity> getAllBancos();
 
     TipoGastoEntity getDefaultTipoGasto(String rtgId);
+
+    BancoEntity getDefaultBanco(String bcoCod);
 }

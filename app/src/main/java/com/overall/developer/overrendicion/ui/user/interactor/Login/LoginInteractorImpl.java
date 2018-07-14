@@ -1,23 +1,15 @@
 package com.overall.developer.overrendicion.ui.user.interactor.Login;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.entity.UserEntity;
 import com.overall.developer.overrendicion.data.repository.Login.LoginRepository;
 import com.overall.developer.overrendicion.data.repository.Login.LoginRepositoryImpl;
 import com.overall.developer.overrendicion.ui.user.presenter.Login.LoginPresenter;
-import com.overall.developer.overrendicion.ui.user.view.Login.ImageList.ImageList;
 import com.overall.developer.overrendicion.utils.Util;
 
-
-import java.util.Arrays;
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -100,7 +92,6 @@ public class LoginInteractorImpl implements LoginInteractor
 
         }else
         {
-
             if (mRepository.searchUserBD())  mRepository.validateUserDB(usuario, password);
 
             else mRepository.validateError(mContext.getResources().getString(R.string.sessionError));

@@ -135,7 +135,8 @@ public class FacturaFragment extends Fragment {
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
+        //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
+        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
@@ -180,7 +181,7 @@ public class FacturaFragment extends Fragment {
 
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                             String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
-                            String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
+                            String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxValorVenta.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
                 }
                 break;
 
@@ -226,9 +227,9 @@ public class FacturaFragment extends Fragment {
                                 pathImage = file.getAbsolutePath();
 
                             }, throwable ->
-                            {
-                                Log.i("ErrorCompressImage", throwable.getMessage());
-                            });
+
+                                Log.i("ErrorCompressImage", throwable.getMessage())
+                            );
 
                 }
             }

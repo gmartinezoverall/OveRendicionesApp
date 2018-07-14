@@ -168,6 +168,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return mPresenter.getDefaultTipoGasto(rendicionEntity.getRtgId());
     }
 
+    public BancoEntity getDefaultBanco()
+    {
+        return mPresenter.getDefaultBanco(rendicionEntity.getBcoCod());
+    }
+
     public List<TipoGastoEntity> getListSpinner() {
         return mPresenter.getDocumentForId(String.valueOf(Util.getIdFragment(dropdownview.getSelectingPosition())));
     }

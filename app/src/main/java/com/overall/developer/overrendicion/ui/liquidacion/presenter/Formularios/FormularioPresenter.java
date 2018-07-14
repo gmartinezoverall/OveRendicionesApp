@@ -31,4 +31,6 @@ public interface FormularioPresenter
 
 
     TipoGastoEntity getDefaultTipoGasto(String rtgId);
+
+    BancoEntity getDefaultBanco(String bcoCod);
 }

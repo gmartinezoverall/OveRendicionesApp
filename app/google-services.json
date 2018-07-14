@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "551013620695",
+    "firebase_url": "https://overrendicion.firebaseio.com",
+    "project_id": "overrendicion",
+    "storage_bucket": "overrendicion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551013620695:android:acadae7a2bcc0b53",
+        "android_client_info": {
+          "package_name": "com.overall.developer.overrendicion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551013620695-6hdcn2nfr7m9dofgds8k3gl3f737q703.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.overall.developer.overrendicion",
+            "certificate_hash": "b38538a7345f079fa6dadeab1711ad4c55880715"
+          }
+        },
+        {
+          "client_id": "551013620695-st0uap6g0d9366kaj3cbq11r7kjaa6pn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUmZ05hjImv-4-Rl3gfXbG1rxXp008npA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551013620695-st0uap6g0d9366kaj3cbq11r7kjaa6pn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

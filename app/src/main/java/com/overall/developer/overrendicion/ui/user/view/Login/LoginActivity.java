@@ -38,11 +38,13 @@ import pl.droidsonroids.gif.GifDrawable;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
+import static com.flaviofaria.kenburnsview.KenBurnsView.TransitionListener;
+
 /**
  * Created by terry on 3/9/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements LoginView, KenBurnsView.TransitionListener {
+public class LoginActivity extends AppCompatActivity implements LoginView, TransitionListener {
     //region injeccion de Vistas
     @BindView(R.id.view_pager_frame)
     FrameLayout mViewPagerFrame;
@@ -66,8 +68,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, KenBu
     View mView6;
     @BindView(R.id.image)
     KenBurnsView image;
-    @BindView(R.id.image2)
-    KenBurnsView image2;
     @BindView(R.id.viewSwitcher)
     ViewSwitcher viewSwitcher;
 
@@ -75,9 +75,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView, KenBu
 
     private LoginPresenter mPresenter;
     private Animation uptodown, downtoup;
-    private static final int TRANSITIONS_TO_SWITCH = 3;
+    private static final int TRANSITIONS_TO_SWITCH = 2;
 
     private ViewSwitcher mViewSwitcher;
+    private  boolean imageState;
 
     private int mTransitionsCount = 0;
 
@@ -90,7 +91,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, KenBu
         mPresenter = new LoginPresenterImpl(this, this);
         checkLogin();
         image.setTransitionListener(this);
-        image2.setTransitionListener(this);
 
         initialAnim();
 
@@ -237,10 +237,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView, KenBu
     public void onTransitionEnd(Transition transition)
     {
         mTransitionsCount++;
-        if (mTransitionsCount == TRANSITIONS_TO_SWITCH) {
-            mViewSwitcher.showNext();
+        if (mTransitionsCount == TRANSITIONS_TO_SWITCH)
+        {
+            if (imageState)
+            {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.login02));
+                imageState = false;
+            }
+            else
+            {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.login01));
+                imageState = true;
+            }
+
             mTransitionsCount = 0;
         }
     }
+
+
+
 
 }

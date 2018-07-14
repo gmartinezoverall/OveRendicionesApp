@@ -20,7 +20,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
-import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
 import com.github.florent37.awesomebar.AwesomeBar;
@@ -42,6 +41,7 @@ import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration;
 import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView;
 import xyz.sangcomz.stickytimelineview.model.SectionInfo;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
 
 public class PendienteActivity extends AppCompatActivity implements PendienteView, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
 
@@ -97,12 +97,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     private void awsInitial()
     {
-        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
-            @Override
-            public void onComplete(AWSStartupResult awsStartupResult) {
-                Log.d("AWS", "Conneccion exitosa a AWS :D");
-            }
-        }).execute();
+        AWSMobileClient.getInstance().initialize(this, awsStartupResult -> Log.d("AWS", "Conneccion exitosa a AWS :D")).execute();
     }
 
     //region Toolbar

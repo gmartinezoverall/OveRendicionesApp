@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.androidnetworking.AndroidNetworking;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -17,6 +19,7 @@ public class RendicionApplication extends Application
     public void onCreate()
     {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         sLiquidacionApplication = this;
         sContext = getApplicationContext();

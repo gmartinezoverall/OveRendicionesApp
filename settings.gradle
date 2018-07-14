@@ -3,7 +3,7 @@ include ':app', 'Stickytimelineview', 'DialogLibrary', 'ToolbarLibrary', 'Toolba
 gradle.ext.set('versionCode', 3)
 gradle.ext.set('versionName', '0.0.3')
 
-gradle.ext.set('minSdk', 17)
+gradle.ext.set('minSdk', 19)
 gradle.ext.set('targetSdk', 27)
 gradle.ext.set('compileSdk', 27)
 gradle.ext.set('buildTools', '27.0.3')
@@ -18,3 +18,4 @@ gradle.ext.set('rxAndroidVersion', '2.0.2')
 gradle.ext.set('API_KEY', 'd30023cb549117d083a65e075fec212ekj4ht784y')
 gradle.ext.set('URL_BASE_DEBUG', 'https://app.overall.pe/WSRendiciones/')
 gradle.ext.set('URL_BASE_RELEASE', 'https://app.overall.pe/WSRendiciones/')
+gradle.ext.set('URL_AWS', 'https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/')

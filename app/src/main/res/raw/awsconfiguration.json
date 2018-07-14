@@ -4,23 +4,35 @@
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "us-east-1:637bc6c4-cc81-47ee-a674-9e853eb48baf",
-        "Region": "us-east-1"
+        "PoolId": "us-east-2:5da16a77-7996-49fc-ac36-c1af2777b2ee",
+        "Region": "us-east-2"
       }
     }
   },
   "IdentityManager": {
     "Default": {}
   },
+  "S3TransferUtility": {
+    "Default": {
+      "Bucket": "overrendicion-userfiles-mobilehub-1058830409",
+      "Region": "us-east-2"
+    }
+  },
   "PinpointAnalytics": {
     "Default": {
-      "AppId": "dc408bed45f34d7abc94a6164b73cb10",
+      "AppId": "5d208a638cff40b89f312cca3ade883a",
       "Region": "us-east-1"
     }
   },
   "PinpointTargeting": {
     "Default": {
       "Region": "us-east-1"
+    }
+  },
+  "UserFileManager": {
+    "Default": {
+      "Bucket": "overrendicion-userfiles-mobilehub-1058830409",
+      "Region": "us-east-2"
     }
   }
 }

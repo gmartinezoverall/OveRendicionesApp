@@ -12,6 +12,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class DBRendicionImpl implements DBRendicion
 {
@@ -28,8 +29,7 @@ public class DBRendicionImpl implements DBRendicion
         Realm mRealm = Realm.getDefaultInstance();
 
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
-        String codLiquidacion  = liquidacionBean.getCodLiquidacion();
-        List<RendicionBean>  rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", codLiquidacion).findAll();
+        List<RendicionBean>  rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", liquidacionBean.getCodLiquidacion()).sort("idRendicion", Sort.DESCENDING).findAll();
         return rendicionList;
     }
 

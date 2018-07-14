@@ -76,6 +76,7 @@ public class VoucherBancarioFragment extends Fragment {
     View mView;
     RendicionEntity rendicionEntity;
     TipoGastoEntity gastoEntity;
+    BancoEntity bancoEntity;
 
     String pathImage;
 
@@ -120,16 +121,19 @@ public class VoucherBancarioFragment extends Fragment {
     private void setAllDefaultValues()
     {
         gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGasto();
+        bancoEntity = ((FormularioActivity)getContext()).getDefaultBanco();
 
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
-        //spnBanco.setText(String.valueOf(rendicionEntity.banco));
+
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
         spnTipoGasto.setText(gastoEntity.getRtgDes());
         rtgId = (gastoEntity.getRtgId());
+        spnBanco.setText(String.valueOf(bancoEntity.getDesc()));
+        banco = bancoEntity.getCode();
 
     }
 
@@ -202,9 +206,9 @@ public class VoucherBancarioFragment extends Fragment {
                                 pathImage = file.getAbsolutePath();
 
                             }, throwable ->
-                            {
-                                Log.i("ErrorCompressImage", throwable.getMessage());
-                            });
+
+                                Log.i("ErrorCompressImage", throwable.getMessage())
+                            );
 
                 }
             }
@@ -231,8 +235,8 @@ public class VoucherBancarioFragment extends Fragment {
 
     private boolean ValideWidgets()
     {
-        if (etxCalendar.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnBanco.getText().toString().isEmpty()
-                || etxPrecioVenta.getText().toString().isEmpty() || spnTipoGasto.getText().toString().isEmpty() ||  pathImage == null)
+        if (etxCalendar.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnBanco.getText().equals("Seleccionar")
+                || etxPrecioVenta.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") ||  pathImage == null)
         {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;

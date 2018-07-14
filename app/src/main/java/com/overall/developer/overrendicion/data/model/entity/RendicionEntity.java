@@ -11,6 +11,7 @@ public class RendicionEntity
     private String bienServicio;
     private String igv;
     private String afectoIgv;
+    private String valorNeto;
     private String precioTotal;
     private String observacion;
     private String fechaDocumento;
@@ -32,7 +33,7 @@ public class RendicionEntity
     public RendicionEntity() {
     }
 
-    public RendicionEntity(Integer idRendicion ,String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, String foto, boolean send) {
+    public RendicionEntity(Integer idRendicion ,String codRendicion, String rdoId, String codLiquidacion, String idUsuario, String numeroDoc, String bienServicio, String igv, String afectoIgv, String valorNeto, String precioTotal, String observacion, String fechaDocumento, String fechaVencimiento, String ruc, String razonSocial, String bcoCod, String tipoServicio, String rtgId, String otroGasto, String codDestino, String afectoRetencion, String codSuspencionH, String tipoMoneda, String tipoCambio, String foto, boolean send) {
         this.idRendicion = idRendicion;
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
@@ -42,6 +43,7 @@ public class RendicionEntity
         this.bienServicio = bienServicio;
         this.igv = igv;
         this.afectoIgv = afectoIgv;
+        this.valorNeto = valorNeto;
         this.precioTotal = precioTotal;
         this.observacion = observacion;
         this.fechaDocumento = fechaDocumento;
@@ -129,6 +131,14 @@ public class RendicionEntity
 
     public void setAfectoIgv(String afectoIgv) {
         this.afectoIgv = afectoIgv;
+    }
+
+    public String getValorNeto() {
+        return valorNeto;
+    }
+
+    public void setValorNeto(String valorNeto) {
+        this.valorNeto = valorNeto;
     }
 
     public String getPrecioTotal() {

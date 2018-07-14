@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 
+import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
@@ -22,6 +23,7 @@ import com.overall.developer.overrendicion.data.repository.Formularios.Formulari
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepositoryImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.utils.Util;
+import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -90,15 +92,19 @@ public class FormularioInteractorImpl implements FormularioInteractor
         file.delete();
 
         RendicionBean bean = new RendicionBean(entity.getIdRendicion(), entity.getCodRendicion(), entity.getRdoId(), typeFragment.get(1), entity.getCodLiquidacion(), entity.getIdUsuario(),
-                entity.getNumeroDoc(), entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getPrecioTotal(), entity.getObservacion(),
+                entity.getNumeroDoc(), entity.getBienServicio(), entity.getIgv(), entity.getAfectoIgv(), entity.getValorNeto(), entity.getPrecioTotal(), entity.getObservacion(),
                 entity.getFechaDocumento(), entity.getFechaVencimiento(), entity.getRuc(), entity.getRazonSocial(), entity.getBcoCod(), entity.getTipoServicio(),
                 entity.getRtgId(), entity.getOtroGasto(), entity.getCodDestino(), entity.getAfectoRetencion(), entity.getCodSuspencionH(), entity.getTipoMoneda(),
                 entity.getTipoCambio(), entity.getFoto(), false);
 
         Integer idRendicion = mRepository.saveDataDB(bean);
 
+
         if (Util.isOnline())
         {
+            AwsUtility.UploadTransferUtilityS3(mContext,entity.getFoto());
+            entity.setFoto(BuildConfig.URL_AWS + entity.getFoto().substring(34));//se genera la URL de AWS para enviarlo por el WS
+
             if (entity.getCodRendicion().equals("-"))
             {
                 entity.setCodRendicion("");
@@ -137,7 +143,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
         RendicionBean bean = mRepository.setRendicionForEditDB(Integer.parseInt(idRendicion));
 
         RendicionEntity entity = new RendicionEntity(bean.getIdRendicion(), bean.getCodRendicion(), bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
-                bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(), bean.getFechaVencimiento(),
+                bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(), bean.getFechaVencimiento(),
                 bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(), bean.getCodDestino(), bean.getAfectoRetencion(),
                 bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend());
 
@@ -175,6 +181,14 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         TipoDocumentoBean bean = mRepository.getDefaultTipoGastoDB(rtgId);
         TipoGastoEntity entity = new TipoGastoEntity(bean.getRtgId(), bean.getRtgDes());
+        return entity;
+    }
+
+    @Override
+    public BancoEntity getDefaultBanco(String bcoCod)
+    {
+        BancoBean bean = mRepository.getDefaultBancoDB(bcoCod);
+        BancoEntity entity = new BancoEntity(bean.getCode(), bean.getDesc());
         return entity;
     }
 
