@@ -39,10 +39,7 @@ public class ApiDatosGeneralesImpl implements ApiDatosGenerales
                     @Override
                     public void onSubscribe(Disposable d)
                     {
-
-
                     }
-
                     @Override
                     public void onNext(JSONObject jsonObject)
                     {
@@ -62,10 +59,7 @@ public class ApiDatosGeneralesImpl implements ApiDatosGenerales
                         {
                             Log.i("DatosLog",String.valueOf(e.getMessage()));
                         }
-
-
                     }
-
                     @Override
                     public void onError(Throwable e)
                     {

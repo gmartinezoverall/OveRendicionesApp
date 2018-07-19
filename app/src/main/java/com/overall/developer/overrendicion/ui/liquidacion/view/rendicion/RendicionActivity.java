@@ -68,7 +68,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     private OnActivityTouchListener touchListener;
 
     RendicionPresenter mPresenter;
-    private RealmBrowser realmBrowser;
+    //private RealmBrowser realmBrowser;
     private LiquidacionEntity mLiquidacionEntity;
 
     List<RendicionEntity> entityList = new ArrayList<>();
@@ -157,18 +157,18 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     protected void onResume() {
         super.onResume();
-        realmBrowser = new RealmBrowser();
+/*        realmBrowser = new RealmBrowser();
         realmBrowser.start();
-        realmBrowser.showServerAddress(this);
+        realmBrowser.showServerAddress(this);*/
         rcvRendicion.addOnItemTouchListener(onTouchListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (realmBrowser != null) {
+/*        if (realmBrowser != null) {
             realmBrowser.stop();
-        }
+        }*/
     }
 
     @Override

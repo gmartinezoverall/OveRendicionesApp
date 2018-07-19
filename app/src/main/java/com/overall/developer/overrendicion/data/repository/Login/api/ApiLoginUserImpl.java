@@ -65,7 +65,9 @@ public class ApiLoginUserImpl implements ApiLoginUser
                             if (jsonObject.getString("code").equals("0"))
                             {
                                 mRepository.passwordRecoveryResponse(String.valueOf(jsonObject.getString("message")));
-                            }else
+
+                            }
+                            else
                             {
                                 mRepository.passwordRecoveryError(String.valueOf(jsonObject.getString("message")));
                             }
@@ -94,6 +96,8 @@ public class ApiLoginUserImpl implements ApiLoginUser
     {
         Rx2AndroidNetworking.post(UrlApi.urlLogin)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
+/*                .addBodyParameter("dni",userEntity.getDni())
+                .addBodyParameter("password",userEntity.getPassword())*/
                 .addBodyParameter(userEntity)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -118,6 +122,13 @@ public class ApiLoginUserImpl implements ApiLoginUser
                                 mRepository.validateSucces(userBean.getNumDocBeneficiario(), userBean.getNombre(), userBean.getEmail());
 
 
+                            }else if (jsonObject.getString("code").equals("0103"))
+                            {
+                                mRepository.validateError(String.valueOf(jsonObject.getString("message")));
+                            }
+                            else if (jsonObject.getString("code").equals("0105"))
+                            {
+                                mRepository.validateError(String.valueOf(jsonObject.getString("message")));
                             }
                             else
                             {

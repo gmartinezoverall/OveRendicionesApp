@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
     private Animation uptodown, downtoup;
     private static final int TRANSITIONS_TO_SWITCH = 2;
 
-    private ViewSwitcher mViewSwitcher;
     private  boolean imageState;
 
     private int mTransitionsCount = 0;

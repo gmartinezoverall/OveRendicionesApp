@@ -144,7 +144,7 @@ public class BoletaVentaFragment extends Fragment
         spnTipoGasto.setText(gastoEntity.getRtgDes());
         rtgId = (gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
-        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
     }
 

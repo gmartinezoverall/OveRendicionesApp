@@ -23,7 +23,6 @@ import io.reactivex.schedulers.Schedulers;
 public class ApiCreateAccountImpl implements ApiCreateAccount
 {
     private CreateAccountRepository mRepository;
-    String response = null;
 
     public ApiCreateAccountImpl(CreateAccountRepository createAccountRepository)
     {
@@ -62,7 +61,33 @@ public class ApiCreateAccountImpl implements ApiCreateAccount
                     public void onNext(JSONObject jsonObject)
                     {
                         try {
-                            response = jsonObject.getString("message").toString();
+
+                            if (jsonObject.getString("code").equals("0"))
+                            {
+                                //Se deserializo el Jquery y se envio a la entidad User
+
+                                mRepository.createAccountSuccess(RendicionApplication.getContext().getResources().getString(R.string.createAccountSucces));
+
+
+                            }else if (jsonObject.getString("code").equals("0104"))
+                            {
+                                mRepository.createAccountError(String.valueOf(jsonObject.getString("message")));
+                            }
+                            else if (jsonObject.getString("code").equals("0106"))
+                            {
+                                mRepository.createAccountError(String.valueOf(jsonObject.getString("message")));
+                            }
+                            else if (jsonObject.getString("code").equals("0107"))
+                            {
+                                mRepository.createAccountError(String.valueOf(jsonObject.getString("message")));
+                            }
+                            else
+                            {
+                                mRepository.createAccountError(String.valueOf(jsonObject.getString("message")));
+                            }
+
+
+                            //response = jsonObject.getString("message").toString();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -76,9 +101,9 @@ public class ApiCreateAccountImpl implements ApiCreateAccount
                     @Override
                     public void onComplete()
                     {
-                            if (response.equals("OK")) mRepository.createAccountSuccess(RendicionApplication.getContext().getResources().getString(R.string.createAccountSucces));
+/*                            if (response.equals("OK")) mRepository.createAccountSuccess(RendicionApplication.getContext().getResources().getString(R.string.createAccountSucces));
 
-                            else mRepository.createAccountError(RendicionApplication.getContext().getResources().getString(R.string.createAccountError));
+                            else mRepository.createAccountError(RendicionApplication.getContext().getResources().getString(R.string.createAccountError));*/
 
                     }
                 });

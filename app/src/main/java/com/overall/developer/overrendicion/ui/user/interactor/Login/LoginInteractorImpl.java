@@ -94,7 +94,7 @@ public class LoginInteractorImpl implements LoginInteractor
         {
             if (mRepository.searchUserBD())  mRepository.validateUserDB(usuario, password);
 
-            else mRepository.validateError(mContext.getResources().getString(R.string.sessionError));
+            else mRepository.validateError(mContext.getResources().getString(R.string.servidorError) );
 
 
         }

@@ -30,6 +30,7 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter.PendienteAdapter;
+import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     private String dniUser = "";
     private String nombreUser = "";
     private String emailUser = "";
-
+    //private RealmBrowser realmBrowser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,8 +293,8 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     protected void onResume() {
         super.onResume();
 
-        Log.i("NDa","NDa");
-/*        realmBrowser = new RealmBrowser();
+/*        Log.i("NDa","NDa");
+        realmBrowser = new RealmBrowser();
         realmBrowser.start();
         realmBrowser.showServerAddress(this);*/
     }

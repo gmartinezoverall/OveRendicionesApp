@@ -128,7 +128,7 @@ public class VoucherBancarioFragment extends Fragment {
 
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
         spnTipoGasto.setText(gastoEntity.getRtgDes());
         rtgId = (gastoEntity.getRtgId());

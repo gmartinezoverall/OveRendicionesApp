@@ -136,7 +136,7 @@ public class FacturaFragment extends Fragment {
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
-        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
+        //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));

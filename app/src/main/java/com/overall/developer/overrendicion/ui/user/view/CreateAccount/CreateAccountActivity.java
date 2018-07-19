@@ -7,12 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.flaviofaria.kenburnsview.Transition;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenter;
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenterImpl;
-import com.overall.developer.overrendicion.utils.SessionManager;
+import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
+
+import static com.flaviofaria.kenburnsview.KenBurnsView.TransitionListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +28,7 @@ import io.rmiri.buttonloading.ButtonLoading;
  * Created by terry on 3/9/2018.
  */
 
-public class CreateAccountActivity extends AppCompatActivity implements CreateAccountView
-{
+public class CreateAccountActivity extends AppCompatActivity implements CreateAccountView, TransitionListener {
     //region Injeccion de Vistas
     @BindView(R.id.txvTittle)
     TextView mTxvTittle;
@@ -45,7 +49,14 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     //endregion
 
     CreateAccountPresenter mPresenter;
-    private SessionManager sessionManager;
+    @BindView(R.id.image)
+    KenBurnsView image;
+    @BindView(R.id.viewSwitcher)
+    ViewSwitcher viewSwitcher;
+
+    private  boolean imageState;
+    private int mTransitionsCount = 0;
+    private static final int TRANSITIONS_TO_SWITCH = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +66,11 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
         mPresenter = new CreateAccountPresenterImpl(this);
 
-        mBtnRegistrar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener()
-        {
+        image.setTransitionListener(this);
+
+        mBtnRegistrar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener() {
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 finishLoading();
             }
 
@@ -91,16 +102,13 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     @Override
     public void createAccountSuccess(String message)
     {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         mBtnRegistrar.setProgress(false);
-
-        //sessionManager = new SessionManager(this);
-        //sessionManager.createUserLoginSession(String.valueOf(mEtxUserDni.getText()), "NombreUser", String.valueOf(mEtxEmail.getText()));
-        startActivity(new Intent(this, PendienteActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
-    public void createAccountError(String message)
-    {
+    public void createAccountError(String message) {
         mBtnRegistrar.setProgress(false);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
@@ -114,5 +122,31 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     }
 
     //endregion
+
+    @Override
+    public void onTransitionStart(Transition transition) {
+
+    }
+
+    @Override
+    public void onTransitionEnd(Transition transition)
+    {
+        mTransitionsCount++;
+        if (mTransitionsCount == TRANSITIONS_TO_SWITCH)
+        {
+            if (imageState)
+            {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.login02));
+                imageState = false;
+            }
+            else
+            {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.login01));
+                imageState = true;
+            }
+
+            mTransitionsCount = 0;
+        }
+    }
 
 }

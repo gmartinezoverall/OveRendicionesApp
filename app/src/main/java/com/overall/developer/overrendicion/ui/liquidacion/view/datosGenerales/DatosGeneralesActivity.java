@@ -111,8 +111,6 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,8 +125,6 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         initialCalendar();
 
         Log.i("NDaFecha", mTxvFInicio.getText().toString());
-
-
     }
 
     @Override
@@ -157,8 +153,6 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
                 mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
             }
-
-
         });
         mCalendarView.buildCalendar();
     }

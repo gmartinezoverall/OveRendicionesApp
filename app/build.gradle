@@ -18,32 +18,40 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'OveRendicion'
+            keyPassword 'leodlvida'
+            storeFile file('D:/keyStore/OveRendicionKey.jks')
+            storePassword 'leodlvida'
+        }
+    }
     compileSdkVersion gradle.compileSdk
     buildToolsVersion gradle.buildTools
     defaultConfig {
         applicationId "com.overall.developer.overrendicion"
         minSdkVersion gradle.minSdk
         targetSdkVersion gradle.targetSdk
-        versionCode gradle.versionCode
         versionName gradle.versionName
+        versionCode gradle.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        signingConfig signingConfigs.config
     }
-
     buildTypes {
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "API_KEY", "\"$gradle.API_KEY\"")
-            buildConfigField("String", "URL_BASE", "\"$gradle.URL_BASE_DEBUG\"")
+            buildConfigField("String", "URL_BASE", "\"$gradle.URL_BASE_RELEASE\"")
             buildConfigField("String", "URL_AWS", "\"$gradle.URL_AWS\"")
 
         }
         debug {
             minifyEnabled false
             buildConfigField("String", "API_KEY", "\"$gradle.API_KEY\"")
-            buildConfigField("String", "URL_BASE", "\"$gradle.URL_BASE_RELEASE\"")
+            buildConfigField("String", "URL_BASE", "\"$gradle.URL_BASE_DEBUG\"")
             buildConfigField("String", "URL_AWS", "\"$gradle.URL_AWS\"")
         }
 
@@ -51,6 +59,8 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+    productFlavors {
     }
 }
 
