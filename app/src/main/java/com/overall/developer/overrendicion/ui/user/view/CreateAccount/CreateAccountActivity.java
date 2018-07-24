@@ -71,7 +71,8 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
         mBtnRegistrar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener() {
             @Override
             public void onClick() {
-                finishLoading();
+                if (ValideWidgets())finishLoading();
+
             }
 
             @Override
@@ -147,6 +148,16 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
             mTransitionsCount = 0;
         }
+    }
+
+    private boolean ValideWidgets()
+    {
+        if (mEtxUserDni.getText().toString().isEmpty() || mEtxPassword.getText().toString().isEmpty() || mEtxEmail.getText().toString().isEmpty() || mEtxPhone.getText().toString().isEmpty())
+        {
+            Toast.makeText(this, getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
     }
 
 }

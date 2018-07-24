@@ -41,9 +41,11 @@ public class DatosGeneralesInteractorImpl implements DatosGeneralesInteractor
     {
         LiquidacionBean bean =  mRepository.getForCodLiquidacion(codLiquidacion);
 
-        ProvinciaBean provBean = mRepository.getProvinciaDB(bean.getUbigeoProvDestino());
-        ProvinciaEntity provinciaEntity = new ProvinciaEntity(provBean.getCode(), provBean.getDesc());
-
+        ProvinciaEntity provinciaEntity = new ProvinciaEntity();
+        if (!bean.getUbigeoProvDestino().isEmpty()) {
+            ProvinciaBean provBean = mRepository.getProvinciaDB(bean.getUbigeoProvDestino());
+            provinciaEntity = new ProvinciaEntity(provBean.getCode(), provBean.getDesc());
+        }
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
                 bean.getMotivoViaje(),provinciaEntity , bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());

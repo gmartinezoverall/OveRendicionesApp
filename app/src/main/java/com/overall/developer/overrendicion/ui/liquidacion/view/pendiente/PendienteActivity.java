@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.pendiente;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -30,6 +31,8 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter.PendienteAdapter;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
 
@@ -166,16 +169,18 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     //endregion
 
     //region recylearView
-    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List singerList) {
+    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(List<LiquidacionBean> liquidacionList) {
         return (new RecyclerSectionItemDecoration.SectionCallback() {
             @Override
-            public boolean isSection(int position) {
-                return Intrinsics.areEqual(((LiquidacionBean) singerList.get(position)).getFechaPago().substring(0, 10), ((LiquidacionBean) singerList.get(position - 1)).getFechaPago().substring(0, 10)) ^ true;
+            public boolean isSection(int position)
+            {
+                //return ((liquidacionList.get(position)).getFechaPago().substring(0, 10)) != ((liquidacionList.get(position-1)).getFechaPago().substring(0, 10));
+                return Intrinsics.areEqual((liquidacionList.get(position)).getFechaPago().substring(0, 10), (liquidacionList.get(position - 1)).getFechaPago().substring(0, 10)) ^ true;
             }
 
             @Nullable
             public SectionInfo getSectionHeader(int position) {
-                return new SectionInfo(((LiquidacionBean) singerList.get(position)).getFechaPago().substring(0, 10), ((LiquidacionBean) singerList.get(position)).getNombre());
+                return new SectionInfo((liquidacionList.get(position)).getFechaPago().substring(0, 10), (liquidacionList.get(position)).getFechaPago().substring(0,10));
             }
         });
 
@@ -211,9 +216,13 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra) {
+        } else if (id == R.id.nav_actContra)
+        {
+            startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo) {
+        } else if (id == R.id.nav_actCorreo)
+        {
+            startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
 

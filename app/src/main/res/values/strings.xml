@@ -20,7 +20,7 @@
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
 
-    <string name="createTittle">Crear Cuenta</string>
+    <string name="createTittle">Registrar Cuenta</string>
     <string name="createMessage">Nesecitas una cuenta para solicitar tus viaticos, llenando estos sencillos pasos tendras una cuenta poco tiempo</string>
     <string name="createUserDni">Numero DNI</string>
     <string name="createEmail">Correo electronico</string>
@@ -45,13 +45,13 @@
     <string name="liquidaciones_pendientes">Liquidaciones Pendientes</string>
     <string name="reenbolso">Reenbolso</string>
     <string name="configuracion">Configuracion</string>
-    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
 
     <!--Apis Login-->
     <string name="servidorSuccess">OK</string>
     <string name="servidorError">Error al conectar con el servidor</string>
     <string name="sessionError">Usuario o Contraseña incorrectas</string>
-    <string name="createAccountSucces">El usuario a sido CREADO</string>
+    <string name="createAccountSucces">El usuario ha sido CREADO</string>
     <string name="createAccountError">El usuario no existe</string>
     <string name="errorUpdateLiquidacion">Ocurrio un error al Actualizar los datos</string>
 

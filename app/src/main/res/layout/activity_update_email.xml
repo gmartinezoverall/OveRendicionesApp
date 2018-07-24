@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity"
+    android:background="@color/backgroundtext_card">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/card_view_background"
+        android:layout_margin="15dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualizar Correo"
+            android:layout_margin="10dp"
+            android:textSize="18dp"
+            android:textColor="@color/azul_per01"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Por aqui podras cambiar tu correo de manera mas rapida y sencilla para tu comodidad"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingresa tu nuevo correo"
+            android:layout_margin="10dp"/>
+
+        <com.libizo.CustomEditText
+            android:id="@+id/etxNewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="nuevo correo"
+            android:inputType="textPersonName"
+            android:paddingBottom="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp"
+            android:text=""
+            android:textSize="15sp"
+            app:libIZO_setClearIconVisible="true"
+            app:libIZO_setBorderColor="#d4d2d3"
+            app:libIZO_setBorderView="true"
+            app:libIZO_setCornerRadius="20dp"/>
+
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:text="Actualizar Correo"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

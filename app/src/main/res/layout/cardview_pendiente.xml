@@ -7,6 +7,21 @@
     android:layout_marginBottom="5dp"
     android:id="@+id/lnyCardView">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="titulo de empresa"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +33,6 @@
             android:layout_height="match_parent"/>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -34,8 +48,8 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp">
+                    android:layout_weight="2"
+                    android:layout_margin="2dp">
 
                     <TextView
                         android:id="@+id/txvDescripcion"
@@ -43,7 +57,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="10sp"
                         android:layout_weight="1"  />
 
                 </LinearLayout>
@@ -58,6 +71,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/txvMontoTittle"
                             android:text="Monto"
@@ -65,8 +79,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:textSize="16sp"
-                            android:layout_marginLeft="4dp" />
+                            android:textSize="14sp"
+                            android:layout_marginLeft="2dp" />
                         <TextView
                             android:id="@+id/txvAcuentaTittle"
                             android:text="Cuenta"
@@ -74,8 +88,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:textSize="16sp"
-                            android:layout_marginLeft="4dp" />
+                            android:textSize="14sp"
+                            android:layout_marginLeft="2dp" />
                         <TextView
                             android:id="@+id/txvSaldoTittle"
                             android:text="Saldo"
@@ -83,9 +97,9 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:textSize="16sp"
-                            android:layout_marginLeft="4dp" />
-                        <TextView
+                            android:textSize="14sp"
+                            android:layout_marginLeft="2dp" />
+<!--                        <TextView
                             android:id="@+id/txvEstadoTittle"
                             android:text="Estado"
                             android:layout_width="match_parent"
@@ -93,7 +107,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textSize="16sp"
-                            android:layout_marginLeft="4dp" />
+                            android:layout_marginLeft="4dp" />-->
 
                     </LinearLayout>
 
@@ -108,8 +122,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_marginLeft="4dp"
-                            android:transitionName="monto"/>
+                            android:transitionName="monto"
+                            android:textSize="14sp"/>
                         <TextView
                             android:id="@+id/txvAcuenta"
                             android:text="2"
@@ -117,8 +131,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_marginLeft="4dp"
-                            android:transitionName="acuenta"/>
+                            android:transitionName="acuenta"
+                            android:textSize="14sp"/>
                         <TextView
                             android:id="@+id/txvSaldo"
                             android:text="2"
@@ -126,8 +140,9 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:layout_marginLeft="4dp"
-                            android:transitionName="saldo"/>
+                            android:transitionName="saldo"
+                            android:textSize="14sp"/>
+<!--
                         <TextView
                             android:id="@+id/txvEstado"
                             android:text="2"
@@ -136,6 +151,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textSize="24sp"/>
+-->
 
                     </LinearLayout>
 

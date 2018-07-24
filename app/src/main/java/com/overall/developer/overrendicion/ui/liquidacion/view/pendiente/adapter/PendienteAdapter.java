@@ -40,7 +40,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
 
     public class ComprarViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView txvDescripcion,txvMonto, txvAcuenta, txvSaldo, txvEstado;
+        private TextView txvDescripcion,txvMonto, txvAcuenta, txvSaldo, txvEstado, txvTitulo;
         private ImageView imgProducto;
         private Button btnDatos, btnRendicion;
         private LinearLayout viewButton;
@@ -53,7 +53,8 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             txvMonto = itemView.findViewById(R.id.txvMonto);
             txvAcuenta = itemView.findViewById(R.id.txvAcuenta);
             txvSaldo = itemView.findViewById(R.id.txvSaldo);
-            txvEstado = itemView.findViewById(R.id.txvEstado);
+            //txvEstado = itemView.findViewById(R.id.txvEstado);
+            txvTitulo = itemView.findViewById(R.id.txvTitulo);
             viewButton = itemView.findViewById(R.id.viewButton);
             btnDatos = itemView.findViewById(R.id.btnDatos);
             btnRendicion = itemView.findViewById(R.id.btnRendicion);
@@ -87,11 +88,12 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
         holder.txvMonto.setText(String.valueOf(liquidacionBean.getMonto()));
         holder.txvAcuenta.setText(String.valueOf(liquidacionBean.getaCuenta()));
         holder.txvSaldo.setText(String.valueOf(liquidacionBean.getSaldo()));
+        holder.txvTitulo.setText(String.valueOf(liquidacionBean.getNombre()));
 
         //holder.lnyCardview.setB
-        holder.txvEstado.setText("P");
+/*        holder.txvEstado.setText("P");
 
-        holder.txvEstado.setTextColor(this.mContext.getResources().getColor(R.color.pendienteColor));
+        holder.txvEstado.setTextColor(this.mContext.getResources().getColor(R.color.pendienteColor));*/
 
 /*        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.card_view_fall_down: R.anim.card_view_fall_down);
         holder.itemView.startAnimation(animation);

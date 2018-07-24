@@ -32,6 +32,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.Pendien
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.OnActivityTouchListener;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.RecyclerTouchListener;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 
@@ -68,7 +70,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     private OnActivityTouchListener touchListener;
 
     RendicionPresenter mPresenter;
-    //private RealmBrowser realmBrowser;
+    private RealmBrowser realmBrowser;
     private LiquidacionEntity mLiquidacionEntity;
 
     List<RendicionEntity> entityList = new ArrayList<>();
@@ -157,18 +159,18 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     protected void onResume() {
         super.onResume();
-/*        realmBrowser = new RealmBrowser();
+        realmBrowser = new RealmBrowser();
         realmBrowser.start();
-        realmBrowser.showServerAddress(this);*/
+        realmBrowser.showServerAddress(this);
         rcvRendicion.addOnItemTouchListener(onTouchListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-/*        if (realmBrowser != null) {
+        if (realmBrowser != null) {
             realmBrowser.stop();
-        }*/
+        }
     }
 
     @Override
@@ -265,9 +267,13 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra) {
+        } else if (id == R.id.nav_actContra)
+        {
+            startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo) {
+        } else if (id == R.id.nav_actCorreo)
+        {
+            startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
 

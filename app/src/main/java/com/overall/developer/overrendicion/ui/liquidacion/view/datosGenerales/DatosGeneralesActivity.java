@@ -31,6 +31,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGeneral
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -248,9 +250,13 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra) {
+        } else if (id == R.id.nav_actContra)
+        {
+            startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo) {
+        } else if (id == R.id.nav_actCorreo)
+        {
+            startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
 

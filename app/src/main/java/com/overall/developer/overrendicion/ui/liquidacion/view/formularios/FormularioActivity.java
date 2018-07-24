@@ -45,6 +45,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.TicketMaquinaRegistradoraFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.VoucherBancarioFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
+import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.Util;
 
@@ -244,9 +246,13 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra) {
+        } else if (id == R.id.nav_actContra)
+        {
+            startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo) {
+        } else if (id == R.id.nav_actCorreo)
+        {
+            startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
 

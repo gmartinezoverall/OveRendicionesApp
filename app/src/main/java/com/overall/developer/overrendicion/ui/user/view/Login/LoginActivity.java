@@ -121,7 +121,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
 
     //region Estados Actividad
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
     }
 
@@ -173,8 +174,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
                     mDialog.setPositiveListener(R.string.send, dialog1 ->
                     {
                         dialog1.dismiss();
-                        mPresenter.loginRecovery(String.valueOf(mDialog.getTextTXV()));
-                        return mDialog.getTextTXV();
+                        mPresenter.loginRecovery(String.valueOf(mDialog.getTextTXV()));                        return mDialog.getTextTXV();
 
                     }).setNegativeListener(R.string.cancel, dialog12 -> dialog12.dismiss()).show();
 

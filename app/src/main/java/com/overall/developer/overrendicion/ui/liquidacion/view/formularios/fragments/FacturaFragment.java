@@ -120,6 +120,9 @@ public class FacturaFragment extends Fragment {
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
+        etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
+        });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto);
         return mView;

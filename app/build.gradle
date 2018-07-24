@@ -101,6 +101,7 @@ dependencies {
 
     //Fast Android Networking
     implementation 'com.amitshekhar.android:rx2-android-networking:1.0.1'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
     //GSon
     implementation 'com.google.code.gson:gson:2.8.2'
