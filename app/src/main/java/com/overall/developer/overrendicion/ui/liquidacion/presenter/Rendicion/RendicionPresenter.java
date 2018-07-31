@@ -1,8 +1,10 @@
 package com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion;
 
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 
 import java.util.List;
@@ -24,4 +26,6 @@ public interface RendicionPresenter
     UserBean getUser();
 
     void finisLogin();
+
+    void getListMovilidad(List<MovilidadEntity> listMovilidad);
 }

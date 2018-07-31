@@ -1,140 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <com.daimajia.swipe.SwipeLayout
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
 
     <LinearLayout
-        android:id="@+id/rowBG"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="left">
+
+        <LinearLayout
+            android:id="@+id/rowBG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
 
 
-        <RelativeLayout
-            android:id="@+id/btnDetalle"
-            android:layout_width="@dimen/swipeWidth"
-            android:layout_height="match_parent"
-            android:background="@color/swipeoption_blue"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/lytDetalle"
+                android:layout_width="@dimen/swipeWidth"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center"
+                android:background="@color/swipeoption_blue"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_view_list"
+                        android:tint="@android:color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Detalles"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lytEdit"
+                android:layout_width="@dimen/swipeWidth"
+                android:layout_height="50sp"
+                android:background="@color/swipeoption_green"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_add"
-                    android:tint="@android:color/white"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center"
-                    android:maxLines="1"
-                    android:text="Agregar"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </RelativeLayout>
+                    android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/edit"
-            android:layout_width="@dimen/swipeWidth"
-            android:layout_height="match_parent"
-            android:background="@color/swipeoption_green"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@android:color/white"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Editar"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lytRemove"
+                android:layout_width="@dimen/swipeWidth"
+                android:layout_height="50sp"
+                android:background="@color/swipeoption_purple"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_edit"
-                    android:tint="@android:color/white"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical|left"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="Editar"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </RelativeLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:tint="@android:color/white"
+                        android:src="@drawable/ic_delete"/>
 
-        <RelativeLayout
-            android:id="@+id/lytRemove"
-            android:layout_width="@dimen/swipeWidth"
-            android:layout_height="match_parent"
-            android:background="@color/swipeoption_purple"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Eliminar"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical|left"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:tint="@android:color/white"
-                    app:srcCompat="@drawable/ic_delete"/>
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="Eliminar"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -145,17 +162,14 @@
         android:clickable="true"
         android:elevation="4dp"
         android:focusable="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="visible">
 
         <LinearLayout
+            android:id="@+id/lytCardViewRendicion"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp">
+            android:background="?attr/selectableItemBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -184,7 +198,7 @@
                     android:singleLine="true"
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"/>/>
+                    android:marqueeRepeatLimit ="marquee_forever"/>
 
                 <TextView
                     android:id="@+id/txvNumDocumento"
@@ -215,12 +229,31 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/lytDetMovilidad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:animateLayoutChanges="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcvMovilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#67676767"
+            android:elevation="5dp"/>
+
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#67676767"
-        android:elevation="5dp"/>
-</RelativeLayout>
+
+    </com.daimajia.swipe.SwipeLayout>
+</LinearLayout>

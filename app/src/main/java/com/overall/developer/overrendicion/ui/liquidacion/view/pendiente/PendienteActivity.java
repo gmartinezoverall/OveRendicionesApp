@@ -21,8 +21,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
-import com.amazonaws.mobile.client.AWSStartupHandler;
-import com.amazonaws.mobile.client.AWSStartupResult;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.overall.developer.overrendicion.R;
@@ -33,7 +31,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.Pe
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter.PendienteAdapter;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
-import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
+
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
 
 import java.util.List;
@@ -263,11 +261,13 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     public void searchListPendienteResult(List<LiquidacionBean> pendienteList)
     {
         pendienteBeanList = pendienteList;
-        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
+        initialRecyclerView();
+/*        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
-        mRecyclerView.scheduleLayoutAnimation();
+        mRecyclerView.scheduleLayoutAnimation();*/
+
 
     }
 
@@ -275,11 +275,12 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     public void setListPendienteForUser(List<LiquidacionBean> pendienteList)
     {
         pendienteBeanList = pendienteList;
-        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteList, this));
+        initialRecyclerView();
+/*        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
-        mRecyclerView.scheduleLayoutAnimation();
+        mRecyclerView.scheduleLayoutAnimation();*/
     }
 
     private void initialRecyclerView()

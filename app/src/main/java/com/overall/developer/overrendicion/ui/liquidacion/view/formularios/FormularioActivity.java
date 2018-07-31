@@ -25,6 +25,7 @@ import com.github.florent37.awesomebar.AwesomeBar;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
@@ -90,6 +91,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     private FragmentTransaction fragmentTransaction;
     private FormularioPresenter mPresenter;
     private RendicionEntity rendicionEntity;
+    private MovilidadEntity movilidadEntity;
     private String nombreUser, emailUser, codLiquidacion;
 
     @Override
@@ -113,10 +115,18 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         dropdownview.setDropDownListItem(typeFormList);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            rendicionEntity = mPresenter.setRendicionForEdit(String.valueOf(bundle.getString("idRendicion")));//se llenaron los datos del formulario automaticamente
-            dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity.getRdoId())));//formulario para editar
-
+        if (bundle != null)
+        {
+            if (bundle.getString("id")!= null)
+            {
+                movilidadEntity = mPresenter.setMovilidadForEdit(Integer.valueOf(bundle.getString("id")));//se llenaron los datos de Movildiad
+                dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(movilidadEntity.getRdoId())));//formulario para editar
+            }
+            else
+            {
+                rendicionEntity = mPresenter.setRendicionForEdit(String.valueOf(bundle.getString("idRendicion")));//se llenaron los datos del formulario automaticamente
+                dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity.getRdoId())));//formulario para editar
+            }
 
         } else  dropdownview.setSelectingPosition(6);//formulario por defecto
 

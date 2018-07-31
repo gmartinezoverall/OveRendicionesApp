@@ -2,10 +2,14 @@ package com.overall.developer.overrendicion.data.repository.Rendicion.api;
 
 import android.util.Log;
 
+import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.overall.developer.overrendicion.BuildConfig;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 import com.overall.developer.overrendicion.utils.UrlApi;
@@ -42,6 +46,42 @@ public class ApiRendicionImpl implements ApiRendicion
     public void insertListRendicionesApi(String codLiquidacion)
     {
         insertListRendiciones(codLiquidacion);
+    }
+
+    @Override
+    public void insertListMovilidadApi(String codLiquidacionDB)
+    {
+        AndroidNetworking.post(UrlApi.urlListarMovilidad)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("codLiquidacion", codLiquidacionDB)
+                 .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("code").equals("0"))
+                            {
+                                Gson gson = new Gson();
+                                Type collectionType = new TypeToken<Collection<MovilidadBean>>(){}.getType();
+                                List<MovilidadBean> movilidadList = gson.fromJson(response.getString("rendicion"), collectionType);
+
+                                mRepository.insertListMovilidadDB(movilidadList);
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+
+                    }
+                });
     }
 
     private void insertListRendiciones(String codLiquidacion)

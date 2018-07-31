@@ -107,6 +107,9 @@ public class Util
                 valor = 14;
                 break;
 
+            case 10://MOVILIDAD
+                valor = 7;
+                break;
 
             default:
                 valor = 00;

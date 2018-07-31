@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion.db;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
@@ -141,6 +142,36 @@ public class DBRendicionImpl implements DBRendicion
         ProvinciaBean bean = mRealm.where(ProvinciaBean.class).equalTo("code",ubigeoProvDestino).findFirst();
         if (bean != null) return bean;
         else return null;
+    }
+
+    @Override
+    public void insertListMovilidadDB(List<MovilidadBean> movilidadList)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            RealmResults<MovilidadBean> initId = mRealm.where(MovilidadBean.class).findAll();
+            //int nextID = initId.size() == 0 ? 1 : initId.last().getIdMovilidad()+1;
+            int nextID = initId.size() == 0 ? 1 : initId.max("id").intValue()+ 1;
+            for (MovilidadBean bean : movilidadList)
+            {
+                MovilidadBean movilidadBean = realm.where(MovilidadBean.class).equalTo("idMovilidad", bean.getIdMovilidad()).findFirst();
+                if (movilidadBean != null)movilidadBean.deleteFromRealm();
+                bean.setId(nextID);
+                nextID++;
+            }
+            mRealm.insertOrUpdate(movilidadList);
+
+        });
+
+    }
+
+    @Override
+    public List<MovilidadBean> getListMovilidadDB(String codLiquidacion)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        List<MovilidadBean> bean = mRealm.where(MovilidadBean.class).findAll();
+        return bean;
     }
 
 }

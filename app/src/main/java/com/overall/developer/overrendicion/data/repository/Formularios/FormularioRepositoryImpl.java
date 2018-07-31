@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.data.repository.Formularios;
 
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -107,6 +108,11 @@ public class FormularioRepositoryImpl implements FormularioRepository
     @Override
     public BancoBean getDefaultBancoDB(String bcoCod) {
         return mDbFormularios.getDefaultBancoDB(bcoCod);
+    }
+
+    @Override
+    public MovilidadBean setMovilidadForEditDB(int idMov) {
+        return mDbFormularios.setMovilidadForEditDB(idMov);
     }
 
 

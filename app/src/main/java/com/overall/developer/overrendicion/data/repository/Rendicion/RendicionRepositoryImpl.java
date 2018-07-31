@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
@@ -94,6 +95,26 @@ public class RendicionRepositoryImpl implements RendicionRepository
     public ProvinciaBean getProvinciaDB(String ubigeoProvDestino)
     {
         return mDbRendicion.getProvinciaDB(ubigeoProvDestino);
+    }
+
+    @Override
+    public void insertListMovilidadApi(String codLiquidacionDB)
+    {
+        mApiRendicion.insertListMovilidadApi(codLiquidacionDB);
+
+    }
+
+    @Override
+    public void insertListMovilidadDB(List<MovilidadBean> movilidadList)
+    {
+        mDbRendicion.insertListMovilidadDB(movilidadList);
+        mInteractor.successListMovilidad(movilidadList);
+    }
+
+    @Override
+    public List<MovilidadBean> getListMovilidadDB(String codLiquidacion)
+    {
+        return mDbRendicion.getListMovilidadDB(codLiquidacion);
     }
 
 }

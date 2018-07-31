@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -56,10 +58,13 @@ public class MovilidadIndividualFragment extends Fragment {
     TextView spnTipoGasto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnAgregarFoto)
-    Button btnAgregarFoto;
+
     @BindView(R.id.lytfechaFinal)
     LinearLayout lytfechaFinal;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
+    @BindView(R.id.btnFoto)
+    ImageButton btnFoto;
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
@@ -82,21 +87,18 @@ public class MovilidadIndividualFragment extends Fragment {
             if (hasFocus) showDatePickerDialog(2);
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnAgregarFoto, spnTipoGasto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto);
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
         if (itemList.size() == 1) spnTipoGasto.setText(itemList.get(0).toString());
-        spinnerDialog = new SpinnerDialog( getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity)item).getRtgDes().toString());
-            idProvincia = ((TipoGastoEntity)item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
+            idProvincia = ((TipoGastoEntity) item).getRtgId().toString();
         });
-
-
-
 
         return mView;
     }
@@ -116,8 +118,10 @@ public class MovilidadIndividualFragment extends Fragment {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
         {
-            if (tipo == 1)etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-            if (tipo == 2)etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+            if (tipo == 1)
+                etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+            if (tipo == 2)
+                etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
 
         }, mYear, mMonth, mDay);
 
@@ -125,7 +129,7 @@ public class MovilidadIndividualFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnAgregarFoto})
+    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnFoto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnIndividual:
@@ -141,7 +145,8 @@ public class MovilidadIndividualFragment extends Fragment {
                 break;
             case R.id.btnGuardar:
                 break;
-            case R.id.btnAgregarFoto:
+
+            case R.id.btnFoto:
                 break;
         }
     }

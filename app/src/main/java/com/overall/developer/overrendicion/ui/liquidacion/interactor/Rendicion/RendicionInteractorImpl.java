@@ -2,10 +2,12 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
@@ -41,6 +43,26 @@ public class RendicionInteractorImpl implements RendicionInteractor
                         bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                         bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                         bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
+
+/*                if (bean.getRdoId().toString().equals("10"))//Movilidad individual 10
+                {
+                    List<MovilidadEntity> movilidadList = new ArrayList<>();
+                    mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
+                    if (mRepository.getListMovilidadDB(bean.getCodLiquidacion()).size() > 0)
+                    {
+                        for (MovilidadBean movilidadBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
+                        {
+                            movilidadList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
+                                    movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
+                                    movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
+
+                        }
+                        mPresenter.getListMovilidad(movilidadList);
+                    }
+
+
+                }*/
+
             }
 
 
@@ -71,6 +93,23 @@ public class RendicionInteractorImpl implements RendicionInteractor
                     bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                     bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
+
+            if (bean.getRdoId().toString().equals("10"))//Movilidad individual 10
+            {
+                List<MovilidadEntity> movilidadList = new ArrayList<>();
+                mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
+                if (mRepository.getListMovilidadDB(bean.getCodLiquidacion()).size() > 0)
+                {
+                    for (MovilidadBean movilidadBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
+                    {
+                        movilidadList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
+                                movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
+                                movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
+
+                    }
+                    mPresenter.getListMovilidad(movilidadList);
+                }
+            }
         }
         mPresenter.updateListRendicion(rendicionList);
     }
@@ -84,9 +123,11 @@ public class RendicionInteractorImpl implements RendicionInteractor
             ProvinciaBean provBean = mRepository.getProvinciaDB(bean.getUbigeoProvDestino());
             provinciaEntity = new ProvinciaEntity(provBean.getCode(), provBean.getDesc());
         }
+
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
                 bean.getMotivoViaje(), provinciaEntity, bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
+
         return entity;
     }
 
@@ -102,5 +143,17 @@ public class RendicionInteractorImpl implements RendicionInteractor
         mRepository.finishLoginDB();
     }
 
+    @Override
+    public void successListMovilidad(List<MovilidadBean> movilidadList)
+    {
+        List<MovilidadEntity> entityList = new ArrayList<>();
+        for (MovilidadBean movilidadBean : movilidadList)
+        {
+            entityList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
+                    movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
+                    movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
 
+        }
+        mPresenter.getListMovilidad(entityList);
+    }
 }

@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formulario
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 
@@ -30,4 +31,6 @@ public interface FormularioInteractor
     TipoGastoEntity getDefaultTipoGasto(String rtgId);
 
     BancoEntity getDefaultBanco(String bcoCod);
+
+    MovilidadEntity setMovilidadForEdit(int idMovilidad);
 }

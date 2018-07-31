@@ -14,24 +14,24 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daimajia.swipe.util.Attributes;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
-import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.OnActivityTouchListener;
-import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.recyclerView.RecyclerTouchListener;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
@@ -66,14 +66,14 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     DrawerLayout mDrawerLayout;
     @BindView(R.id.toolbarRendiciones)
     AwesomeBar mToolbar;
-    private RecyclerTouchListener onTouchListener;
-    private OnActivityTouchListener touchListener;
 
     RendicionPresenter mPresenter;
     private RealmBrowser realmBrowser;
     private LiquidacionEntity mLiquidacionEntity;
+    private RecyclerView.Adapter mAdapter;
 
-    List<RendicionEntity> entityList = new ArrayList<>();
+    List<RendicionEntity> rendicionList = new ArrayList<>();
+    List<MovilidadEntity> movilidadList = new ArrayList<>();
     String nombreUser;
     String emailUser;
 
@@ -94,45 +94,31 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         initialDrawable();
         mPresenter.listRendicion();
 
-        rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
+
         rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
+            switch (view.getId())
+            {
+                case R.id.lytEdit:
+                    Intent intent = new Intent(view.getContext(), FormularioActivity.class);
+                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
+                    customType(view.getContext(), "fadein-to-fadeout");
+                    startActivity(intent);
+                    break;
 
-        onTouchListener = new RecyclerTouchListener(this, rcvRendicion);
-        onTouchListener
-                .setIndependentViews(R.id.rowButton)
-                .setViewsToFade(R.id.rowButton)
-                .setClickable(new RecyclerTouchListener.OnRowClickListener() {
-                    @Override
-                    public void onRowClicked(int position) {
-                        //Toast.makeToast(getApplicationContext(), "Row " + (position + 1) + " clicked!");
-                    }
+                case R.id.lytRemove:
 
-                    @Override
-                    public void onIndependentViewClicked(int independentViewID, int position) {
-                        //ToastUtil.makeToast(getApplicationContext(), "Button in row " + (position + 1) + " clicked!");
-                    }
-                })
-                .setSwipeOptionViews(R.id.btnDetalle, R.id.edit, R.id.lytRemove)
-                .setSwipeable(R.id.rowFG, R.id.rowBG, (viewID, position) -> {
-                    String message = "";
-                    if (viewID == R.id.edit)
-                    {
+                    mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
+                    rendicionList.remove(position);
+                    mAdapter.notifyItemRemoved(position);
 
-                        Intent intent = new Intent(this, FormularioActivity.class);
-                        intent.putExtra("idRendicion", String.valueOf(entityList.get(position).getIdRendicion()));
-                        customType(this, "fadein-to-fadeout");
-                        startActivity(intent);
+                    break;
+            }
+        });
 
-                    } else if (viewID == R.id.btnDetalle) {
-                        message += "detalle";
-                    } else if (viewID == R.id.lytRemove)
-                    {
-                        customDialogShow(position);
+        ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
+        rcvRendicion.setAdapter(mAdapter);
 
-
-                    }
-
-                });
         try {
             if (fab != null && fabMenu != null) {
                 //setFabMenu(fabMenu);
@@ -148,13 +134,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (touchListener != null) touchListener.getTouchCoordinates(ev);
-        return super.dispatchTouchEvent(ev);
-    }
-
-
     //region Estados Actividad
     @Override
     protected void onResume() {
@@ -162,7 +141,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         realmBrowser = new RealmBrowser();
         realmBrowser.start();
         realmBrowser.showServerAddress(this);
-        rcvRendicion.addOnItemTouchListener(onTouchListener);
+
     }
 
     @Override
@@ -176,7 +155,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     protected void onPause() {
         super.onPause();
-        rcvRendicion.removeOnItemTouchListener(onTouchListener);
+
 
     }
 
@@ -212,20 +191,96 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     //endregion
 
     @Override
-    public void getListRendicion(List<RendicionEntity> rendicionList) {
-        entityList = rendicionList;
+    public void getListRendicion(List<RendicionEntity> rendicionList)
+    {
+        this.rendicionList = rendicionList;
 
     }
 
     @Override
     public void updateListRendicion(List<RendicionEntity> rendicionBeans) {
-        entityList = rendicionBeans;
-        rcvRendicion.setAdapter(new RendicionAdapter(this, entityList));
-        rcvRendicion.getAdapter().notifyDataSetChanged();
-        if (rendicionBeans.isEmpty()) {
-            startActivity(new Intent(this, FormularioActivity.class));
-            customType(this, "fadein-to-fadeout");
-        }
+        rendicionList = rendicionBeans;
+        rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
+            switch (view.getId())
+            {
+                case R.id.lytEdit:
+                    Intent intent = new Intent(view.getContext(), FormularioActivity.class);
+                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
+                    customType(view.getContext(), "fadein-to-fadeout");
+                    startActivity(intent);
+                    break;
+
+                case R.id.lytRemove:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle(R.string.tittleDialog);
+                    builder.setMessage(R.string.messageDialog);
+                    builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
+                    {
+                        mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
+                        rendicionList.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+
+                    });
+                    builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
+
+                        dialog.dismiss()
+
+                    );
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    break;
+
+            }
+        });
+
+        ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
+        rcvRendicion.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void getListMovilidad(List<MovilidadEntity> listMovilidad)
+    {
+        movilidadList = listMovilidad;
+        rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
+            switch (view.getId())
+            {
+                case R.id.lytEdit:
+                    Intent intent = new Intent(view.getContext(), FormularioActivity.class);
+                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
+                    customType(view.getContext(), "fadein-to-fadeout");
+                    startActivity(intent);
+                    break;
+
+                case R.id.lytRemove:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle(R.string.tittleDialog);
+                    builder.setMessage(R.string.messageDialog);
+                    builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
+                    {
+                        mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
+                        rendicionList.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+
+                    });
+                    builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
+
+                            dialog.dismiss()
+                    );
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    break;
+
+            }
+        });
+
+        ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
+        rcvRendicion.setAdapter(mAdapter);
     }
 
 
@@ -293,30 +348,11 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     }
     //endregion
 
-
-
-    private void customDialogShow(int position)
+    public interface ItemClick
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.tittleDialog);
-        builder.setMessage(R.string.messageDialog);
-        builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
-        {
-            mPresenter.deleteRendicionForCod(entityList.get(position).getIdRendicion());
-            entityList.remove(position);
-            rcvRendicion.getAdapter().notifyItemRemoved(position);
-
-        });
-        builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
-        {
-            dialog.dismiss();
-
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
+        void onClick(View view, int position);
     }
+
 }
 
 

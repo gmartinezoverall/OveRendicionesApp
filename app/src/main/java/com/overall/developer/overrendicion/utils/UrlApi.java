@@ -19,6 +19,7 @@ public class UrlApi
     public static String urlListarRendicion = BuildConfig.URL_BASE + "liquidation/listarRendiciones";
     public static String urlEditarRendicion = BuildConfig.URL_BASE + "liquidation/EditarRendicion";
     public static String urlListarBancos = BuildConfig.URL_BASE + "liquidation/Bancos";
+    public static String urlListarMovilidad = BuildConfig.URL_BASE + "liquidation/ListarGastosMovilidad";
 
 
 }

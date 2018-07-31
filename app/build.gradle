@@ -140,6 +140,12 @@ dependencies {
     //Libreria CompressImage
     implementation 'id.zelory:compressor:2.1.0'
 
+    //Libreria Swipe
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    //Libreria itemAnimation
+    implementation 'com.daimajia.androidanimations:library:1.1.2@aar'
+
     //Libreria de Botones
     implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'

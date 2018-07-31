@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
 
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
@@ -24,4 +25,6 @@ public interface RendicionInteractor
     UserBean getUser();
 
     void finishLogin();
+
+    void successListMovilidad(List<MovilidadBean> movilidadList);
 }

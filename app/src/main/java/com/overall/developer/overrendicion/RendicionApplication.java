@@ -27,6 +27,7 @@ public class RendicionApplication extends Application
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("DBLiquidacion.realm")
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
 

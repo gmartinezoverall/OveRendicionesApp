@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.data.repository.Formularios.db;
 
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
@@ -35,4 +36,6 @@ public interface DBFormularios
     TipoDocumentoBean getDefaultTipoGastoDB(String rtgId);
 
     BancoBean getDefaultBancoDB(String bcoCod);
+
+    MovilidadBean setMovilidadForEditDB(int idMov);
 }

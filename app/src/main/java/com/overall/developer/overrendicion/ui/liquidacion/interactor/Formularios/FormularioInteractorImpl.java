@@ -9,11 +9,13 @@ import android.widget.Toast;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
@@ -151,6 +153,20 @@ public class FormularioInteractorImpl implements FormularioInteractor
         return entity;
     }
 
+
+    @Override
+    public MovilidadEntity setMovilidadForEdit(int idMov)
+    {
+        MovilidadBean bean = mRepository.setMovilidadForEditDB(idMov);
+
+        MovilidadEntity entity = new MovilidadEntity(bean.getId(), bean.getIdMovilidad(), bean.getCodRendicion(), bean.getRdoId(), bean.getRtgId(), bean.getPrecioTotal(), bean.getFechaRendicion(),
+                bean.getEstado(), bean.getDestinoMovilidad(), bean.getMontoMovilidad(), bean.getMotivoMovilidad(), bean.getBeneficiario(), bean.getFechaDesde(), bean.getFechaHasta(),
+                bean.getNumBeneficiario());
+
+        return entity;
+
+    }
+
     @Override
     public UserBean getUser() {
         return mRepository.getUserDB();
@@ -192,7 +208,6 @@ public class FormularioInteractorImpl implements FormularioInteractor
         BancoEntity entity = new BancoEntity(bean.getCode(), bean.getDesc());
         return entity;
     }
-
 
     private RendicionEntity filterFragment(int typeFragment, Object dinamyObj)
     {

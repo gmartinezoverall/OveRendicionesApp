@@ -2,9 +2,11 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion;
 
 import android.content.Context;
 
+import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractorImpl;
@@ -68,6 +70,12 @@ public class RendicionPresenterImpl implements RendicionPresenter
     public void finisLogin()
     {
         mInteractor.finishLogin();
+    }
+
+    @Override
+    public void getListMovilidad(List<MovilidadEntity> listMovilidad)
+    {
+        mView.getListMovilidad(listMovilidad);
     }
 
 }

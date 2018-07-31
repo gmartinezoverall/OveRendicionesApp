@@ -120,7 +120,7 @@
 
                     <RadioButton
                         android:id="@+id/btnIndividual"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="Individual"
                         android:checked="true"
@@ -128,7 +128,7 @@
 
                     <RadioButton
                         android:id="@+id/btnMasivo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="Masivo"
                         style="@style/RadioButton" />
@@ -152,7 +152,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:animateLayoutChanges="true">
+                        android:animateLayoutChanges="true"
+                        android:layout_marginTop="5dp">
 
 
                         <TextView
@@ -326,41 +327,53 @@
                     android:textColor="@color/black"
                     android:paddingRight="15dp"
                     android:paddingLeft="15dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"/>
 
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_add_a_photo"/>
+
+                    <ImageButton
+                        android:id="@+id/btnFoto"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_add_a_photo_white" />
+
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center"
-                    android:paddingTop="10dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    android:paddingTop="5dp">
 
                         <Button
                             android:id="@+id/btnGuardar"
-                            android:layout_width="wrap_content"
+                            android:layout_width="200dp"
                             android:layout_height="40dp"
-                            android:text="Guarda"
+                            android:text="Guardar"
                             android:textColor="@color/white"
                             android:background="@drawable/button_background"
                             android:layout_marginRight="10dp"/>
 
-                        <Button
-                            android:id="@+id/btnAgregarFoto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:textColor="@color/white"
-                            android:background="@drawable/button_background"
-                            android:layout_marginLeft="10dp"
-                            android:paddingLeft="10dp"
-                            android:drawableLeft="@drawable/ic_add_a_photo"
-                            android:text="Foto"
-                            android:gravity="center"/>
-
-                    </LinearLayout>
                 </RelativeLayout>
 
             </LinearLayout>
