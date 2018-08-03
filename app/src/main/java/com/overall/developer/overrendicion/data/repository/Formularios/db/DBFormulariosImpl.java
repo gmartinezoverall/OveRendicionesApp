@@ -4,12 +4,12 @@ package com.overall.developer.overrendicion.data.repository.Formularios.db;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 
 import java.util.List;
@@ -144,11 +144,28 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
-    public MovilidadBean setMovilidadForEditDB(int idMov)
+    public RendicionDetalleBean setMovilidadForEditDB(int idMov)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        MovilidadBean movilidadBean = mRealm.where(MovilidadBean.class).equalTo("id", Integer.valueOf(idMov)).findFirst();
-        return movilidadBean;
+        RendicionDetalleBean rendicionDetalleBean = mRealm.where(RendicionDetalleBean.class).equalTo("id", Integer.valueOf(idMov)).findFirst();
+        return rendicionDetalleBean;
+    }
+
+    @Override
+    public void insertMovilidadDB(MovilidadBean movilidadBean)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            if (movilidadBean.getId() == null)
+            {
+                Number id = realm.where(MovilidadBean.class).max("id");
+                int nextID = (id == null) ? 1 : id.intValue() + 1;
+                movilidadBean.setId(nextID);
+            }
+            mRealm.insertOrUpdate(movilidadBean);
+
+        });
     }
 
 }

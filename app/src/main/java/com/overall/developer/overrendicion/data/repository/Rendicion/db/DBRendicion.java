@@ -4,6 +4,7 @@ import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 
@@ -29,7 +30,9 @@ public interface DBRendicion
 
     ProvinciaBean getProvinciaDB(String ubigeoProvDestino);
 
-    void insertListMovilidadDB(List<MovilidadBean> movilidadList);
+    void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList);
 
-    List<MovilidadBean> getListMovilidadDB(String codLiquidacion);
+    List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
+
+    String deleteDetMovForCodDB(int idDetMov);
 }

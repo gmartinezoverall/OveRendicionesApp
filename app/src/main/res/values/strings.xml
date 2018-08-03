@@ -156,6 +156,7 @@
     <string name="btnNegative">Cancelar</string>
     <string name="tittleDialog">Confirmacion</string>
     <string name="messageDialog">¿Desea eliminar la rendicion?</string>
+    <string name="messageDialogMov">¿Desea Eliminar la Rendicion de Movilidad?</string>
 
 
 </resources>

@@ -7,4 +7,6 @@ public interface ApiRendicion
     void insertListRendicionesApi(String codLiquidacion);
 
     void insertListMovilidadApi(String codLiquidacionDB);
+
+    void deleteDetMovForCodApi(String idDetMov);
 }

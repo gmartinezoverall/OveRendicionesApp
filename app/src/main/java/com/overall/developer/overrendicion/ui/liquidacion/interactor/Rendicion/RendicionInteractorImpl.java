@@ -5,10 +5,11 @@ import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepositoryImpl;
@@ -16,6 +17,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.Re
 import com.overall.developer.overrendicion.utils.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RendicionInteractorImpl implements RendicionInteractor
@@ -35,7 +37,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
     {
         List<RendicionEntity> rendicionList= new ArrayList<>();
 
-        if (Util.isOnline())mRepository.insertListRendicionesApi(mRepository.getCodLiquidacionDB());
+            if (Util.isOnline())mRepository.insertListRendicionesApi(mRepository.getCodLiquidacionDB());
 
             for (RendicionBean bean : mRepository.listRendicion())
             {
@@ -43,25 +45,6 @@ public class RendicionInteractorImpl implements RendicionInteractor
                         bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
                         bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                         bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
-
-/*                if (bean.getRdoId().toString().equals("10"))//Movilidad individual 10
-                {
-                    List<MovilidadEntity> movilidadList = new ArrayList<>();
-                    mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
-                    if (mRepository.getListMovilidadDB(bean.getCodLiquidacion()).size() > 0)
-                    {
-                        for (MovilidadBean movilidadBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
-                        {
-                            movilidadList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
-                                    movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
-                                    movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
-
-                        }
-                        mPresenter.getListMovilidad(movilidadList);
-                    }
-
-
-                }*/
 
             }
 
@@ -96,15 +79,16 @@ public class RendicionInteractorImpl implements RendicionInteractor
 
             if (bean.getRdoId().toString().equals("10"))//Movilidad individual 10
             {
-                List<MovilidadEntity> movilidadList = new ArrayList<>();
-                mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
+                List<RendicionDetalleEntity> movilidadList = new ArrayList<>();
+                if (Util.isOnline())mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
+
                 if (mRepository.getListMovilidadDB(bean.getCodLiquidacion()).size() > 0)
                 {
-                    for (MovilidadBean movilidadBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
+                    for (RendicionDetalleBean detalleBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
                     {
-                        movilidadList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
-                                movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
-                                movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
+                        movilidadList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
+                                detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
+                                detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
 
                     }
                     mPresenter.getListMovilidad(movilidadList);
@@ -144,16 +128,47 @@ public class RendicionInteractorImpl implements RendicionInteractor
     }
 
     @Override
-    public void successListMovilidad(List<MovilidadBean> movilidadList)
+    public void successListMovilidad(List<RendicionDetalleBean> movilidadList)
     {
-        List<MovilidadEntity> entityList = new ArrayList<>();
-        for (MovilidadBean movilidadBean : movilidadList)
+        List<RendicionDetalleEntity> entityList = new ArrayList<>();
+        for (RendicionDetalleBean detalleBean : movilidadList)
         {
-            entityList.add(new MovilidadEntity(movilidadBean.getId(),movilidadBean.getIdMovilidad(), movilidadBean.getCodRendicion(), movilidadBean.getRdoId(), movilidadBean.getRtgId(),
-                    movilidadBean.getPrecioTotal(), movilidadBean.getFechaRendicion(), movilidadBean.getEstado(), movilidadBean.getDestinoMovilidad(), movilidadBean.getMontoMovilidad(),
-                    movilidadBean.getMotivoMovilidad(), movilidadBean.getBeneficiario(), movilidadBean.getFechaDesde(), movilidadBean.getFechaHasta(), movilidadBean.getNumBeneficiario()));
+            entityList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
+                    detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
+                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
 
         }
         mPresenter.getListMovilidad(entityList);
     }
+
+    @Override
+    public void deleteDetMovForCod(int idDetMov)
+    {
+        String idMovilidad = mRepository.deleteDetMovForCodDB(idDetMov);
+        if (Util.isOnline())mRepository.deleteDetMovForCodApi(idMovilidad);
+    }
+
+    @Override
+    public void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList)
+    {
+        List<RendicionEntity> rendicionList= new ArrayList<>();
+        for (RendicionBean bean : mRepository.listRendicion()) {
+            rendicionList.add(new RendicionEntity(bean.getIdRendicion(), bean.getCodRendicion(), bean.getRdoDes(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
+                    bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
+                    bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
+                    bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
+        }
+
+        List<RendicionDetalleEntity> detalleEntityList = new ArrayList<>();
+        for (RendicionDetalleBean detalleBean : detalleBeansList)
+        {
+            detalleEntityList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
+                    detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
+                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
+
+        }
+        mPresenter.deleteDetMovSuccess(rendicionList, detalleEntityList);
+
+    }
+
 }

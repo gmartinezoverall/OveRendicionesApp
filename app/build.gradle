@@ -18,14 +18,7 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'OveRendicion'
-            keyPassword 'leodlvida'
-            storeFile file('D:/keyStore/OveRendicionKey.jks')
-            storePassword 'leodlvida'
-        }
-    }
+
     compileSdkVersion gradle.compileSdk
     buildToolsVersion gradle.buildTools
     defaultConfig {
@@ -36,7 +29,7 @@ android {
         versionCode gradle.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.config
+
     }
     buildTypes {
         release {

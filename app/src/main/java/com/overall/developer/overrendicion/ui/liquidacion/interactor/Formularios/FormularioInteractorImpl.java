@@ -1,9 +1,7 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import com.overall.developer.overrendicion.BuildConfig;
@@ -12,15 +10,19 @@ import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
+import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepositoryImpl;
@@ -29,13 +31,8 @@ import com.overall.developer.overrendicion.utils.Util;
 import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import id.zelory.compressor.Compressor;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class FormularioInteractorImpl implements FormularioInteractor
 {
@@ -155,15 +152,51 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
 
     @Override
-    public MovilidadEntity setMovilidadForEdit(int idMov)
+    public RendicionDetalleEntity setMovilidadForEdit(int idMov)
     {
-        MovilidadBean bean = mRepository.setMovilidadForEditDB(idMov);
+        RendicionDetalleBean bean = mRepository.setMovilidadForEditDB(idMov);
 
-        MovilidadEntity entity = new MovilidadEntity(bean.getId(), bean.getIdMovilidad(), bean.getCodRendicion(), bean.getRdoId(), bean.getRtgId(), bean.getPrecioTotal(), bean.getFechaRendicion(),
+        RendicionDetalleEntity entity = new RendicionDetalleEntity(bean.getId(), bean.getIdMovilidad(), bean.getCodRendicion(), bean.getRdoId(), bean.getRtgId(), bean.getPrecioTotal(), bean.getFechaRendicion(),
                 bean.getEstado(), bean.getDestinoMovilidad(), bean.getMontoMovilidad(), bean.getMotivoMovilidad(), bean.getBeneficiario(), bean.getFechaDesde(), bean.getFechaHasta(),
                 bean.getNumBeneficiario());
 
         return entity;
+
+    }
+
+    @Override
+    public void saveDataMovilidad(MovilidadEntity movilidadEntity)
+    {
+        String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
+        //RendicionDetalleBean detalleDefault = mRepository.setMovilidadForEditDB(movilidadEntity.getId());
+        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(),
+                movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
+                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM());
+
+        mRepository.insertMovilidadDB(bean);
+
+        if (Util.isOnline())
+        {
+            if (movilidadEntity.getIdMovilidad().equals("-"))
+            {
+                MovilidadInsertRequest movilidadInsertRequest = new MovilidadInsertRequest(bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(),
+                        bean.getMotivo(), bean.getDestino(), bean.getMonto(), bean.getFechaDocumento(), bean.getRtgId(), bean.getTipoMov(),
+                        bean.getFecha(), bean.getFechaHastaM());
+                mRepository.sendDataInsertMovilidadApi(movilidadInsertRequest);
+
+            }
+            else
+            {
+                MovilidadUpdateRequest updateRequest = new MovilidadUpdateRequest(movilidadEntity.getIdMovilidad(), bean.getFecha(), bean.getMotivo(),
+                        bean.getDestino(), bean.getMonto());
+                mRepository.sendDataUpdateMovilidadApi(updateRequest);
+
+            }
+
+        }
+
+        mPresenter.saveDataSuccess();
+
 
     }
 

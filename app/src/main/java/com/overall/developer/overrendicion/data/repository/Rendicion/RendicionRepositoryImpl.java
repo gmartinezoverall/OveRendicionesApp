@@ -4,6 +4,7 @@ import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.api.ApiRendicion;
@@ -105,16 +106,34 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
-    public void insertListMovilidadDB(List<MovilidadBean> movilidadList)
+    public void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList)
     {
         mDbRendicion.insertListMovilidadDB(movilidadList);
         mInteractor.successListMovilidad(movilidadList);
     }
 
     @Override
-    public List<MovilidadBean> getListMovilidadDB(String codLiquidacion)
+    public List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion)
     {
         return mDbRendicion.getListMovilidadDB(codLiquidacion);
     }
+
+    @Override
+    public String deleteDetMovForCodDB(int idDetMov) {
+        return mDbRendicion.deleteDetMovForCodDB(idDetMov);
+    }
+
+    @Override
+    public void deleteDetMovForCodApi(String idDetMov) {
+        mApiRendicion.deleteDetMovForCodApi(idDetMov);
+    }
+
+    @Override
+    public void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList)
+    {
+        mInteractor.deleteDetMovSuccess(beanList, detalleBeansList);
+
+    }
+
 
 }

@@ -1,8 +1,6 @@
-package com.overall.developer.overrendicion.data.model.bean;
+package com.overall.developer.overrendicion.data.model.entity.formularioEntity;
 
-import io.realm.RealmObject;
-
-public class MovilidadBean extends RealmObject
+public class MovilidadEntity
 {
     private Integer id;
     private String idMovilidad;
@@ -18,14 +16,13 @@ public class MovilidadBean extends RealmObject
     private String fecha;
     private String fechaHastaM;
 
-    public MovilidadBean() {
+    public MovilidadEntity() {
     }
 
-    public MovilidadBean(String idMovilidad, String rdoId, String codLiquidacion, String idUsuario, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String fechaHastaM) {
+    public MovilidadEntity(String idMovilidad, String rdoId, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String fechaHastaM) {
+
         this.idMovilidad = idMovilidad;
         this.rdoId = rdoId;
-        this.codLiquidacion = codLiquidacion;
-        this.idUsuario = idUsuario;
         this.motivo = motivo;
         this.destino = destino;
         this.monto = monto;
@@ -40,8 +37,8 @@ public class MovilidadBean extends RealmObject
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getRdoId() {
+        return rdoId;
     }
 
     public String getIdMovilidad() {
@@ -50,10 +47,6 @@ public class MovilidadBean extends RealmObject
 
     public void setIdMovilidad(String idMovilidad) {
         this.idMovilidad = idMovilidad;
-    }
-
-    public String getRdoId() {
-        return rdoId;
     }
 
     public String getCodLiquidacion() {

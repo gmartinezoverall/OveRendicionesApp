@@ -3,6 +3,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapte
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 
@@ -29,13 +30,14 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.MovilidadViewHolder>
 {
     private Context mContext;
-    private List<MovilidadEntity> mMovilidadList;
+    private List<RendicionDetalleEntity> mMovilidadList;
+    private RendicionActivity.ItemClick itemCLick;
 
-
-    public MovilidadAdapter (Context context, List<MovilidadEntity> movilidadList)
+    public MovilidadAdapter (Context context, List<RendicionDetalleEntity> movilidadList, RendicionActivity.ItemClick itemCLick)
     {
         this.mContext = context;
         this.mMovilidadList = movilidadList;
+        this.itemCLick = itemCLick;
     }
 
 
@@ -43,7 +45,7 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
     public  class MovilidadViewHolder extends RecyclerView.ViewHolder
     {
         private TextView txvFecha, txvDetMotivo, txvDetDestino, txvMonto;
-        private RelativeLayout lytEdit, lytRemove;
+        private RelativeLayout lytEdit, lytRemoveDet;
         private LinearLayout lytCardViewRendicion;
         private Button rowButton;
         private SwipeLayout swipeLayout;
@@ -57,7 +59,7 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             txvDetMotivo = itemView.findViewById(R.id.txvDetMotivo);
             txvDetDestino = itemView.findViewById(R.id.txvDetDestino);
             txvMonto = itemView.findViewById(R.id.txvMonto);
-            lytRemove = itemView.findViewById(R.id.lytRemove);
+            lytRemoveDet = itemView.findViewById(R.id.lytRemoveDet);
             lytEdit = itemView.findViewById(R.id.lytEdit);
             rowButton = itemView.findViewById(R.id.rowButton);
             swipeLayout = itemView.findViewById(R.id.swipe);
@@ -77,8 +79,8 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
     @Override
     public void onBindViewHolder(@NonNull MovilidadViewHolder holder, int position)
     {
-        final MovilidadEntity rendicion = mMovilidadList.get(position);
-        holder.txvFecha.setText(String.valueOf(rendicion.getId()));
+        final RendicionDetalleEntity rendicion = mMovilidadList.get(position);
+        holder.txvFecha.setText(String.valueOf(rendicion.getFechaRendicion()));
         holder.txvDetMotivo.setText(String.valueOf(rendicion.getMotivoMovilidad()));
         holder.txvDetDestino.setText(String.valueOf(rendicion.getDestinoMovilidad()));
         holder.txvMonto.setText(String.valueOf(rendicion.getMontoMovilidad()));
@@ -105,10 +107,25 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             mContext.startActivity(intent);
         });
 
-        holder.lytRemove.setOnClickListener(v ->
+        holder.lytRemoveDet.setOnClickListener(v ->
         {
-           
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle(R.string.tittleDialog);
+            builder.setMessage(R.string.messageDialog);
+            builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
+            {
+                itemCLick.onClick(v, rendicion.getId());
+                mMovilidadList.remove(position);
+                notifyItemRemoved(position);
 
+            });
+            builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
+
+                    dialog.dismiss()
+            );
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
 

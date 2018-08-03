@@ -25,9 +25,10 @@ import com.github.florent37.awesomebar.AwesomeBar;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ArrendamientoFragment;
@@ -37,7 +38,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.CartaPorteAereoFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.DescuentoBoletaFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.FacturaFragment;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.MovilidadIndividualFragment;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.MovilidadFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.MovilidadMultipleFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.NotaCreditoFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.OtrosDocumentosFragment;
@@ -91,7 +92,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     private FragmentTransaction fragmentTransaction;
     private FormularioPresenter mPresenter;
     private RendicionEntity rendicionEntity;
-    private MovilidadEntity movilidadEntity;
+    private RendicionDetalleEntity rendicionDetalleEntity;
     private String nombreUser, emailUser, codLiquidacion;
 
     @Override
@@ -119,8 +120,12 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         {
             if (bundle.getString("id")!= null)
             {
-                movilidadEntity = mPresenter.setMovilidadForEdit(Integer.valueOf(bundle.getString("id")));//se llenaron los datos de Movildiad
-                dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(movilidadEntity.getRdoId())));//formulario para editar
+                rendicionDetalleEntity = mPresenter.setMovilidadForEdit(Integer.valueOf(bundle.getString("id")));//se llenaron los datos de Movildiad
+                dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionDetalleEntity.getRdoId())));//formulario para editar
+            }
+            else if (bundle.getString("defaultRtg")!= null)
+            {
+                dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(bundle.getString("defaultRtg"))));//formulario nuevo
             }
             else
             {
@@ -155,7 +160,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         if (nameFragment == 4) fragment = new CartaPorteAereoFragment();
         if (nameFragment == 5) fragment = new DescuentoBoletaFragment();
         if (nameFragment == 6) fragment = new FacturaFragment();
-        if (nameFragment == 7) fragment = new MovilidadIndividualFragment();
+        if (nameFragment == 7) fragment = new MovilidadFragment();
         if (nameFragment == 8) fragment = new NotaCreditoFragment();
         if (nameFragment == 9) fragment = new OtrosDocumentosFragment();
         if (nameFragment == 10) fragment = new ReciboHonorariosFragment();
@@ -175,9 +180,18 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return rendicionEntity;//devuelve los valores por defecto
     }
 
+    public RendicionDetalleEntity getDetalleDefaultValues() {
+        return rendicionDetalleEntity;//devuelve los valores por defecto
+    }
+
     public TipoGastoEntity getDefaultTipoGasto()
     {
         return mPresenter.getDefaultTipoGasto(rendicionEntity.getRtgId());
+    }
+
+    public TipoGastoEntity getDefaultTipoGastoDetail()
+    {
+        return mPresenter.getDefaultTipoGasto(rendicionDetalleEntity.getRtgId());
     }
 
     public BancoEntity getDefaultBanco()
@@ -208,6 +222,16 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         if (rendicionEntity != null)
             typeFragment.add(String.valueOf(rendicionEntity.getIdRendicion()));
         mPresenter.saveData(typeFragment, objectDinamyc);
+    }
+
+    public String getIdMovilidad()
+    {
+        return rendicionDetalleEntity == null ? "-" : rendicionDetalleEntity.getIdMovilidad();
+    }
+
+    public void saveAndSendDataForMovilidad(MovilidadEntity movilidadEntity)
+    {
+        mPresenter.saveDataMovilidad(movilidadEntity);
     }
 
     @Override

@@ -16,8 +16,11 @@ import android.widget.TextView;
 
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
@@ -30,11 +33,7 @@ import butterknife.Unbinder;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import info.hoang8f.android.segmented.SegmentedGroup;
 
-public class MovilidadIndividualFragment extends Fragment {
-
-    @BindView(R.id.txvFechaInicioDisable)
-    CustomEditText txvFechaInicioDisable;
-    @BindView(R.id.txvFechaHastaDisable)
+public class MovilidadFragment extends Fragment {
     CustomEditText txvFechaHastaDisable;
     @BindView(R.id.btnIndividual)
     RadioButton btnIndividual;
@@ -61,13 +60,13 @@ public class MovilidadIndividualFragment extends Fragment {
 
     @BindView(R.id.lytfechaFinal)
     LinearLayout lytfechaFinal;
-    @BindView(R.id.img_foto)
-    ImageView imgFoto;
-    @BindView(R.id.btnFoto)
-    ImageButton btnFoto;
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
+    private String rtgId;
+    TipoGastoEntity gastoEntity;
+    private RendicionDetalleEntity rendicionDetalleEntity;
+    String pathImage;
 
     Unbinder unbinder;
     View mView;
@@ -76,10 +75,13 @@ public class MovilidadIndividualFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_movilidad_individual, container, false);
+        mView = inflater.inflate(R.layout.fragment_movilidad, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        rendicionDetalleEntity = ((FormularioActivity) getContext()).getDetalleDefaultValues();
+        if (rendicionDetalleEntity != null) setAllDefaultValues();
 
+        etxFechaDesde.setText(String.valueOf(Util.getCurrentDate()));
         etxFechaDesde.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog(1);
         });
@@ -87,20 +89,38 @@ public class MovilidadIndividualFragment extends Fragment {
             if (hasFocus) showDatePickerDialog(2);
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto);
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
-        if (itemList.size() == 1) spnTipoGasto.setText(itemList.get(0).toString());
+        if (itemList.size() == 1)
+        {
+            spnTipoGasto.setText(itemList.get(0).toString());
+            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
+        }
         spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
             spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            idProvincia = ((TipoGastoEntity) item).getRtgId().toString();
+            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
         return mView;
+    }
+
+    private void setAllDefaultValues()
+    {
+
+        etxFechaDesde.setText(String.valueOf(rendicionDetalleEntity.getFechaDesde()));
+        etxFechaHasta.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
+        etxMotivo.setText(String.valueOf(rendicionDetalleEntity.getMotivoMovilidad()));
+        etxDestino.setText(String.valueOf(rendicionDetalleEntity.getDestinoMovilidad()));
+        etxMonto.setText(String.valueOf(rendicionDetalleEntity.getMontoMovilidad()));
+
+        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGastoDetail();
+        spnTipoGasto.setText(gastoEntity.getRtgDes());
+        rtgId = (gastoEntity.getRtgId());
     }
 
     @Override
@@ -119,9 +139,15 @@ public class MovilidadIndividualFragment extends Fragment {
         DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
         {
             if (tipo == 1)
+            {
                 etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-            if (tipo == 2)
+                if (btnIndividual.isChecked())etxMotivo.requestFocus();
+                else etxFechaHasta.requestFocus();
+            }
+            if (tipo == 2) {
                 etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+                etxMotivo.requestFocus();
+            }
 
         }, mYear, mMonth, mDay);
 
@@ -129,7 +155,7 @@ public class MovilidadIndividualFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar, R.id.btnFoto})
+    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnIndividual:
@@ -144,9 +170,14 @@ public class MovilidadIndividualFragment extends Fragment {
                 spinnerDialog.showSpinerDialog();
                 break;
             case R.id.btnGuardar:
-                break;
+                // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
+                ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
+                        String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
+                        String.valueOf(Util.getCurrentDate()),String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I": "M"),
+                        String.valueOf(etxFechaDesde.getText()), String.valueOf(etxFechaHasta.getText())
+                ));
 
-            case R.id.btnFoto:
+
                 break;
         }
     }

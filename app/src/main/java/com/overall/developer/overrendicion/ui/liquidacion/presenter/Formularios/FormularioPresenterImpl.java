@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractorImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioView;
 
-import java.io.File;
 import java.util.List;
 
 public class FormularioPresenterImpl implements FormularioPresenter
@@ -90,8 +90,14 @@ public class FormularioPresenterImpl implements FormularioPresenter
     }
 
     @Override
-    public MovilidadEntity setMovilidadForEdit(int idMovilidad) {
+    public RendicionDetalleEntity setMovilidadForEdit(int idMovilidad) {
         return mInteractor.setMovilidadForEdit(idMovilidad);
+    }
+
+    @Override
+    public void saveDataMovilidad(MovilidadEntity movilidadEntity)
+    {
+        mInteractor.saveDataMovilidad(movilidadEntity);
     }
 
 }

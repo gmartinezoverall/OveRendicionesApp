@@ -25,7 +25,7 @@ import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenterImpl;
@@ -72,8 +72,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     private LiquidacionEntity mLiquidacionEntity;
     private RecyclerView.Adapter mAdapter;
 
-    List<RendicionEntity> rendicionList = new ArrayList<>();
-    List<MovilidadEntity> movilidadList = new ArrayList<>();
+    List<RendicionEntity> mRendicionList = new ArrayList<>();
+    List<RendicionDetalleEntity> mMovilidadList = new ArrayList<>();
     String nombreUser;
     String emailUser;
 
@@ -93,31 +93,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         sesionManager();
         initialDrawable();
         mPresenter.listRendicion();
-
-
-        rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
-            switch (view.getId())
-            {
-                case R.id.lytEdit:
-                    Intent intent = new Intent(view.getContext(), FormularioActivity.class);
-                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
-                    customType(view.getContext(), "fadein-to-fadeout");
-                    startActivity(intent);
-                    break;
-
-                case R.id.lytRemove:
-
-                    mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
-                    rendicionList.remove(position);
-                    mAdapter.notifyItemRemoved(position);
-
-                    break;
-            }
-        });
-
-        ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
-        rcvRendicion.setAdapter(mAdapter);
 
         try {
             if (fab != null && fabMenu != null) {
@@ -193,66 +168,48 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     public void getListRendicion(List<RendicionEntity> rendicionList)
     {
-        this.rendicionList = rendicionList;
+        this.mRendicionList = rendicionList;
 
     }
 
     @Override
     public void updateListRendicion(List<RendicionEntity> rendicionBeans) {
-        rendicionList = rendicionBeans;
-        rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
-            switch (view.getId())
-            {
-                case R.id.lytEdit:
-                    Intent intent = new Intent(view.getContext(), FormularioActivity.class);
-                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
-                    customType(view.getContext(), "fadein-to-fadeout");
-                    startActivity(intent);
-                    break;
-
-                case R.id.lytRemove:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle(R.string.tittleDialog);
-                    builder.setMessage(R.string.messageDialog);
-                    builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
-                    {
-                        mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
-                        rendicionList.remove(position);
-                        mAdapter.notifyItemRemoved(position);
-
-                    });
-                    builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
-
-                        dialog.dismiss()
-
-                    );
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                    break;
-
-            }
-        });
-
-        ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
-        rcvRendicion.setAdapter(mAdapter);
+        mRendicionList = rendicionBeans;
+        usedAdapter();
     }
 
     @Override
-    public void getListMovilidad(List<MovilidadEntity> listMovilidad)
+    public void getListMovilidad(List<RendicionDetalleEntity> listMovilidad)
     {
-        movilidadList = listMovilidad;
+        mMovilidadList = listMovilidad;
+        usedAdapter();
+    }
+
+    @Override
+    public void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList)
+    {
+
+    }
+
+    private void usedAdapter()
+    {
         rcvRendicion.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RendicionAdapter(this, this, rendicionList, movilidadList, (view, position) -> {
+        mAdapter = new RendicionAdapter(this, this, mRendicionList, mMovilidadList, (view, position) -> {
             switch (view.getId())
             {
                 case R.id.lytEdit:
                     Intent intent = new Intent(view.getContext(), FormularioActivity.class);
-                    intent.putExtra("idRendicion", String.valueOf(rendicionList.get(position).getIdRendicion()));
+                    intent.putExtra("idRendicion", String.valueOf(mRendicionList.get(position).getIdRendicion()));
                     customType(view.getContext(), "fadein-to-fadeout");
                     startActivity(intent);
+                    break;
+
+                case R.id.lytNew:
+                    Intent intent2 = new Intent(view.getContext(), FormularioActivity.class);
+                    //intent2.putExtra("defaultRtg", String.valueOf(rendicionList.get(position).getRtgId()));
+                    intent2.putExtra("defaultRtg", "10");
+                    customType(view.getContext(), "fadein-to-fadeout");
+                    startActivity(intent2);
                     break;
 
                 case R.id.lytRemove:
@@ -261,18 +218,26 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                     builder.setMessage(R.string.messageDialog);
                     builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
                     {
-                        mPresenter.deleteRendicionForCod(rendicionList.get(position).getIdRendicion());
-                        rendicionList.remove(position);
+                        mPresenter.deleteRendicionForCod(mRendicionList.get(position).getIdRendicion());
+                        mRendicionList.remove(position);
                         mAdapter.notifyItemRemoved(position);
 
                     });
                     builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
 
                             dialog.dismiss()
+
                     );
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
+
+                    break;
+
+                case R.id.lytRemoveDet:
+
+                    mPresenter.deleteDetMovForCod(position);
+                    mPresenter.listRendicion();
 
                     break;
 

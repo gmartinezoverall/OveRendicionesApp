@@ -64,7 +64,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/lytRemove"
+                    android:id="@+id/lytRemoveDet"
                     android:layout_width="80sp"
                     android:layout_height="40sp"
                     android:background="@color/swipeoption_purple"

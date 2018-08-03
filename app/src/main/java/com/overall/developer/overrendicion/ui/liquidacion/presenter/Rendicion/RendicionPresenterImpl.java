@@ -6,7 +6,7 @@ import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion.RendicionInteractorImpl;
@@ -73,9 +73,21 @@ public class RendicionPresenterImpl implements RendicionPresenter
     }
 
     @Override
-    public void getListMovilidad(List<MovilidadEntity> listMovilidad)
+    public void getListMovilidad(List<RendicionDetalleEntity> listMovilidad)
     {
         mView.getListMovilidad(listMovilidad);
+    }
+
+    @Override
+    public void deleteDetMovForCod(int idDetMov)
+    {
+        mInteractor.deleteDetMovForCod(idDetMov);
+    }
+
+    @Override
+    public void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList)
+    {
+        mView.deleteDetMovSuccess(entityList, detalleEntityList);
     }
 
 }

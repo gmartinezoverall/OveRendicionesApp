@@ -4,11 +4,14 @@ package com.overall.developer.overrendicion.data.repository.Formularios;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 
 import java.util.List;
@@ -42,5 +45,11 @@ public interface FormularioRepository
 
     BancoBean getDefaultBancoDB(String bcoCod);
 
-    MovilidadBean setMovilidadForEditDB(int idMov);
+    RendicionDetalleBean setMovilidadForEditDB(int idMov);
+
+    void insertMovilidadDB(MovilidadBean movilidadBean);
+
+    void sendDataInsertMovilidadApi(MovilidadInsertRequest movilidadRequest);
+
+    void sendDataUpdateMovilidadApi(MovilidadUpdateRequest updateRequest);
 }

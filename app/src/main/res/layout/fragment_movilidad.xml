@@ -26,83 +26,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="PERIODO:" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Del:" />
-
-                    <com.libizo.CustomEditText
-                        android:id="@+id/txvFechaInicioDisable"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:hint="inicio"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        android:enabled="false"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setCornerRadius="20dp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Al:" />
-
-                    <com.libizo.CustomEditText
-                        android:id="@+id/txvFechaHastaDisable"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:hint="fin"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        android:enabled="false"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setCornerRadius="20dp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    android:layout_margin="10dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
                     android:text="Tipo de Movilidad: "
                     android:layout_marginTop="5dp"/>
 
@@ -161,19 +84,18 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Del:" />
+                            android:text="Del" />
 
                         <com.libizo.CustomEditText
                             android:id="@+id/etxFechaDesde"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:layout_weight="4"
+                            android:layout_weight="5"
                             android:gravity="center"
                             android:hint="inicio"
                             android:inputType="textEmailAddress"
                             android:paddingBottom="12dp"
-                            android:paddingLeft="15dp"
                             android:paddingRight="12dp"
                             android:paddingTop="12dp"
                             android:text=""
@@ -199,19 +121,18 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Al:"/>
+                            android:text="Al"/>
 
                         <com.libizo.CustomEditText
                             android:id="@+id/etxFechaHasta"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:layout_weight="4"
+                            android:layout_weight="5"
                             android:gravity="center"
                             android:hint="fin"
                             android:inputType="textEmailAddress"
                             android:paddingBottom="12dp"
-                            android:paddingLeft="15dp"
                             android:paddingRight="12dp"
                             android:paddingTop="12dp"
                             android:text=""
@@ -330,40 +251,11 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"/>
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp">
-
-                    <ImageView
-                        android:id="@+id/img_foto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:scaleType="centerCrop"
-                        android:layout_marginTop="10dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/ic_add_a_photo"/>
-
-                    <ImageButton
-                        android:id="@+id/btnFoto"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="30dp"
-                        android:background="@drawable/button_background"
-                        android:src="@drawable/ic_add_a_photo_white" />
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="bottom|center"
-                    android:paddingTop="5dp">
+                    android:paddingTop="10dp">
 
                         <Button
                             android:id="@+id/btnGuardar"

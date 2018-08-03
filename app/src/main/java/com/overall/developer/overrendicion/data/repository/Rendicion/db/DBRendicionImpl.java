@@ -1,9 +1,10 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion.db;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
-import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
@@ -145,18 +146,18 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public void insertListMovilidadDB(List<MovilidadBean> movilidadList)
+    public void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList)
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            RealmResults<MovilidadBean> initId = mRealm.where(MovilidadBean.class).findAll();
+            RealmResults<RendicionDetalleBean> initId = mRealm.where(RendicionDetalleBean.class).findAll();
             //int nextID = initId.size() == 0 ? 1 : initId.last().getIdMovilidad()+1;
             int nextID = initId.size() == 0 ? 1 : initId.max("id").intValue()+ 1;
-            for (MovilidadBean bean : movilidadList)
+            for (RendicionDetalleBean bean : movilidadList)
             {
-                MovilidadBean movilidadBean = realm.where(MovilidadBean.class).equalTo("idMovilidad", bean.getIdMovilidad()).findFirst();
-                if (movilidadBean != null)movilidadBean.deleteFromRealm();
+                RendicionDetalleBean detalleBean = realm.where(RendicionDetalleBean.class).equalTo("idMovilidad", bean.getIdMovilidad()).findFirst();
+                if (detalleBean != null)detalleBean.deleteFromRealm();
                 bean.setId(nextID);
                 nextID++;
             }
@@ -167,11 +168,30 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public List<MovilidadBean> getListMovilidadDB(String codLiquidacion)
+    public List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        List<MovilidadBean> bean = mRealm.where(MovilidadBean.class).findAll();
+        List<RendicionDetalleBean> bean = mRealm.where(RendicionDetalleBean.class).findAll();
         return bean;
+    }
+
+    @Override
+    public String deleteDetMovForCodDB(int idDetMov)
+    {
+        String idMovilidad, codRendicion;
+        Realm mRealm = Realm.getDefaultInstance();
+        RendicionDetalleBean movilidadBean = mRealm.where(RendicionDetalleBean.class).equalTo("id", idDetMov).findFirst();
+        idMovilidad = movilidadBean.getIdMovilidad();
+        codRendicion = movilidadBean.getCodRendicion();
+        mRealm.executeTransaction(realm ->
+        {
+            movilidadBean.deleteFromRealm();
+            List<RendicionBean> beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findAll();
+            List<RendicionDetalleBean> detalleBeansList = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
+            mRepository.deleteDetMovSuccess(beanList, detalleBeansList);
+        });
+        return idMovilidad;
+
     }
 
 }

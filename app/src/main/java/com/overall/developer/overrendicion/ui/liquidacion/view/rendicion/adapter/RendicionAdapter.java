@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -22,7 +23,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.data.model.entity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 
@@ -33,10 +34,10 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
     private Context mContext;
     private Activity mActivity;
     private List<RendicionEntity> mRendicionList;
-    private List<MovilidadEntity> mMovilidadList;
+    private List<RendicionDetalleEntity> mMovilidadList;
     private RendicionActivity.ItemClick itemCLick;
 
-    public RendicionAdapter (Context context, Activity activity, List<RendicionEntity> rendicionList, List<MovilidadEntity> movilidadList, RendicionActivity.ItemClick onClick)
+    public RendicionAdapter (Context context, Activity activity, List<RendicionEntity> rendicionList, List<RendicionDetalleEntity> movilidadList, RendicionActivity.ItemClick onClick)
     {
         this.mContext = context;
         this.mRendicionList = rendicionList;
@@ -48,7 +49,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
     public  class RendicionViewHolder extends RecyclerView.ViewHolder
     {
         private TextView txvCodLiquidacion, txvDocumento, txvNumDocumento, txvPrecioTotal;
-        private RelativeLayout lytDetalle, lytRemove, lytEdit;
+        private RelativeLayout lytDetalle, lytRemove, lytEdit, lytNew;
         private LinearLayout lytDetMovilidad, lytCardViewRendicion;
         private Button rowButton;
         private RecyclerView rcvMovilidad;
@@ -66,6 +67,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
             lytDetalle = itemView.findViewById(R.id.lytDetalle);
             lytRemove = itemView.findViewById(R.id.lytRemove);
             lytEdit = itemView.findViewById(R.id.lytEdit);
+            lytNew = itemView.findViewById(R.id.lytNew);
             lytDetMovilidad = itemView.findViewById(R.id.lytDetMovilidad);
             rowButton = itemView.findViewById(R.id.rowButton);
             lytCardViewRendicion = itemView.findViewById(R.id.lytCardViewRendicion);
@@ -118,18 +120,26 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
         holder.txvPrecioTotal.setText(String.valueOf(rendicion.getPrecioTotal()));
 
         holder.lytDetalle.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
+
+        holder.lytNew.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
+
         holder.lytEdit.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.GONE : View.VISIBLE);
 
         holder.lytEdit.setOnClickListener( v -> itemCLick.onClick(v, position) );
 
         holder.lytRemove.setOnClickListener( v -> itemCLick.onClick(v, position) );
 
+        holder.lytNew.setOnClickListener(v -> itemCLick.onClick(v, position));
+
         holder.lytDetalle.setOnClickListener(v ->
         {
                 holder.lytDetMovilidad.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.FadeInLeft).duration(500).playOn(holder.itemView.findViewById(R.id.rowButton));
                 holder.rowButton.setRotation(90);
-                holder.rcvMovilidad.setAdapter(new MovilidadAdapter(mContext, mMovilidadList));
+                holder.rcvMovilidad.setAdapter(new MovilidadAdapter(mContext, mMovilidadList, (view, movPosition) ->
+                {
+                    itemCLick.onClick(view, movPosition);
+                }));
                 holder.rcvMovilidad.setLayoutManager(new LinearLayoutManager(mContext));
 
                 final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(holder.rcvMovilidad.getContext(), R.anim.layout_slide_bottom);

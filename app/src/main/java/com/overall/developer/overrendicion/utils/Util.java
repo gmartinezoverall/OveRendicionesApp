@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,6 +25,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Util
 {
+    public static String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+
+        return mdformat.format(calendar.getTime());
+
+    }
+
 
     public static boolean isOnline() {
         ConnectivityManager cm =

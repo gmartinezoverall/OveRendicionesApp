@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 import com.overall.developer.overrendicion.utils.UrlApi;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
@@ -65,8 +66,8 @@ public class ApiRendicionImpl implements ApiRendicion
                             if (response.getString("code").equals("0"))
                             {
                                 Gson gson = new Gson();
-                                Type collectionType = new TypeToken<Collection<MovilidadBean>>(){}.getType();
-                                List<MovilidadBean> movilidadList = gson.fromJson(response.getString("rendicion"), collectionType);
+                                Type collectionType = new TypeToken<Collection<RendicionDetalleBean>>(){}.getType();
+                                List<RendicionDetalleBean> movilidadList = gson.fromJson(response.getString("rendicion"), collectionType);
 
                                 mRepository.insertListMovilidadDB(movilidadList);
                             }
@@ -82,6 +83,39 @@ public class ApiRendicionImpl implements ApiRendicion
 
                     }
                 });
+    }
+
+    @Override
+    public void deleteDetMovForCodApi(String idDetMov)
+    {
+        AndroidNetworking.post(UrlApi.urlEliminarGastoMovilidad)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("idMovilidad", idDetMov)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("code").equals("0"))
+                            {
+
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+
+                    }
+                });
+
     }
 
     private void insertListRendiciones(String codLiquidacion)

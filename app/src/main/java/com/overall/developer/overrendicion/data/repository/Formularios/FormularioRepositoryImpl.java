@@ -3,11 +3,14 @@ package com.overall.developer.overrendicion.data.repository.Formularios;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormularios;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormulariosImpl;
@@ -111,8 +114,26 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public MovilidadBean setMovilidadForEditDB(int idMov) {
+    public RendicionDetalleBean setMovilidadForEditDB(int idMov) {
         return mDbFormularios.setMovilidadForEditDB(idMov);
+    }
+
+    @Override
+    public void insertMovilidadDB(MovilidadBean movilidadBean)
+    {
+        mDbFormularios.insertMovilidadDB(movilidadBean);
+    }
+
+    @Override
+    public void sendDataInsertMovilidadApi(MovilidadInsertRequest movilidadRequest)
+    {
+        mApiFormularios.sendDataInsertMovilidadApi(movilidadRequest);
+
+    }
+
+    @Override
+    public void sendDataUpdateMovilidadApi(MovilidadUpdateRequest updateRequest) {
+        mApiFormularios.sendDataUpdateMovilidadApi(updateRequest);
     }
 
 

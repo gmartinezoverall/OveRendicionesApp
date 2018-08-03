@@ -3,11 +3,12 @@ package com.overall.developer.overrendicion.data.repository.Formularios.db;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 
 import java.util.List;
 
@@ -37,5 +38,8 @@ public interface DBFormularios
 
     BancoBean getDefaultBancoDB(String bcoCod);
 
-    MovilidadBean setMovilidadForEditDB(int idMov);
+    RendicionDetalleBean setMovilidadForEditDB(int idMov);
+
+    void insertMovilidadDB(MovilidadBean movilidadBean);
+
 }

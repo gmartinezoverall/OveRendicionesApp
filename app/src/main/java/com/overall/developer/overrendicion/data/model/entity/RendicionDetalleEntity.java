@@ -1,6 +1,6 @@
 package com.overall.developer.overrendicion.data.model.entity;
 
-public class MovilidadEntity
+public class RendicionDetalleEntity
 {
     private Integer id;
     private String idMovilidad;
@@ -18,10 +18,10 @@ public class MovilidadEntity
     private String fechaHasta;
     private String numBeneficiario;
 
-    public MovilidadEntity() {
+    public RendicionDetalleEntity() {
     }
 
-    public MovilidadEntity(Integer id, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario) {
+    public RendicionDetalleEntity(Integer id, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario) {
         this.id = id;
         this.idMovilidad = idMovilidad;
         this.codRendicion = codRendicion;

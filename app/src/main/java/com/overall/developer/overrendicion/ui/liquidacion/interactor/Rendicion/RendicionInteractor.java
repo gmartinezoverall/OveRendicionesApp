@@ -1,9 +1,8 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
-
-
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
@@ -26,5 +25,9 @@ public interface RendicionInteractor
 
     void finishLogin();
 
-    void successListMovilidad(List<MovilidadBean> movilidadList);
+    void successListMovilidad(List<RendicionDetalleBean> movilidadList);
+
+    void deleteDetMovForCod(int idDetMov);
+
+    void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList);
 }
