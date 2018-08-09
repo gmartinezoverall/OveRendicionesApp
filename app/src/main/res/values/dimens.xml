@@ -51,6 +51,6 @@
     <dimen name="dp48">48dp</dimen>
 
     <!--cardview-->
-    <dimen name="swipeWidth">85dp</dimen>
+    <dimen name="swipeWidth">75dp</dimen>
 
 </resources>

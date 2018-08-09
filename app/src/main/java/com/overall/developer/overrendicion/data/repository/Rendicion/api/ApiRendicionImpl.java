@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion.api;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -9,6 +10,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.overall.developer.overrendicion.BuildConfig;
+import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
@@ -115,6 +117,43 @@ public class ApiRendicionImpl implements ApiRendicion
 
                     }
                 });
+
+    }
+
+    @Override
+    public void sendDataPhoteApi(String codRendicion, String pathImage)
+    {
+        AndroidNetworking.post(UrlApi.urlUpdateFotoRendicion)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("codRendicion", codRendicion)
+                .addBodyParameter("foto", pathImage)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            Toast.makeText(RendicionApplication.getContext(), "Se Guardo la Foto Correctamente", Toast.LENGTH_LONG).show();
+                            if (response.getString("code").equals("0"))
+                            {
+
+
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+
+                    }
+                });
+
 
     }
 

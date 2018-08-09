@@ -187,7 +187,6 @@ public class BoletaVentaFragment extends Fragment
                             String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
-
                 }
                 break;
 
@@ -210,6 +209,8 @@ public class BoletaVentaFragment extends Fragment
                 break;
         }
     }
+
+    //region Foto
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,6 +260,8 @@ public class BoletaVentaFragment extends Fragment
 
         }
     }
+
+    //endregion
 
     private boolean ValideWidgets()
     {

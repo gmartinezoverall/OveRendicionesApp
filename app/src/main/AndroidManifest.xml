@@ -47,7 +47,8 @@
             android:exported="true" />
 
         <activity android:name=".ui.user.view.Drawable.RecoveryPasswordActivity" />
-        <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity"></activity>
+        <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity" />
+        <activity android:name=".ui.liquidacion.view.rendicion.contentFoto.FotoContentActivity"></activity>
     </application>
 
 </manifest>

@@ -141,6 +141,7 @@ public class MovilidadFragment extends Fragment {
             if (tipo == 1)
             {
                 etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
+                etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
                 if (btnIndividual.isChecked())etxMotivo.requestFocus();
                 else etxFechaHasta.requestFocus();
             }

@@ -48,4 +48,6 @@ public interface RendicionRepository
     void deleteDetMovForCodApi(String idDetMov);
 
     void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList);
+
+    void sendDataPhoteApi(String codRendicion, String pathImage);
 }

@@ -9,4 +9,6 @@ public interface ApiRendicion
     void insertListMovilidadApi(String codLiquidacionDB);
 
     void deleteDetMovForCodApi(String idDetMov);
+
+    void sendDataPhoteApi(String codRendicion, String pathImage);
 }

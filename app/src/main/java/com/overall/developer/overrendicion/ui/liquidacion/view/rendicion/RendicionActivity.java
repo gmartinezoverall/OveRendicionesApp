@@ -1,6 +1,13 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.rendicion;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,10 +22,15 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.util.Attributes;
+import com.fxn.pix.Pix;
+import com.fxn.utility.PermUtil;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
@@ -32,16 +44,22 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.Re
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
+import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.contentFoto.FotoContentActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.zelory.compressor.Compressor;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -76,6 +94,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     List<RendicionDetalleEntity> mMovilidadList = new ArrayList<>();
     String nombreUser;
     String emailUser;
+    ImageView imgFoto;
+    String pathImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,11 +243,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                         mAdapter.notifyItemRemoved(position);
 
                     });
-                    builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->
-
-                            dialog.dismiss()
-
-                    );
+                    builder.setNegativeButton(R.string.btnNegative, (dialog, id) -> dialog.dismiss());
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
@@ -241,12 +257,90 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
                     break;
 
+                case R.id.lytFoto:
+
+                    showCustomDialog(mRendicionList.get(position).getCodRendicion());
+
+
+                    break;
+
             }
         });
 
         ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
         rcvRendicion.setAdapter(mAdapter);
     }
+    //region CustomDialog
+    private void showCustomDialog(String codRendicion)
+    {
+
+        Dialog mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.dialog_foto);
+        ImageButton btnFoto = mDialog.findViewById(R.id.btnFotoDialog);
+        btnFoto.setOnClickListener(v-> Pix.start(this, 100, 1));
+        imgFoto = mDialog.findViewById(R.id.imgFoto);
+        TextView txvCancelar = mDialog.findViewById(R.id.txvCancelar);
+        txvCancelar.setOnClickListener(v -> mDialog.dismiss());
+        TextView txvGuardar = mDialog.findViewById(R.id.txvGuardar);
+        txvGuardar.setOnClickListener(v ->
+        {
+            mPresenter.sendDataPhote(codRendicion, pathImage);
+            mDialog.dismiss();
+
+        });
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.show();
+        PushDownAnim.setPushDownAnimTo(btnFoto);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case (100): {
+                if (resultCode == Activity.RESULT_OK) {
+                    File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
+
+                    new Compressor(this)
+                            .setQuality(95)
+                            .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                            .compressToFileAsFlowable(imageFile)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(file ->
+                            {
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                                pathImage = file.getAbsolutePath();
+
+                            }, throwable ->
+                            {
+                                Log.i("ErrorCompressImage", throwable.getMessage());
+                            });
+
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermUtil.REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Pix.start(this, 100, getResources().getInteger(R.integer.numFotos));
+                } else {
+                    Toast.makeText(this, "Tiene que aprobar los permisos para seleccionar una Foto", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
+
+    //endregion
 
 
     //region NavigationView

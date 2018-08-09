@@ -135,5 +135,10 @@ public class RendicionRepositoryImpl implements RendicionRepository
 
     }
 
+    @Override
+    public void sendDataPhoteApi(String codRendicion, String pathImage) {
+        mApiRendicion.sendDataPhoteApi(codRendicion, pathImage);
+    }
+
 
 }

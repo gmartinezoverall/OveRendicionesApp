@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
+import com.overall.developer.overrendicion.BuildConfig;
+import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
@@ -15,7 +17,9 @@ import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRe
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepositoryImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.RendicionPresenter;
 import com.overall.developer.overrendicion.utils.Util;
+import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -168,6 +172,20 @@ public class RendicionInteractorImpl implements RendicionInteractor
 
         }
         mPresenter.deleteDetMovSuccess(rendicionList, detalleEntityList);
+
+    }
+
+    @Override
+    public void sendDataPhote(String codRendicion, String pathImage)
+    {
+        String image = Util.SaveImage(pathImage);
+        AwsUtility.UploadTransferUtilityS3(RendicionApplication.getContext(), image);
+        String imageSend = (BuildConfig.URL_AWS + image.substring(34));//se genera la URL de AWS para enviarlo por el WS
+
+        File file = new File(pathImage);
+        file.delete();
+        //mRepository.sendDataPhoteApi(codRendicion, Util.SaveImage(pathImage));
+        mRepository.sendDataPhoteApi(codRendicion, imageSend);
 
     }
 

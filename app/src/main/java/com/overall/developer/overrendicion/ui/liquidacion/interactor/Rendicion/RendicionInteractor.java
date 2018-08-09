@@ -30,4 +30,6 @@ public interface RendicionInteractor
     void deleteDetMovForCod(int idDetMov);
 
     void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList);
+
+    void sendDataPhote(String codRendicion, String pathImage);
 }

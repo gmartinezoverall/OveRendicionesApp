@@ -90,4 +90,10 @@ public class RendicionPresenterImpl implements RendicionPresenter
         mView.deleteDetMovSuccess(entityList, detalleEntityList);
     }
 
+    @Override
+    public void sendDataPhote(String codRendicion, String pathImage)
+    {
+        mInteractor.sendDataPhote(codRendicion, pathImage);
+    }
+
 }

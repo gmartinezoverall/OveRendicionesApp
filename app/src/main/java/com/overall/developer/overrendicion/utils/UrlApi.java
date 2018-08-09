@@ -23,6 +23,7 @@ public class UrlApi
     public static String urlEliminarGastoMovilidad = BuildConfig.URL_BASE + "liquidation/EliminarGastoMovilidad";
     public static String urlInsertarGastoMovilidad = BuildConfig.URL_BASE + "liquidation/InsertarGastosMovilidad";
     public static String urlUpdateGastoMovilidad = BuildConfig.URL_BASE + "liquidation/EditarGastosMovilidad";
+    public static String urlUpdateFotoRendicion = BuildConfig.URL_BASE + "liquidation/ActualizarFotoRendicion";
 
 
 }

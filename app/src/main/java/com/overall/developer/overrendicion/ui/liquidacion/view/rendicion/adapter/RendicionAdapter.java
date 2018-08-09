@@ -49,7 +49,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
     public  class RendicionViewHolder extends RecyclerView.ViewHolder
     {
         private TextView txvCodLiquidacion, txvDocumento, txvNumDocumento, txvPrecioTotal;
-        private RelativeLayout lytDetalle, lytRemove, lytEdit, lytNew;
+        private RelativeLayout lytDetalle, lytRemove, lytEdit, lytNew, lytFoto;
         private LinearLayout lytDetMovilidad, lytCardViewRendicion;
         private Button rowButton;
         private RecyclerView rcvMovilidad;
@@ -68,6 +68,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
             lytRemove = itemView.findViewById(R.id.lytRemove);
             lytEdit = itemView.findViewById(R.id.lytEdit);
             lytNew = itemView.findViewById(R.id.lytNew);
+            lytFoto = itemView.findViewById(R.id.lytFoto);
             lytDetMovilidad = itemView.findViewById(R.id.lytDetMovilidad);
             rowButton = itemView.findViewById(R.id.rowButton);
             lytCardViewRendicion = itemView.findViewById(R.id.lytCardViewRendicion);
@@ -123,6 +124,8 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
 
         holder.lytNew.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
 
+        holder.lytFoto.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
+
         holder.lytEdit.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.GONE : View.VISIBLE);
 
         holder.lytEdit.setOnClickListener( v -> itemCLick.onClick(v, position) );
@@ -130,6 +133,8 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
         holder.lytRemove.setOnClickListener( v -> itemCLick.onClick(v, position) );
 
         holder.lytNew.setOnClickListener(v -> itemCLick.onClick(v, position));
+
+        holder.lytFoto.setOnClickListener(v -> itemCLick.onClick(v, position));
 
         holder.lytDetalle.setOnClickListener(v ->
         {
