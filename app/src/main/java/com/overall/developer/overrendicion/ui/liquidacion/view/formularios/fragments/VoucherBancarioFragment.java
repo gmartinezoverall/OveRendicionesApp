@@ -31,6 +31,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
 
@@ -114,6 +115,7 @@ public class VoucherBancarioFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, spnBanco);
         return mView;
 
     }

@@ -7,7 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -19,17 +21,12 @@
                 android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Fecha:  "/>
+                        android:text="Fecha:  "
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:id="@+id/etxCalendar"
@@ -37,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="Fecha del Documento"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
@@ -49,25 +46,20 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="N: Documento"/>
+                        android:text="N: Documento"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxNDocumento"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="N: Documento"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPersonName"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
@@ -78,26 +70,22 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Monto Afectado : "/>
+                        android:text="Monto Afectado : "
+                        android:layout_marginTop="5dp"/>
 
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxMontoAfectado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="Monto Afectado"
-                        android:inputType="textEmailAddress"
+                        android:inputType="numberDecimal"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
@@ -109,26 +97,21 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Monto no Afectado: "/>
+                        android:text="Monto no Afectado: "
+                        android:layout_marginTop="5dp"/>
 
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxMontoNoAfectado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="Monto no Afectado"
-                        android:inputType="textEmailAddress"
+                        android:inputType="numberDecimal"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
@@ -140,44 +123,33 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Tipo gasto: "/>
+                        android:text="Tipo gasto: "
+                        android:layout_marginTop="5dp"/>
 
                     <TextView
                         android:id="@+id/spnTipoGasto"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        />
+                        android:layout_height="50dp" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Observaciones: "/>
+                        android:text="Observaciones: "
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxObservaciones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="Observaciones"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPersonName"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
@@ -189,7 +161,57 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Foto: "
+                    android:layout_marginTop="5dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_add_a_photo"/>
+
+                    <ImageButton
+                        android:id="@+id/btnFoto"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_add_a_photo_white" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center"
+                    android:paddingTop="10dp">
+
+                    <Button
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_background"/>
+
+                </RelativeLayout>
+
 
             </LinearLayout>
 

@@ -124,7 +124,7 @@ public class FacturaFragment extends Fragment {
             if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
         return mView;
     }
 

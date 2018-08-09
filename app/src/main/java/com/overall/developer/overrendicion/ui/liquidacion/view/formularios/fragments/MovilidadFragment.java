@@ -89,7 +89,7 @@ public class MovilidadFragment extends Fragment {
             if (hasFocus) showDatePickerDialog(2);
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto);
+
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -106,6 +106,7 @@ public class MovilidadFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
+        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto);
         return mView;
     }
 

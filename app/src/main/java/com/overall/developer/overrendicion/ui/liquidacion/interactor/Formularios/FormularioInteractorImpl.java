@@ -17,9 +17,15 @@ import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ArrendamientoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletoAereoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletoTerrestreEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.CartaPorteAereoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboHonorariosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
@@ -250,12 +256,29 @@ public class FormularioInteractorImpl implements FormularioInteractor
             case 1:
                 entity = new FacturaEntity().getEntity(dinamyObj);
                 break;
-
             case 2:
                 entity = new BoletaVentaEntity().getEntity(dinamyObj);
                 break;
+            case 5:
+                entity = new ReciboHonorariosEntity().getEntity(dinamyObj);
+                break;
+            case 8:
+                entity = new BoletoAereoEntity().getEntity(dinamyObj);
+                break;
+            case 9:
+                entity = new BoletoTerrestreEntity().getEntity(dinamyObj);
+                break;
+            case 13:
+                entity = new OtrosDocumentosEntity().getEntity(dinamyObj);
+                break;
+            case 14:
+                entity = new ArrendamientoEntity().getEntity(dinamyObj);
+                break;
             case 17:
                 entity = new VoucherBancarioEntity().getEntity(dinamyObj);
+                break;
+            case 21:
+                entity = new CartaPorteAereoEntity().getEntity(dinamyObj);
                 break;
 
 

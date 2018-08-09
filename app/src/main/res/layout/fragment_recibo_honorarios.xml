@@ -7,7 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -18,18 +20,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="RUC"/>
+                        android:text="RUC"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxRuc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -46,21 +45,16 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Razon Social"/>
+                        android:text="Razon Social"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxRazonSocial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -77,20 +71,15 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="N: Documento"/>
+                        android:text="N: Documento"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxNumDoc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -106,18 +95,13 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Fecha Documento: "/>
+                        android:text="Fecha Documento: "
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:id="@+id/etxCalendar"
@@ -136,70 +120,187 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Monto: "/>
+                        android:text="Monto: "
+                        android:layout_marginTop="5dp"/>
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxValorVenta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:hint="Valor Venta"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="15sp"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <CheckBox
-                            android:layout_width="wrap_content"
+                            android:id="@+id/chkRetencion"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="Retencion 8%"
+                            android:textSize="10sp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/txvRetencion"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="Retencion 8%"/>
+                            android:text="0.00"
+                            android:layout_weight="0.8"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Total"
+                            android:layout_weight="0.8"/>
+
+
+                        <TextView
+                            android:id="@+id/etxPrecioVenta"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0.00"
+                            android:layout_weight="1"/>
 
                     </LinearLayout>
 
-
-                    <com.libizo.CustomEditText
+                    <LinearLayout
+                        android:id="@+id/lytCodSuspencion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:hint="Monto"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Código de suspención: "
+                            android:layout_marginTop="5dp"/>
+
+                        <com.libizo.CustomEditText
+                            android:id="@+id/etxCodSuspencion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:hint="Código de suspención:"
+                            android:inputType="textEmailAddress"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="12dp"
+                            android:paddingTop="12dp"
+                            android:text=""
+                            android:textSize="15sp"
+                            app:libIZO_setClearIconVisible="true"
+                            app:libIZO_setBorderColor="#d4d2d3"
+                            app:libIZO_setBorderView="true"
+                            app:libIZO_setCornerRadius="20dp"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Tipo gasto: "/>
+                        android:text="Tipo gasto: "
+                        android:layout_marginTop="5dp"/>
 
                     <TextView
                         android:id="@+id/spnTipoGasto"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        />
+                        android:layout_height="50dp"  />
 
-                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Foto: "
+                    android:layout_marginTop="5dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_add_a_photo"/>
+
+                    <ImageButton
+                        android:id="@+id/btnFoto"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_add_a_photo_white" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center"
+                    android:paddingTop="10dp">
+
+
+                    <Button
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_background"/>
+
+                </RelativeLayout>
 
 
             </LinearLayout>

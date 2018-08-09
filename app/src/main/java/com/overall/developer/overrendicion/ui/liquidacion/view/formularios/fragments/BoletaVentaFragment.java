@@ -87,11 +87,13 @@ public class BoletaVentaFragment extends Fragment
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    Unbinder unbinder;
-    View mView;
     RendicionEntity rendicionEntity;
     TipoGastoEntity gastoEntity;
     String pathImage;
+
+    Unbinder unbinder;
+    View mView;
+
 
     @Nullable
     @Override
@@ -105,11 +107,6 @@ public class BoletaVentaFragment extends Fragment
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar);
-
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -126,6 +123,9 @@ public class BoletaVentaFragment extends Fragment
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
         });
+
+
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
 
         return mView;
     }
@@ -210,6 +210,18 @@ public class BoletaVentaFragment extends Fragment
         }
     }
 
+    private boolean ValideWidgets()
+    {
+        if (etxRuc.getText().toString().isEmpty() || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
+                etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
+                ||  pathImage == null)
+        {
+            Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
+    }
+
     //region Foto
 
     @Override
@@ -262,16 +274,4 @@ public class BoletaVentaFragment extends Fragment
     }
 
     //endregion
-
-    private boolean ValideWidgets()
-    {
-        if (etxRuc.getText().toString().isEmpty() || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
-                etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
-                ||  pathImage == null)
-        {
-            Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else return true;
-    }
 }
