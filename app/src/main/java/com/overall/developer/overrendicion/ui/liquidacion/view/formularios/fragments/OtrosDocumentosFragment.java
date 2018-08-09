@@ -78,6 +78,7 @@ public class OtrosDocumentosFragment extends Fragment {
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
+
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
         spinnerDialogTipoGasto = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));

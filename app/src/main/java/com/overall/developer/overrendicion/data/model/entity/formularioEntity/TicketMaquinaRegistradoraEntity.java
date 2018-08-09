@@ -1,9 +1,9 @@
 package com.overall.developer.overrendicion.data.model.entity.formularioEntity;
 
-
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 
-public class FacturaEntity implements FormularioEntity {
+public class TicketMaquinaRegistradoraEntity implements FormularioEntity
+{
     private String codLiquidacion;
     private String tipoDocumento;
     private String ruc;
@@ -21,20 +21,20 @@ public class FacturaEntity implements FormularioEntity {
     private String observaciones;
     private String foto;
 
-    public FacturaEntity() {
+    public TicketMaquinaRegistradoraEntity() {
     }
 
-    public FacturaEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String igv, String afectoIgv, String otrosGatos, String valorNeto, String precioVenta, String tipoGasto, String observaciones, String foto) {
+    public TicketMaquinaRegistradoraEntity(String tipoDocumento, String ruc, String razonSocial, String numeroDocumento, String fechaDocumento, String tipoMoneda, String valorNeto, String igv, String afectoIgv, String otrosGatos, String precioVenta, String tipoGasto, String observaciones, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
         this.numeroDocumento = numeroDocumento;
         this.fechaDocumento = fechaDocumento;
         this.tipoMoneda = tipoMoneda;
+        this.valorNeto = valorNeto;
         this.igv = igv;
         this.afectoIgv = afectoIgv;
         this.otrosGatos = otrosGatos;
-        this.valorNeto = valorNeto;
         this.precioVenta = precioVenta;
         this.tipoGasto = tipoGasto;
         this.observaciones = observaciones;
@@ -43,23 +43,23 @@ public class FacturaEntity implements FormularioEntity {
 
     @Override
     public RendicionEntity getEntity(Object obj) {
-        FacturaEntity facturaEntity = (FacturaEntity) obj;
+        TicketMaquinaRegistradoraEntity ticketMaquinaRegistradoraEntity = (TicketMaquinaRegistradoraEntity) obj;
         RendicionEntity entity = new RendicionEntity();
-        entity.setCodLiquidacion(facturaEntity.codLiquidacion);
-        entity.setRdoId(facturaEntity.tipoDocumento);
-        entity.setRuc(facturaEntity.ruc);
-        entity.setRazonSocial(facturaEntity.razonSocial);
-        entity.setNumeroDoc(facturaEntity.numeroDocumento);
-        entity.setFechaDocumento(facturaEntity.fechaDocumento);
-        entity.setTipoMoneda(facturaEntity.tipoMoneda);
-        entity.setIgv(facturaEntity.igv);
-        entity.setAfectoIgv(facturaEntity.afectoIgv);
-        entity.setOtroGasto(facturaEntity.otrosGatos);
-        entity.setValorNeto(facturaEntity.valorNeto);
-        entity.setPrecioTotal(facturaEntity.precioVenta);
-        entity.setRtgId(facturaEntity.tipoGasto);
-        entity.setObservacion(facturaEntity.observaciones);
-        entity.setFoto(facturaEntity.foto);
+        entity.setCodLiquidacion(ticketMaquinaRegistradoraEntity.codLiquidacion);
+        entity.setRdoId(ticketMaquinaRegistradoraEntity.tipoDocumento);
+        entity.setRuc(ticketMaquinaRegistradoraEntity.ruc);
+        entity.setRazonSocial(ticketMaquinaRegistradoraEntity.razonSocial);
+        entity.setNumeroDoc(ticketMaquinaRegistradoraEntity.numeroDocumento);
+        entity.setFechaDocumento(ticketMaquinaRegistradoraEntity.fechaDocumento);
+        entity.setTipoMoneda(ticketMaquinaRegistradoraEntity.tipoMoneda);
+        entity.setIgv(ticketMaquinaRegistradoraEntity.igv);
+        entity.setAfectoIgv(ticketMaquinaRegistradoraEntity.afectoIgv);
+        entity.setOtroGasto(ticketMaquinaRegistradoraEntity.otrosGatos);
+        entity.setValorNeto(ticketMaquinaRegistradoraEntity.valorNeto);
+        entity.setPrecioTotal(ticketMaquinaRegistradoraEntity.precioVenta);
+        entity.setRtgId(ticketMaquinaRegistradoraEntity.tipoGasto);
+        entity.setObservacion(ticketMaquinaRegistradoraEntity.observaciones);
+        entity.setFoto(ticketMaquinaRegistradoraEntity.foto);
 
         return entity;
     }
@@ -191,6 +191,4 @@ public class FacturaEntity implements FormularioEntity {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-
-
 }

@@ -26,6 +26,8 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Fa
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboHonorariosEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.SinSustentoTributarioEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.TicketMaquinaRegistradoraEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
@@ -268,11 +270,17 @@ public class FormularioInteractorImpl implements FormularioInteractor
             case 9:
                 entity = new BoletoTerrestreEntity().getEntity(dinamyObj);
                 break;
+            case 12:
+                entity = new SinSustentoTributarioEntity().getEntity(dinamyObj);
+                break;
             case 13:
                 entity = new OtrosDocumentosEntity().getEntity(dinamyObj);
                 break;
             case 14:
                 entity = new ArrendamientoEntity().getEntity(dinamyObj);
+                break;
+            case 15:
+                entity = new TicketMaquinaRegistradoraEntity().getEntity(dinamyObj);
                 break;
             case 17:
                 entity = new VoucherBancarioEntity().getEntity(dinamyObj);

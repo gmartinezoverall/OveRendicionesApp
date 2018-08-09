@@ -89,11 +89,13 @@ public class FacturaFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    Unbinder unbinder;
-    View mView;
     RendicionEntity rendicionEntity;
     TipoGastoEntity gastoEntity;
     String pathImage;
+
+
+    Unbinder unbinder;
+    View mView;
 
     @Nullable
     @Override
@@ -125,6 +127,7 @@ public class FacturaFragment extends Fragment {
         });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
+
         return mView;
     }
 
@@ -209,6 +212,7 @@ public class FacturaFragment extends Fragment {
         }
     }
 
+    //region Foto
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -256,6 +260,8 @@ public class FacturaFragment extends Fragment {
 
         }
     }
+
+    //endregion
 
 
     private boolean ValideWidgets()
