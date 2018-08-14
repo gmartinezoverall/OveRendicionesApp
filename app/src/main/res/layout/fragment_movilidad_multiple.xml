@@ -6,7 +6,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -17,110 +20,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Razon Social"/>
-
-                    <com.libizo.CustomEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:hint="Razon Social:"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Periodo del:   "/>
-
-                    <com.libizo.CustomEditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_margin="5dp"
-                        android:hint="inicio"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Al: "/>
-
-                    <com.libizo.CustomEditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_margin="5dp"
-                        android:hint="fin"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Fecha"/>
+                        android:text="Fecha"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:id="@+id/etxCalendar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="Fecha"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -133,23 +44,18 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="N° Documento"/>
+                        android:text="Dni del Trabajador:"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="N: Documento"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -163,24 +69,18 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Datos del Trabajador: "/>
+                        android:text="Datos del Trabajador: "
+                        android:layout_marginTop="5dp"/>
 
 
                     <com.libizo.CustomEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="Datos del trabajador"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -194,24 +94,17 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Motivo:  "/>
+                        android:text="Motivo:  "
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="Motivo"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -224,23 +117,18 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Destino:  "/>
+                        android:text="Destino Del Desplazamiento:"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="Destino del desplazamiento"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -253,23 +141,18 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Monto:  "/>
+                        android:text="Monto Gastado:"
+                        android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:hint="Monto Gastado"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
@@ -283,26 +166,43 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Tipo de Gasto: "
+                    android:layout_marginTop="5dp"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/spnTipoGasto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="Seleccionar"
+                    android:drawableRight="@drawable/ic_arrow_drop_down"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:textColor="@color/black"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="5dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Tipo Gasto: "/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|center"
+                    android:paddingTop="10dp">
 
-                    <TextView
-                        android:id="@+id/spnTipoGasto"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+                    <Button
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_background"
+                        android:layout_marginRight="10dp"/>
 
-                </LinearLayout>
-
+                </RelativeLayout>
 
             </LinearLayout>
 

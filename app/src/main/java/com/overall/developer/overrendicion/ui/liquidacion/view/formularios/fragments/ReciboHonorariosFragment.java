@@ -168,7 +168,7 @@ public class ReciboHonorariosFragment extends Fragment {
                 if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ReciboHonorariosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
                             String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNumDoc.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(etxPrecioVenta),
-                            String.valueOf("0.8"),String.valueOf(chkRetencion.isChecked() ? "1" : "0"), String.valueOf(etxCodSuspencion.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
+                            String.valueOf(chkRetencion.isChecked() ? "1" : "0"), String.valueOf(etxCodSuspencion.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
                 break;

@@ -9,7 +9,6 @@ public class ArrendamientoEntity implements FormularioEntity
     private String ruc;
     private String razonSocial;
     private String fechaDocumento;
-    private String docIdentoidad;
     private String numeroDoc;
     private String monto;
     private String tipoGasto;
@@ -18,12 +17,11 @@ public class ArrendamientoEntity implements FormularioEntity
     public ArrendamientoEntity() {
     }
 
-    public ArrendamientoEntity(String tipoDocumento, String ruc, String razonSocial, String fechaDocumento, String docIdentoidad, String numeroDoc, String monto, String tipoGasto, String foto) {
+    public ArrendamientoEntity(String tipoDocumento, String ruc, String razonSocial, String fechaDocumento, String numeroDoc, String monto, String tipoGasto, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
         this.fechaDocumento = fechaDocumento;
-        this.docIdentoidad = docIdentoidad;
         this.numeroDoc = numeroDoc;
         this.monto = monto;
         this.tipoGasto = tipoGasto;
@@ -39,7 +37,6 @@ public class ArrendamientoEntity implements FormularioEntity
         entity.setRuc(arrendamientoEntity.ruc);
         entity.setRazonSocial(arrendamientoEntity.razonSocial);
         entity.setFechaDocumento(arrendamientoEntity.fechaDocumento);
-        entity.setOtroGasto(arrendamientoEntity.docIdentoidad);//no se donde ira
         entity.setNumeroDoc(arrendamientoEntity.numeroDoc);
         entity.setPrecioTotal(arrendamientoEntity.monto);
         entity.setRtgId(arrendamientoEntity.tipoGasto);
@@ -86,14 +83,6 @@ public class ArrendamientoEntity implements FormularioEntity
 
     public void setFechaDocumento(String fechaDocumento) {
         this.fechaDocumento = fechaDocumento;
-    }
-
-    public String getDocIdentoidad() {
-        return docIdentoidad;
-    }
-
-    public void setDocIdentoidad(String docIdentoidad) {
-        this.docIdentoidad = docIdentoidad;
     }
 
     public String getNumeroDoc() {

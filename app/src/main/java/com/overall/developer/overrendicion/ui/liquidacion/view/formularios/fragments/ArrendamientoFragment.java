@@ -51,8 +51,6 @@ public class ArrendamientoFragment extends Fragment {
     CustomEditText mEtxRuc;
     @BindView(R.id.etxRazonSocial)
     CustomEditText mEtxRazonSocial;
-    @BindView(R.id.spnTipoDocumento)
-    NiceSpinner mSpnTipoDocumento;
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
 
@@ -86,8 +84,8 @@ public class ArrendamientoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
 
-        ArrayAdapter<String> tipoDocumentoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_documento));
-        mSpnTipoDocumento.setAdapter(tipoDocumentoAdapter);
+/*        ArrayAdapter<String> tipoDocumentoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_documento));
+        mSpnTipoDocumento.setAdapter(tipoDocumentoAdapter);*/
 
 
 /*        ArrayAdapter<String> tipoGastoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_gasto));
@@ -160,7 +158,7 @@ public class ArrendamientoFragment extends Fragment {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),String.valueOf(mEtxRuc.getText()),String.valueOf(mEtxRazonSocial.getText()),
-                            String.valueOf(etxCalendar.getText()), String.valueOf(mSpnTipoDocumento.getSelectedIndex()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
+                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
 

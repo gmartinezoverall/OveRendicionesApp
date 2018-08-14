@@ -84,6 +84,12 @@
         <item>Dolares</item>
     </array>
 
+    <array name="tipo_servicio">
+        <item>Luz</item>
+        <item>Agua</item>
+        <item>Telefono</item>
+    </array>
+
     <array name="tipo_ingreso">
         <item>Individual</item>
         <item>Masivo</item>
@@ -143,9 +149,10 @@
         <item>NOTA DE CREDITO</item>
         <item>OTRAS DESCUENTOS</item>
         <item>RECIBO POR HONORARIOS</item>
-        <item>VARIOS TRABAJADORES</item>
+        <item>SERVICIOS PUBLICOS</item>
         <item>SIN SUSTENTO TRIBUTARIO</item>
         <item>TICKET MAQUINA REGISTRADORA</item>
+        <item>VARIOS TRABAJADORES</item>
         <item>VOUCHER BANCARIO</item>
     </array>
 

@@ -31,7 +31,7 @@ public class SinSustentoTributarioEntity implements FormularioEntity
         entity.setCodLiquidacion(sinSustentoTributarioEntity.codLiquidacion);
         entity.setRdoId(sinSustentoTributarioEntity.tipoDocumento);
         entity.setFechaDocumento(sinSustentoTributarioEntity.fechaDocumento);
-        entity.setPrecioTotal(sinSustentoTributarioEntity.montoNoAfectado);//no se donde ira
+        entity.setOtroGasto(sinSustentoTributarioEntity.montoNoAfectado);
         entity.setRtgId(sinSustentoTributarioEntity.tipoGasto);
         entity.setObservacion(sinSustentoTributarioEntity.observaciones);
         entity.setFoto(sinSustentoTributarioEntity.foto);

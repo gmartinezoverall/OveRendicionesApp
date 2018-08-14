@@ -94,19 +94,6 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                    <TextView
-                        android:id="@+id/txvRuc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Tipo Documento del Inquilino"
-                        android:layout_marginTop="5dp"/>
-
-                    <org.angmarch.views.NiceSpinner
-                        android:id="@+id/spnTipoDocumento"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
 
                     <TextView
                         android:layout_width="wrap_content"

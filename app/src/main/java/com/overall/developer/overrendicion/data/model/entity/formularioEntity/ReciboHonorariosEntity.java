@@ -20,14 +20,13 @@ public class ReciboHonorariosEntity implements FormularioEntity
     public ReciboHonorariosEntity() {
     }
 
-    public ReciboHonorariosEntity(String tipoDocumento, String ruc, String razonSocial, String numDocumento, String fechaDocumento, String monto, String retencion, String afectoRetencion, String codSuspencion, String tipoGasto, String foto) {
+    public ReciboHonorariosEntity(String tipoDocumento, String ruc, String razonSocial, String numDocumento, String fechaDocumento, String monto, String afectoRetencion, String codSuspencion, String tipoGasto, String foto) {
         this.tipoDocumento = tipoDocumento;
         this.ruc = ruc;
         this.razonSocial = razonSocial;
         this.numDocumento = numDocumento;
         this.fechaDocumento = fechaDocumento;
         this.monto = monto;
-        this.retencion = retencion;
         this.afectoRetencion = afectoRetencion;
         this.codSuspencion = codSuspencion;
         this.tipoGasto = tipoGasto;
@@ -45,7 +44,6 @@ public class ReciboHonorariosEntity implements FormularioEntity
         entity.setNumeroDoc(reciboHonorariosEntity.numDocumento);
         entity.setFechaDocumento(reciboHonorariosEntity.fechaDocumento);
         entity.setPrecioTotal(reciboHonorariosEntity.monto);
-        entity.setIgv(reciboHonorariosEntity.retencion);//Se esta enviando el 8% de la retencion
         entity.setAfectoRetencion(reciboHonorariosEntity.afectoRetencion);
         entity.setCodSuspencionH(reciboHonorariosEntity.codSuspencion);
         entity.setRtgId(reciboHonorariosEntity.tipoGasto);

@@ -88,9 +88,13 @@ public class Util
             case 13://TICKET MAQUINA REGISTRADORA
                 valor = 15;
                 break;
-            case 14://VOUCHER BANCARIO
+            case 14://VARIOS TRABAJADORES
+                valor = 19;
+                break;
+            case 15://VOUCHER BANCARIO
                 valor = 17;
                 break;
+
             default:
                 valor = 00;
                 break;
