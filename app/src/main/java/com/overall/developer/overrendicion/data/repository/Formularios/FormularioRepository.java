@@ -11,6 +11,7 @@ import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 
@@ -52,4 +53,10 @@ public interface FormularioRepository
     void sendDataInsertMovilidadApi(MovilidadInsertRequest movilidadRequest);
 
     void sendDataUpdateMovilidadApi(MovilidadUpdateRequest updateRequest);
+
+    void searchRucApi(String ruc);
+
+    void searchRucSuccess(String razonSocial);
+
+    void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
 }

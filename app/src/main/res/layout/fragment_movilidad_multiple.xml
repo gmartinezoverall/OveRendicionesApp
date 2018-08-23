@@ -53,6 +53,7 @@
                         android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxNumDoc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -78,6 +79,7 @@
 
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxdatosTra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -102,6 +104,7 @@
                         android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxMotivo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -126,6 +129,7 @@
                         android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxDestino"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -150,6 +154,7 @@
                         android:layout_marginTop="5dp"/>
 
                     <com.libizo.CustomEditText
+                        android:id="@+id/etxMonto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -187,7 +192,56 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Foto: "
+                    android:layout_marginTop="5dp"/>
+
+
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_add_a_photo"/>
+
+
+                    <ImageButton
+                        android:id="@+id/btnListar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_view_list"
+                        android:textColor="@color/white" />
+
+
+                    <ImageButton
+                        android:id="@+id/btnFoto"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_add_a_photo_white" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center"
@@ -195,14 +249,23 @@
 
                     <Button
                         android:id="@+id/btnGuardar"
-                        android:layout_width="200dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
                         android:text="Guardar"
                         android:textColor="@color/white"
                         android:background="@drawable/button_background"
                         android:layout_marginRight="10dp"/>
 
-                </RelativeLayout>
+                    <Button
+                        android:id="@+id/btnSalir"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:text="Salir"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_background"
+                        android:layout_marginRight="10dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

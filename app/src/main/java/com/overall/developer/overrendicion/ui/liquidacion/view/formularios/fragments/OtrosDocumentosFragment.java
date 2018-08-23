@@ -88,6 +88,8 @@ public class OtrosDocumentosFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
+
+
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
 
         return mView;

@@ -7,19 +7,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fxn.pix.Pix;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MovilidadMultipleFragment extends Fragment {
 
@@ -28,21 +36,58 @@ public class MovilidadMultipleFragment extends Fragment {
 
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
+    @BindView(R.id.btnFoto)
+    ImageButton btnFoto;
+    @BindView(R.id.btnGuardar)
+    Button btnGuardar;
+    @BindView(R.id.btnListar)
+    ImageButton btnListar;
+    @BindView(R.id.btnSalir)
+    Button btnSalir;
+    @BindView(R.id.etxNumDoc)
+    CustomEditText etxNumDoc;
+    @BindView(R.id.etxdatosTra)
+    CustomEditText etxdatosTra;
+    @BindView(R.id.etxMotivo)
+    CustomEditText etxMotivo;
+    @BindView(R.id.etxDestino)
+    CustomEditText etxDestino;
+    @BindView(R.id.etxMonto)
+    CustomEditText etxMonto;
+
+
+    private SpinnerDialog spinnerDialog;
+    private String idProvincia;
+    private String rtgId;
+    TipoGastoEntity gastoEntity;
+    private RendicionDetalleEntity rendicionDetalleEntity;
+    String pathImage;
+
 
     Unbinder unbinder;
     View mView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_movilidad_multiple, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
-        ArrayAdapter<TipoGastoEntity> adapterTipoGasto = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, ((FormularioActivity) getContext()).getListSpinner());
-/*
-        spnTipoGasto.setAdapter(adapterTipoGasto);
-        spnTipoGasto.setTitle("Seleciona un Tipo de Gasto");
-        spnTipoGasto.setPositiveButton("CANCELAR");
-*/
+        ArrayList<Object> itemList = new ArrayList<>();
+        itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
+
+        if (itemList.size() == 1) {
+            spnTipoGasto.setText(itemList.get(0).toString());
+            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
+        }
+        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog.bindOnSpinerListener((item, position) ->
+        {
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
+            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
+        });
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
@@ -72,5 +117,31 @@ public class MovilidadMultipleFragment extends Fragment {
 
         datePickerDialog.show();
 
+    }
+
+    @OnClick({R.id.btnFoto, R.id.btnGuardar, R.id.btnListar, R.id.btnSalir, R.id.spnTipoGasto})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnFoto:
+                Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
+                break;
+            case R.id.btnGuardar:
+                ((FormularioActivity) getContext()).saveAndSendDataForMovilidadMultiple(new MovilidadMultipleEntity(((FormularioActivity) getContext()).getIdMovilidad(), String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
+                        String.valueOf(etxNumDoc.getText()), String.valueOf(etxdatosTra.getText()), String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
+                        String.valueOf(etxCalendar.getText()), String.valueOf(rtgId), String.valueOf(pathImage)
+                ));
+
+                break;
+            case R.id.spnTipoGasto:
+                spinnerDialog.showSpinerDialog();
+                break;
+            case R.id.btnListar:
+                break;
+            case R.id.btnSalir:
+                //getActivity().getFragmentManager().beginTransaction().remove().commit();
+                getActivity().getSupportFragmentManager().popBackStack();
+
+                break;
+        }
     }
 }

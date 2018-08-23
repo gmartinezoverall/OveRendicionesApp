@@ -6,6 +6,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEnt
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 
 import java.util.List;
 
@@ -35,4 +36,10 @@ public interface FormularioInteractor
     RendicionDetalleEntity setMovilidadForEdit(int idMovilidad);
 
     void saveDataMovilidad(MovilidadEntity movilidadEntity);
+
+    void searchRuc(String ruc);
+
+    void searchRucSuccess(String razonSocial);
+
+    void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
 }

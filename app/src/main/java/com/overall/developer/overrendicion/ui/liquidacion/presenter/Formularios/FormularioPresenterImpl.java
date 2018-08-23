@@ -8,6 +8,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEnt
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractorImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioView;
@@ -22,6 +23,7 @@ public class FormularioPresenterImpl implements FormularioPresenter
     public FormularioPresenterImpl(FormularioView view, Context context)
     {
         this.mView = view;
+
         mInteractor = new FormularioInteractorImpl(this, context);
     }
 
@@ -98,6 +100,25 @@ public class FormularioPresenterImpl implements FormularioPresenter
     public void saveDataMovilidad(MovilidadEntity movilidadEntity)
     {
         mInteractor.saveDataMovilidad(movilidadEntity);
+
+    }
+
+    @Override
+    public void searchRuc(String ruc)
+    {
+        mInteractor.searchRuc(ruc);
+    }
+
+    @Override
+    public void searchRucSuccess(String razonSocial)
+    {
+        mView.searchRucSuccess(razonSocial);
+
+    }
+
+    @Override
+    public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
+        mInteractor.saveDataMovilidadMultiple(movilidadEntity);
     }
 
 }

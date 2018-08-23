@@ -5,16 +5,19 @@ import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 import com.overall.developer.overrendicion.utils.UrlApi;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,6 +91,69 @@ public class ApiFormulariosImpl implements ApiFormularios
         AndroidNetworking.post(UrlApi.urlUpdateGastoMovilidad)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
                 .addBodyParameter(updateRequest)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("code").equals("0"))
+                            {
+
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+
+                    }
+                });
+
+    }
+
+    @Override
+    public void searchRucApi(String ruc)
+    {
+        AndroidNetworking.get(UrlApi.urlWSRuc)
+                .addPathParameter("ruc", ruc)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response)
+                    {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(0);
+                            mRepository.searchRucSuccess(jsonObject.getString("razon_social"));
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
+
+
+    }
+
+    @Override
+    public void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest)
+    {
+        AndroidNetworking.post(UrlApi.urlInsertarGastoMovilidadMultiple)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter(movilidadMultipleRequest)
                 .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {

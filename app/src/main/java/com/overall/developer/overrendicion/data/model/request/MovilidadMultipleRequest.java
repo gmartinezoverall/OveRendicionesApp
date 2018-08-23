@@ -1,16 +1,10 @@
-package com.overall.developer.overrendicion.data.model.bean;
+package com.overall.developer.overrendicion.data.model.request;
 
-import io.realm.RealmObject;
-
-public class MovilidadBean extends RealmObject
+public class MovilidadMultipleRequest
 {
-    private Integer id;
-    private String idMovilidad;
     private String rdoId;
     private String codLiquidacion;
     private String idUsuario;
-    private String dniTrabajador;
-    private String datosTrabajador;
     private String motivo;
     private String destino;
     private String monto;
@@ -18,20 +12,16 @@ public class MovilidadBean extends RealmObject
     private String rtgId;
     private String tipoMov;
     private String fecha;
-    private String fechaHastaM;
-    private String foto;
+    private String dni;
+    private String datosTrabajador;
 
-    public MovilidadBean() {
+    public MovilidadMultipleRequest() {
     }
 
-
-    public MovilidadBean(String idMovilidad, String rdoId, String codLiquidacion, String idUsuario, String dniTrabajador, String datosTrabajador, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String fechaHastaM, String foto) {
-        this.idMovilidad = idMovilidad;
+    public MovilidadMultipleRequest(String rdoId, String codLiquidacion, String idUsuario, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String dni, String datosTrabajador) {
         this.rdoId = rdoId;
         this.codLiquidacion = codLiquidacion;
         this.idUsuario = idUsuario;
-        this.dniTrabajador = dniTrabajador;
-        this.datosTrabajador = datosTrabajador;
         this.motivo = motivo;
         this.destino = destino;
         this.monto = monto;
@@ -39,24 +29,8 @@ public class MovilidadBean extends RealmObject
         this.rtgId = rtgId;
         this.tipoMov = tipoMov;
         this.fecha = fecha;
-        this.fechaHastaM = fechaHastaM;
-        this.foto = foto;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdMovilidad() {
-        return idMovilidad;
-    }
-
-    public void setIdMovilidad(String idMovilidad) {
-        this.idMovilidad = idMovilidad;
+        this.dni = dni;
+        this.datosTrabajador = datosTrabajador;
     }
 
     public String getRdoId() {
@@ -81,22 +55,6 @@ public class MovilidadBean extends RealmObject
 
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public String getDniTrabajador() {
-        return dniTrabajador;
-    }
-
-    public void setDniTrabajador(String dniTrabajador) {
-        this.dniTrabajador = dniTrabajador;
-    }
-
-    public String getDatosTrabajador() {
-        return datosTrabajador;
-    }
-
-    public void setDatosTrabajador(String datosTrabajador) {
-        this.datosTrabajador = datosTrabajador;
     }
 
     public String getMotivo() {
@@ -155,19 +113,19 @@ public class MovilidadBean extends RealmObject
         this.fecha = fecha;
     }
 
-    public String getFechaHastaM() {
-        return fechaHastaM;
+    public String getDni() {
+        return dni;
     }
 
-    public void setFechaHastaM(String fechaHastaM) {
-        this.fechaHastaM = fechaHastaM;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getDatosTrabajador() {
+        return datosTrabajador;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setDatosTrabajador(String datosTrabajador) {
+        this.datosTrabajador = datosTrabajador;
     }
 }

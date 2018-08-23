@@ -1,7 +1,9 @@
 package com.overall.developer.overrendicion.utils.aws;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -14,6 +16,7 @@ import java.io.File;
 
 public class AwsUtility
 {
+    //region AWS Upload
     public static void UploadTransferUtilityS3(Context context, String path)
     {
         AWSMobileClient.getInstance().initialize(context).execute();
@@ -71,5 +74,61 @@ public class AwsUtility
         Log.d("YourActivity", "Bytes Total: " + uploadObserver.getBytesTotal());
 
     }
+    //endregion
+
+    //region AWS Download
+    public static void downloadWithTransferUtility(Context context)
+    {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
+
+        TransferUtility transferUtility =
+                TransferUtility.builder()
+                        .context(context)
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
+                        .build();
+
+        TransferObserver downloadObserver =
+                transferUtility.download(
+                        "20180710082942.jpg ",
+                        new File(path));
+
+        // Attach a listener to the observer to get state update and progress notifications
+        downloadObserver.setTransferListener(new TransferListener() {
+
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                if (TransferState.COMPLETED == state) {
+                    // Handle a completed upload.
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                int percentDone = (int) percentDonef;
+
+                Log.d("AWS", "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                // Handle errors
+            }
+
+        });
+
+        // If you prefer to poll for the data, instead of attaching a
+        // listener, check for the state and progress in the observer.
+        if (TransferState.COMPLETED == downloadObserver.getState())
+        {
+            // Handle a completed upload.
+            Toast.makeText(context, path, Toast.LENGTH_LONG).show();
+        }
+
+        Log.d("AWS", "Bytes Transferrred: " + downloadObserver.getBytesTransferred());
+        Log.d("AWS", "Bytes Total: " + downloadObserver.getBytesTotal());
+    }
+    //endregion
 
 }

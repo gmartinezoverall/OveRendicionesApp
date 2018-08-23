@@ -28,6 +28,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.swipe.util.Attributes;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
@@ -48,6 +51,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.content
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
+import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -62,7 +66,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static maes.tech.intentanim.CustomIntent.customType;
-
+import com.bumptech.glide.MemoryCategory;
 
 /**
  * Created by cesar on 3/25/2018.
@@ -273,6 +277,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     //region CustomDialog
     private void showCustomDialog(String codRendicion)
     {
+        //AwsUtility.downloadWithTransferUtility(this);
 
         Dialog mDialog = new Dialog(this);
         mDialog.setContentView(R.layout.dialog_foto);
@@ -290,6 +295,12 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         });
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
+
+ /*       Glide.with(this)
+                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
+                .into(imgFoto);*/
+
+
         PushDownAnim.setPushDownAnimTo(btnFoto);
 
     }

@@ -10,6 +10,7 @@ import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.api.ApiFormularios;
@@ -135,6 +136,21 @@ public class FormularioRepositoryImpl implements FormularioRepository
     public void sendDataUpdateMovilidadApi(MovilidadUpdateRequest updateRequest) {
         mApiFormularios.sendDataUpdateMovilidadApi(updateRequest);
     }
+
+    @Override
+    public void searchRucApi(String ruc)
+    {
+        mApiFormularios.searchRucApi(ruc);
+    }
+
+    @Override
+    public void searchRucSuccess(String razonSocial)
+    {
+        mInteractor.searchRucSuccess(razonSocial);
+    }
+
+    @Override
+    public void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest) { mApiFormularios.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);}
 
 
 }

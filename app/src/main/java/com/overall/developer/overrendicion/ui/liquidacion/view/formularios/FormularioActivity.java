@@ -29,6 +29,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEnt
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ArrendamientoFragment;
@@ -36,6 +37,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.BoletoAereoFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.BoletoTerrestreFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.CartaPorteAereoFragment;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ReciboServiciosPublicos;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.DescuentoBoletaFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.FacturaFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.MovilidadFragment;
@@ -46,13 +49,13 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.SinSustentoTributarioFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.TicketMaquinaRegistradoraFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.VoucherBancarioFragment;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 import com.overall.developer.overrendicion.utils.Util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -164,10 +167,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         if (nameFragment == 8) fragment = new NotaCreditoFragment();
         if (nameFragment == 9) fragment = new OtrosDocumentosFragment();
         if (nameFragment == 10) fragment = new ReciboHonorariosFragment();
-        if (nameFragment == 11) fragment = new MovilidadMultipleFragment();
+        if (nameFragment == 11) fragment = new ReciboServiciosPublicos();
         if (nameFragment == 12) fragment = new SinSustentoTributarioFragment();
         if (nameFragment == 13) fragment = new TicketMaquinaRegistradoraFragment();
-        if (nameFragment == 14) fragment = new VoucherBancarioFragment();
+        if (nameFragment == 14) fragment = new MovilidadMultipleFragment();
+        if (nameFragment == 15) fragment = new VoucherBancarioFragment();
 
 
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -175,6 +179,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         fragmentTransaction.commit();
 
     }
+
+
 
     public RendicionEntity getDefaultValues() {
         return rendicionEntity;//devuelve los valores por defecto
@@ -215,6 +221,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return mPresenter.getAllBancos();
     }
 
+    public void searchRuch(String ruc)
+    {
+        mPresenter.searchRuc(ruc);
+    }
+
     public void saveAndSendData(int idFragment, Object objectDinamyc) {
         List<String> typeFragment = new ArrayList<>();
         typeFragment.add(String.valueOf(idFragment));
@@ -233,12 +244,23 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     {
         mPresenter.saveDataMovilidad(movilidadEntity);
     }
+    public void saveAndSendDataForMovilidadMultiple(MovilidadMultipleEntity movilidadEntity)
+    {
+        mPresenter.saveDataMovilidadMultiple(movilidadEntity);
+    }
 
     @Override
     public void saveDataSuccess() {
         startActivity(new Intent(this, RendicionActivity.class));
         customType(this, "fadein-to-fadeout");
         finish();
+    }
+
+    @Override
+    public void searchRucSuccess(String razonSocial)
+    {
+        OttoBus.getBus().post(new Communicator(razonSocial));
+
     }
 
 

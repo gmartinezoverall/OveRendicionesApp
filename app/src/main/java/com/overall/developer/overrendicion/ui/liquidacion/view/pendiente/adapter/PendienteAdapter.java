@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
@@ -113,10 +114,17 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
         });
         holder.btnRendicion.setOnClickListener(v ->
         {
+            if (!liquidacionBean.getMotivoViaje().isEmpty())
+            {
             Intent intent = new Intent(mContext, RendicionActivity.class);
             intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
             mContext.startActivity(intent);
             customType(mContext, "fadein-to-fadeout");
+            }
+            else
+            {
+                Toast.makeText(this.mContext, mContext.getResources().getString(R.string.validatDatosGenerales), Toast.LENGTH_LONG).show();
+            }
 
         });
 

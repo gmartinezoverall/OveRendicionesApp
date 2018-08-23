@@ -24,12 +24,15 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Bo
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.CartaPorteAereoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboHonorariosEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboServiciosPublicosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.SinSustentoTributarioEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.TicketMaquinaRegistradoraEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.VoucherBancarioEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
@@ -177,9 +180,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
         //RendicionDetalleBean detalleDefault = mRepository.setMovilidadForEditDB(movilidadEntity.getId());
-        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(),
+        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(),"-","-",
                 movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
-                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM());
+                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM(), "-");
 
         mRepository.insertMovilidadDB(bean);
 
@@ -205,6 +208,42 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         mPresenter.saveDataSuccess();
 
+
+    }
+
+    @Override
+    public void searchRuc(String ruc)
+    {
+        mRepository.searchRucApi(ruc);
+
+    }
+
+    @Override
+    public void searchRucSuccess(String razonSocial)
+    {
+        mPresenter.searchRucSuccess(razonSocial);
+
+    }
+
+    @Override
+    public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity)
+    {
+        String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
+
+        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(), movilidadEntity.getDniTrabajador()
+                ,movilidadEntity.getDatosTrabajador(),  movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
+                movilidadEntity.getRtgId(), "-", "-", "-", movilidadEntity.getFoto());
+
+        mRepository.insertMovilidadDB(bean);
+
+        if (Util.isOnline())
+        {
+            MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(),
+                    bean.getMotivo(), bean.getDestino(), bean.getMonto(), String.valueOf(Util.getCurrentDate()), bean.getRtgId(), bean.getTipoMov(),
+                    bean.getFecha(), bean.getDniTrabajador(), bean.getDatosTrabajador());
+            mRepository.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);
+
+        }
 
     }
 
@@ -269,6 +308,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
                 break;
             case 9:
                 entity = new BoletoTerrestreEntity().getEntity(dinamyObj);
+                break;
+            case 11:
+                entity = new ReciboServiciosPublicosEntity().getEntity(dinamyObj);
                 break;
             case 12:
                 entity = new SinSustentoTributarioEntity().getEntity(dinamyObj);

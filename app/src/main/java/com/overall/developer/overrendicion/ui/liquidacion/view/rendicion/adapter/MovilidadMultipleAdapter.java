@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,64 +25,62 @@ import java.util.List;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.MovilidadViewHolder>
+public class MovilidadMultipleAdapter extends RecyclerSwipeAdapter<MovilidadMultipleAdapter.MovilidadMultipleViewHolder>
 {
     private Context mContext;
     private List<RendicionDetalleEntity> mMovilidadList;
     private RendicionActivity.ItemClick itemCLick;
 
-    public MovilidadAdapter (Context context, List<RendicionDetalleEntity> movilidadList, RendicionActivity.ItemClick itemCLick)
+    public MovilidadMultipleAdapter(Context context, List<RendicionDetalleEntity> movilidadList, RendicionActivity.ItemClick itemCLick)
     {
         this.mContext = context;
         this.mMovilidadList = movilidadList;
         this.itemCLick = itemCLick;
     }
 
-    public  class MovilidadViewHolder extends RecyclerView.ViewHolder
+    public class MovilidadMultipleViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView txvFecha, txvDetMotivo, txvDetDestino, txvMonto;
-        private RelativeLayout lytEdit, lytRemoveDet;
-        private LinearLayout lytCardViewRendicion;
-        private Button rowButton;
         private SwipeLayout swipeLayout;
+        private RelativeLayout lytEdit, lytRemoveDet;
+        private TextView txvNombre, txvDni, txvFecha, txvMotivo, txvDestino, txvMonto;
 
-
-        public MovilidadViewHolder(View itemView)
+        public MovilidadMultipleViewHolder(View itemView)
         {
             super(itemView);
 
+            txvNombre = itemView.findViewById(R.id.txvNombre);
+            txvDni = itemView.findViewById(R.id.txvDni);
             txvFecha = itemView.findViewById(R.id.txvFecha);
-            txvDetMotivo = itemView.findViewById(R.id.txvDetMotivo);
-            txvDetDestino = itemView.findViewById(R.id.txvDetDestino);
+            txvMotivo = itemView.findViewById(R.id.txvMotivo);
+            txvDestino = itemView.findViewById(R.id.txvDestino);
             txvMonto = itemView.findViewById(R.id.txvMonto);
             lytRemoveDet = itemView.findViewById(R.id.lytRemoveDet);
             lytEdit = itemView.findViewById(R.id.lytEdit);
-            rowButton = itemView.findViewById(R.id.rowButton);
             swipeLayout = itemView.findViewById(R.id.swipe);
-
-            txvDetMotivo.setSelected(true);
-
         }
     }
 
     @NonNull
     @Override
-    public MovilidadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_movilidad, parent, false);
-        return new MovilidadViewHolder(itemView);
+    public MovilidadMultipleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_movidad_multiple, parent, false);
+        return new MovilidadMultipleAdapter.MovilidadMultipleViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovilidadViewHolder holder, int position)
+    public void onBindViewHolder(MovilidadMultipleViewHolder viewHolder, int position)
     {
-        final RendicionDetalleEntity rendicion = mMovilidadList.get(position);
-        holder.txvFecha.setText(String.valueOf(rendicion.getFechaRendicion()));
-        holder.txvDetMotivo.setText(String.valueOf(rendicion.getMotivoMovilidad()));
-        holder.txvDetDestino.setText(String.valueOf(rendicion.getDestinoMovilidad()));
-        holder.txvMonto.setText(String.valueOf(rendicion.getMontoMovilidad()));
+        final RendicionDetalleEntity rendicionDetalle = mMovilidadList.get(position);
 
-        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-        holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
+        viewHolder.txvNombre.setText(String.valueOf(rendicionDetalle.getBeneficiario()));
+        viewHolder.txvDni.setText(String.valueOf(rendicionDetalle.getNumBeneficiario()));
+        viewHolder.txvFecha.setText(String.valueOf(rendicionDetalle.getFechaRendicion()));
+        viewHolder.txvMotivo.setText(String.valueOf(rendicionDetalle.getMotivoMovilidad()));
+        viewHolder.txvDestino.setText(String.valueOf(rendicionDetalle.getDestinoMovilidad()));
+        viewHolder.txvMonto.setText(String.valueOf(rendicionDetalle.getMontoMovilidad()));
+
+        viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        viewHolder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onStartOpen(SwipeLayout layout)
             {
@@ -97,7 +93,7 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             }
         });
 
-        holder.lytEdit.setOnClickListener(v ->
+        viewHolder.lytEdit.setOnClickListener(v ->
         {
             Intent intent = new Intent(mContext, FormularioActivity.class);
             intent.putExtra("id", String.valueOf(mMovilidadList.get(position).getId()));
@@ -105,14 +101,14 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             mContext.startActivity(intent);
         });
 
-        holder.lytRemoveDet.setOnClickListener(v ->
+        viewHolder.lytRemoveDet.setOnClickListener(v ->
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle(R.string.tittleDialog);
             builder.setMessage(R.string.messageDialog);
             builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
             {
-                itemCLick.onClick(v, rendicion.getId());
+                itemCLick.onClick(v, rendicionDetalle.getId());
                 mMovilidadList.remove(position);
                 notifyItemRemoved(position);
 
@@ -125,9 +121,6 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             AlertDialog dialog = builder.create();
             dialog.show();
         });
-
-
-
     }
 
     @Override
@@ -136,8 +129,7 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
     }
 
     @Override
-    public int getSwipeLayoutResourceId(int position)
-    {
+    public int getSwipeLayoutResourceId(int position) {
         return mMovilidadList.size();
     }
 

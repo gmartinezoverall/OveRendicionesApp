@@ -4,4 +4,5 @@ public interface FormularioView
 {
     void saveDataSuccess();
 
+    void searchRucSuccess(String razonSocial);
 }

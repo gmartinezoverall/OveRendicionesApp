@@ -81,7 +81,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                     bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
 
-            if (bean.getRdoId().toString().equals("10"))//Movilidad individual 10
+            if (bean.getRdoId().toString().equals("10") || bean.getRdoId().toString().equals("19"))//Movilidad individual 10
             {
                 List<RendicionDetalleEntity> movilidadList = new ArrayList<>();
                 if (Util.isOnline())mRepository.insertListMovilidadApi(bean.getCodLiquidacion());

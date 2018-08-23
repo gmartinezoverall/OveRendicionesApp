@@ -21,7 +21,7 @@
     <string name="password">Contraseña</string>
 
     <string name="createTittle">Registrar Cuenta</string>
-    <string name="createMessage">Nesecitas una cuenta para solicitar tus viaticos, llenando estos sencillos pasos tendras una cuenta poco tiempo</string>
+    <string name="createMessage">Necesitas una cuenta para solicitar tus viaticos, llenando estos sencillos pasos tendras una cuenta poco tiempo</string>
     <string name="createUserDni">Numero DNI</string>
     <string name="createEmail">Correo electronico</string>
     <string name="createPassword">Contraseña</string>
@@ -164,6 +164,8 @@
     <string name="tittleDialog">Confirmacion</string>
     <string name="messageDialog">¿Desea eliminar la rendicion?</string>
     <string name="messageDialogMov">¿Desea Eliminar la Rendicion de Movilidad?</string>
+    <string name="validarRuc">Verificar RUC</string>
+    <string name="validatDatosGenerales">Debe completar los datos Generales antes de continuar</string>
 
 
 </resources>

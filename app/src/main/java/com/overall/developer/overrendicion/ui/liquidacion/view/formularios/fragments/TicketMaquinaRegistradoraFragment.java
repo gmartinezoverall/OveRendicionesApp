@@ -29,6 +29,9 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.TicketMaquinaRegistradoraEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -80,6 +83,9 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
+
 
     private SpinnerDialog spinnerDialog;
     private String rtgId;
@@ -121,7 +127,18 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
             if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
+        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus)
+            {
+                if (etxRuc.getText().toString().length() != 11)
+                {
+                    etxRuc.setError("Verificar RUC");
+
+                }
+            }
+        });
+
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, btnSearch);
 
         return mView;
     }
@@ -130,6 +147,23 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        OttoBus.getBus().register(this);
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        OttoBus.getBus().unregister(this);
+    }
+    @Subscribe
+    public void searchRucSuccess(Communicator razonSocial)
+    {
+        etxRazonSocial.setText(razonSocial.getRazonSocial());
+        etxRazonSocial.setEnabled(false);
     }
 
     private void setAllDefaultValues()
@@ -172,7 +206,7 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar})
+    @OnClick({R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.chkAfectoIgv:
@@ -200,12 +234,22 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxValorVenta.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
                 }
                 break;
+            case R.id.btnSearch:
+                if (etxRuc.getText().toString().length() == 11)
+                {
+                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                }else
+                {
+                    Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
+
+                }
+                break;
         }
     }
 
     private boolean ValideWidgets()
     {
-        if (etxRuc.getText().toString().isEmpty() || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
+        if ((etxRuc.getText().toString().isEmpty()&& etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
                 ||  pathImage == null)
         {

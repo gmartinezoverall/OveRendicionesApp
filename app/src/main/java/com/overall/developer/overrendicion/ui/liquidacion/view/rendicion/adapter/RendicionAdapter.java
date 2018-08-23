@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
@@ -90,22 +91,32 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
     @Override
     public void onBindViewHolder(RendicionViewHolder holder, int position)
     {
+        final boolean[] isOpenSwipeLayout = {false};
         final RendicionEntity rendicion = mRendicionList.get(position);
 
-        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
 
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onStartOpen(SwipeLayout layout)
             {
+                isOpenSwipeLayout[0] = true;
                 YoYo.with(Techniques.FadeOutLeft).duration(500).playOn(layout.findViewById(R.id.rowButton));
             }
-
             @Override
-            public void onClose(SwipeLayout layout) {
+            public void onClose(SwipeLayout layout)
+            {
+                isOpenSwipeLayout[0] = true;
                 YoYo.with(Techniques.FadeInLeft).duration(500).playOn(layout.findViewById(R.id.rowButton));
             }
         });
+        ViewTreeObserver.OnGlobalLayoutListener swipeGlobalLayoutListener = () -> {
+            if (isOpenSwipeLayout[0]) {
+                // Opens the layout without animation
+                holder.swipeLayout.open(false);
+            }
+        };
+        holder.swipeLayout.getViewTreeObserver().addOnGlobalLayoutListener(swipeGlobalLayoutListener);
         /*holder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
@@ -120,14 +131,6 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
         holder.txvNumDocumento.setText(String.valueOf(rendicion.getNumeroDoc()));
         holder.txvPrecioTotal.setText(String.valueOf(rendicion.getPrecioTotal()));
 
-        holder.lytDetalle.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
-
-        holder.lytNew.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
-
-        holder.lytFoto.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.VISIBLE : View.GONE);
-
-        holder.lytEdit.setVisibility(rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") ? View.GONE : View.VISIBLE);
-
         holder.lytEdit.setOnClickListener( v -> itemCLick.onClick(v, position) );
 
         holder.lytRemove.setOnClickListener( v -> itemCLick.onClick(v, position) );
@@ -136,15 +139,51 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
 
         holder.lytFoto.setOnClickListener(v -> itemCLick.onClick(v, position));
 
+        if (rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA") || rendicion.getRdoId().equals("VARIOS TRABAJADORES-  MOVILIDAD MULTIPLE"))
+        {
+            holder.lytDetalle.setVisibility(View.VISIBLE);
+
+            holder.lytNew.setVisibility(View.VISIBLE);
+
+            holder.lytFoto.setVisibility(View.VISIBLE);
+
+            holder.lytEdit.setVisibility(View.GONE);
+
+        }else
+        {
+            holder.lytDetalle.setVisibility(View.GONE);
+
+            holder.lytNew.setVisibility(View.GONE);
+
+            holder.lytFoto.setVisibility(View.GONE);
+
+            holder.lytEdit.setVisibility(View.VISIBLE);
+
+        }
+
         holder.lytDetalle.setOnClickListener(v ->
         {
                 holder.lytDetMovilidad.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.FadeInLeft).duration(500).playOn(holder.itemView.findViewById(R.id.rowButton));
                 holder.rowButton.setRotation(90);
+
+            if (rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA"))
+            {
                 holder.rcvMovilidad.setAdapter(new MovilidadAdapter(mContext, mMovilidadList, (view, movPosition) ->
                 {
                     itemCLick.onClick(view, movPosition);
                 }));
+
+            }
+            else
+            {
+                holder.rcvMovilidad.setAdapter(new MovilidadMultipleAdapter(mContext, mMovilidadList, (view, movPosition) ->
+                {
+                    itemCLick.onClick(view, movPosition);
+                }));
+
+            }
+
                 holder.rcvMovilidad.setLayoutManager(new LinearLayoutManager(mContext));
 
                 final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(holder.rcvMovilidad.getContext(), R.anim.layout_slide_bottom);

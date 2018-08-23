@@ -33,4 +33,8 @@
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
 
+    <style name="TextFieldBoxes">
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">#2a4b5c</item>
+    </style>
+
 </resources>

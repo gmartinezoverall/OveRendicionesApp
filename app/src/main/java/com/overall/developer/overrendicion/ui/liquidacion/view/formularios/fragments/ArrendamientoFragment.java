@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,11 +25,11 @@ import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ArrendamientoEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
-import org.angmarch.views.NiceSpinner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,16 +65,17 @@ public class ArrendamientoFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-
-
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
 
     //endregion
 
     Unbinder unbinder;
     View mView;
 
+
     private SpinnerDialog spinnerDialog;
-    private String rtgId, pathImage;
+    private String rtgId, pathImage, razonSocial;
 
     @Nullable
     @Override
@@ -95,12 +95,19 @@ public class ArrendamientoFragment extends Fragment {
             if (hasFocus) showDatePickerDialog();
         });
 
+        mEtxRuc.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (mEtxRuc.getText().toString().length() != 11) {
+                    mEtxRuc.setError("Verificar RUC");
+
+                }
+            }
+        });
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
-        if (itemList.size() == 1)
-        {
+        if (itemList.size() == 1) {
             spnTipoGasto.setText(itemList.get(0).toString());
             rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
         }
@@ -111,7 +118,7 @@ public class ArrendamientoFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto, btnSearch);
 
         return mView;
     }
@@ -120,6 +127,12 @@ public class ArrendamientoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public void searchRucSuccess(String razonSocial)
+    {
+        if (mEtxRazonSocial != null)mEtxRazonSocial.setText(String.valueOf(razonSocial));
+
     }
 
 
@@ -141,9 +154,27 @@ public class ArrendamientoFragment extends Fragment {
 
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        OttoBus.getBus().register(this);
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        OttoBus.getBus().unregister(this);
+    }
+
+    @Subscribe
+    public void searchRucSuccess(Communicator razonSocial)
+    {
+        mEtxRazonSocial.setText(razonSocial.getRazonSocial());
+        mEtxRazonSocial.setEnabled(false);
+    }
 
 
-    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar})
+    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnTipoGasto:
@@ -153,31 +184,38 @@ public class ArrendamientoFragment extends Fragment {
                 Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
                 break;
             case R.id.btnGuardar:
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
-                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),String.valueOf(mEtxRuc.getText()),String.valueOf(mEtxRazonSocial.getText()),
+                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(mEtxRuc.getText()), String.valueOf(mEtxRazonSocial.getText()),
                             String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
+                break;
+            case R.id.btnSearch:
+                if (mEtxRuc.getText().toString().length() == 11)
+                {
+                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(mEtxRuc.getText()));
+                }else
+                {
+                    Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
+                }
                 break;
         }
 
 
     }
 
-    private boolean ValideWidgets()
-    {
-        if (mEtxRuc.getText().toString().isEmpty() || mEtxRazonSocial.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty()
+    private boolean ValideWidgets() {
+        if ((mEtxRuc.getText().toString().isEmpty() && mEtxRuc.getText().toString().trim().length() != 11) || mEtxRazonSocial.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty()
                 || etxNDocumento.getText().toString().isEmpty() || etxMonto.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
-                || pathImage == null)
-        {
+                || pathImage == null) {
             return false;
 
-        }else return true;
+        } else return true;
     }
+
 
     //region Foto
 
@@ -187,8 +225,7 @@ public class ArrendamientoFragment extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
 
                     new Compressor(mView.getContext())

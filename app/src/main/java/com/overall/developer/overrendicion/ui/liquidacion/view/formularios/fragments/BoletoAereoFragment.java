@@ -30,6 +30,9 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletoAereoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -79,6 +82,9 @@ public class BoletoAereoFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
+
 
     private SpinnerDialog spinnerDialogProv, spinnerDialogTipoGasto;
     private String rtgId, idProvincia;
@@ -123,9 +129,18 @@ public class BoletoAereoFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
+        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus)
+            {
+                if (etxRuc.getText().toString().length() != 11)
+                {
+                    etxRuc.setError("Verificar RUC");
 
+                }
+            }
+        });
 
-        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnDestinoViaje, spnTipoGasto);
+        PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnDestinoViaje, spnTipoGasto, btnSearch);
 
         return mView;
     }
@@ -136,6 +151,23 @@ public class BoletoAereoFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        OttoBus.getBus().register(this);
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        OttoBus.getBus().unregister(this);
+    }
+    @Subscribe
+    public void searchRucSuccess(Communicator razonSocial)
+    {
+        etxRazonSocial.setText(razonSocial.getRazonSocial());
+        etxRazonSocial.setEnabled(false);
+    }
 
     private void showDatePickerDialog() {
         int mYear, mMonth, mDay;
@@ -155,7 +187,7 @@ public class BoletoAereoFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.chkAfectoIgv, R.id.btnFoto, R.id.btnGuardar, R.id.spnDestinoViaje, R.id.spnTipoGasto})
+    @OnClick({R.id.chkAfectoIgv, R.id.btnFoto, R.id.btnGuardar, R.id.spnDestinoViaje, R.id.spnTipoGasto, R.id.btnSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.chkAfectoIgv:
@@ -188,12 +220,22 @@ public class BoletoAereoFragment extends Fragment {
             case R.id.spnTipoGasto:
                 spinnerDialogTipoGasto.showSpinerDialog();
                 break;
+            case R.id.btnSearch:
+                if (etxRuc.getText().toString().length() == 11)
+                {
+                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                }else
+                {
+                    Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
+
+                }
+                break;
         }
     }
 
     private boolean ValideWidgets()
     {
-        if (etxRuc.getText().toString().isEmpty() || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") ||  etxCalendar.getText().toString().isEmpty() ||
+        if ((etxRuc.getText().toString().isEmpty()&& etxRuc.getText().toString().trim().length() != 11) || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") ||  etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
                 ||  pathImage == null)
         {

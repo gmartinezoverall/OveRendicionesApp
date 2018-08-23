@@ -24,6 +24,9 @@ public class UrlApi
     public static String urlInsertarGastoMovilidad = BuildConfig.URL_BASE + "liquidation/InsertarGastosMovilidad";
     public static String urlUpdateGastoMovilidad = BuildConfig.URL_BASE + "liquidation/EditarGastosMovilidad";
     public static String urlUpdateFotoRendicion = BuildConfig.URL_BASE + "liquidation/ActualizarFotoRendicion";
+    public static String urlInsertarGastoMovilidadMultiple = BuildConfig.URL_BASE + "liquidation/InsertarGastosMovilidadMultiple";
+    public static String urlWSRuc = "http://200.60.6.20:8081/ruc/consulta/{ruc}";
+
 
 
 }
