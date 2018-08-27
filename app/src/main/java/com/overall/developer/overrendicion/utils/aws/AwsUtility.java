@@ -11,6 +11,8 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.overall.developer.overrendicion.RendicionApplication;
+import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 
 import java.io.File;
 
@@ -79,19 +81,19 @@ public class AwsUtility
     //region AWS Download
     public static void downloadWithTransferUtility(Context context)
     {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion/";
 
         TransferUtility transferUtility =
                 TransferUtility.builder()
-                        .context(context)
+                        .context(RendicionApplication.getContext())
                         .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
                         .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
                         .build();
 
         TransferObserver downloadObserver =
                 transferUtility.download(
-                        "20180710082942.jpg ",
-                        new File(path));
+                        "uploads/20180826232411.jpg",
+                        new File(path+"20180826232411.jpg"));
 
         // Attach a listener to the observer to get state update and progress notifications
         downloadObserver.setTransferListener(new TransferListener() {
@@ -99,6 +101,7 @@ public class AwsUtility
             @Override
             public void onStateChanged(int id, TransferState state) {
                 if (TransferState.COMPLETED == state) {
+                    Toast.makeText(context,"-"+ path, Toast.LENGTH_LONG).show();
                     // Handle a completed upload.
                 }
             }
@@ -114,6 +117,7 @@ public class AwsUtility
             @Override
             public void onError(int id, Exception ex) {
                 // Handle errors
+                Log.d("AWS", "Error AWS " + ex.getMessage());
             }
 
         });
@@ -123,7 +127,7 @@ public class AwsUtility
         if (TransferState.COMPLETED == downloadObserver.getState())
         {
             // Handle a completed upload.
-            Toast.makeText(context, path, Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"-"+ path, Toast.LENGTH_LONG).show();
         }
 
         Log.d("AWS", "Bytes Transferrred: " + downloadObserver.getBytesTransferred());

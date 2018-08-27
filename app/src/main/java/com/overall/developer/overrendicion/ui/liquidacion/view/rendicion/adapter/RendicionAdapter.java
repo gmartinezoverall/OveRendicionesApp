@@ -116,7 +116,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
                 holder.swipeLayout.open(false);
             }
         };
-        holder.swipeLayout.getViewTreeObserver().addOnGlobalLayoutListener(swipeGlobalLayoutListener);
+        //holder.swipeLayout.getViewTreeObserver().addOnGlobalLayoutListener(swipeGlobalLayoutListener);
         /*holder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {

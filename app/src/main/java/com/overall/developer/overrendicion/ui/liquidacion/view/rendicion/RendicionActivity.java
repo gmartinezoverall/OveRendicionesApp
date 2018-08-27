@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.swipe.util.Attributes;
@@ -51,6 +52,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.content
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
+
+import com.overall.developer.overrendicion.utils.GlideApp;
 import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -64,6 +67,10 @@ import butterknife.ButterKnife;
 import id.zelory.compressor.Compressor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.util.Preconditions;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 import com.bumptech.glide.MemoryCategory;
@@ -107,6 +114,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         setContentView(R.layout.activity_rendicion);
         ButterKnife.bind(this);
 
+        AWSMobileClient.getInstance().initialize(this, awsStartupResult -> Log.d("AWS", "Conneccion exitosa a AWS :D")).execute();
         mPresenter = new RendicionPresenterImpl(this, this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
@@ -277,7 +285,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     //region CustomDialog
     private void showCustomDialog(String codRendicion)
     {
-        //AwsUtility.downloadWithTransferUtility(this);
+        AwsUtility.downloadWithTransferUtility(this);
 
         Dialog mDialog = new Dialog(this);
         mDialog.setContentView(R.layout.dialog_foto);
@@ -296,6 +304,16 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
 
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
+
+        GlideApp.with(this)
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180809153750.jpg")
+                .placeholder(R.drawable.ic_email)
+                .error(R.drawable.ic_add_a_photo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .into(imgFoto);
  /*       Glide.with(this)
                 .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
                 .into(imgFoto);*/

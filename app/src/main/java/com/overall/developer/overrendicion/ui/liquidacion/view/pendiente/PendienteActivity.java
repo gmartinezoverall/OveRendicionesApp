@@ -32,6 +32,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 
+import com.overall.developer.overrendicion.utils.background.InitialServiceBrodcast;
+import com.overall.developer.overrendicion.utils.background.SendDataService;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
 
 import java.util.List;
@@ -79,7 +81,6 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         initialToolbar();
         sesionManager();
         initialDrawable();
-        awsInitial();
 
         mRecyclerView = findViewById(R.id.rvPendiente);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,10 +98,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     }
 
-    private void awsInitial()
-    {
-        AWSMobileClient.getInstance().initialize(this, awsStartupResult -> Log.d("AWS", "Conneccion exitosa a AWS :D")).execute();
-    }
+
 
     //region Toolbar
     private void initialToolbar()
@@ -314,11 +312,20 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     protected void onStop() {
         super.onStop();
+
 /*        if (realmBrowser != null) {
             realmBrowser.stop();
         }*/
+
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        Intent service= new Intent(this, SendDataService.class);
+        startService(service);
+    }
 
     @Override
     public void onBackPressed() {
