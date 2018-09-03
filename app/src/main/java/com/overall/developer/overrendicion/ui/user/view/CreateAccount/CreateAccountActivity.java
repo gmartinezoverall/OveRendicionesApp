@@ -16,6 +16,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.Pendien
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenter;
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenterImpl;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
+import com.overall.developer.overrendicion.utils.Util;
 
 import static com.flaviofaria.kenburnsview.KenBurnsView.TransitionListener;
 
@@ -83,6 +84,17 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
             @Override
             public void onFinish() {
 
+            }
+        });
+
+        mEtxEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus)
+            {
+                if (Util.isEmailValid(String.valueOf(mEtxEmail.getText())))
+                {
+                    mEtxEmail.setError(getResources().getString(R.string.createEmailError));
+
+                }
             }
         });
 

@@ -53,7 +53,7 @@ public class LoginInteractorImpl implements LoginInteractor
     public void loginRecovery(String dniUser)
     {
         if (Util.isOnline()) mRepository.loginRecovery(dniUser);
-            else Toast.makeText(mContext,String.valueOf(mContext.getString(R.string.servidorError)), Toast.LENGTH_LONG).show();
+        else Toast.makeText(mContext,String.valueOf(mContext.getString(R.string.servidorError)), Toast.LENGTH_LONG).show();
 
 
     }
@@ -61,13 +61,13 @@ public class LoginInteractorImpl implements LoginInteractor
     @Override
     public void passwordRecoveryResponse(String message)
     {
-        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.recoveryPasswordSuccess), Toast.LENGTH_LONG).show();
 
     }
     @Override
     public void passwordRecoveryError(String message)
     {
-        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.recoveryPasswordError), Toast.LENGTH_LONG).show();
     }
 
     @Override

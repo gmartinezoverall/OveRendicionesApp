@@ -39,14 +39,14 @@ public class RecoveryPasswordActivity extends AppCompatActivity implements Recov
     @Override
     public void responseRoveryPasswordSuccess(String message)
     {
-        Toast.makeText(this, "Se Actualizo Correctamente su Contraseña", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this, getResources().getString(R.string.recoveryPasswordSuccess), Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
     public void responseRoveryPasswordError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this, getResources().getString(R.string.recoveryPasswordError), Toast.LENGTH_LONG).show();
+      
     }
 
     private boolean valideWidgets() {
@@ -59,6 +59,7 @@ public class RecoveryPasswordActivity extends AppCompatActivity implements Recov
     @OnClick(R.id.btnEnviar)
     public void onViewClicked()
     {
-        if (valideWidgets())mPresenter.sendData(String.valueOf(etxNewPassword.getText()));
+        if (valideWidgets()) mPresenter.sendData(String.valueOf(etxNewPassword.getText()));
+
     }
 }
