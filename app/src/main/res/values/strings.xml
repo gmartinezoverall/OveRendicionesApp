@@ -50,6 +50,7 @@
     <string name="configuracion">Configuracion</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="mensajeRecovyPassword">POR MEDIO DE ESTA OPCIÓN PODRÁS ACTUALIZAR TU CONTRASEÑA DE FORMA RÁPIDA.</string>
+    <string name="mensajeUpdateEmail">POR MEDIO DE ESTA OPCIÓN PODRÁS ACTUALIZAR TU CORREO ELECTRONICO DE FORMA RÁPIDA.</string>
 
     <!--Apis Login-->
     <string name="servidorSuccess">OK</string>
@@ -69,7 +70,7 @@
 
 
     <string name="error_date">No puede seleccionar la fecha anterior.</string>
-    <string name="updateSuccess">Se Guardaron Correctamente</string>
+    <string name="updateSuccess">Los datos de Guardaron Correctamente</string>
 
 
     <string name="tittleSpinerSearch">Selecciona una Provincia</string>
@@ -168,8 +169,10 @@
     <string name="tittleDialog">Confirmacion</string>
     <string name="messageDialog">¿Desea eliminar la rendicion?</string>
     <string name="messageDialogMov">¿Desea Eliminar la Rendicion de Movilidad?</string>
+    <string name="messagePendienteListNull">FELICIDADES, NO TIENES PENDIENTES POR RENDIR.</string>
     <string name="validarRuc">Verificar RUC</string>
     <string name="validatDatosGenerales">Debe completar los datos Generales antes de continuar</string>
+    <string name="sendDataSuccess">Se Guardo el Documento Correctamente</string>
 
 
 </resources>

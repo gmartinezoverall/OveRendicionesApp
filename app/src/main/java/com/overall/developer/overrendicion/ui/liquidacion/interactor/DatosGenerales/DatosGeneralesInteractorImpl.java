@@ -70,7 +70,6 @@ public class DatosGeneralesInteractorImpl implements DatosGeneralesInteractor
     @Override
     public void saveData(String codLiquidacion, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico)
     {
-
         LiquidacionBean mLiquidacionBean =  new LiquidacionBean();
 
         LiquidacionBean mBean = mRepository.getForCodLiquidacion(codLiquidacion);

@@ -419,6 +419,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
+            startActivity(new Intent(this, PendienteActivity.class));
 
         } else if (id == R.id.nav_reenbolso) {
 

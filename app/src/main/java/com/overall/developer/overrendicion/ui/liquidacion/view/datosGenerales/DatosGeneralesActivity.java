@@ -30,6 +30,7 @@ import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
@@ -138,7 +139,8 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
 
     //region Calendar
-    private void initialCalendar() {
+    private void initialCalendar()
+    {
         mCalendarView.setDateFormat("dd/MM/yyyy");
         mCalendarView.setPreventPreviousDate(false);
         mCalendarView.setErrToastMessage(R.string.error_date);
@@ -259,6 +261,8 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
+
+            startActivity(new Intent(this, PendienteActivity.class));
 
         } else if (id == R.id.nav_reenbolso) {
 

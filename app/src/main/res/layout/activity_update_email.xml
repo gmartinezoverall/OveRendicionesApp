@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Por aqui podras cambiar tu correo de manera mas rapida y sencilla para tu comodidad"
+            android:text="@string/mensajeUpdateEmail"
             android:layout_margin="10dp"/>
 
         <TextView

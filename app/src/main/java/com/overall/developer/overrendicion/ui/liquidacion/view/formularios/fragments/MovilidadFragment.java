@@ -99,7 +99,7 @@ public class MovilidadFragment extends Fragment {
             spnTipoGasto.setText(itemList.get(0).toString());
             rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
         }
-        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
             spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());

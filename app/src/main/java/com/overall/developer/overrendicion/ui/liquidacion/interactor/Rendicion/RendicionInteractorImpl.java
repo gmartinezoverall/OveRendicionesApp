@@ -107,7 +107,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
     {
         LiquidacionBean bean =  mRepository.getForCodLiquidacionDB(codLiquidacion);
         ProvinciaEntity provinciaEntity = new ProvinciaEntity();
-        if (!bean.getUbigeoProvDestino().isEmpty()) {
+        if (bean.getUbigeoProvDestino() != null) {
             ProvinciaBean provBean = mRepository.getProvinciaDB(bean.getUbigeoProvDestino());
             provinciaEntity = new ProvinciaEntity(provBean.getCode(), provBean.getDesc());
         }

@@ -9,6 +9,7 @@ import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.ui.user.presenter.Drawable.UpdateEmailPresenter;
 import com.overall.developer.overrendicion.ui.user.presenter.Drawable.UpdateEmailPresenterImpl;
+import com.overall.developer.overrendicion.utils.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,17 @@ public class UpdateEmailActivity extends AppCompatActivity implements UpdateEmai
         ButterKnife.bind(this);
 
         mPresenter = new UpdateEmailPresenterImpl(this);
+
+        etxNewEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus)
+            {
+                if (Util.isEmailValid(String.valueOf(etxNewEmail.getText())))
+                {
+                    etxNewEmail.setError(getResources().getString(R.string.createEmailError));
+
+                }
+            }
+        });
 
 
     }
@@ -49,6 +61,7 @@ public class UpdateEmailActivity extends AppCompatActivity implements UpdateEmai
     public void responseUpdateEmailSuccess(String message)
     {
         Toast.makeText(this, "Se Actualizo tu Correo Correctamente", Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override

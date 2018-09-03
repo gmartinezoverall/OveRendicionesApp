@@ -7,11 +7,12 @@
         <item
             android:id="@+id/nav_soliRend"
             android:icon="@drawable/ic_description"
-            android:title="@string/solicitar_rendicion" />
+            android:title="@string/solicitar_rendicion"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_actContra"
             android:icon="@drawable/ic_lock"
-            android:title="@string/actulizar_contraseña" />
+            android:title="@string/actulizar_contraseña"/>
         <item
             android:id="@+id/nav_actCorreo"
             android:icon="@drawable/ic_email"
@@ -24,10 +25,12 @@
         <item
             android:id="@+id/nav_reenbolso"
             android:icon="@drawable/ic_sync"
-            android:title="@string/reenbolso" />
+            android:visible="false"
+            android:title="@string/reenbolso"/>
         <item
             android:id="@+id/nav_configuracion"
             android:icon="@drawable/ic_settings"
+            android:visible="false"
             android:title="@string/configuracion" />
     </group>
 

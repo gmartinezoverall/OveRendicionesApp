@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asksira.dropdownview.DropDownView;
 import com.github.florent37.awesomebar.AwesomeBar;
@@ -50,6 +51,7 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.TicketMaquinaRegistradoraFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.VoucherBancarioFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
@@ -251,9 +253,11 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
     @Override
     public void saveDataSuccess() {
+        Toast.makeText(this, getResources().getString(R.string.sendDataSuccess), Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, RendicionActivity.class));
         customType(this, "fadein-to-fadeout");
         finish();
+
     }
 
     @Override
@@ -311,6 +315,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
+            startActivity(new Intent(this, PendienteActivity.class));
 
         } else if (id == R.id.nav_reenbolso) {
 

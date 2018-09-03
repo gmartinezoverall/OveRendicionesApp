@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -76,6 +77,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pendiente);
         ButterKnife.bind(this);
+
         mPresenter = new PendientePresenterImpl(this, this);
 
         initialToolbar();
@@ -221,6 +223,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
+            startActivity(new Intent(this, PendienteActivity.class));
 
         } else if (id == R.id.nav_reenbolso) {
 
@@ -250,9 +253,16 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
 
     @Override
-    public void setListPendiente(List<LiquidacionBean> pendienteList) {
-        pendienteBeanList = pendienteList;
-        initialRecyclerView();
+    public void setListPendiente(List<LiquidacionBean> pendienteList)
+    {
+        if (pendienteList.size() > 0)
+        {
+            pendienteBeanList = pendienteList;
+            initialRecyclerView();
+        }else
+        {
+            Toast.makeText(this, getResources().getString(R.string.messagePendienteListNull), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

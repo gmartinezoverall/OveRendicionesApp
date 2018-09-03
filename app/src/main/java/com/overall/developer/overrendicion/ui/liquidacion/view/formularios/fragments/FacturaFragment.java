@@ -133,11 +133,14 @@ public class FacturaFragment extends Fragment {
         etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus)
             {
-                if (etxRuc.getText().toString().length() != 11)
+                if (etxRuc != null)
                 {
-                    etxRuc.setError("Verificar RUC");
-
+                    if (etxRuc.getText().toString().length() != 11)
+                    {
+                        etxRuc.setError("Verificar RUC");
+                    }
                 }
+
             }
         });
 
