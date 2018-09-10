@@ -12,7 +12,7 @@
     <string name="Error">Error</string>
     <string name="Upload">Subiendo</string>
     <string name="Bienvenido">Bienvenido</string>
-    <string name="Mensaje">POR MEDIO DE ESTA APLICACION PODRÁS RENDIR TUS DOCUMENTOS POR CONCEPTO DE VIATICOS, MOVILIDAD, ENTREGAS Y OTROS</string>
+    <string name="Mensaje">Por medio de esta aplicacion podrás rendir tus documentos por concepto de viaticos, movilidad, entregas y otros.</string>
     <string name="Recovery">Recuperar</string>
     <string name="Register">Registrar</string>
     <string name="Registered">Registrarse</string>
@@ -21,14 +21,14 @@
     <string name="password">Contraseña</string>
 
     <string name="createTittle">Registrar Cuenta</string>
-    <string name="createMessage">NECISITAS UNA CUENTA PARA REGISTRAR TUS RENDICIONES. COMPLETA LA SIGUIENTE INFORMACIÓN PARA OBTENER UNA CUENTA EN POCO TIEMPO</string>
+    <string name="createMessage">Nesecitas una ceunta para registrar tus rendiciones. Completa la siguiente información para obtener una cuenta en poco tiempo.</string>
     <string name="createUserDni">Numero DNI</string>
     <string name="createEmail">Correo electronico</string>
     <string name="createEmailError">Correo electronico no es correcto</string>
     <string name="createPassword">Contraseña</string>
     <string name="recoveryPassword">Recuperar Contraseña</string>
-    <string name="recoveryPasswordSuccess">SU NUEVA CONTRASEÑA A SIDO GENERADA, POR FAVOR REVISE SU CORREO.</string>
-    <string name="recoveryPasswordError">NO SE A PODIDO RECUPERAR SU CONTRASEÑA</string>
+    <string name="recoveryPasswordSuccess">Su nueva contraseña a sido generada, por favor revise su correo.</string>
+    <string name="recoveryPasswordError">No se a podido recuperar su contraseña</string>
     <string name="createPhone">Telefono</string>
     <string name="createButton">Registrarse</string>
 
@@ -49,14 +49,14 @@
     <string name="reenbolso">Reenbolso</string>
     <string name="configuracion">Configuracion</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
-    <string name="mensajeRecovyPassword">POR MEDIO DE ESTA OPCIÓN PODRÁS ACTUALIZAR TU CONTRASEÑA DE FORMA RÁPIDA.</string>
-    <string name="mensajeUpdateEmail">POR MEDIO DE ESTA OPCIÓN PODRÁS ACTUALIZAR TU CORREO ELECTRONICO DE FORMA RÁPIDA.</string>
+    <string name="mensajeRecovyPassword">Por medio de esta opción podrás actualizar tu contraseña de forma rápida.</string>
+    <string name="mensajeUpdateEmail">Por medio de esta opción podrás actualizar tu correo electronico de forma rápida.</string>
 
     <!--Apis Login-->
     <string name="servidorSuccess">OK</string>
     <string name="servidorError">Error al conectar con el servidor</string>
     <string name="sessionError">Usuario o Contraseña incorrectas</string>
-    <string name="createAccountSucces">SU USUARIO HA SIDO CREADO. POR FAVOR REVISE SU BANDEJA DE CORREO</string>
+    <string name="createAccountSucces">Su Usuario ha sido creado. Por favor revise su bandeja de correo</string>
     <string name="createAccountError">El usuario no existe</string>
     <string name="errorUpdateLiquidacion">Ocurrio un error al Actualizar los datos</string>
 
@@ -169,7 +169,7 @@
     <string name="tittleDialog">Confirmacion</string>
     <string name="messageDialog">¿Desea eliminar la rendicion?</string>
     <string name="messageDialogMov">¿Desea Eliminar la Rendicion de Movilidad?</string>
-    <string name="messagePendienteListNull">FELICIDADES, NO TIENES PENDIENTES POR RENDIR.</string>
+    <string name="messagePendienteListNull">Felicidades, no tienes pendientes por rendir.</string>
     <string name="validarRuc">Verificar RUC</string>
     <string name="validatDatosGenerales">Debe completar los datos Generales antes de continuar</string>
     <string name="sendDataSuccess">Se Guardo el Documento Correctamente</string>
