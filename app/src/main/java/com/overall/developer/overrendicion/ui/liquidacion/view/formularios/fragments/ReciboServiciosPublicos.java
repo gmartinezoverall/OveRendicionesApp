@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -50,6 +51,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ReciboServiciosPublicos extends Fragment {
 
+    //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
     @BindView(R.id.etxRazonSocial)
@@ -80,6 +82,13 @@ public class ReciboServiciosPublicos extends Fragment {
     Button btnGuardar;
     @BindView(R.id.btnSearch)
     ImageButton btnSearch;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+    @BindView(R.id.etxNDocumento)
+    CustomEditText etxNDocumento;
+    @BindView(R.id.etxVencimiento)
+    CustomEditText etxVencimiento;
+    //endregion
 
 
     private SpinnerDialog spinnerDialogTipoGasto;
@@ -112,8 +121,7 @@ public class ReciboServiciosPublicos extends Fragment {
         });
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
+            if (!hasFocus) {
                 txvIgv.setText(String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18));
                 etxPrecioVenta.setText(String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) + Double.valueOf(txvIgv.getText().toString())));
             }
@@ -121,24 +129,29 @@ public class ReciboServiciosPublicos extends Fragment {
         });
 
         etxImpNoAfectado.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
+            if (!hasFocus) {
                 etxPrecioVenta.setText(String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) + Double.valueOf(txvIgv.getText().toString()) + Double.valueOf(etxImpNoAfectado.getText().toString())));
             }
 
         });
 
-        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
-                if (etxRuc.getText().toString().length() != 11)
-                {
-                    etxRuc.setError("Verificar RUC");
+        RxTextView.textChanges(etxRuc)
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
-                }
-            }
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+
         });
 
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
+
+        });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, btnSearch);
 
@@ -150,20 +163,22 @@ public class ReciboServiciosPublicos extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         OttoBus.getBus().register(this);
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
+
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
         etxRazonSocial.setEnabled(false);
     }
@@ -198,8 +213,7 @@ public class ReciboServiciosPublicos extends Fragment {
                 Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
                 break;
             case R.id.btnGuardar:
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ReciboServiciosPublicosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
@@ -209,11 +223,9 @@ public class ReciboServiciosPublicos extends Fragment {
                 }
                 break;
             case R.id.btnSearch:
-                if (etxRuc.getText().toString().length() == 11)
-                {
-                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
-                }else
-                {
+                if (etxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }
@@ -221,14 +233,12 @@ public class ReciboServiciosPublicos extends Fragment {
         }
     }
 
-    private boolean ValideWidgets()
-    {
-        if ( etxNumDoc.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
-                || spnTipoGasto.getText().equals("Seleccionar") || etxImpNoAfectado.getText().toString().isEmpty() || pathImage == null)
-        {
+    private boolean ValideWidgets() {
+        if (etxNumDoc.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
+                || spnTipoGasto.getText().equals("Seleccionar") || etxImpNoAfectado.getText().toString().isEmpty() || pathImage == null) {
             return false;
 
-        }else return true;
+        } else return true;
     }
 
     //region Foto
@@ -239,8 +249,7 @@ public class ReciboServiciosPublicos extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
 
                     new Compressor(mView.getContext())

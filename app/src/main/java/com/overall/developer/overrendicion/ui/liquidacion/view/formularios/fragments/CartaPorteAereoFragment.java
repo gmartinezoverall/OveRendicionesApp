@@ -23,11 +23,11 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.CartaPorteAereoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
@@ -52,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CartaPorteAereoFragment extends Fragment {
 
-
+    //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
     @BindView(R.id.etxRazonSocial)
@@ -87,6 +87,10 @@ public class CartaPorteAereoFragment extends Fragment {
     Button btnGuardar;
     @BindView(R.id.btnSearch)
     ImageButton btnSearch;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+
+    //endregion
 
     private SpinnerDialog spinnerDialog;
     private String rtgId;
@@ -131,15 +135,22 @@ public class CartaPorteAereoFragment extends Fragment {
             if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
         });
 
-        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
-                if (etxRuc.getText().toString().length() != 11)
-                {
-                    etxRuc.setError("Verificar RUC");
+        RxTextView.textChanges(etxRuc)
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
-                }
-            }
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+
+        });
+
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
+
         });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, btnSearch);
@@ -153,27 +164,28 @@ public class CartaPorteAereoFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         OttoBus.getBus().register(this);
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
+
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
         etxRazonSocial.setEnabled(false);
     }
 
-    private void setAllDefaultValues()
-    {
-        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGasto();
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
 
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
@@ -197,8 +209,7 @@ public class CartaPorteAereoFragment extends Fragment {
         switch (view.getId()) {
             case R.id.btnGuardar:
 
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new CartaPorteAereoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
@@ -226,11 +237,9 @@ public class CartaPorteAereoFragment extends Fragment {
                 }
                 break;
             case R.id.btnSearch:
-                if (etxRuc.getText().toString().length() == 11)
-                {
-                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
-                }else
-                {
+                if (etxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }
@@ -258,16 +267,13 @@ public class CartaPorteAereoFragment extends Fragment {
     }
 
 
-    private boolean ValideWidgets()
-    {
-        if ((etxRuc.getText().toString().isEmpty()&& etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
+    private boolean ValideWidgets() {
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
-                ||  pathImage == null)
-        {
+                || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
     //region Foto
@@ -278,8 +284,7 @@ public class CartaPorteAereoFragment extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
 
                     new Compressor(mView.getContext())

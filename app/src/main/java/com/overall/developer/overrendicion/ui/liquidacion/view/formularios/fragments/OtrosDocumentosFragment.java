@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +23,16 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,30 +44,42 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
+
 
 public class OtrosDocumentosFragment extends Fragment {
 
-
+    //region Injeccion de Vistas
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+    @BindView(R.id.etxNDocumento)
+    CustomEditText etxNDocumento;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.etxMontoAfectado)
+    CustomEditText etxMontoAfectado;
+    @BindView(R.id.etxMontoNoAfectado)
+    CustomEditText etxMontoNoAfectado;
     @BindView(R.id.spnTipoGasto)
     TextView spnTipoGasto;
+    @BindView(R.id.etxObservaciones)
+    CustomEditText etxObservaciones;
+    @BindView(R.id.view6)
+    View view6;
     @BindView(R.id.img_foto)
     ImageView imgFoto;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.etxNDocumento)
-    CustomEditText etxNDocumento;
-    @BindView(R.id.etxMontoAfectado)
-    CustomEditText etxMontoAfectado;
-    @BindView(R.id.etxMontoNoAfectado)
-    CustomEditText etxMontoNoAfectado;
-    @BindView(R.id.etxObservaciones)
-    CustomEditText etxObservaciones;
+    //endregion
 
     private SpinnerDialog spinnerDialogTipoGasto;
     private String rtgId, pathImage;
@@ -88,7 +106,17 @@ public class OtrosDocumentosFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus) etxNSerie.setText(String.valueOf(etxNSerie.getText())+ getResources().getString(R.string.autocomplete));
 
+        });
+
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus) etxNDocumento.setText(String.valueOf(etxNDocumento.getText())+ getResources().getString(R.string.autocomplete));
+
+        });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
 
@@ -137,8 +165,7 @@ public class OtrosDocumentosFragment extends Fragment {
                 break;
             case R.id.btnGuardar:
 
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new OtrosDocumentosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
                             String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMontoAfectado.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
                             String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));

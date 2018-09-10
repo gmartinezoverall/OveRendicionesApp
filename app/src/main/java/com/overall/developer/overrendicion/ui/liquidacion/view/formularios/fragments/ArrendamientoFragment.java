@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -83,26 +84,13 @@ public class ArrendamientoFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_arrendamiento, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
-
-/*        ArrayAdapter<String> tipoDocumentoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_documento));
-        mSpnTipoDocumento.setAdapter(tipoDocumentoAdapter);*/
-
-
-/*        ArrayAdapter<String> tipoGastoAdapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_gasto));
-        mSpnTipoGasto.setAdapter(tipoGastoAdapter);*/
-
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
 
-        mEtxRuc.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                if (mEtxRuc.getText().toString().length() != 11) {
-                    mEtxRuc.setError("Verificar RUC");
-
-                }
-            }
-        });
+        RxTextView.textChanges(mEtxRuc)
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .subscribe(etx -> mEtxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -117,6 +105,13 @@ public class ArrendamientoFragment extends Fragment {
             spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
+
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus) etxNDocumento.setText(String.valueOf(etxNDocumento.getText())+ getResources().getString(R.string.autocomplete));
+
+        });
+
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto, btnSearch);
 

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.text.InputFilter;
 import android.util.Log;
 
 import com.overall.developer.overrendicion.RendicionApplication;
@@ -180,5 +181,20 @@ public class Util
         else
             return false;
     }
+
+/*
+    public static InputFilter filter()
+    {
+        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
+            for (int i = start; i < end; i++) {
+                if (Character.isWhitespace(source.charAt(i))) {
+                    return "";
+                }
+            }
+            return null;
+        };
+        return filter;
+    }
+*/
 
 }

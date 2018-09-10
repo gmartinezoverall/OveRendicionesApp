@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
@@ -52,7 +53,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BoletoTerrestreFragment extends Fragment {
 
-
+    //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
     @BindView(R.id.etxRazonSocial)
@@ -85,6 +86,9 @@ public class BoletoTerrestreFragment extends Fragment {
     Button btnGuardar;
     @BindView(R.id.btnSearch)
     ImageButton btnSearch;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+    //endregion
 
     private SpinnerDialog spinnerDialogProv, spinnerDialogTipoGasto;
     private String rtgId, idProvincia;
@@ -94,6 +98,7 @@ public class BoletoTerrestreFragment extends Fragment {
 
     View mView;
     Unbinder unbinder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -119,10 +124,9 @@ public class BoletoTerrestreFragment extends Fragment {
 
         ArrayList<Object> itemList2 = new ArrayList<>();
         itemList2.addAll(((FormularioActivity) getContext()).getListSpinner());
-        if (itemList2.size() == 1)
-        {
-            spnTipoGasto.setText(itemList.get(0).toString());
-            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
+        if (itemList2.size() == 1) {
+            spnTipoGasto.setText(itemList2.get(0).toString());
+            rtgId = ((TipoGastoEntity) itemList2.get(0)).getRtgId().toString();
         }
         spinnerDialogTipoGasto = new SpinnerDialog(getActivity(), itemList2, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialogTipoGasto.bindOnSpinerListener((item, position) ->
@@ -132,15 +136,22 @@ public class BoletoTerrestreFragment extends Fragment {
         });
 
 
-        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
-                if (etxRuc.getText().toString().length() != 11)
-                {
-                    etxRuc.setError("Verificar RUC");
+        RxTextView.textChanges(etxRuc)
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
-                }
-            }
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+
+        });
+
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
+
         });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnDestinoViaje, spnTipoGasto, btnSearch);
@@ -153,20 +164,22 @@ public class BoletoTerrestreFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         OttoBus.getBus().register(this);
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
+
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
         etxRazonSocial.setEnabled(false);
     }
@@ -206,13 +219,12 @@ public class BoletoTerrestreFragment extends Fragment {
                 Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
                 break;
             case R.id.btnGuardar:
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletoTerrestreEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                             String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(idProvincia), String.valueOf(etxCalendar.getText()), String.valueOf(tipoMoneda),
-                            String.valueOf(etxPrecioVenta.getText()), String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),String.valueOf(etxOtrosGastos.getText()),
+                            String.valueOf(etxPrecioVenta.getText()), String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"), String.valueOf(etxOtrosGastos.getText()),
                             String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
@@ -224,11 +236,9 @@ public class BoletoTerrestreFragment extends Fragment {
                 spinnerDialogTipoGasto.showSpinerDialog();
                 break;
             case R.id.btnSearch:
-                if (etxRuc.getText().toString().length() == 11)
-                {
-                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
-                }else
-                {
+                if (etxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }
@@ -236,16 +246,13 @@ public class BoletoTerrestreFragment extends Fragment {
         }
     }
 
-    private boolean ValideWidgets()
-    {
-        if ((etxRuc.getText().toString().isEmpty()&& etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") ||  etxCalendar.getText().toString().isEmpty() ||
+    private boolean ValideWidgets() {
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") || etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
-                ||  pathImage == null)
-        {
+                || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else return true;
+        } else return true;
     }
     //region Foto
 
@@ -255,8 +262,7 @@ public class BoletoTerrestreFragment extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
 
                     new Compressor(mView.getContext())
@@ -299,7 +305,6 @@ public class BoletoTerrestreFragment extends Fragment {
     }
 
     //endregion
-
 
 
 }

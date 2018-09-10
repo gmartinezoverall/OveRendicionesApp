@@ -90,11 +90,8 @@ public class PendienteInteractorImpl implements PendienteInteractor
         if (entidad.equals("Monto"))        entidad = "monto";
 
         List<LiquidacionBean> mBeanList = mRepository.listPendienteDB(entidad, texto);
+        mPresenter.searchListPendienteResult(mBeanList);
 
-        Observable.fromArray(mBeanList)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listPendiente -> mPresenter.searchListPendienteResult(listPendiente));
     }
 
     @Override

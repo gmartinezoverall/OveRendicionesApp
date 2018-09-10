@@ -44,7 +44,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SinSustentoTributarioFragment extends Fragment {
 
-
+    //region Injeccion de Vistas
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
     @BindView(R.id.etxMontoNoAfectado)
@@ -59,6 +59,7 @@ public class SinSustentoTributarioFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+    //endregion
 
     private SpinnerDialog spinnerDialogTipoGasto;
     private String rtgId, pathImage;

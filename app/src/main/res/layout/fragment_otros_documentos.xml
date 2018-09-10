@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -41,10 +42,40 @@
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
+                        android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="N: Serie"
+                        android:layout_marginTop="5dp"/>
+
+                    <com.libizo.CustomEditText
+                        android:id="@+id/etxNSerie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:hint="N: Serie"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:maxLength="@integer/otros_documentos"
+                        android:gravity="center"
+                        android:inputType="textCapCharacters"
+                        android:digits="@string/filters"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setCornerRadius="20dp"/>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -59,17 +90,28 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="N: Documento"
-                        android:inputType="textPersonName"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
+                        android:maxLength="@integer/otros_documentos"
+                        android:inputType="textCapCharacters"
+                        android:digits="@string/filters"
+                        android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:layout_margin="10dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -92,6 +134,7 @@
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
+                        android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
@@ -118,6 +161,7 @@
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
+                        android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
@@ -133,7 +177,8 @@
                     <TextView
                         android:id="@+id/spnTipoGasto"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp" />
+                        android:layout_height="50dp"
+                        android:gravity="center"/>
 
 
                     <TextView
@@ -156,10 +201,19 @@
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
+                        android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:layout_margin="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -179,7 +233,7 @@
                         android:gravity="center"
                         android:scaleType="centerCrop"
                         android:layout_marginTop="10dp"
-                        android:layout_margin="10dp"
+                        android:layout_margin="15dp"
                         android:background="@drawable/ic_add_a_photo"/>
 
                     <ImageButton

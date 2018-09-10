@@ -152,7 +152,7 @@
         <item>FACTURA</item>
         <item>MOVILIDAD</item>
         <item>NOTA DE CREDITO</item>
-        <item>OTRAS DESCUENTOS</item>
+        <item>OTROS DOCUMENTOS</item>
         <item>RECIBO POR HONORARIOS</item>
         <item>SERVICIOS PUBLICOS</item>
         <item>SIN SUSTENTO TRIBUTARIO</item>
@@ -173,6 +173,22 @@
     <string name="validarRuc">Verificar RUC</string>
     <string name="validatDatosGenerales">Debe completar los datos Generales antes de continuar</string>
     <string name="sendDataSuccess">Se Guardo el Documento Correctamente</string>
+
+
+
+    <string name="filters">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890</string>
+    <string name="factura">EF1234567890</string>
+    <string name="honorarios">E1234567890</string>
+    <string name="boleta">EB1234567890</string>
+    <string name="aereo">3</string>
+    <string name="numbers">1234567890</string>
+
+    <string name="autocomplete">00000000000000000000</string>
+    <string name="validateValorVenta">El importe no puede ser mayor a 700</string>
+
+    <!--Documentos-->
+    <integer name="otros_documentos">20</integer>
+
 
 
 </resources>

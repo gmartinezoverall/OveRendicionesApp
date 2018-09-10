@@ -89,8 +89,6 @@ public class MovilidadFragment extends Fragment {
             if (hasFocus) showDatePickerDialog(2);
         });
 
-
-
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 

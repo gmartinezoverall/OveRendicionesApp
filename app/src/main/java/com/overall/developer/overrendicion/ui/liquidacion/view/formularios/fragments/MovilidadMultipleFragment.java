@@ -31,6 +31,7 @@ import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MovilidadMultipleFragment extends Fragment {
 
+    //region Injeccion de Vistas
     @BindView(R.id.spnTipoGasto)
     TextView spnTipoGasto;
 
@@ -56,7 +57,7 @@ public class MovilidadMultipleFragment extends Fragment {
     CustomEditText etxDestino;
     @BindView(R.id.etxMonto)
     CustomEditText etxMonto;
-
+    //endregion
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;

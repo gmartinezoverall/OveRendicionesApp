@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
@@ -51,6 +52,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class BoletoAereoFragment extends Fragment {
+    //region Injeccion de Vistas
 
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
@@ -84,6 +86,10 @@ public class BoletoAereoFragment extends Fragment {
     Button btnGuardar;
     @BindView(R.id.btnSearch)
     ImageButton btnSearch;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+
+    //endregion
 
 
     private SpinnerDialog spinnerDialogProv, spinnerDialogTipoGasto;
@@ -129,15 +135,23 @@ public class BoletoAereoFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-        etxRuc.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus)
-            {
-                if (etxRuc.getText().toString().length() != 11)
-                {
-                    etxRuc.setError("Verificar RUC");
 
-                }
-            }
+        RxTextView.textChanges(etxRuc)
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
+
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+
+        });
+
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
+
         });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnDestinoViaje, spnTipoGasto, btnSearch);
@@ -157,14 +171,15 @@ public class BoletoAereoFragment extends Fragment {
         OttoBus.getBus().register(this);
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
+
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
         etxRazonSocial.setEnabled(false);
     }
@@ -203,13 +218,12 @@ public class BoletoAereoFragment extends Fragment {
                 Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
                 break;
             case R.id.btnGuardar:
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletoAereoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
                             String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(idProvincia), String.valueOf(etxCalendar.getText()), String.valueOf(tipoMoneda),
-                            String.valueOf(etxPrecioVenta.getText()), String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),String.valueOf(etxOtrosGastos.getText()),
+                            String.valueOf(etxPrecioVenta.getText()), String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"), String.valueOf(etxOtrosGastos.getText()),
                             String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
@@ -221,11 +235,9 @@ public class BoletoAereoFragment extends Fragment {
                 spinnerDialogTipoGasto.showSpinerDialog();
                 break;
             case R.id.btnSearch:
-                if (etxRuc.getText().toString().length() == 11)
-                {
-                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(etxRuc.getText()));
-                }else
-                {
+                if (etxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
+                } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }
@@ -233,16 +245,13 @@ public class BoletoAereoFragment extends Fragment {
         }
     }
 
-    private boolean ValideWidgets()
-    {
-        if ((etxRuc.getText().toString().isEmpty()&& etxRuc.getText().toString().trim().length() != 11) || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") ||  etxCalendar.getText().toString().isEmpty() ||
+    private boolean ValideWidgets() {
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxNDocumento.getText().toString().isEmpty() || spnDestinoViaje.getText().equals("Seleccionar") || etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
-                ||  pathImage == null)
-        {
+                || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
 
@@ -254,8 +263,7 @@ public class BoletoAereoFragment extends Fragment {
 
         switch (requestCode) {
             case (100): {
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     File imageFile = new File(data.getStringArrayListExtra(Pix.IMAGE_RESULTS).get(0));
 
                     new Compressor(mView.getContext())

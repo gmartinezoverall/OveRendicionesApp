@@ -108,9 +108,9 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mSearchBar.setOnSearchActionListener(this);
         mSearchBar.inflateMenu(R.menu.main);
         mSearchBar.setCardViewElevation(5);
-        mSearchBar.setTxvTipoBuscar("Estado");
+        mSearchBar.setTxvTipoBuscar("Descripcion");
 
-        mTool_bar.addAction(R.drawable.awsb_ic_edit_animated, "Buscar");
+        mTool_bar.addAction(R.drawable.ic_search, "Buscar");
         //tool_bar.setOverflowActionItemClickListener((position, item) -> Toast.makeText(getBaseContext(), item + " clicked", Toast.LENGTH_LONG).show());
         mTool_bar.setOnMenuClickedListener(v -> drawerLayout.openDrawer(Gravity.START));
         mTool_bar.displayHomeAsUpEnabled(false);
@@ -147,7 +147,11 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         switch (buttonCode)
         {
             case MaterialSearchBar.BUTTON_CLEAR:
-                mPresenter.filterLiquidacionForUser(dniUser);
+                mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
+                final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
+                mRecyclerView.setLayoutAnimation(controller);
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+                mRecyclerView.scheduleLayoutAnimation();
                 break;
         }
 
@@ -268,13 +272,11 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     public void searchListPendienteResult(List<LiquidacionBean> pendienteList)
     {
-        pendienteBeanList = pendienteList;
-        initialRecyclerView();
-/*        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
+        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
-        mRecyclerView.scheduleLayoutAnimation();*/
+        mRecyclerView.scheduleLayoutAnimation();
 
 
     }
@@ -282,22 +284,18 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     public void setListPendienteForUser(List<LiquidacionBean> pendienteList)
     {
-        pendienteBeanList = pendienteList;
-        initialRecyclerView();
-/*        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteList, this));
+        mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
-        mRecyclerView.scheduleLayoutAnimation();*/
+        mRecyclerView.scheduleLayoutAnimation();
     }
 
     private void initialRecyclerView()
     {
         mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
         mRecyclerView.addItemDecoration(this.getSectionCallback(pendienteBeanList));
-
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
-
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
         mRecyclerView.scheduleLayoutAnimation();

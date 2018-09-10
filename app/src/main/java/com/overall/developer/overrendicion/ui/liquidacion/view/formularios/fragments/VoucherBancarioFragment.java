@@ -50,6 +50,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class VoucherBancarioFragment extends Fragment {
 
+    //region Injeccion de Vistas
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
     @BindView(R.id.spnBanco)
@@ -68,6 +69,7 @@ public class VoucherBancarioFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.img_foto)
     ImageView imgFoto;
+    //endregion
 
     private SpinnerDialog spinnerDialogTipoDoc, spnDialogBanco;
     private String rtgId, banco;
