@@ -172,6 +172,7 @@ public class FacturaFragment extends Fragment {
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
         //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
+        etxValorVenta.setText(String.valueOf(Double.valueOf(39.92)));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
@@ -322,7 +323,7 @@ public class FacturaFragment extends Fragment {
     private boolean ValideWidgets() {
         if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
-                || pathImage == null) {
+                || pathImage == null || Double.valueOf(etxValorVenta.getText().toString()) > 700) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
         } else return true;

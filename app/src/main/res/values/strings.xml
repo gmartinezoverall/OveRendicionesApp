@@ -21,7 +21,7 @@
     <string name="password">Contraseña</string>
 
     <string name="createTittle">Registrar Cuenta</string>
-    <string name="createMessage">Nesecitas una ceunta para registrar tus rendiciones. Completa la siguiente información para obtener una cuenta en poco tiempo.</string>
+    <string name="createMessage">Necesitas una cuenta para registrar tus rendiciones. Completa la siguiente información para obtener una cuenta en poco tiempo.</string>
     <string name="createUserDni">Numero DNI</string>
     <string name="createEmail">Correo electronico</string>
     <string name="createEmailError">Correo electronico no es correcto</string>
