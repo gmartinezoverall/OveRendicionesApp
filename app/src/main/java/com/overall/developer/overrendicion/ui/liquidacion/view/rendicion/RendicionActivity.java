@@ -23,13 +23,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.swipe.util.Attributes;
@@ -38,6 +38,7 @@ import com.fxn.utility.PermUtil;
 import com.github.florent37.awesomebar.AwesomeBar;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
+import com.jaredrummler.android.widget.AnimatedSvgView;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
@@ -48,7 +49,6 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion.Re
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.adapter.RendicionAdapter;
-import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.contentFoto.FotoContentActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
@@ -61,19 +61,17 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.zelory.compressor.Compressor;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.util.Preconditions;
-
 import static maes.tech.intentanim.CustomIntent.customType;
-import com.bumptech.glide.MemoryCategory;
 
 /**
  * Created by cesar on 3/25/2018.
@@ -107,6 +105,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     String emailUser;
     ImageView imgFoto;
     String pathImage;
+    Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +123,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         }
         sesionManager();
         initialDrawable();
+        showDialog();
         mPresenter.listRendicion();
 
         try {
@@ -187,6 +187,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
             finish();
         } else if (id == R.id.menu_refresh)
         {
+            showDialog();
             mPresenter.listRendicion();
             Log.i("Rendicion","Listando");
 
@@ -200,7 +201,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     public void getListRendicion(List<RendicionEntity> rendicionList)
     {
-        this.mRendicionList = rendicionList;
+        mRendicionList = rendicionList;
+        usedAdapter();
+        mDialog.dismiss();
 
     }
 
@@ -208,6 +211,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     public void updateListRendicion(List<RendicionEntity> rendicionBeans) {
         mRendicionList = rendicionBeans;
         usedAdapter();
+        mDialog.dismiss();
     }
 
     @Override
@@ -222,6 +226,24 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     {
 
     }
+
+    private void showDialog()
+    {
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.dialog_progress);
+        AnimatedSvgView svgView = mDialog.findViewById(R.id.animated_svg_view);
+        //svgView.postDelayed(() -> svgView.start(), 200);
+
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundtext_card)));
+        mDialog.show();
+
+        Observable.interval(0, 2500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(timer-> svgView.start());
+    }
+
+
 
     private void usedAdapter()
     {
@@ -285,6 +307,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     //region CustomDialog
     private void showCustomDialog(String codRendicion)
     {
+
         AwsUtility.downloadWithTransferUtility(this);
 
         Dialog mDialog = new Dialog(this);
@@ -314,7 +337,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH)
                 .into(imgFoto);
- /*       Glide.with(this)
+/*        Glide.with(this)
                 .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
                 .into(imgFoto);*/
 

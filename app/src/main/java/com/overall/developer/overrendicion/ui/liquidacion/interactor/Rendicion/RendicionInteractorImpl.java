@@ -42,18 +42,20 @@ public class RendicionInteractorImpl implements RendicionInteractor
         List<RendicionEntity> rendicionList= new ArrayList<>();
 
             if (Util.isOnline())mRepository.insertListRendicionesApi(mRepository.getCodLiquidacionDB());
-
-            for (RendicionBean bean : mRepository.listRendicion())
+            else
             {
-                rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDes(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
-                        bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
-                        bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
-                        bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
+                for (RendicionBean bean : mRepository.listRendicion())
+                {
+                    rendicionList.add(new RendicionEntity(bean.getIdRendicion(),bean.getCodRendicion(), bean.getRdoDes(), bean.getCodLiquidacion(), bean.getIdUsuario(), bean.getNumeroDoc(),
+                            bean.getBienServicio(), bean.getIgv(), bean.getAfectoIgv(), bean.getValorNeto(), bean.getPrecioTotal(), bean.getObservacion(), bean.getFechaDocumento(),
+                            bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
+                            bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
 
+                }
+                mPresenter.getListRendicion(rendicionList);
             }
 
 
-        mPresenter.getListRendicion(rendicionList);
     }
 
     @Override

@@ -63,7 +63,6 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     View searchAppBarLayout;
     //endregion
 
-
     private TimeLineRecyclerView mRecyclerView;
     private List<LiquidacionBean> pendienteBeanList;
     private PendientePresenter mPresenter;

@@ -2,9 +2,11 @@ package com.overall.developer.overrendicion.ui.user.view.Drawable;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.ui.user.presenter.Drawable.UpdateEmailPresenter;
@@ -41,6 +43,10 @@ public class UpdateEmailActivity extends AppCompatActivity implements UpdateEmai
             }
         });
 
+        RxTextView.textChanges(etxNewEmail)
+                .filter(etx -> (etx.length() > 0 && !Patterns.EMAIL_ADDRESS.matcher(etx).matches()))
+                .subscribe(etx -> etxNewEmail.setError(getResources().getString(R.string.createEmailError)));
+
 
     }
 
@@ -51,8 +57,8 @@ public class UpdateEmailActivity extends AppCompatActivity implements UpdateEmai
     }
 
     private boolean valideWidgets() {
-        if (etxNewEmail.getText().toString().isEmpty()) {
-            Toast.makeText(this, getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
+        if (etxNewEmail.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(String.valueOf(etxNewEmail.getText())).matches()) {
+            Toast.makeText(this, getResources().getString(R.string.createEmailError), Toast.LENGTH_LONG).show();
             return false;
         } else return true;
     }

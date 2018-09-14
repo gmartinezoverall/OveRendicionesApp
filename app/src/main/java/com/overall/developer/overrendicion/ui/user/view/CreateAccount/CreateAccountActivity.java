@@ -11,6 +11,7 @@ import android.widget.ViewSwitcher;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.Transition;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenter;
@@ -24,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import io.rmiri.buttonloading.ButtonLoading;
+
+import android.util.Patterns;
 
 /**
  * Created by terry on 3/9/2018.
@@ -87,7 +90,11 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
             }
         });
 
-        mEtxEmail.setOnFocusChangeListener((v, hasFocus) -> {
+        RxTextView.textChanges(mEtxEmail)
+                .filter(etx -> (etx.length() > 0 && !Patterns.EMAIL_ADDRESS.matcher(etx).matches()))
+                .subscribe(etx -> mEtxEmail.setError(getResources().getString(R.string.createEmailError)));
+
+/*        mEtxEmail.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus)
             {
                 if (Util.isEmailValid(String.valueOf(mEtxEmail.getText())))
@@ -96,7 +103,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
                 }
             }
-        });
+        });*/
 
     }
 
@@ -164,7 +171,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
     private boolean ValideWidgets()
     {
-        if (mEtxUserDni.getText().toString().isEmpty() || mEtxPassword.getText().toString().isEmpty() || mEtxEmail.getText().toString().isEmpty() || mEtxPhone.getText().toString().isEmpty())
+        if (mEtxUserDni.getText().toString().isEmpty() || mEtxPassword.getText().toString().isEmpty() || mEtxEmail.getText().toString().isEmpty() || mEtxPhone.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(String.valueOf(mEtxEmail.getText())).matches())
         {
             Toast.makeText(this, getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
