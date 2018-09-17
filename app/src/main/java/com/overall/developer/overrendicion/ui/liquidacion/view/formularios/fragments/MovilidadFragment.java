@@ -159,7 +159,7 @@ public class MovilidadFragment extends Fragment {
         switch (view.getId()) {
             case R.id.btnIndividual:
                 lytfechaFinal.setVisibility(View.GONE);
-                etxFechaHasta.setText("");
+                etxFechaHasta.setText("-");
                 break;
             case R.id.btnMasivo:
                 lytfechaFinal.setVisibility(View.VISIBLE);

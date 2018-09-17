@@ -234,7 +234,7 @@ public class FacturaFragment extends Fragment {
                 if (ValideWidgets()) {
 
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new FacturaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNSerie.getText()) + "-"+ String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxValorVenta.getText()), String.valueOf(etxPrecioVenta.getText()), rtgId, String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
                 }
                 break;

@@ -135,7 +135,7 @@
                             android:paddingBottom="12dp"
                             android:paddingRight="12dp"
                             android:paddingTop="12dp"
-                            android:text=""
+                            android:text="-"
                             android:textSize="14sp"
                             app:libIZO_setBorderColor="#d4d2d3"
                             app:libIZO_setBorderView="true"
