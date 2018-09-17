@@ -6,10 +6,8 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.repository.Rendicion.RendicionRepository;
 
-import java.nio.MappedByteBuffer;
 import java.util.List;
 
 import io.realm.Realm;
@@ -85,6 +83,10 @@ public class DBRendicionImpl implements DBRendicion
                 if (rendicionBean != null) rendicionBean.deleteFromRealm();
 
                 bean.setIdRendicion(nextID);
+                bean.setIgv(bean.getIgv().replace(",","."));
+                bean.setValorNeto(bean.getValorNeto().replace(",","."));
+                bean.setPrecioTotal(bean.getPrecioTotal().replace(",","."));
+                bean.setOtroGasto(bean.getOtroGasto().replace(",","."));
                 nextID++;
             }
             mRealm.insertOrUpdate(mRendionList);
@@ -192,6 +194,12 @@ public class DBRendicionImpl implements DBRendicion
         });
         return idMovilidad;
 
+    }
+
+    @Override
+    public String getUrlImageDB(String codRendicion)
+    {
+        return null;
     }
 
 }

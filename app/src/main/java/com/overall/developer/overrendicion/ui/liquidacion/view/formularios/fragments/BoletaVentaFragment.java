@@ -94,9 +94,9 @@ public class BoletaVentaFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    RendicionEntity rendicionEntity;
-    TipoGastoEntity gastoEntity;
-    String pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private String pathImage;
 
     Unbinder unbinder;
     View mView;
@@ -147,8 +147,8 @@ public class BoletaVentaFragment extends Fragment {
         });
 
         RxTextView.textChanges(etxRuc)
-                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
-                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
+                .filter(etx -> ((etx.length() > 0 && etx.length() != 11)  || (etx.length() > 2 && etx.toString().substring(0,2).equals("20"))))
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)+ ", No puede empezar con 20"));
 
 
         RxTextView.textChanges(etxValorVenta)
@@ -164,18 +164,20 @@ public class BoletaVentaFragment extends Fragment {
     private void setAllDefaultValues() {
         gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
 
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\|");
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
-        etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
+        etxNDocumento.setText(String.valueOf(strings[0]));
+        etxNSerie.setText(String.valueOf(strings[1]));
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getValorNeto()));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
-        spnTipoGasto.setText(gastoEntity.getRtgDes());
-        rtgId = (gastoEntity.getRtgId());
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
         //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
@@ -215,10 +217,10 @@ public class BoletaVentaFragment extends Fragment {
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
 
-        }, mYear, mMonth, mDay);
+            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year)
+
+        , mYear, mMonth, mDay);
 
         datePickerDialog.show();
     }
@@ -232,7 +234,7 @@ public class BoletaVentaFragment extends Fragment {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletaVentaEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                            String.valueOf(etxRazonSocial.getText()),String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
                 }

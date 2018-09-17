@@ -38,7 +38,7 @@ public class OtrosDocumentosEntity implements FormularioEntity
         entity.setFechaDocumento(otrosDocumentosEntity.fechaDocumento);
         entity.setNumeroDoc(otrosDocumentosEntity.numeroDoc);
         entity.setPrecioTotal(otrosDocumentosEntity.montoAfectado);
-        entity.setOtroGasto(otrosDocumentosEntity.montoNoAfectado);//no se donde ira
+        entity.setOtroGasto(otrosDocumentosEntity.montoNoAfectado);
         entity.setRtgId(otrosDocumentosEntity.tipoGasto);
         entity.setObservacion(otrosDocumentosEntity.observaciones);
         entity.setFoto(otrosDocumentosEntity.foto);

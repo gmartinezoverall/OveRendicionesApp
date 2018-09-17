@@ -1,12 +1,10 @@
 package com.overall.developer.overrendicion.data.repository.Rendicion.db;
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
-import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 
 import java.util.List;
 
@@ -35,4 +33,6 @@ public interface DBRendicion
     List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
 
     String deleteDetMovForCodDB(int idDetMov);
+
+    String getUrlImageDB(String codRendicion);
 }

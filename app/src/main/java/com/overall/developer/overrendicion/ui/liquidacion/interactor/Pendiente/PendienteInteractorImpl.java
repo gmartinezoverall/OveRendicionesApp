@@ -3,7 +3,9 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Pendiente;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.repository.Pendiente.PendienteRepository;
@@ -107,6 +109,21 @@ public class PendienteInteractorImpl implements PendienteInteractor
     }
 
     @Override
+    public void refreshList(String dniUser)
+    {
+        if (Util.isOnline()) mRepository.refreshListPendienteApi(dniUser);
+        else listUserForDNI(dniUser);
+
+    }
+
+    @Override
+    public void sendResumeEmail()
+    {
+        String codLiquidacion = mRepository.getCodLiquidacionDB();
+        if (Util.isOnline())mRepository.sendResumeEmailApi(codLiquidacion);
+    }
+
+    @Override
     public void successPendienteList(String message, String dniUser)
     {
         mPresenter.successPendienteList(message);
@@ -120,6 +137,35 @@ public class PendienteInteractorImpl implements PendienteInteractor
     {
         mPresenter.errorPendienteList(message);
 
+    }
+
+    @Override
+    public void refreshListSuccess(String dniUser)
+    {
+        //se Lista los Obj de la DB
+        List<LiquidacionBean> mBeanList = mRepository.listPendienteDB();
+
+        //se envian
+        Observable.fromArray(mBeanList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .concatMapIterable((Function<List<LiquidacionBean>, List<LiquidacionBean>>) beanList -> beanList)
+                .filter(pendienteBean -> pendienteBean.getDni().equals(dniUser))
+                .toList()
+                .subscribe(listPendiente -> mPresenter.refreshListSuccess(listPendiente));
+
+    }
+
+    @Override
+    public void successSendResume()
+    {
+        Toast.makeText(mContext, String.valueOf(mContext.getResources().getString(R.string.sendEmailSuccess)),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void errorSendResume()
+    {
+        Toast.makeText(mContext, String.valueOf(mContext.getResources().getString(R.string.sendEmailError)),Toast.LENGTH_SHORT).show();
     }
 
     private void listUserForDNI(String dniUser)

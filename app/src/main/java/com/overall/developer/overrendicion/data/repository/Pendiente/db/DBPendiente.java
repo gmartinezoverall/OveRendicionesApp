@@ -19,6 +19,8 @@ public interface DBPendiente
     UserBean getUser();
     void finisLogin();
     Observable registerPendienteDB(List<LiquidacionBean> mPendienteBean);
+    String getCodLiquidacionDB();
+
 
     String searchDniDB(String dniUser);
 
@@ -26,7 +28,6 @@ public interface DBPendiente
     List<LiquidacionBean> listPendienteDB(String entidad, String texto);
 
     void insertProvinciaDB(List<ProvinciaBean> provinciaBeanList);
-
 
 
 }

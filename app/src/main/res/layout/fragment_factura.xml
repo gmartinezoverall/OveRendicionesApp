@@ -36,8 +36,9 @@
                         android:id="@+id/etxRuc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="9"
                         android:layout_margin="5dp"
+                        android:layout_weight="9"
+                        android:gravity="center"
                         android:hint="RUC"
                         android:inputType="number"
                         android:maxLength="11"
@@ -47,11 +48,12 @@
                         android:paddingTop="12dp"
                         android:text=""
                         android:textSize="15sp"
-                        android:gravity="center"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setCornerRadius="20dp" />
+                        app:libIZO_setCornerRadius="20dp">
+                        <requestFocus />
+                    </com.libizo.CustomEditText>
 
                     <ImageButton
                         android:id="@+id/btnSearch"

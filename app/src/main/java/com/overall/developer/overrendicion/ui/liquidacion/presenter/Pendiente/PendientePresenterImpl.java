@@ -72,9 +72,28 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
+    public void refreshList(String dniUser)
+    {
+        mInteractor.refreshList(dniUser);
+
+    }
+
+    @Override
+    public void sendResumeEmail()
+    {
+        mInteractor.sendResumeEmail();
+    }
+
+    @Override
     public void successPendienteList(String message)
     {
         mView.successPendienteList(message);
+    }
+
+    @Override
+    public void refreshListSuccess(List<LiquidacionBean> listPendiente)
+    {
+        mView.refreshListSuccess(listPendiente);
     }
 
     @Override

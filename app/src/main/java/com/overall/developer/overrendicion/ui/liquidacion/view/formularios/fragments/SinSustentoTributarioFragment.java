@@ -24,6 +24,7 @@ import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.SinSustentoTributarioEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -64,6 +65,8 @@ public class SinSustentoTributarioFragment extends Fragment {
     private SpinnerDialog spinnerDialogTipoGasto;
     private String rtgId, pathImage;
 
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
     Unbinder unbinder;
     View mView;
 
@@ -73,6 +76,8 @@ public class SinSustentoTributarioFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_sin_sustento_tributario, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
@@ -96,6 +101,18 @@ public class SinSustentoTributarioFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxMontoNoAfectado.setText(rendicionEntity.getOtroGasto());
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
     }
 
     private void showDatePickerDialog() {

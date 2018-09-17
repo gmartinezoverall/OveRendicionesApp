@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -84,6 +85,11 @@ public class FormularioPresenterImpl implements FormularioPresenter
     public TipoGastoEntity getDefaultTipoGasto(String rtgId)
     {
         return mInteractor.getDefaultTipoGasto(rtgId);
+    }
+
+    @Override
+    public ProvinciaEntity getDefaultProvincia(String codDestino) {
+        return mInteractor.getDefaultProvicia(codDestino);
     }
 
     @Override

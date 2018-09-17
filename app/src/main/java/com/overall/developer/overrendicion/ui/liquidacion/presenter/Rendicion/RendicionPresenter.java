@@ -32,4 +32,6 @@ public interface RendicionPresenter
     void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList);
 
     void sendDataPhote(String codRendicion, String pathImage);
+
+    String getUrlImage(String codRendicion);
 }

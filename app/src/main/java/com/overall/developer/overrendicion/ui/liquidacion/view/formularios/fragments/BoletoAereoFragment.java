@@ -94,9 +94,10 @@ public class BoletoAereoFragment extends Fragment {
 
     private SpinnerDialog spinnerDialogProv, spinnerDialogTipoGasto;
     private String rtgId, idProvincia;
-    RendicionEntity rendicionEntity;
-    TipoGastoEntity gastoEntity;
-    String pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private ProvinciaEntity provinciaEntity;
+    private String pathImage;
 
 
     Unbinder unbinder;
@@ -108,6 +109,9 @@ public class BoletoAereoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_boleto_aereo, container, false);
         unbinder = ButterKnife.bind(this, mView);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
@@ -184,6 +188,31 @@ public class BoletoAereoFragment extends Fragment {
         etxRazonSocial.setEnabled(false);
     }
 
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+        provinciaEntity = ((FormularioActivity) getContext()).getDefaultProvincia();
+
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
+
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxNSerie.setText(String.valueOf(strings[0]));
+        etxNDocumento.setText(String.valueOf(strings[1]));
+        spnDestinoViaje.setText(String.valueOf(provinciaEntity.getDesc()));
+        idProvincia = String.valueOf(provinciaEntity.getCode());
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getValorNeto()));
+        if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
+        txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
+        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
+    }
+
     private void showDatePickerDialog() {
         int mYear, mMonth, mDay;
         final Calendar c = Calendar.getInstance();
@@ -222,7 +251,7 @@ public class BoletoAereoFragment extends Fragment {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new BoletoAereoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(idProvincia), String.valueOf(etxCalendar.getText()), String.valueOf(tipoMoneda),
+                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(idProvincia), String.valueOf(etxCalendar.getText()), String.valueOf(tipoMoneda),
                             String.valueOf(etxPrecioVenta.getText()), String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"), String.valueOf(etxOtrosGastos.getText()),
                             String.valueOf(rtgId), String.valueOf(pathImage)));
 

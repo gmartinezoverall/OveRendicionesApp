@@ -26,6 +26,7 @@ import com.github.florent37.awesomebar.AwesomeBar;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -38,8 +39,6 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.BoletoAereoFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.BoletoTerrestreFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.CartaPorteAereoFragment;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ReciboServiciosPublicos;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.DescuentoBoletaFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.FacturaFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.MovilidadFragment;
@@ -47,9 +46,11 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.NotaCreditoFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.OtrosDocumentosFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ReciboHonorariosFragment;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ReciboServiciosPublicos;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.SinSustentoTributarioFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.TicketMaquinaRegistradoraFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.VoucherBancarioFragment;
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
@@ -91,6 +92,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     DrawerLayout mDrawerLayout;
     @BindView(R.id.lytDropdownview)
     LinearLayout lytDropdownview;
+    @BindView(R.id.txvDefault)
+    TextView txvDefaultFragment;
     //endregion
 
     private FragmentManager fragmentManager;
@@ -99,6 +102,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     private RendicionEntity rendicionEntity;
     private RendicionDetalleEntity rendicionDetalleEntity;
     private String nombreUser, emailUser, codLiquidacion;
+    private Boolean visible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,37 +123,36 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         initialDrawable();
         fragmentManager = getSupportFragmentManager();
         dropdownview.setDropDownListItem(typeFormList);
+        codLiquidacion = mPresenter.getCodLiquidacion();
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
-        {
-            if (bundle.getString("id")!= null)
-            {
+        if (bundle != null) {
+            visible = true;
+            if (bundle.getString("id") != null) {
                 rendicionDetalleEntity = mPresenter.setMovilidadForEdit(Integer.valueOf(bundle.getString("id")));//se llenaron los datos de Movildiad
                 dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionDetalleEntity.getRdoId())));//formulario para editar
-            }
-            else if (bundle.getString("defaultRtg")!= null)
-            {
+
+            } else if (bundle.getString("defaultRtg") != null) {
                 dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(bundle.getString("defaultRtg"))));//formulario nuevo
-            }
-            else
-            {
+            } else {
                 rendicionEntity = mPresenter.setRendicionForEdit(String.valueOf(bundle.getString("idRendicion")));//se llenaron los datos del formulario automaticamente
                 dropdownview.setSelectingPosition(Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity.getRdoId())));//formulario para editar
             }
 
-        } else  dropdownview.setSelectingPosition(6);//formulario por defecto
+        } else {
 
-        dropdownview.setOnSelectionListener((view, position) ->
-        {
-            replaceFragment(dropdownview.getSelectingPosition());
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(dropdownview.getWindowToken(), 0);
+            dropdownview.setSelectingPosition(6);//formulario por defecto
 
-        });
 
-        codLiquidacion = mPresenter.getCodLiquidacion();
+            dropdownview.setOnSelectionListener((view, position) ->
+            {
+                replaceFragment(dropdownview.getSelectingPosition());
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(dropdownview.getWindowToken(), 0);
 
+            });
+
+        }
         replaceFragment(dropdownview.getSelectingPosition());
 
     }
@@ -180,8 +183,14 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         fragmentTransaction.replace(R.id.fytFormularios, fragment, "fragments");
         fragmentTransaction.commit();
 
-    }
+        if (visible) {
 
+            lytDropdownview.setVisibility(View.INVISIBLE);
+            txvDefaultFragment.setVisibility(View.VISIBLE);
+            txvDefaultFragment.setText(String.valueOf(dropdownview.getFilterTextView().getText()));
+        }
+
+    }
 
 
     public RendicionEntity getDefaultValues() {
@@ -192,18 +201,19 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return rendicionDetalleEntity;//devuelve los valores por defecto
     }
 
-    public TipoGastoEntity getDefaultTipoGasto()
-    {
+    public TipoGastoEntity getDefaultTipoGasto() {
         return mPresenter.getDefaultTipoGasto(rendicionEntity.getRtgId());
     }
 
-    public TipoGastoEntity getDefaultTipoGastoDetail()
-    {
+    public ProvinciaEntity getDefaultProvincia() {
+        return mPresenter.getDefaultProvincia(rendicionEntity.getCodDestino());
+    }
+
+    public TipoGastoEntity getDefaultTipoGastoDetail() {
         return mPresenter.getDefaultTipoGasto(rendicionDetalleEntity.getRtgId());
     }
 
-    public BancoEntity getDefaultBanco()
-    {
+    public BancoEntity getDefaultBanco() {
         return mPresenter.getDefaultBanco(rendicionEntity.getBcoCod());
     }
 
@@ -223,8 +233,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return mPresenter.getAllBancos();
     }
 
-    public void searchRuch(String ruc)
-    {
+    public void searchRuch(String ruc) {
         mPresenter.searchRuc(ruc);
     }
 
@@ -237,17 +246,15 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         mPresenter.saveData(typeFragment, objectDinamyc);
     }
 
-    public String getIdMovilidad()
-    {
+    public String getIdMovilidad() {
         return rendicionDetalleEntity == null ? "-" : rendicionDetalleEntity.getIdMovilidad();
     }
 
-    public void saveAndSendDataForMovilidad(MovilidadEntity movilidadEntity)
-    {
+    public void saveAndSendDataForMovilidad(MovilidadEntity movilidadEntity) {
         mPresenter.saveDataMovilidad(movilidadEntity);
     }
-    public void saveAndSendDataForMovilidadMultiple(MovilidadMultipleEntity movilidadEntity)
-    {
+
+    public void saveAndSendDataForMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
         mPresenter.saveDataMovilidadMultiple(movilidadEntity);
     }
 
@@ -261,8 +268,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     }
 
     @Override
-    public void searchRucSuccess(String razonSocial)
-    {
+    public void searchRucSuccess(String razonSocial) {
         OttoBus.getBus().post(new Communicator(razonSocial));
 
     }
@@ -306,12 +312,10 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra)
-        {
+        } else if (id == R.id.nav_actContra) {
             startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo)
-        {
+        } else if (id == R.id.nav_actCorreo) {
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {

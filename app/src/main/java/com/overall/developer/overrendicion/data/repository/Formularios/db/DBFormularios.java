@@ -36,10 +36,13 @@ public interface DBFormularios
 
     TipoDocumentoBean getDefaultTipoGastoDB(String rtgId);
 
+    ProvinciaBean getDefaultProviciaDB(String codDestino);
+
     BancoBean getDefaultBancoDB(String bcoCod);
 
     RendicionDetalleBean setMovilidadForEditDB(int idMov);
 
     void insertMovilidadDB(MovilidadBean movilidadBean);
+
 
 }

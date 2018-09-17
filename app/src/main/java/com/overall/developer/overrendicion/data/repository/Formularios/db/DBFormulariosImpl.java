@@ -135,6 +135,14 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
+    public ProvinciaBean getDefaultProviciaDB(String codDestino)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        ProvinciaBean bean = mRealm.where(ProvinciaBean.class).equalTo("code",codDestino).findFirst();
+        return bean;
+    }
+
+    @Override
     public BancoBean getDefaultBancoDB(String bcoCod)
     {
         Realm mRealm = Realm.getDefaultInstance();

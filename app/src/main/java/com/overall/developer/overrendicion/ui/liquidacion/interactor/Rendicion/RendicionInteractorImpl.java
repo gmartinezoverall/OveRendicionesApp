@@ -4,7 +4,6 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
-import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
@@ -21,7 +20,6 @@ import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RendicionInteractorImpl implements RendicionInteractor
@@ -83,7 +81,7 @@ public class RendicionInteractorImpl implements RendicionInteractor
                     bean.getFechaVencimiento(), bean.getRuc(), bean.getRazonSocial(), bean.getBcoCod(), bean.getTipoServicio(), bean.getRtgId(), bean.getOtroGasto(),
                     bean.getCodDestino(), bean.getAfectoRetencion(), bean.getCodSuspencionH(), bean.getTipoMoneda(), bean.getTipoCambio(), bean.getFoto(), bean.isSend()));
 
-            if (bean.getRdoId().toString().equals("10") || bean.getRdoId().toString().equals("19"))//Movilidad individual 10
+            if (bean.getRdoId().toString().equals("10") || bean.getRdoId().toString().equals("19"))//Movilidad individual 10, Movilidad Masiva
             {
                 List<RendicionDetalleEntity> movilidadList = new ArrayList<>();
                 if (Util.isOnline())mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
@@ -189,6 +187,11 @@ public class RendicionInteractorImpl implements RendicionInteractor
         //mRepository.sendDataPhoteApi(codRendicion, Util.SaveImage(pathImage));
         mRepository.sendDataPhoteApi(codRendicion, imageSend);
 
+    }
+
+    @Override
+    public String getUrlImage(String codRendicion) {
+        return mRepository.getUrlImageDB(codRendicion);
     }
 
 }

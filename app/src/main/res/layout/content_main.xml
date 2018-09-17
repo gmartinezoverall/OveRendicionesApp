@@ -9,9 +9,22 @@
     tools:context="com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
-        android:id="@+id/rvPendiente"
+    <com.tuesda.walker.circlerefresh.CircleRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:AniBackColor="#ffffffff"
+        app:AniForeColor="#a3a3a3"
+        app:CircleSmaller="6"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
+            android:id="@+id/rvPendiente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.tuesda.walker.circlerefresh.CircleRefreshLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

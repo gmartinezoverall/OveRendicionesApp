@@ -14,6 +14,7 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -278,6 +279,14 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         TipoDocumentoBean bean = mRepository.getDefaultTipoGastoDB(rtgId);
         TipoGastoEntity entity = new TipoGastoEntity(bean.getRtgId(), bean.getRtgDes());
+        return entity;
+    }
+
+    @Override
+    public ProvinciaEntity getDefaultProvicia(String codDestino)
+    {
+        ProvinciaBean bean = mRepository.getDefaultProviciaDB(codDestino);
+        ProvinciaEntity entity = new ProvinciaEntity(bean.getCode(), bean.getDesc());
         return entity;
     }
 

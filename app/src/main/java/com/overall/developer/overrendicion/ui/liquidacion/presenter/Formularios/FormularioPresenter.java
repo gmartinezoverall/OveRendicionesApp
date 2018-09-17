@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -34,6 +35,8 @@ public interface FormularioPresenter
 
     TipoGastoEntity getDefaultTipoGasto(String rtgId);
 
+    ProvinciaEntity getDefaultProvincia(String codDestino);
+
     BancoEntity getDefaultBanco(String bcoCod);
 
     RendicionDetalleEntity setMovilidadForEdit(int idMovilidad);
@@ -45,4 +48,6 @@ public interface FormularioPresenter
     void searchRucSuccess(String razonSocial);
 
     void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
+
+
 }

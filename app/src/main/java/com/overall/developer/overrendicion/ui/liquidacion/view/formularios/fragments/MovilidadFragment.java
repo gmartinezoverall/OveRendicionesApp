@@ -64,9 +64,9 @@ public class MovilidadFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
     private String rtgId;
-    TipoGastoEntity gastoEntity;
+    private TipoGastoEntity gastoEntity;
     private RendicionDetalleEntity rendicionDetalleEntity;
-    String pathImage;
+    private String pathImage;
 
     Unbinder unbinder;
     View mView;
@@ -110,7 +110,6 @@ public class MovilidadFragment extends Fragment {
 
     private void setAllDefaultValues()
     {
-
         etxFechaDesde.setText(String.valueOf(rendicionDetalleEntity.getFechaDesde()));
         etxFechaHasta.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
         etxMotivo.setText(String.valueOf(rendicionDetalleEntity.getMotivoMovilidad()));

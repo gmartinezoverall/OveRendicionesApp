@@ -2,8 +2,6 @@ package com.overall.developer.overrendicion.ui.liquidacion.presenter.Rendicion;
 
 import android.content.Context;
 
-import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
-import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
@@ -94,6 +92,11 @@ public class RendicionPresenterImpl implements RendicionPresenter
     public void sendDataPhote(String codRendicion, String pathImage)
     {
         mInteractor.sendDataPhote(codRendicion, pathImage);
+    }
+
+    @Override
+    public String getUrlImage(String codRendicion) {
+        return mInteractor.getUrlImage(codRendicion);
     }
 
 }

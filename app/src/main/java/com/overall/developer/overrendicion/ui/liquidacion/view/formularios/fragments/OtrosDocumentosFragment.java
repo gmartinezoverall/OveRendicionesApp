@@ -26,6 +26,8 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -83,6 +85,8 @@ public class OtrosDocumentosFragment extends Fragment {
 
     private SpinnerDialog spinnerDialogTipoGasto;
     private String rtgId, pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
 
     Unbinder unbinder;
     View mView;
@@ -92,6 +96,9 @@ public class OtrosDocumentosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_otros_documentos, container, false);
         unbinder = ButterKnife.bind(this, mView);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
@@ -127,6 +134,23 @@ public class OtrosDocumentosFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
+
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxNSerie.setText(String.valueOf(strings[0]));
+        etxNDocumento.setText(String.valueOf(strings[1]));
+        etxMontoAfectado.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxMontoNoAfectado.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
     }
 
     private void showDatePickerDialog() {
@@ -167,7 +191,7 @@ public class OtrosDocumentosFragment extends Fragment {
 
                 if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new OtrosDocumentosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMontoAfectado.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
+                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxMontoAfectado.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
                             String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
                 }

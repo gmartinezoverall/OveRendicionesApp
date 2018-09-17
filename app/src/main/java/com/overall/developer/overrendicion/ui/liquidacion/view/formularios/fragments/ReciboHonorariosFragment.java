@@ -54,16 +54,14 @@ public class ReciboHonorariosFragment extends Fragment {
     CustomEditText etxRuc;
     @BindView(R.id.etxRazonSocial)
     CustomEditText etxRazonSocial;
-    @BindView(R.id.etxNumDoc)
-    CustomEditText etxNumDoc;
     @BindView(R.id.etxCalendar)
     CustomEditText etxCalendar;
     @BindView(R.id.etxValorVenta)
     CustomEditText etxValorVenta;
     @BindView(R.id.chkRetencion)
     CheckBox chkRetencion;
-    @BindView(R.id.txvRetencion)
-    TextView txvRetencion;
+    @BindView(R.id.txvMontoIGV)
+    TextView txvMontoIGV;
     @BindView(R.id.etxPrecioVenta)
     TextView etxPrecioVenta;
     @BindView(R.id.spnTipoGasto)
@@ -91,7 +89,10 @@ public class ReciboHonorariosFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    String pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private String pathImage;
+
 
 
     Unbinder unbinder;
@@ -102,6 +103,9 @@ public class ReciboHonorariosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_recibo_honorarios, container, false);
         unbinder = ButterKnife.bind(this, mView);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
@@ -174,6 +178,25 @@ public class ReciboHonorariosFragment extends Fragment {
         etxRazonSocial.setEnabled(false);
     }
 
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
+
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxNSerie.setText(String.valueOf(strings[0]));
+        etxNDocumento.setText(String.valueOf(strings[1]));
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getValorNeto()));
+        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        if (rendicionEntity.getAfectoIgv().equals("1")) chkRetencion.setChecked(true);
+        txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
+    }
+
     private void showDatePickerDialog() {
         int mYear, mMonth, mDay;
         final Calendar c = Calendar.getInstance();
@@ -197,8 +220,8 @@ public class ReciboHonorariosFragment extends Fragment {
         switch (view.getId()) {
             case R.id.chkRetencion:
                 if (!etxValorVenta.getText().toString().isEmpty()) {
-                    txvRetencion.setText(chkRetencion.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.08) : "0.00");
-                    etxPrecioVenta.setText(String.valueOf(Double.valueOf(txvRetencion.getText().toString()) + Double.valueOf(etxValorVenta.getText().toString())));
+                    txvMontoIGV.setText(chkRetencion.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.08) : "0.00");
+                    etxPrecioVenta.setText(String.valueOf(Double.valueOf(txvMontoIGV.getText().toString()) + Double.valueOf(etxValorVenta.getText().toString())));
 
                     if (!chkRetencion.isChecked()) lytCodSuspencion.setVisibility(View.VISIBLE);
                     else {
@@ -220,7 +243,7 @@ public class ReciboHonorariosFragment extends Fragment {
             case R.id.btnGuardar:
                 if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ReciboHonorariosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNumDoc.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(etxPrecioVenta),
+                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(etxPrecioVenta),
                             String.valueOf(chkRetencion.isChecked() ? "1" : "0"), String.valueOf(etxCodSuspencion.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
@@ -237,7 +260,7 @@ public class ReciboHonorariosFragment extends Fragment {
     }
 
     private boolean ValideWidgets() {
-        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNumDoc.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty()
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty()
                 || etxValorVenta.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;

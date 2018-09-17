@@ -85,6 +85,14 @@ public class DBPendienteImpl implements DBPendiente
     }
 
     @Override
+    public String getCodLiquidacionDB() {
+        Realm mRealm = Realm.getDefaultInstance();
+        LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status", true).findFirst();
+        String codLiquidacion  = liquidacionBean.getCodLiquidacion();
+        return codLiquidacion;
+    }
+
+    @Override
     public String searchDniDB(String dniUser)
     {
         return searchDniRealm(dniUser);

@@ -24,6 +24,7 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ArrendamientoEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -68,15 +69,19 @@ public class ArrendamientoFragment extends Fragment {
     Button btnGuardar;
     @BindView(R.id.btnSearch)
     ImageButton btnSearch;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
 
     //endregion
+
+    private SpinnerDialog spinnerDialog;
+    private String rtgId, pathImage, razonSocial;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
 
     Unbinder unbinder;
     View mView;
 
-
-    private SpinnerDialog spinnerDialog;
-    private String rtgId, pathImage, razonSocial;
 
     @Nullable
     @Override
@@ -84,12 +89,15 @@ public class ArrendamientoFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_arrendamiento, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
+
         etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) showDatePickerDialog();
         });
 
         RxTextView.textChanges(mEtxRuc)
-                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11))
                 .subscribe(etx -> mEtxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         ArrayList<Object> itemList = new ArrayList<>();
@@ -106,12 +114,18 @@ public class ArrendamientoFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus) etxNDocumento.setText(String.valueOf(etxNDocumento.getText())+ getResources().getString(R.string.autocomplete));
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
         });
+        etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
+        });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto, btnFoto, btnSearch);
 
@@ -124,9 +138,24 @@ public class ArrendamientoFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public void searchRucSuccess(String razonSocial)
-    {
-        if (mEtxRazonSocial != null)mEtxRazonSocial.setText(String.valueOf(razonSocial));
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
+        mEtxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        mEtxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxNSerie.setText(String.valueOf(strings[0]));
+        etxNDocumento.setText(String.valueOf(strings[1]));
+        etxMonto.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
+    }
+
+    public void searchRucSuccess(String razonSocial) {
+        if (mEtxRazonSocial != null) mEtxRazonSocial.setText(String.valueOf(razonSocial));
 
     }
 
@@ -149,12 +178,14 @@ public class ArrendamientoFragment extends Fragment {
 
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
         OttoBus.getBus().register(this);
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -162,8 +193,7 @@ public class ArrendamientoFragment extends Fragment {
     }
 
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         mEtxRazonSocial.setText(razonSocial.getRazonSocial());
         mEtxRazonSocial.setEnabled(false);
     }
@@ -183,16 +213,14 @@ public class ArrendamientoFragment extends Fragment {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(mEtxRuc.getText()), String.valueOf(mEtxRazonSocial.getText()),
-                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
+                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
                 break;
             case R.id.btnSearch:
-                if (mEtxRuc.getText().toString().length() == 11)
-                {
-                    ((FormularioActivity)getContext()).searchRuch(String.valueOf(mEtxRuc.getText()));
-                }else
-                {
+                if (mEtxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(mEtxRuc.getText()));
+                } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }

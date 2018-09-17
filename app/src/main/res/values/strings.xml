@@ -43,6 +43,7 @@
 
     <!--datos del drawer-->
     <string name="solicitar_rendicion">Solicitar Rendicion</string>
+    <string name="enviar_resumen_corre">Enviar Resumen a Correo</string>
     <string name="actulizar_contraseña">Actualizar Contraseña</string>
     <string name="actulizar_correo">Actualizar Correo</string>
     <string name="liquidaciones_pendientes">Liquidaciones Pendientes</string>
@@ -185,6 +186,8 @@
 
     <string name="autocomplete">00000000000000000000</string>
     <string name="validateValorVenta">El importe no puede ser mayor a 700</string>
+    <string name="sendEmailSuccess">Se envio un Resumen a tu correo</string>
+    <string name="sendEmailError">Error, No se pudo enviar la solicitud</string>
 
     <!--Documentos-->
     <integer name="otros_documentos">20</integer>

@@ -22,6 +22,8 @@ public interface PendienteRepository
     void setAllBancoApi();
     Observable listPendienteApi(String dniUser);
     void insertProvinciaApi(String dniUser);
+    void refreshListPendienteApi(String dniUser);
+
 
     //DB
     int setAllDocumentDB();
@@ -35,16 +37,18 @@ public interface PendienteRepository
     String searchDniDB(String dniUser);
     Observable registerPendienteDB(List<LiquidacionBean> mPendienteBean);
     void insertProvinciaDB(List<ProvinciaBean> provinciaBeanList);
+    String getCodLiquidacionDB();
+    void sendResumeEmailApi(String codLiquidacion);
 
     //endregion
 
     //region Sets
     void successPendienteList(String message, String dniUser);
     void errorPendienteList(String message);
+    void refreshListSuccess(String dniUser);
 
-
-
-
+    void successSendResume();
+    void errorSendResume();
     //endregion
 
 }

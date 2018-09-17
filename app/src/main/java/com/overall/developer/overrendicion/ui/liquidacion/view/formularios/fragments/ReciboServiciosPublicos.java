@@ -26,6 +26,7 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboServiciosPublicosEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
@@ -56,8 +57,6 @@ public class ReciboServiciosPublicos extends Fragment {
     CustomEditText etxRuc;
     @BindView(R.id.etxRazonSocial)
     CustomEditText etxRazonSocial;
-    @BindView(R.id.etxNumDoc)
-    CustomEditText etxNumDoc;
     @BindView(R.id.spnTipoServicio)
     NiceSpinner spnTipoServicio;
     @BindView(R.id.etxCalendar)
@@ -94,6 +93,9 @@ public class ReciboServiciosPublicos extends Fragment {
     private SpinnerDialog spinnerDialogTipoGasto;
     private String rtgId, pathImage;
 
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+
     Unbinder unbinder;
     View mView;
 
@@ -102,6 +104,9 @@ public class ReciboServiciosPublicos extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_recibo_servicios_publicos, container, false);
         unbinder = ButterKnife.bind(this, mView);
+
+        rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoServicio = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_servicio));
         spnTipoServicio.setAdapter(adapterTipoServicio);
@@ -183,6 +188,24 @@ public class ReciboServiciosPublicos extends Fragment {
         etxRazonSocial.setEnabled(false);
     }
 
+    private void setAllDefaultValues() {
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
+
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        etxNSerie.setText(String.valueOf(strings[0]));
+        etxNDocumento.setText(String.valueOf(strings[1]));
+        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        txvIgv.setText(String.valueOf(rendicionEntity.getIgv()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
+        etxImpNoAfectado.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+
+    }
+
     private void showDatePickerDialog() {
         int mYear, mMonth, mDay;
         final Calendar c = Calendar.getInstance();
@@ -217,7 +240,7 @@ public class ReciboServiciosPublicos extends Fragment {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ReciboServiciosPublicosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNumDoc.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(rtgId), String.valueOf(txvIgv.getText()), String.valueOf("1"),
+                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(rtgId), String.valueOf(txvIgv.getText()), String.valueOf("1"),
                             String.valueOf(etxImpNoAfectado.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(pathImage)));
 
                 }
@@ -234,7 +257,7 @@ public class ReciboServiciosPublicos extends Fragment {
     }
 
     private boolean ValideWidgets() {
-        if (etxNumDoc.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
+        if (etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
                 || spnTipoGasto.getText().equals("Seleccionar") || etxImpNoAfectado.getText().toString().isEmpty() || pathImage == null) {
             return false;
 

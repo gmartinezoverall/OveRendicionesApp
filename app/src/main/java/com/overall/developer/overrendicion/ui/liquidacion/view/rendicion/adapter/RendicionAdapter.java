@@ -170,17 +170,17 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
             if (rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA"))
             {
                 holder.rcvMovilidad.setAdapter(new MovilidadAdapter(mContext, mMovilidadList, (view, movPosition) ->
-                {
-                    itemCLick.onClick(view, movPosition);
-                }));
+
+                    itemCLick.onClick(view, movPosition)
+                ));
 
             }
             else
             {
                 holder.rcvMovilidad.setAdapter(new MovilidadMultipleAdapter(mContext, mMovilidadList, (view, movPosition) ->
-                {
-                    itemCLick.onClick(view, movPosition);
-                }));
+
+                    itemCLick.onClick(view, movPosition)
+                ));
 
             }
 

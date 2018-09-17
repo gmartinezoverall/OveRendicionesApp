@@ -295,7 +295,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
                     showCustomDialog(mRendicionList.get(position).getCodRendicion());
 
-
                     break;
 
             }
@@ -307,8 +306,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     //region CustomDialog
     private void showCustomDialog(String codRendicion)
     {
-
-        AwsUtility.downloadWithTransferUtility(this);
 
         Dialog mDialog = new Dialog(this);
         mDialog.setContentView(R.layout.dialog_foto);
@@ -327,11 +324,11 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
 
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion";
+        String urlImage = mPresenter.getUrlImage(codRendicion);
 
         GlideApp.with(this)
                 //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
-                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180809153750.jpg")
+                .load(urlImage)
                 .placeholder(R.drawable.ic_email)
                 .error(R.drawable.ic_add_a_photo)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

@@ -140,13 +140,46 @@ public class ApiFormulariosImpl implements ApiFormularios
                     }
 
                     @Override
-                    public void onError(ANError anError) {
-
+                    public void onError(ANError anError)
+                    {
+                        searchRucProveedoresAPi(ruc);
                     }
                 });
 
 
     }
+
+    private void searchRucProveedoresAPi(String ruc)
+    {
+        AndroidNetworking.get(UrlApi.urlSearchProveedores)
+                .addPathParameter("ruc", ruc)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("message").equals("OK"))
+                            {
+                                String desc = response.getJSONArray("proveedor").getJSONObject(0).getString("desc");
+                                mRepository.searchRucSuccess(desc);
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
+    }
+
+
 
     @Override
     public void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest)

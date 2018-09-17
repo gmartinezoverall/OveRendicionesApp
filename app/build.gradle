@@ -142,7 +142,7 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
 
     //Libreria Swipe
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
 
     //Libreria itemAnimation
     implementation 'com.daimajia.androidanimations:library:1.1.2@aar'
@@ -169,6 +169,7 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
+    implementation project(':CirclerefreshLibrary')
 }
 
 apply plugin: 'com.google.gms.google-services'

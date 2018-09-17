@@ -95,9 +95,9 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    RendicionEntity rendicionEntity;
-    TipoGastoEntity gastoEntity;
-    String pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private String pathImage;
 
     Unbinder unbinder;
     View mView;
@@ -187,6 +187,8 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
         etxRazonSocial.setEnabled(false);
     }
 
+
+
     private void setAllDefaultValues() {
         gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
 
@@ -196,8 +198,7 @@ public class TicketMaquinaRegistradoraFragment extends Fragment {
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
-        //etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
+        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getValorNeto())));
         etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));

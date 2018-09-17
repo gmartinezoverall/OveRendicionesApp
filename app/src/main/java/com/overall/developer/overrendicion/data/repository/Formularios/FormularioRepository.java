@@ -44,6 +44,8 @@ public interface FormularioRepository
 
     TipoDocumentoBean getDefaultTipoGastoDB(String rtgId);
 
+    ProvinciaBean getDefaultProviciaDB(String codDestino);
+
     BancoBean getDefaultBancoDB(String bcoCod);
 
     RendicionDetalleBean setMovilidadForEditDB(int idMov);
@@ -59,4 +61,6 @@ public interface FormularioRepository
     void searchRucSuccess(String razonSocial);
 
     void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
+
+
 }

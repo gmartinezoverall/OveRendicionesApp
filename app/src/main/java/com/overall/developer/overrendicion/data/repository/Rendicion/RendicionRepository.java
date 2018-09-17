@@ -2,12 +2,10 @@ package com.overall.developer.overrendicion.data.repository.Rendicion;
 
 
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
-import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 
 import java.util.List;
 
@@ -50,4 +48,6 @@ public interface RendicionRepository
     void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList);
 
     void sendDataPhoteApi(String codRendicion, String pathImage);
+
+    String getUrlImageDB(String codRendicion);
 }

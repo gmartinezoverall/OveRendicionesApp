@@ -95,9 +95,9 @@ public class CartaPorteAereoFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String rtgId;
 
-    RendicionEntity rendicionEntity;
-    TipoGastoEntity gastoEntity;
-    String pathImage;
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private String pathImage;
 
     Unbinder unbinder;
     View mView;
@@ -186,21 +186,23 @@ public class CartaPorteAereoFragment extends Fragment {
 
     private void setAllDefaultValues() {
         gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
+        String[] strings = rendicionEntity.getNumeroDoc().split("\\|");
 
         etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
-        etxNDocumento.setText(String.valueOf(rendicionEntity.getNumeroDoc()));
+        etxNDocumento.setText(String.valueOf(strings[0]));
+        etxNSerie.setText(String.valueOf(strings[1]));
         etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
-        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        etxValorVenta.setText(String.valueOf(Double.valueOf(rendicionEntity.getPrecioTotal()) - Double.valueOf(rendicionEntity.getIgv())));
-        etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        etxValorVenta.setText(String.valueOf(rendicionEntity.getValorNeto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
         txvMontoIGV.setText(String.valueOf(rendicionEntity.getIgv()));
-        spnTipoGasto.setText(gastoEntity.getRtgDes());
-        rtgId = (gastoEntity.getRtgId());
+        etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
+        etxOtrosGastos.setText(String.valueOf(rendicionEntity.getOtroGasto()));
+        spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
+        rtgId = String.valueOf(gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
-        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
     }
 
@@ -213,7 +215,7 @@ public class CartaPorteAereoFragment extends Fragment {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new CartaPorteAereoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
                 }

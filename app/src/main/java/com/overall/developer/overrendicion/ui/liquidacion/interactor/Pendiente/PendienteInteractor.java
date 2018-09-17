@@ -18,13 +18,17 @@ public interface PendienteInteractor
     void filterLiquidacion(String entidad, String texto);
     void filterLiquidacionForUser(String dniUser);
     void insertProvincia(String dniUser);
+    void refreshList(String dniUser);
+    void sendResumeEmail();
 
     //endregion
 
     //region Sets
     void successPendienteList(String message, String dniUser);
     void errorPendienteList(String message);
-
+    void refreshListSuccess(String dniUser);
+    void successSendResume();
+    void errorSendResume();
 
     //endregion
 }

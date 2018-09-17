@@ -20,17 +20,21 @@ public interface PendientePresenter
     void filterLiquidacion(String entidad, String texto);
     void filterLiquidacionForUser(String dniUser);
     void insertProvincia(String dniUser);
+    void refreshList(String dniUser);
+    void sendResumeEmail();
     //endregion
 
 
 
     //region Gets
     void successPendienteList(String message);
+    void refreshListSuccess(List<LiquidacionBean> listPendiente);
     void errorPendienteList(String message);
     void setListPendiente(List<LiquidacionBean> pendienteBean);
     void setListPendienteForUser(List<LiquidacionBean> pendienteBean);
     void searchListPendienteResult(List<LiquidacionBean> pendienteBean);
     void finisLogin();
+
 
 
     //endregion

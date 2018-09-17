@@ -74,14 +74,13 @@ public class VoucherBancarioFragment extends Fragment {
     private SpinnerDialog spinnerDialogTipoDoc, spnDialogBanco;
     private String rtgId, banco;
 
+    private RendicionEntity rendicionEntity;
+    private TipoGastoEntity gastoEntity;
+    private String pathImage;
+    private BancoEntity bancoEntity;
 
     Unbinder unbinder;
     View mView;
-    RendicionEntity rendicionEntity;
-    TipoGastoEntity gastoEntity;
-    BancoEntity bancoEntity;
-
-    String pathImage;
 
     @Nullable
     @Override
@@ -132,7 +131,6 @@ public class VoucherBancarioFragment extends Fragment {
 
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxPrecioVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
-        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
 
         spnTipoGasto.setText(gastoEntity.getRtgDes());
         rtgId = (gastoEntity.getRtgId());

@@ -93,6 +93,17 @@ public class PendienteRepositoryImpl implements PendienteRepository
     }
 
     @Override
+    public String getCodLiquidacionDB() {
+        return mDbPendiente.getCodLiquidacionDB();
+    }
+
+    @Override
+    public void sendResumeEmailApi(String codLiquidacion)
+    {
+        mApiPendiente.sendResumeEmailApi(codLiquidacion);
+    }
+
+    @Override
     public List<LiquidacionBean>  listPendienteDB()
     {
         return mDbPendiente.listPendienteDB();
@@ -107,6 +118,12 @@ public class PendienteRepositoryImpl implements PendienteRepository
     public void insertProvinciaApi(String dniUser)
     {
         mApiPendiente.insertProvinciaApi(dniUser);
+    }
+
+    @Override
+    public void refreshListPendienteApi(String dniUser)
+    {
+        mApiPendiente.refreshListPendienteApi(dniUser);
     }
 
     @Override
@@ -133,7 +150,17 @@ public class PendienteRepositoryImpl implements PendienteRepository
         mInteractor.errorPendienteList(message);
     }
 
+    @Override
+    public void refreshListSuccess(String dniUser)
+    {
+        mInteractor.refreshListSuccess(dniUser);
+    }
 
+    @Override
+    public void successSendResume() { mInteractor.successSendResume();}
+
+    @Override
+    public void errorSendResume() { mInteractor.errorSendResume();}
 
     //endregion
 }

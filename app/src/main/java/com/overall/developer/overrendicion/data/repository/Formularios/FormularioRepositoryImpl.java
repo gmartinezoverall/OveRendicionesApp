@@ -110,6 +110,11 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
+    public ProvinciaBean getDefaultProviciaDB(String codDestino) {
+        return mDbFormularios.getDefaultProviciaDB(codDestino);
+    }
+
+    @Override
     public BancoBean getDefaultBancoDB(String bcoCod) {
         return mDbFormularios.getDefaultBancoDB(bcoCod);
     }

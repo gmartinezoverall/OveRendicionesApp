@@ -2,7 +2,10 @@ package com.overall.developer.overrendicion.data.repository.Pendiente.api;
 
 import android.util.Log;
 
+import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -112,6 +115,50 @@ public class ApiPendienteImpl implements ApiPendiente
     }
 
     @Override
+    public void refreshListPendienteApi(String dniUser)
+    {
+        AndroidNetworking.post(UrlApi.urlListPendiente)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("dni", dniUser)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Gson gson = new Gson();
+                        try
+                        {
+                            if (response.getString("message").equals("OK"))
+                            {
+                                //Se deserializo el Jquery y se envio a la entidad PendienteBean
+                                Type collectionType = new TypeToken<Collection<LiquidacionBean>>(){}.getType();
+                                List<LiquidacionBean> mPendienteBean = gson.fromJson(response.getString("liquidations"), collectionType);
+                                mRepository.registerPendienteDB(mPendienteBean);
+                                mRepository.refreshListSuccess(dniUser);
+
+                            }
+                            else
+                            {
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            e.getMessage();
+                            Log.i("NDa",  e.getMessage());
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+
+                    }
+                });
+    }
+
+    @Override
     public void insertProvinciaApi(String dniUser)
     {
         Rx2AndroidNetworking.post(UrlApi.urlListProvinces)
@@ -155,6 +202,30 @@ public class ApiPendienteImpl implements ApiPendiente
                     }
                 });
 
+
+    }
+
+    @Override
+    public void sendResumeEmailApi(String codLiquidacion)
+    {
+        AndroidNetworking.post(UrlApi.urlSendResumeEmail)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("codLiquidacion", codLiquidacion)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        mRepository.successSendResume();
+                    }
+
+                    @Override
+                    public void onError(ANError anError)
+                    {
+                        mRepository.errorSendResume();
+                    }
+                });
 
     }
 

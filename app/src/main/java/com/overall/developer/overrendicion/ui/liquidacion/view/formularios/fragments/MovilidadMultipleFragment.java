@@ -62,9 +62,9 @@ public class MovilidadMultipleFragment extends Fragment {
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
     private String rtgId;
-    TipoGastoEntity gastoEntity;
+    private TipoGastoEntity gastoEntity;
     private RendicionDetalleEntity rendicionDetalleEntity;
-    String pathImage;
+    private String pathImage;
 
 
     Unbinder unbinder;
