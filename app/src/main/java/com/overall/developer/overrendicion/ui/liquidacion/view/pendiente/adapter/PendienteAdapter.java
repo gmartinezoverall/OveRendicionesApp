@@ -43,13 +43,14 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
     {
         private TextView txvDescripcion,txvMonto, txvAcuenta, txvSaldo, txvEstado, txvTitulo;
         private ImageView imgProducto;
-        private Button btnDatos, btnRendicion;
-        private LinearLayout viewButton;
+        private Button btnDatos, btnRendicion, btnArrow;
+        private LinearLayout viewButton,lytFondo;
 
         public ComprarViewHolder(View itemView)
         {
             super(itemView);
 
+            lytFondo = itemView.findViewById(R.id.lytFondo);
             txvDescripcion = itemView.findViewById(R.id.txvDescripcion);
             txvMonto = itemView.findViewById(R.id.txvMonto);
             txvAcuenta = itemView.findViewById(R.id.txvAcuenta);
@@ -59,6 +60,8 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             viewButton = itemView.findViewById(R.id.viewButton);
             btnDatos = itemView.findViewById(R.id.btnDatos);
             btnRendicion = itemView.findViewById(R.id.btnRendicion);
+            btnArrow = itemView.findViewById(R.id.btnArrow);
+
             PushDownAnim.setPushDownAnimTo(btnDatos, btnRendicion);
 
 
@@ -84,7 +87,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
     public void onBindViewHolder(final ComprarViewHolder holder, int position)
     {
         final LiquidacionBean liquidacionBean = mPendienteBeanList.get(position);
-        //holder.txvNombre.setText(pendienteBean.getNombre().toString());
+
         holder.txvDescripcion.setText(liquidacionBean.getDescripcionLiquidacion());
         holder.txvMonto.setText(String.valueOf(liquidacionBean.getMonto()));
         holder.txvAcuenta.setText(String.valueOf(liquidacionBean.getaCuenta()));
@@ -104,7 +107,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             Intent intent = new Intent(mContext, DatosGeneralesActivity.class);
             intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
             //intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getDescripcionLiquidacion()));
-            Pair<View, String> p0 = Pair.create(holder.txvDescripcion, "fondo");
+            Pair<View, String> p0 = Pair.create(holder.lytFondo, "fondo");
             Pair<View, String> p1 = Pair.create(holder.txvMonto, "monto");
             Pair<View, String> p2 = Pair.create(holder.txvAcuenta, "acuenta");
             Pair<View, String> p3 = Pair.create(holder.txvSaldo, "saldo");
@@ -131,7 +134,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
         holder.itemView.setOnClickListener(view ->
         {
             holder.viewButton.setVisibility(holder.viewButton.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-
+            holder.btnArrow.setRotation(holder.viewButton.getVisibility() == View.VISIBLE ? 90 : 270);
             mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
             holder.viewButton.setAnimation(mAnimation);
 

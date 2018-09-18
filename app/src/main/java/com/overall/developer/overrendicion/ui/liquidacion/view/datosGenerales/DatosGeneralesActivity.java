@@ -201,7 +201,7 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         if (mLiquidacionEntity.getFechaHasta() != null)
             mTxvFFin.setText(String.valueOf(mLiquidacionEntity.getFechaHasta().substring(0, 10)));
         if (mLiquidacionEntity.getTipoViatico() != null)
-            mSpnTipoViatico.setSelectedIndex(mLiquidacionEntity.getTipoViatico().equals("N") ? 0 : 1);
+            mSpnTipoViatico.setSelectedIndex(mLiquidacionEntity.getTipoViatico().equals("E") ? 1 : 0);
         if (mLiquidacionEntity.getUbigeoProvDestino() != null)
         {
             mSpnDestinoViaje.setText(mLiquidacionEntity.getUbigeoProvDestino().getDesc());

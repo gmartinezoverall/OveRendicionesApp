@@ -25,6 +25,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by florentchampigny on 29/01/2017.
@@ -48,6 +49,7 @@ public class AwesomeBar extends FrameLayout {
     private ImageView iconBack;
     private ImageView iconApp;
     private ImageView iconAppBackground;
+    private TextView txvCount;
     private ViewGroup actionsLayout;
 
     private ActionMenuView actionMenuView;
@@ -87,6 +89,7 @@ public class AwesomeBar extends FrameLayout {
         iconBack = (ImageView) findViewById(R.id.bar_back_icon);
         iconApp = (ImageView) findViewById(R.id.bar_app_icon);
         iconAppBackground = (ImageView) findViewById(R.id.bar_app_icon_background);
+        txvCount = findViewById(R.id.txvCount);
         actionsLayout = (ViewGroup) findViewById(R.id.bar_actions_layout);
         actionMenuView = (ActionMenuView) findViewById(R.id.bar_actions_menu_view);
 
@@ -198,6 +201,12 @@ public class AwesomeBar extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         menuAnimationHandler.removeMessages(MESSAGE_ANIMATION_START);
+    }
+
+    public void setTextCount(String count)
+    {
+        txvCount.setText(String.valueOf(count));
+        txvCount.setVisibility(VISIBLE);
     }
 
     private float animRadius = 0;

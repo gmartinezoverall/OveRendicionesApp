@@ -33,7 +33,6 @@ import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswor
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.utils.background.SendDataService;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
-import com.tuesda.walker.circlerefresh.CircleRefreshLayout;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -61,8 +60,6 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     AppBarLayout mBarLayout;
     @BindView(R.id.layout_appbar_search)
     View searchAppBarLayout;
-    @BindView(R.id.refresh_layout)
-    CircleRefreshLayout mRefreshLayout;
 
     //endregion
 
@@ -95,7 +92,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mPresenter.setAllDocument();//sets Provincias por Api
         mPresenter.setAllBanco();//sets Provincias por Api
 
-        mRefreshLayout.setOnRefreshListener(
+/*        mRefreshLayout.setOnRefreshListener(
                 new CircleRefreshLayout.OnCircleRefreshListener() {
                     @Override
                     public void refreshing()
@@ -108,7 +105,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
                         // do something when refresh complete
 
                     }
-                });
+                });*/
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -129,7 +126,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mTool_bar.setOnMenuClickedListener(v -> drawerLayout.openDrawer(Gravity.START));
         mTool_bar.displayHomeAsUpEnabled(false);
         mTool_bar.setActionItemClickListener((position, actionItem) -> RippleEffect.ShowSearchBar(mTool_bar, mSearchBar, searchAppBarLayout));
-
+        mTool_bar.setTextCount(String.valueOf("Pendientes:  " + Integer.valueOf(mPresenter.pendienteListCount())));
         mSearchBar.getMenu().setOnMenuItemClickListener(item ->
         {
             mSearchBar.setTxvTipoBuscar(String.valueOf(item));
@@ -258,14 +255,14 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     {
         pendienteBeanList = listPendiente;
 
-        Observable.timer(1000, TimeUnit.MILLISECONDS)
+/*        Observable.timer(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(timer->
                 {
                     initialRecyclerView();
                     mRefreshLayout.finishRefreshing();
-                });
+                });*/
 
     }
 

@@ -169,7 +169,6 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
-    implementation project(':CirclerefreshLibrary')
 }
 
 apply plugin: 'com.google.gms.google-services'

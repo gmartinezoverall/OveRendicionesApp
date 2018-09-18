@@ -93,6 +93,14 @@ public class DBPendienteImpl implements DBPendiente
     }
 
     @Override
+    public int pendienteListCountDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<LiquidacionBean> pendienteBeans = mRealm.where(LiquidacionBean.class).findAll();
+        return pendienteBeans.size();
+    }
+
+    @Override
     public String searchDniDB(String dniUser)
     {
         return searchDniRealm(dniUser);

@@ -85,6 +85,11 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
+    public int pendienteListCount() {
+        return mInteractor.pendienteListCount();
+    }
+
+    @Override
     public void successPendienteList(String message)
     {
         mView.successPendienteList(message);

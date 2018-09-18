@@ -39,7 +39,7 @@ public interface PendienteRepository
     void insertProvinciaDB(List<ProvinciaBean> provinciaBeanList);
     String getCodLiquidacionDB();
     void sendResumeEmailApi(String codLiquidacion);
-
+    int pendienteListCountDB();
     //endregion
 
     //region Sets
@@ -49,6 +49,7 @@ public interface PendienteRepository
 
     void successSendResume();
     void errorSendResume();
+
     //endregion
 
 }

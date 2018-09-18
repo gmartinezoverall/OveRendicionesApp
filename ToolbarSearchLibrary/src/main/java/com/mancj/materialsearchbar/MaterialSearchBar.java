@@ -486,6 +486,9 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
         txvTipoBuscar.setText(String.valueOf(tipoBuscar));
 
     }
+
+
+
     public String getTxvTipoBuscar()
     {
         return String.valueOf(txvTipoBuscar.getText());

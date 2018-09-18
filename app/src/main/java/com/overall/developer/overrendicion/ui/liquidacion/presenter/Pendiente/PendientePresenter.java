@@ -22,6 +22,7 @@ public interface PendientePresenter
     void insertProvincia(String dniUser);
     void refreshList(String dniUser);
     void sendResumeEmail();
+    int pendienteListCount();
     //endregion
 
 
@@ -34,8 +35,6 @@ public interface PendientePresenter
     void setListPendienteForUser(List<LiquidacionBean> pendienteBean);
     void searchListPendienteResult(List<LiquidacionBean> pendienteBean);
     void finisLogin();
-
-
 
     //endregion
 }

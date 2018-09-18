@@ -20,7 +20,7 @@ public interface PendienteInteractor
     void insertProvincia(String dniUser);
     void refreshList(String dniUser);
     void sendResumeEmail();
-
+    int pendienteListCount();
     //endregion
 
     //region Sets
@@ -29,6 +29,7 @@ public interface PendienteInteractor
     void refreshListSuccess(String dniUser);
     void successSendResume();
     void errorSendResume();
+
 
     //endregion
 }

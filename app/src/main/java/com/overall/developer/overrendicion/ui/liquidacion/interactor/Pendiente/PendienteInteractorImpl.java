@@ -124,6 +124,11 @@ public class PendienteInteractorImpl implements PendienteInteractor
     }
 
     @Override
+    public int pendienteListCount() {
+        return mRepository.pendienteListCountDB();
+    }
+
+    @Override
     public void successPendienteList(String message, String dniUser)
     {
         mPresenter.successPendienteList(message);

@@ -104,6 +104,11 @@ public class PendienteRepositoryImpl implements PendienteRepository
     }
 
     @Override
+    public int pendienteListCountDB() {
+        return mDbPendiente.pendienteListCountDB();
+    }
+
+    @Override
     public List<LiquidacionBean>  listPendienteDB()
     {
         return mDbPendiente.listPendienteDB();
