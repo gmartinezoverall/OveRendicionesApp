@@ -202,16 +202,16 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     public void getListRendicion(List<RendicionEntity> rendicionList)
     {
         mRendicionList = rendicionList;
+        timerInterval();
         usedAdapter();
-        mDialog.dismiss();
 
     }
 
     @Override
     public void updateListRendicion(List<RendicionEntity> rendicionBeans) {
         mRendicionList = rendicionBeans;
+        timerInterval();
         usedAdapter();
-        mDialog.dismiss();
     }
 
     @Override
@@ -227,6 +227,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     }
 
+    //region ShowDialog
     private void showDialog()
     {
         mDialog = new Dialog(this);
@@ -235,15 +236,66 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         //svgView.postDelayed(() -> svgView.start(), 200);
 
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundtext_card)));
+        mDialog.setCancelable(false);
         mDialog.show();
 
-        Observable.interval(0, 2500, TimeUnit.MILLISECONDS)
+        Observable.interval(1, 3, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(timer-> svgView.start());
     }
 
 
+    private void showCustomDialog(String codRendicion)
+    {
+
+        Dialog mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.dialog_foto);
+        ImageButton btnFoto = mDialog.findViewById(R.id.btnFotoDialog);
+        btnFoto.setOnClickListener(v-> Pix.start(this, 100, 1));
+        imgFoto = mDialog.findViewById(R.id.imgFoto);
+        TextView txvCancelar = mDialog.findViewById(R.id.txvCancelar);
+        txvCancelar.setOnClickListener(v -> mDialog.dismiss());
+        TextView txvGuardar = mDialog.findViewById(R.id.txvGuardar);
+        txvGuardar.setOnClickListener(v ->
+        {
+            mPresenter.sendDataPhote(codRendicion, pathImage);
+            mDialog.dismiss();
+
+        });
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.show();
+
+        String urlImage = mPresenter.getUrlImage(codRendicion);
+
+        GlideApp.with(this)
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(urlImage)
+                .placeholder(R.drawable.ic_email)
+                .error(R.drawable.ic_add_a_photo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .into(imgFoto);
+/*        Glide.with(this)
+                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
+                .into(imgFoto);*/
+
+
+        PushDownAnim.setPushDownAnimTo(btnFoto);
+
+    }
+
+
+    void timerInterval()
+    {
+        Observable.interval(3, TimeUnit.SECONDS)
+                .subscribe(timer->
+
+                    mDialog.dismiss()
+                );
+    }
+
+    //endregion
 
     private void usedAdapter()
     {
@@ -303,45 +355,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         ((RendicionAdapter) mAdapter).setMode(Attributes.Mode.Single);
         rcvRendicion.setAdapter(mAdapter);
     }
-    //region CustomDialog
-    private void showCustomDialog(String codRendicion)
-    {
 
-        Dialog mDialog = new Dialog(this);
-        mDialog.setContentView(R.layout.dialog_foto);
-        ImageButton btnFoto = mDialog.findViewById(R.id.btnFotoDialog);
-        btnFoto.setOnClickListener(v-> Pix.start(this, 100, 1));
-        imgFoto = mDialog.findViewById(R.id.imgFoto);
-        TextView txvCancelar = mDialog.findViewById(R.id.txvCancelar);
-        txvCancelar.setOnClickListener(v -> mDialog.dismiss());
-        TextView txvGuardar = mDialog.findViewById(R.id.txvGuardar);
-        txvGuardar.setOnClickListener(v ->
-        {
-            mPresenter.sendDataPhote(codRendicion, pathImage);
-            mDialog.dismiss();
-
-        });
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialog.show();
-
-        String urlImage = mPresenter.getUrlImage(codRendicion);
-
-        GlideApp.with(this)
-                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
-                .load(urlImage)
-                .placeholder(R.drawable.ic_email)
-                .error(R.drawable.ic_add_a_photo)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(imgFoto);
-/*        Glide.with(this)
-                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
-                .into(imgFoto);*/
-
-
-        PushDownAnim.setPushDownAnimTo(btnFoto);
-
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -388,9 +402,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
             }
         }
     }
-
-    //endregion
-
 
     //region NavigationView
 
