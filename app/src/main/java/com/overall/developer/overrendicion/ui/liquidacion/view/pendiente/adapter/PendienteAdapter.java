@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.ui.liquidacion.view.datosGenerales.DatosGeneralesActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -43,6 +45,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
     {
         private TextView txvDescripcion,txvMonto, txvAcuenta, txvSaldo, txvEstado, txvTitulo;
         private ImageView imgProducto;
+        private ImageButton btnEnviarResumen;
         private Button btnDatos, btnRendicion, btnArrow;
         private LinearLayout viewButton,lytFondo;
 
@@ -61,8 +64,14 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             btnDatos = itemView.findViewById(R.id.btnDatos);
             btnRendicion = itemView.findViewById(R.id.btnRendicion);
             btnArrow = itemView.findViewById(R.id.btnArrow);
+            btnEnviarResumen = itemView.findViewById(R.id.btnEnviarResumen);
 
-            PushDownAnim.setPushDownAnimTo(btnDatos, btnRendicion);
+            PushDownAnim.setPushDownAnimTo(btnDatos, btnRendicion, btnArrow);
+
+            btnArrow.setOnClickListener(v ->
+            {
+
+            });
 
 
         }
@@ -93,6 +102,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
         holder.txvAcuenta.setText(String.valueOf(liquidacionBean.getaCuenta()));
         holder.txvSaldo.setText(String.valueOf(liquidacionBean.getSaldo()));
         holder.txvTitulo.setText(String.valueOf(liquidacionBean.getNombre()));
+        holder.setIsRecyclable(false);
 
         //holder.lnyCardview.setB
 /*        holder.txvEstado.setText("P");
@@ -104,6 +114,7 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
         lastPosition = position;*/
         holder.btnDatos.setOnClickListener(view ->
         {
+
             Intent intent = new Intent(mContext, DatosGeneralesActivity.class);
             intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
             //intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getDescripcionLiquidacion()));
@@ -115,14 +126,28 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
             activity.startActivity(intent, options.toBundle());
 
         });
+
+        holder.itemView.setOnClickListener(view ->
+        {
+
+            holder.viewButton.setVisibility(holder.viewButton.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+            holder.btnArrow.setRotation(holder.viewButton.getVisibility() == View.VISIBLE ? 90 : 270);
+            mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+            holder.viewButton.setAnimation(mAnimation);
+
+            if (liquidacionBean.getMotivoViaje().isEmpty())     holder.btnRendicion.setVisibility(View.GONE);
+            if (!((PendienteActivity)mContext).validateRendicionisEmpy(liquidacionBean.getCodLiquidacion())) holder.btnEnviarResumen.setVisibility(View.GONE);
+
+        });
+
         holder.btnRendicion.setOnClickListener(v ->
         {
             if (!liquidacionBean.getMotivoViaje().isEmpty())
             {
-            Intent intent = new Intent(mContext, RendicionActivity.class);
-            intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
-            mContext.startActivity(intent);
-            customType(mContext, "fadein-to-fadeout");
+                Intent intent = new Intent(mContext, RendicionActivity.class);
+                intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
+                mContext.startActivity(intent);
+                customType(mContext, "fadein-to-fadeout");
             }
             else
             {
@@ -131,16 +156,12 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
 
         });
 
-        holder.itemView.setOnClickListener(view ->
-        {
-            holder.viewButton.setVisibility(holder.viewButton.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-            holder.btnArrow.setRotation(holder.viewButton.getVisibility() == View.VISIBLE ? 90 : 270);
-            mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-            holder.viewButton.setAnimation(mAnimation);
+        holder.btnEnviarResumen.setOnClickListener(view -> ((PendienteActivity)mContext).sendResumeEmail(liquidacionBean.getCodLiquidacion()));
 
-        });
 
     }
+
+
 
     @Override
     public int getItemCount()

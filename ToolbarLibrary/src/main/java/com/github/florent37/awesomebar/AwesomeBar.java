@@ -301,7 +301,7 @@ public class AwesomeBar extends FrameLayout {
                     final Drawable drawable = iconMenu.getDrawable();
                     if (drawable instanceof AnimatedVectorDrawableCompat) {
                         ((AnimatedVectorDrawableCompat) iconMenu.getDrawable()).start();
-                        sendEmptyMessageDelayed(MESSAGE_ANIMATION_START, 5000);
+                        sendEmptyMessageDelayed(MESSAGE_ANIMATION_START, 1000);
                     }
                     break;
             }

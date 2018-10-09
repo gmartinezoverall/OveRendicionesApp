@@ -1,5 +1,7 @@
 package com.overall.developer.overrendicion.data.model.entity;
 
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+
 public class LiquidacionEntity {
     private String codLiquidacion;
     private String tipoLiquidacion;
@@ -19,13 +21,16 @@ public class LiquidacionEntity {
     private String fechaHasta;
     private String tipoViatico;
     private String estado;
+    private String codEgreso;
+    private String fechaInicioLiq;
+    private String fechaFinLiq;
     private boolean status;
 
 
     public LiquidacionEntity() {
     }
 
-    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, ProvinciaEntity ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, boolean status) {
+    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, ProvinciaEntity ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq, boolean status) {
         this.codLiquidacion = codLiquidacion;
         this.tipoLiquidacion = tipoLiquidacion;
         this.descripcionLiquidacion = descripcionLiquidacion;
@@ -44,7 +49,36 @@ public class LiquidacionEntity {
         this.fechaHasta = fechaHasta;
         this.tipoViatico = tipoViatico;
         this.estado = estado;
+        this.codEgreso = codEgreso;
+        this.fechaInicioLiq = fechaInicioLiq;
+        this.fechaFinLiq = fechaFinLiq;
         this.status = status;
+    }
+
+    public LiquidacionEntity(LiquidacionBean liquidacionBean)
+    {
+        this.codLiquidacion = liquidacionBean.getCodLiquidacion();
+        this.tipoLiquidacion = liquidacionBean.getTipoLiquidacion();
+        this.descripcionLiquidacion = liquidacionBean.getDescripcionLiquidacion();
+        this.monto = liquidacionBean.getMonto();
+        this.nombre = liquidacionBean.getNombre();
+        this.idPeriodo = liquidacionBean.getIdPeriodo();
+        this.fechaPago = liquidacionBean.getFechaPago();
+        this.codComp = liquidacionBean.getCodComp();
+        this.aCuenta = liquidacionBean.getaCuenta();
+        this.saldo = liquidacionBean.getSaldo();
+        this.dni = liquidacionBean.getDni();
+        this.fechaViatico = liquidacionBean.getFechaViatico();
+        this.motivoViaje = liquidacionBean.getMotivoViaje();
+        this.fechaDesde = liquidacionBean.getFechaDesde();
+        this.fechaHasta = liquidacionBean.getFechaHasta();
+        this.tipoViatico = liquidacionBean.getTipoViatico();
+        this.codEgreso = liquidacionBean.getCodEgreso();
+        this.fechaInicioLiq = liquidacionBean.getFechaInicioLiq();
+        this.fechaFinLiq = liquidacionBean.getFechaFinLiq();
+        this.status = liquidacionBean.isStatus();
+
+
     }
 
     public String getCodLiquidacion() {
@@ -189,6 +223,30 @@ public class LiquidacionEntity {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getCodEgreso() {
+        return codEgreso;
+    }
+
+    public void setCodEgreso(String codEgreso) {
+        this.codEgreso = codEgreso;
+    }
+
+    public String getFechaInicioLiq() {
+        return fechaInicioLiq;
+    }
+
+    public void setFechaInicioLiq(String fechaInicioLiq) {
+        this.fechaInicioLiq = fechaInicioLiq;
+    }
+
+    public String getFechaFinLiq() {
+        return fechaFinLiq;
+    }
+
+    public void setFechaFinLiq(String fechaFinLiq) {
+        this.fechaFinLiq = fechaFinLiq;
     }
 
     public boolean isStatus() {

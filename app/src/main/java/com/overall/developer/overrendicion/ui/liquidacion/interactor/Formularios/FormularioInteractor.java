@@ -2,6 +2,7 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formulario
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
@@ -15,7 +16,9 @@ public interface FormularioInteractor
 {
 
     List<TipoGastoEntity> getDocumentForId(String idDocumento);
-    List<String> getProvinciaDestinoList();
+
+    List<ProvinciaEntity> getProvinciaDestinoList();
+
     void saveData(List<String> typeFragment, Object objectDinamyc);
 
     List<String> getDefaultValues();
@@ -46,5 +49,9 @@ public interface FormularioInteractor
 
     void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
 
+    void setTipoCambio();
 
+    LiquidacionEntity getLiquidacion();
+
+    void errorTipoCambio();
 }

@@ -12,4 +12,6 @@ public class Communicator
     public String getRazonSocial() {
         return razonSocial;
     }
+
+
 }

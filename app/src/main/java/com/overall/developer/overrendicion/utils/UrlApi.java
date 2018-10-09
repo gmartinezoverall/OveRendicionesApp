@@ -19,13 +19,15 @@ public class UrlApi
     public static String urlListarRendicion = BuildConfig.URL_BASE + "liquidation/listarRendiciones";
     public static String urlEditarRendicion = BuildConfig.URL_BASE + "liquidation/EditarRendicion";
     public static String urlListarBancos = BuildConfig.URL_BASE + "liquidation/Bancos";
+    public static String urlTipoCambio = BuildConfig.URL_BASE + "liquidation/tipoCambio";
     public static String urlListarMovilidad = BuildConfig.URL_BASE + "liquidation/ListarGastosMovilidad";
     public static String urlEliminarGastoMovilidad = BuildConfig.URL_BASE + "liquidation/EliminarGastoMovilidad";
     public static String urlInsertarGastoMovilidad = BuildConfig.URL_BASE + "liquidation/InsertarGastosMovilidad";
     public static String urlUpdateGastoMovilidad = BuildConfig.URL_BASE + "liquidation/EditarGastosMovilidad";
     public static String urlUpdateFotoRendicion = BuildConfig.URL_BASE + "liquidation/ActualizarFotoRendicion";
     public static String urlInsertarGastoMovilidadMultiple = BuildConfig.URL_BASE + "liquidation/InsertarGastosMovilidadMultiple";
-    public static String urlSendResumeEmail = BuildConfig.URL_BASE + "liquidation/envioResumenCorreo";
+    public static String urlSendResumeEmail = BuildConfig.URL_BASE + "liquidation/EnviarLiquidacionCorreo";
+    public static String urlObtieneRMV = BuildConfig.URL_BASE + "liquidation/ObtieneRMV";
     public static String urlSearchProveedores = BuildConfig.URL_BASE + "liquidation/proveedores";
     public static String urlWSRuc = "http://200.60.6.20:8081/ruc/consulta/{ruc}";
 

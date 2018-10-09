@@ -2,7 +2,9 @@ package com.overall.developer.overrendicion.data.repository.Pendiente.db;
 
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
+import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
+import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.repository.Pendiente.PendienteRepository;
@@ -92,13 +94,6 @@ public class DBPendienteImpl implements DBPendiente
         return codLiquidacion;
     }
 
-    @Override
-    public int pendienteListCountDB()
-    {
-        Realm mRealm = Realm.getDefaultInstance();
-        RealmResults<LiquidacionBean> pendienteBeans = mRealm.where(LiquidacionBean.class).findAll();
-        return pendienteBeans.size();
-    }
 
     @Override
     public String searchDniDB(String dniUser)
@@ -127,6 +122,28 @@ public class DBPendienteImpl implements DBPendiente
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm -> mRealm.insertOrUpdate(provinciaBeanList));
+
+    }
+
+    @Override
+    public boolean validateRendicionisEmpyDB(String codLiquidacion)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<LiquidacionBean> liquidacionList = mRealm.where(LiquidacionBean.class).equalTo("codLiquidacion", codLiquidacion).findAll();
+
+        return liquidacionList.average("aCuenta") > 0;
+    }
+
+    @Override
+    public void insertRmvDB(String sueldo)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            OtrosBean bean = new OtrosBean();
+            bean.setSueldo(sueldo);
+            mRealm.insertOrUpdate(bean);
+        });
 
     }
 

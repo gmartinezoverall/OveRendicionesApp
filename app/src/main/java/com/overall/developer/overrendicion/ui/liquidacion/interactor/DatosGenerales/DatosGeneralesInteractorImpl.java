@@ -15,6 +15,7 @@ import com.overall.developer.overrendicion.data.repository.DatosGenerales.DatosG
 import com.overall.developer.overrendicion.data.repository.DatosGenerales.DatosGeneralesRepositoryImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenter;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
+import com.overall.developer.overrendicion.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class DatosGeneralesInteractorImpl implements DatosGeneralesInteractor
         }
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
-                bean.getMotivoViaje(),provinciaEntity , bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
+                bean.getMotivoViaje(),provinciaEntity , Util.getChangeOrderDate(bean.getFechaDesde()), Util.getChangeOrderDate(bean.getFechaHasta()), bean.getTipoViatico(), bean.getEstado(), bean.getCodEgreso(),
+                Util.getChangeOrderDate(bean.getFechaInicioLiq().substring(0,10)), Util.getChangeOrderDate(bean.getFechaFinLiq().substring(0,10)), bean.isStatus());
         return entity;
     }
 

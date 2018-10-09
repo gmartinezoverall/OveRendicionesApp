@@ -1,6 +1,6 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
 
-import android.app.DatePickerDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,21 +29,33 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import info.hoang8f.android.segmented.SegmentedGroup;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
 public class MovilidadFragment extends Fragment {
-    CustomEditText txvFechaHastaDisable;
+
+    //region Injeccion de Vistas
     @BindView(R.id.btnIndividual)
     RadioButton btnIndividual;
     @BindView(R.id.btnMasivo)
     RadioButton btnMasivo;
     @BindView(R.id.segmented2)
     SegmentedGroup segmented2;
-    @BindView(R.id.etxFechaDesde)
-    CustomEditText etxFechaDesde;
-    @BindView(R.id.txtFechaHasta)
-    TextView txtFechaHasta;
-    @BindView(R.id.etxFechaHasta)
-    CustomEditText etxFechaHasta;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaInicio)
+    TextView txvFechaInicio;
+    @BindView(R.id.txvFechaFin)
+    TextView txvFechaFin;
+    @BindView(R.id.lytfechaFinal)
+    LinearLayout lytfechaFinal;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
     @BindView(R.id.etxMotivo)
     CustomEditText etxMotivo;
     @BindView(R.id.etxDestino)
@@ -57,9 +66,9 @@ public class MovilidadFragment extends Fragment {
     TextView spnTipoGasto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-
-    @BindView(R.id.lytfechaFinal)
-    LinearLayout lytfechaFinal;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    //endregion
 
     private SpinnerDialog spinnerDialog;
     private String idProvincia;
@@ -79,21 +88,14 @@ public class MovilidadFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionDetalleEntity = ((FormularioActivity) getContext()).getDetalleDefaultValues();
-        if (rendicionDetalleEntity != null) setAllDefaultValues();
 
-        etxFechaDesde.setText(String.valueOf(Util.getCurrentDate()));
-        etxFechaDesde.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog(1);
-        });
-        etxFechaHasta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog(2);
-        });
+        initialCalendar();
+        if (rendicionDetalleEntity != null) setAllDefaultValues();
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
-        if (itemList.size() == 1)
-        {
+        if (itemList.size() == 1) {
             spnTipoGasto.setText(itemList.get(0).toString());
             rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
         }
@@ -108,15 +110,14 @@ public class MovilidadFragment extends Fragment {
         return mView;
     }
 
-    private void setAllDefaultValues()
-    {
-        etxFechaDesde.setText(String.valueOf(rendicionDetalleEntity.getFechaDesde()));
-        etxFechaHasta.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
+    private void setAllDefaultValues() {
+        txvFechaInicio.setText(String.valueOf(rendicionDetalleEntity.getFechaDesde()));
+        txvFechaFin.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
         etxMotivo.setText(String.valueOf(rendicionDetalleEntity.getMotivoMovilidad()));
         etxDestino.setText(String.valueOf(rendicionDetalleEntity.getDestinoMovilidad()));
         etxMonto.setText(String.valueOf(rendicionDetalleEntity.getMontoMovilidad()));
 
-        gastoEntity = ((FormularioActivity)getContext()).getDefaultTipoGastoDetail();
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGastoDetail();
         spnTipoGasto.setText(gastoEntity.getRtgDes());
         rtgId = (gastoEntity.getRtgId());
     }
@@ -127,43 +128,47 @@ public class MovilidadFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void showDatePickerDialog(int tipo) {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
+    //region Calendar
+    private void initialCalendar() {
+        txvFechaInicio.setText(String.valueOf(Util.getCurrentDate()));
+        txvFechaFin.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            if (tipo == 1)
+            txvFechaInicio.setText(Util.changeDateFormat(startDay));
+            txvFechaInicio.setTypeface(null, Typeface.BOLD);
+            txvFechaInicio.setTextColor(getResources().getColor(R.color.black));
+            txvFechaFin.setText(Util.changeDateFormat(endDay));
+            txvFechaFin.setTypeface(null, Typeface.BOLD);
+            txvFechaFin.setTextColor(getResources().getColor(R.color.black));
+            if (btnIndividual.isChecked() && !startDay.equals(""))
             {
-                etxFechaDesde.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-                etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-                if (btnIndividual.isChecked())etxMotivo.requestFocus();
-                else etxFechaHasta.requestFocus();
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+
+            }else if (btnMasivo.isChecked() && !endDay.equals(""))
+            {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+
             }
-            if (tipo == 2) {
-                etxFechaHasta.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-                etxMotivo.requestFocus();
-            }
 
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
+        });
+        calendarView.buildCalendar();
     }
+    //endregion
 
-    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar})
+    //region OnClick
+    @OnClick({R.id.btnIndividual, R.id.btnMasivo, R.id.spnTipoGasto, R.id.btnGuardar, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnIndividual:
                 lytfechaFinal.setVisibility(View.GONE);
-                etxFechaHasta.setText("-");
                 break;
             case R.id.btnMasivo:
                 lytfechaFinal.setVisibility(View.VISIBLE);
-
                 break;
             case R.id.spnTipoGasto:
                 spinnerDialog.showSpinerDialog();
@@ -171,13 +176,17 @@ public class MovilidadFragment extends Fragment {
             case R.id.btnGuardar:
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                 ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
-                        String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
-                        String.valueOf(Util.getCurrentDate()),String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I": "M"),
-                        String.valueOf(etxFechaDesde.getText()), String.valueOf(etxFechaHasta.getText())
+                        String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), "-", "-", String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
+                        String.valueOf(Util.getCurrentDate()), String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I" : "M"),
+                        String.valueOf(txvFechaInicio.getText()), String.valueOf(txvFechaFin.getText()), "-"
                 ));
-
-
+                break;
+            case R.id.lytFecha:
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
                 break;
         }
     }
+    //endregion
 }

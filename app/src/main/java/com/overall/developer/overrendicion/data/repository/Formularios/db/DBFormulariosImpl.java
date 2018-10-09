@@ -4,11 +4,13 @@ package com.overall.developer.overrendicion.data.repository.Formularios.db;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 
@@ -174,6 +176,36 @@ public class DBFormulariosImpl implements DBFormularios
             mRealm.insertOrUpdate(movilidadBean);
 
         });
+    }
+
+    @Override
+    public void insertTipoCambioDB(String desc)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            OtrosBean bean = new OtrosBean();
+            bean.setTipoCambio(desc);
+            mRealm.insertOrUpdate(bean);
+        });
+
+    }
+
+    @Override
+    public String getTipoCambioDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        OtrosBean bean= mRealm.where(OtrosBean.class).findFirst();
+        return bean.getTipoCambio();
+
+    }
+
+    @Override
+    public LiquidacionBean getLiquidacionDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        LiquidacionBean liquidacion = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
+        return liquidacion;
     }
 
 }

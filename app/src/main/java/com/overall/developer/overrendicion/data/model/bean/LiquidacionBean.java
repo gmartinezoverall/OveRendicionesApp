@@ -28,13 +28,16 @@ public class LiquidacionBean extends RealmObject
     private String fechaHasta;
     private String tipoViatico;
     private String estado;
+    private String codEgreso;
+    private String fechaInicioLiq;
+    private String fechaFinLiq;
     private boolean status;
 
     public LiquidacionBean()
     {
     }
 
-    public LiquidacionBean(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado) {
+    public LiquidacionBean(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq) {
         this.codLiquidacion = codLiquidacion;
         this.tipoLiquidacion = tipoLiquidacion;
         this.descripcionLiquidacion = descripcionLiquidacion;
@@ -52,7 +55,11 @@ public class LiquidacionBean extends RealmObject
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         this.tipoViatico = tipoViatico;
+        this.codEgreso = codEgreso;
+        this.fechaInicioLiq = fechaInicioLiq;
+        this.fechaFinLiq = fechaFinLiq;
         this.estado = estado;
+
     }
 
     public String getCodLiquidacion()
@@ -201,6 +208,29 @@ public class LiquidacionBean extends RealmObject
         this.estado = estado;
     }
 
+    public String getCodEgreso() {
+        return codEgreso;
+    }
+
+    public void setCodEgreso(String codEgreso) {
+        this.codEgreso = codEgreso;
+    }
+
+    public String getFechaInicioLiq() {
+        return fechaInicioLiq;
+    }
+
+    public void setFechaInicioLiq(String fechaInicioLiq) {
+        this.fechaInicioLiq = fechaInicioLiq;
+    }
+
+    public String getFechaFinLiq() {
+        return fechaFinLiq;
+    }
+
+    public void setFechaFinLiq(String fechaFinLiq) {
+        this.fechaFinLiq = fechaFinLiq;
+    }
 
     public boolean isStatus() {
         return status;

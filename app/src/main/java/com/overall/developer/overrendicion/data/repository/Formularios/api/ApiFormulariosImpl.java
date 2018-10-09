@@ -24,11 +24,13 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
 
 public class ApiFormulariosImpl implements ApiFormularios
 {
@@ -121,9 +123,16 @@ public class ApiFormulariosImpl implements ApiFormularios
     @Override
     public void searchRucApi(String ruc)
     {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
         AndroidNetworking.get(UrlApi.urlWSRuc)
                 .addPathParameter("ruc", ruc)
                 .setPriority(Priority.IMMEDIATE)
+                .setOkHttpClient(okHttpClient)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
                     @Override
@@ -212,6 +221,39 @@ public class ApiFormulariosImpl implements ApiFormularios
                     }
                 });
 
+    }
+
+    @Override
+    public void setTipoCambioApi(String fecha)
+    {
+        AndroidNetworking.post(UrlApi.urlTipoCambio)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("fecha", fecha)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("code").equals("0"))
+                            {
+                                String desc = response.getJSONArray("tipo_cambio").getJSONObject(0).getString("code");
+                                mRepository.insertTipoCambioDB(desc);
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onError(ANError error)
+                    {
+                        mRepository.errorTipoCambio();
+                    }
+                });
     }
 
     private void sendRendicionForUpdateApi(RendicionRequest request, Integer idRendicion)
@@ -312,7 +354,7 @@ public class ApiFormulariosImpl implements ApiFormularios
                     @Override
                     public void onComplete()
                     {
-
+                        Log.i("NDa","Completado");
                     }
                 });
     }

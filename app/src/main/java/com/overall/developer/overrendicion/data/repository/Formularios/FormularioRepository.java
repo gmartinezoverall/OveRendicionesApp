@@ -9,6 +9,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
@@ -20,10 +21,15 @@ import java.util.List;
 public interface FormularioRepository
 {
     List<TipoDocumentoBean> getDocumentForIdDB(String idDocumento);
+
     List<ProvinciaBean> getProvinciaDestinoList();
+
     Integer saveDataDB(RendicionBean rendicionBean);
+
     void sendDataForInsertApi(RendicionRequest request, Integer idRendicion);
+
     void sendDataForUpdateApi(RendicionRequest request, Integer idRendicion);
+
     LiquidacionBean getCodLiquidacionDB();
 
     String getIdUsuarioDB();
@@ -35,7 +41,6 @@ public interface FormularioRepository
     UserBean getUserDB();
 
     void finisLoginDB();
-
 
 
     String getCodRendicion(Integer idRendicion);
@@ -62,5 +67,13 @@ public interface FormularioRepository
 
     void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
 
+    void setTipoCambioApi(String fecha);
 
+    void insertTipoCambioDB(String desc);
+
+    String getTipoCambioDB();
+
+    LiquidacionBean getLiquidacionDB();
+
+    void errorTipoCambio();
 }

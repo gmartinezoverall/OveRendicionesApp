@@ -6,19 +6,24 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -30,6 +35,8 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Ar
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.utils.GlideApp;
+import com.overall.developer.overrendicion.utils.Util;
 import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -45,32 +52,43 @@ import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
 public class ArrendamientoFragment extends Fragment {
+
     //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
-    CustomEditText mEtxRuc;
+    CustomEditText etxRuc;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
     @BindView(R.id.etxRazonSocial)
-    CustomEditText mEtxRazonSocial;
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
-
+    CustomEditText etxRazonSocial;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
     @BindView(R.id.etxNDocumento)
     CustomEditText etxNDocumento;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.etxMonto)
+    CustomEditText etxMonto;
     @BindView(R.id.spnTipoGasto)
     TextView spnTipoGasto;
-    @BindView(R.id.etxMonto)
-    TextView etxMonto;
     @BindView(R.id.img_foto)
     ImageView imgFoto;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnSearch)
-    ImageButton btnSearch;
-    @BindView(R.id.etxNSerie)
-    CustomEditText etxNSerie;
 
     //endregion
 
@@ -90,28 +108,26 @@ public class ArrendamientoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+
+        initialCalendar();
         if (rendicionEntity != null) setAllDefaultValues();
 
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
-
-        RxTextView.textChanges(mEtxRuc)
+        RxTextView.textChanges(etxRuc)
                 .filter(etx -> (etx.length() > 0 && etx.length() != 11))
-                .subscribe(etx -> mEtxRuc.setError(getResources().getString(R.string.validarRuc)));
+                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
         if (itemList.size() == 1) {
             spnTipoGasto.setText(itemList.get(0).toString());
-            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
+            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId();
         }
         spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes());
+            rtgId = ((TipoGastoEntity) item).getRtgId();
         });
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
@@ -142,42 +158,53 @@ public class ArrendamientoFragment extends Fragment {
         gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
 
         String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
-        mEtxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
-        mEtxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
-        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        etxRuc.setText(String.valueOf(rendicionEntity.getRuc()));
+        etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
+        txvFechaDocumento.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxNSerie.setText(String.valueOf(strings[0]));
         etxNDocumento.setText(String.valueOf(strings[1]));
         etxMonto.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
         rtgId = String.valueOf(gastoEntity.getRtgId());
-        imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
-
+        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+        GlideApp.with(this)
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(rendicionEntity.getFoto())
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .into(imgFoto);
     }
 
     public void searchRucSuccess(String razonSocial) {
-        if (mEtxRazonSocial != null) mEtxRazonSocial.setText(String.valueOf(razonSocial));
+        if (etxRazonSocial != null) etxRazonSocial.setText(String.valueOf(razonSocial));
 
     }
 
-
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-            //if (!etxCalendar.getText().toString().isEmpty());
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                etxNDocumento.requestFocus();
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
     }
+    //endregion
+
 
     @Override
     public void onResume() {
@@ -194,12 +221,12 @@ public class ArrendamientoFragment extends Fragment {
 
     @Subscribe
     public void searchRucSuccess(Communicator razonSocial) {
-        mEtxRazonSocial.setText(razonSocial.getRazonSocial());
-        mEtxRazonSocial.setEnabled(false);
+        etxRazonSocial.setText(razonSocial.getRazonSocial());
+        etxRazonSocial.setEnabled(false);
     }
 
 
-    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch})
+    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnTipoGasto:
@@ -212,18 +239,24 @@ public class ArrendamientoFragment extends Fragment {
                 if (ValideWidgets()) {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
-                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(mEtxRuc.getText()), String.valueOf(mEtxRazonSocial.getText()),
-                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNSerie.getText()) + "-"+ String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
+                    ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()),
+                            String.valueOf(txvFechaDocumento.getText()), String.valueOf(etxNSerie.getText()) + "-" + String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
 
                 }
                 break;
             case R.id.btnSearch:
-                if (mEtxRuc.getText().toString().length() == 11) {
-                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(mEtxRuc.getText()));
+                if (etxRuc.getText().toString().length() == 11) {
+                    ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
 
                 }
+                break;
+            case R.id.lytFecha:
+                lytFecha.setVisibility(View.GONE);
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
                 break;
         }
 
@@ -231,7 +264,7 @@ public class ArrendamientoFragment extends Fragment {
     }
 
     private boolean ValideWidgets() {
-        if ((mEtxRuc.getText().toString().isEmpty() && mEtxRuc.getText().toString().trim().length() != 11) || mEtxRazonSocial.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty()
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || txvFechaDocumento.getText().toString().isEmpty()
                 || etxNDocumento.getText().toString().isEmpty() || etxMonto.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
                 || pathImage == null) {
             return false;

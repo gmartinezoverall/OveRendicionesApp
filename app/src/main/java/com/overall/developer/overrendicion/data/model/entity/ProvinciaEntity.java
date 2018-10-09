@@ -2,8 +2,8 @@ package com.overall.developer.overrendicion.data.model.entity;
 
 public class ProvinciaEntity
 {
-    String code;
-    String desc;
+    private String code;
+    private String desc;
 
     public ProvinciaEntity() {
     }

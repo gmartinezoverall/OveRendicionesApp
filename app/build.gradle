@@ -150,6 +150,9 @@ dependencies {
     //Libreria Otto Bus
     implementation 'com.squareup:otto:1.3.8'
 
+    //Libreria Pull to Refresh
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+
     //Libreria de Botones
     implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'

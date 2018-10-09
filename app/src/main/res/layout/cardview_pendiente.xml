@@ -84,7 +84,7 @@
                                 android:layout_marginLeft="2dp" />
                             <TextView
                                 android:id="@+id/txvAcuentaTittle"
-                                android:text="Cuenta"
+                                android:text="A cuenta"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -100,15 +100,6 @@
                                 android:gravity="center"
                                 android:textSize="14sp"
                                 android:layout_marginLeft="2dp" />
-                            <!--                        <TextView
-                                                        android:id="@+id/txvEstadoTittle"
-                                                        android:text="Estado"
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="match_parent"
-                                                        android:layout_weight="1"
-                                                        android:gravity="center"
-                                                        android:textSize="16sp"
-                                                        android:layout_marginLeft="4dp" />-->
 
                         </LinearLayout>
 
@@ -189,15 +180,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        android:gravity="right">
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
 
-                        <ImageButton
-                            android:id="@+id/btnEnviarResumen"
-                            android:layout_width="60dp"
-                            android:layout_height="25dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/ic_menu_send"
-                            android:background="@drawable/button_style"/>
 
                         <Button
                             android:id="@+id/btnDatos"
@@ -215,6 +200,14 @@
                             android:layout_marginRight="10dp"
                             android:text="Rendicion"
                             android:textColor="@color/white"
+                            android:background="@drawable/button_style"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEnviarResumen"
+                            android:layout_width="60dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_menu_send"
                             android:background="@drawable/button_style"/>
 
                     </LinearLayout>

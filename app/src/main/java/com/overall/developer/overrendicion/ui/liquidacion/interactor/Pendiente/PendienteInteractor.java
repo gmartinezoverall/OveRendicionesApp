@@ -10,8 +10,6 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean;
 public interface PendienteInteractor
 {
     //region Gets.
-    void setAllDocument();
-    void setAllBanco();
     UserBean getUser();
     void finisLogin();
     void listPendiente(String dniUser);
@@ -19,8 +17,9 @@ public interface PendienteInteractor
     void filterLiquidacionForUser(String dniUser);
     void insertProvincia(String dniUser);
     void refreshList(String dniUser);
-    void sendResumeEmail();
-    int pendienteListCount();
+    void sendResumeEmail(String codRendicion);
+    boolean validateRendicionisEmpy(String codLiquidacion);
+    void initialDefaultApis();
     //endregion
 
     //region Sets
@@ -29,7 +28,6 @@ public interface PendienteInteractor
     void refreshListSuccess(String dniUser);
     void successSendResume();
     void errorSendResume();
-
 
     //endregion
 }

@@ -99,4 +99,9 @@ public class RendicionPresenterImpl implements RendicionPresenter
         return mInteractor.getUrlImage(codRendicion);
     }
 
+    @Override
+    public String getCodLiquidacion() {
+        return mInteractor.getCodLiquidacion();
+    }
+
 }

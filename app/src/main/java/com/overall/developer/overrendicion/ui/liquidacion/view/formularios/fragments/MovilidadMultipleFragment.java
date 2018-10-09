@@ -1,6 +1,6 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
 
-import android.app.DatePickerDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fxn.pix.Pix;
@@ -19,34 +20,35 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEnt
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.utils.Util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
-public class MovilidadMultipleFragment extends Fragment {
+public class MovilidadMultipleFragment extends Fragment
+{
 
     //region Injeccion de Vistas
-    @BindView(R.id.spnTipoGasto)
-    TextView spnTipoGasto;
-
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
-    @BindView(R.id.img_foto)
-    ImageView imgFoto;
-    @BindView(R.id.btnFoto)
-    ImageButton btnFoto;
-    @BindView(R.id.btnGuardar)
-    Button btnGuardar;
-    @BindView(R.id.btnListar)
-    ImageButton btnListar;
-    @BindView(R.id.btnSalir)
-    Button btnSalir;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
     @BindView(R.id.etxNumDoc)
     CustomEditText etxNumDoc;
     @BindView(R.id.etxdatosTra)
@@ -57,6 +59,19 @@ public class MovilidadMultipleFragment extends Fragment {
     CustomEditText etxDestino;
     @BindView(R.id.etxMonto)
     CustomEditText etxMonto;
+    @BindView(R.id.spnTipoGasto)
+    TextView spnTipoGasto;
+    @BindView(R.id.img_foto)
+    ImageView imgFoto;
+    @BindView(R.id.btnListar)
+    ImageButton btnListar;
+    @BindView(R.id.btnFoto)
+    ImageButton btnFoto;
+    @BindView(R.id.btnGuardar)
+    Button btnGuardar;
+    @BindView(R.id.btnSalir)
+    Button btnSalir;
+
     //endregion
 
     private SpinnerDialog spinnerDialog;
@@ -76,6 +91,8 @@ public class MovilidadMultipleFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_movilidad_multiple, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        initialCalendar();
+
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
 
@@ -90,12 +107,9 @@ public class MovilidadMultipleFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
-
         return mView;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -103,24 +117,7 @@ public class MovilidadMultipleFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-    }
-
-    @OnClick({R.id.btnFoto, R.id.btnGuardar, R.id.btnListar, R.id.btnSalir, R.id.spnTipoGasto})
+    @OnClick({R.id.btnFoto, R.id.btnGuardar, R.id.btnListar, R.id.btnSalir, R.id.spnTipoGasto, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnFoto:
@@ -129,7 +126,7 @@ public class MovilidadMultipleFragment extends Fragment {
             case R.id.btnGuardar:
                 ((FormularioActivity) getContext()).saveAndSendDataForMovilidadMultiple(new MovilidadMultipleEntity(((FormularioActivity) getContext()).getIdMovilidad(), String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
                         String.valueOf(etxNumDoc.getText()), String.valueOf(etxdatosTra.getText()), String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
-                        String.valueOf(etxCalendar.getText()), String.valueOf(rtgId), String.valueOf(pathImage)
+                        String.valueOf(txvFechaDocumento.getText()), String.valueOf(rtgId), String.valueOf(pathImage)
                 ));
 
                 break;
@@ -141,8 +138,34 @@ public class MovilidadMultipleFragment extends Fragment {
             case R.id.btnSalir:
                 //getActivity().getFragmentManager().beginTransaction().remove().commit();
                 getActivity().getSupportFragmentManager().popBackStack();
-
+                break;
+            case R.id.lytFecha:
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
                 break;
         }
     }
+
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
+        {
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
+    }
+    //endregion
+
 }

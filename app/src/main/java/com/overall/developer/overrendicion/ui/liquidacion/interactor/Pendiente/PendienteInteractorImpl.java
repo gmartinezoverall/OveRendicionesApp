@@ -43,20 +43,6 @@ public class PendienteInteractorImpl implements PendienteInteractor
 
 
     @Override
-    public void setAllDocument()
-    {
-        if (mRepository.setAllDocumentDB() == 0) mRepository.setAllDocumentApi();
-        else Log.i("LogNDa","La tabla documentos esta llena o tiene al menos un valor");
-    }
-
-    @Override
-    public void setAllBanco()
-    {
-        if (mRepository.setAllBancoDB() == 0) mRepository.setAllBancoApi();
-        else Log.i("LogNDa","La tabla banco esta llena o tiene al menos un valor");
-    }
-
-    @Override
     public UserBean getUser()
     {
         return mRepository.getUser();
@@ -76,7 +62,6 @@ public class PendienteInteractorImpl implements PendienteInteractor
     {
         if (Util.isOnline()) mRepository.listPendienteApi(dniUser);
         else listUserForDNI(dniUser);
-
 
     }
 
@@ -117,16 +102,30 @@ public class PendienteInteractorImpl implements PendienteInteractor
     }
 
     @Override
-    public void sendResumeEmail()
+    public void sendResumeEmail(String codRendicion)
     {
-        String codLiquidacion = mRepository.getCodLiquidacionDB();
-        if (Util.isOnline())mRepository.sendResumeEmailApi(codLiquidacion);
+
+        if (Util.isOnline())mRepository.sendResumeEmailApi(getUser().getNumDocBeneficiario(), codRendicion);
     }
 
     @Override
-    public int pendienteListCount() {
-        return mRepository.pendienteListCountDB();
+    public boolean validateRendicionisEmpy(String codLiquidacion) {
+        return mRepository.validateRendicionisEmpyDB(codLiquidacion);
     }
+
+    @Override
+    public void initialDefaultApis()
+    {
+        if (mRepository.setAllDocumentDB() == 0) mRepository.setAllDocumentApi();//sets Provincias por Api
+        else Log.i("LogNDa","La tabla documentos esta llena o tiene al menos un valor");
+
+        if (mRepository.setAllBancoDB() == 0) mRepository.setAllBancoApi();//sets Provincias por Api
+        else Log.i("LogNDa","La tabla banco esta llena o tiene al menos un valor");
+
+        mRepository.setRmvApi();//set Sueldo minimo
+
+    }
+
 
     @Override
     public void successPendienteList(String message, String dniUser)

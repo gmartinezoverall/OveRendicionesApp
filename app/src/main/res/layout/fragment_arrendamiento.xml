@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -36,7 +37,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:hint="RUC"
                         android:inputType="number"
                         android:maxLength="11"
@@ -45,7 +48,7 @@
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:gravity="center"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
@@ -73,7 +76,9 @@
                     android:id="@+id/etxRazonSocial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
                     android:hint="Razon Social"
                     android:inputType="textPersonName"
                     android:paddingBottom="12dp"
@@ -88,32 +93,79 @@
                     app:libIZO_setBorderView="true"
                     app:libIZO_setCornerRadius="20dp"/>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Fecha:"
                         android:gravity="center"
+                        android:text="Fecha Documento:"
                         android:layout_marginTop="5dp"/>
 
-                    <com.libizo.CustomEditText
-                        android:id="@+id/etxCalendar"
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
+
+                    <LinearLayout
+                        android:id="@+id/lytFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/txvFechaDocumento"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Fecha de Documento"
+                            android:textSize="12sp"/>
+
+                        <LinearLayout
+                            android:id="@+id/lytArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="right|center_vertical"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/ic_arrow_drop_down" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lytCalendar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:hint="Fecha documento"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
+                        android:visibility="gone">
 
+                        <pyxis.uzuki.live.sectioncalendarview.SectionCalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
+                </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -126,14 +178,16 @@
                         android:id="@+id/etxNSerie"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:hint="Número: Serie"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:text="1683"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:maxLength="4"
                         android:inputType="number"
                         android:gravity="center"
@@ -155,14 +209,16 @@
                         android:id="@+id/etxNDocumento"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:hint="Número: Documento"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:maxLength="20"
                         android:inputType="number"
                         android:digits="@string/numbers"
@@ -171,14 +227,6 @@
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
-
-                    <View
-                        android:id="@+id/view1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:layout_margin="10dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -191,7 +239,9 @@
                         android:id="@+id/etxMonto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:hint="Monto"
                         android:inputType="numberDecimal"
                         android:paddingBottom="12dp"
@@ -199,7 +249,7 @@
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
@@ -217,7 +267,7 @@
                 <TextView
                     android:id="@+id/spnTipoGasto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Seleccionar"
                     android:drawableRight="@drawable/ic_arrow_drop_down"
                     android:textStyle="bold"
@@ -227,6 +277,13 @@
                     android:paddingLeft="15dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:layout_margin="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"

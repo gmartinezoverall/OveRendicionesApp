@@ -7,6 +7,8 @@ public class MovilidadEntity
     private String rdoId;
     private String codLiquidacion;
     private String idUsuario;
+    private String dniTrabajador;
+    private String datosTrabajador;
     private String motivo;
     private String destino;
     private String monto;
@@ -15,14 +17,17 @@ public class MovilidadEntity
     private String tipoMov;
     private String fecha;
     private String fechaHastaM;
+    private String foto;
 
     public MovilidadEntity() {
     }
 
-    public MovilidadEntity(String idMovilidad, String rdoId, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String fechaHastaM) {
+    public MovilidadEntity(String idMovilidad, String rdoId, String dniTrabajador, String datosTrabajador, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String fechaHastaM, String foto) {
 
         this.idMovilidad = idMovilidad;
         this.rdoId = rdoId;
+        this.dniTrabajador = dniTrabajador;
+        this.datosTrabajador = datosTrabajador;
         this.motivo = motivo;
         this.destino = destino;
         this.monto = monto;
@@ -31,6 +36,7 @@ public class MovilidadEntity
         this.tipoMov = tipoMov;
         this.fecha = fecha;
         this.fechaHastaM = fechaHastaM;
+        this.foto = foto;
     }
 
     public Integer getId() {
@@ -55,6 +61,14 @@ public class MovilidadEntity
 
     public String getIdUsuario() {
         return idUsuario;
+    }
+
+    public String getDniTrabajador() {
+        return dniTrabajador;
+    }
+
+    public String getDatosTrabajador() {
+        return datosTrabajador;
     }
 
     public String getMotivo() {
@@ -87,5 +101,9 @@ public class MovilidadEntity
 
     public String getFechaHastaM() {
         return fechaHastaM;
+    }
+
+    public String getFoto() {
+        return foto;
     }
 }

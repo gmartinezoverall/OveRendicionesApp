@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,18 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.awesomebar.AwesomeBar;
-
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.DatosGenerales.DatosGeneralesPresenterImpl;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
+import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -104,6 +102,12 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
     TextView txvTACuenta;
     @BindView(R.id.txvTSaldo)
     TextView txvTSaldo;
+    @BindView(R.id.txvFechaInicioLiq)
+    TextView txvFechaInicioLiq;
+    @BindView(R.id.txvFechaFinLiq)
+    TextView txvFechaFinLiq;
+    @BindView(R.id.lytFechaLiquidacion)
+    LinearLayout lytFechaLiquidacion;
 
 
     //endregion
@@ -127,27 +131,24 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         initialBase();
         initialCalendar();
 
-        Log.i("NDaFecha", mTxvFInicio.getText().toString());
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         mPresenter.changeStatusLiquidacion();
     }
 
 
     //region Calendar
-    private void initialCalendar()
-    {
+    private void initialCalendar() {
         mCalendarView.setDateFormat("dd/MM/yyyy");
         mCalendarView.setPreventPreviousDate(false);
         mCalendarView.setErrToastMessage(R.string.error_date);
         mCalendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            mTxvFInicio.setText(startDay);
-            mTxvFFin.setText(endDay.equals("") ? startDay : endDay);
+            mTxvFInicio.setText(Util.changeDateFormat(startDay));
+            mTxvFFin.setText(endDay.equals("") ? Util.changeDateFormat(startDay) : Util.changeDateFormat(endDay));
             mTxvFFin.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             mTxvFFin.setTypeface(null, Typeface.BOLD);
             mTxvFInicio.setTypeface(null, Typeface.BOLD);
@@ -202,10 +203,15 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
             mTxvFFin.setText(String.valueOf(mLiquidacionEntity.getFechaHasta().substring(0, 10)));
         if (mLiquidacionEntity.getTipoViatico() != null)
             mSpnTipoViatico.setSelectedIndex(mLiquidacionEntity.getTipoViatico().equals("E") ? 1 : 0);
-        if (mLiquidacionEntity.getUbigeoProvDestino() != null)
-        {
+        if (mLiquidacionEntity.getUbigeoProvDestino() != null) {
             mSpnDestinoViaje.setText(mLiquidacionEntity.getUbigeoProvDestino().getDesc());
             idProvincia = (mLiquidacionEntity.getUbigeoProvDestino().getCode());
+        }
+
+        if (mLiquidacionEntity != null)
+        {
+            mTxvFInicio.setText(String.valueOf(mLiquidacionEntity.getFechaInicioLiq()));
+            mTxvFFin.setText(String.valueOf(mLiquidacionEntity.getFechaFinLiq()));
         }
 
         mToolbar.setOnMenuClickedListener(v -> mDrawerLayout.openDrawer(Gravity.START));
@@ -217,8 +223,8 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         spinnerDialog = new SpinnerDialog(this, itemList, "Selecciona una Provincia");
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            mSpnDestinoViaje.setText(((ProvinciaEntity)item).getDesc().toString());
-            idProvincia = ((ProvinciaEntity)item).getCode().toString();
+            mSpnDestinoViaje.setText(((ProvinciaEntity) item).getDesc());
+            idProvincia = ((ProvinciaEntity) item).getCode();
         });
 
     }
@@ -252,12 +258,10 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        } else if (id == R.id.nav_actContra)
-        {
+        } else if (id == R.id.nav_actContra) {
             startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
-        } else if (id == R.id.nav_actCorreo)
-        {
+        } else if (id == R.id.nav_actCorreo) {
             startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
@@ -320,15 +324,12 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         }
     }
 
-    private boolean ValideWidgets()
-    {
+    private boolean ValideWidgets() {
         if (mTxvDetMotivo.getText().toString().isEmpty() || (mLytTipoViatico.getVisibility() == View.VISIBLE && mSpnDestinoViaje.getText().equals("Seleccionar"))
-                || mTxvFInicio.getText().equals("0001-01-01"))
-        {
+                || mTxvFInicio.getText().equals("0001-01-01")) {
             Toast.makeText(this, getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else return true;
+        } else return true;
 
     }
     //endregion

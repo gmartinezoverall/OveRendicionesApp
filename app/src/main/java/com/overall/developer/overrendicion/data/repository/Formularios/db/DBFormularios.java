@@ -8,6 +8,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 
 import java.util.List;
@@ -44,5 +45,9 @@ public interface DBFormularios
 
     void insertMovilidadDB(MovilidadBean movilidadBean);
 
+    void insertTipoCambioDB(String desc);
 
+    String getTipoCambioDB();
+
+    LiquidacionBean getLiquidacionDB();
 }

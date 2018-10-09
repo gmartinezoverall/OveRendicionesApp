@@ -34,4 +34,6 @@ public interface RendicionPresenter
     void sendDataPhote(String codRendicion, String pathImage);
 
     String getUrlImage(String codRendicion);
+
+    String getCodLiquidacion();
 }

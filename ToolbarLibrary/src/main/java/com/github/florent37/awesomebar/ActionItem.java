@@ -61,7 +61,7 @@ public class ActionItem extends LinearLayout {
                                     onClickListener.onClick(v);
                                 }
                             }
-                        }, 300);
+                        }, 100);
                     } else {
                         if (onClickListener != null) {
                             onClickListener.onClick(v);

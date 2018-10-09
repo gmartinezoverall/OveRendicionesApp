@@ -1,7 +1,9 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.pendiente;
 
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.awesomebar.AwesomeBar;
+import com.jaredrummler.android.widget.AnimatedSvgView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
@@ -33,7 +36,12 @@ import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswor
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.utils.background.SendDataService;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -60,6 +68,11 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     AppBarLayout mBarLayout;
     @BindView(R.id.layout_appbar_search)
     View searchAppBarLayout;
+    @BindView(R.id.pullRefresh)
+    SmartRefreshLayout pullRefresh;
+    @BindView(R.id.refresh)
+    ClassicsHeader refresh;
+
 
     //endregion
 
@@ -69,6 +82,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     private String dniUser = "";
     private String nombreUser = "";
     private String emailUser = "";
+    Dialog mDialog;
     //private RealmBrowser realmBrowser;
 
     @Override
@@ -77,9 +91,9 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         setContentView(R.layout.activity_pendiente);
         ButterKnife.bind(this);
 
+
         mPresenter = new PendientePresenterImpl(this, this);
 
-        initialToolbar();
         sesionManager();
         initialDrawable();
 
@@ -87,25 +101,27 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        if (dniUser != null) mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
+        if (dniUser != null)
+            mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
         mPresenter.insertProvincia(dniUser);
-        mPresenter.setAllDocument();//sets Provincias por Api
-        mPresenter.setAllBanco();//sets Provincias por Api
 
-/*        mRefreshLayout.setOnRefreshListener(
-                new CircleRefreshLayout.OnCircleRefreshListener() {
-                    @Override
-                    public void refreshing()
-                    {
-                        mPresenter.refreshList(String.valueOf(dniUser));
-                    }
+        mPresenter.initialDefaultApis();
 
-                    @Override
-                    public void completeRefresh() {
-                        // do something when refresh complete
+        refresh.REFRESH_HEADER_PULLDOWN="Continua Arrastrando";
+        refresh.REFRESH_HEADER_REFRESHING="Actualizando..";
+        refresh.REFRESH_HEADER_RELEASE="Suelta para Actualizar";
+        refresh.REFRESH_HEADER_FINISH="Completado";
 
-                    }
-                });*/
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        refresh.setTimeFormat(mdformat);
+
+        pullRefresh.setOnRefreshListener(refreshLayout ->
+        {
+            mPresenter.refreshList(String.valueOf(dniUser));
+            showDialog();
+
+        });
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -126,7 +142,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mTool_bar.setOnMenuClickedListener(v -> drawerLayout.openDrawer(Gravity.START));
         mTool_bar.displayHomeAsUpEnabled(false);
         mTool_bar.setActionItemClickListener((position, actionItem) -> RippleEffect.ShowSearchBar(mTool_bar, mSearchBar, searchAppBarLayout));
-        mTool_bar.setTextCount(String.valueOf("Pendientes:  " + Integer.valueOf(mPresenter.pendienteListCount())));
+        if (pendienteBeanList != null)mTool_bar.setTextCount(String.valueOf("Pendientes:  " + Integer.valueOf(pendienteBeanList.size())));
         mSearchBar.getMenu().setOnMenuItemClickListener(item ->
         {
             mSearchBar.setTxvTipoBuscar(String.valueOf(item));
@@ -217,11 +233,10 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
         if (id == R.id.nav_soliRend) {
             // Handle the camera action
-        }else if (id == R.id.nav_sendResume)
-        {
-          mPresenter.sendResumeEmail();
+        } else if (id == R.id.nav_sendResume) {
+            //mPresenter.sendResumeEmail();
 
-        }else if (id == R.id.nav_actContra) {
+        } else if (id == R.id.nav_actContra) {
             startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
         } else if (id == R.id.nav_actCorreo) {
@@ -253,16 +268,9 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     public void refreshListSuccess(List<LiquidacionBean> listPendiente)
     {
+        timerInterval();
         pendienteBeanList = listPendiente;
 
-/*        Observable.timer(1000, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(timer->
-                {
-                    initialRecyclerView();
-                    mRefreshLayout.finishRefreshing();
-                });*/
 
     }
 
@@ -285,11 +293,12 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         } else {
             Toast.makeText(this, getResources().getString(R.string.messagePendienteListNull), Toast.LENGTH_LONG).show();
         }
+
+        initialToolbar();
     }
 
     @Override
-    public void searchListPendienteResult(List<LiquidacionBean> pendienteList)
-    {
+    public void searchListPendienteResult(List<LiquidacionBean> pendienteList) {
         pendienteBeanList = pendienteList;
         initialRecyclerView();
 
@@ -301,14 +310,22 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         initialRecyclerView();
     }
 
-    private void initialRecyclerView()
-    {
+    private void initialRecyclerView() {
         mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
         mRecyclerView.setLayoutAnimation(controller);
         mRecyclerView.getAdapter().notifyDataSetChanged();
         mRecyclerView.scheduleLayoutAnimation();
 
+    }
+
+    public void sendResumeEmail(String codRendicion) {
+        mPresenter.sendResumeEmail(codRendicion);
+    }
+
+    public boolean validateRendicionisEmpy(String codLiquidacion)
+    {
+        return mPresenter.validateRendicionisEmpy(codLiquidacion);
     }
 
     //endregion
@@ -351,6 +368,35 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         } else {
             super.onBackPressed();
         }
+    }
+    //endregion
+
+    //region Dialog
+    private void showDialog()
+    {
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.dialog_progress);
+        AnimatedSvgView svgView = mDialog.findViewById(R.id.animated_svg_view);
+        //svgView.postDelayed(() -> svgView.start(), 200);
+
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundtext_card)));
+        mDialog.setCancelable(false);
+        mDialog.show();
+
+        Observable.interval(500, 3500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(timer-> svgView.start());
+    }
+
+    void timerInterval()
+    {
+        Observable.interval(3000, TimeUnit.MILLISECONDS)
+                .subscribe(timer->
+                {
+                    pullRefresh.finishRefresh();
+                    mDialog.dismiss();
+                });
     }
     //endregion
 }

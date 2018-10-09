@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
@@ -34,7 +35,7 @@ public class FormularioPresenterImpl implements FormularioPresenter
     }
 
     @Override
-    public List<String> getProvinciaDestinoList() {
+    public List<ProvinciaEntity> getProvinciaDestinoList() {
         return mInteractor.getProvinciaDestinoList();
     }
 
@@ -125,6 +126,17 @@ public class FormularioPresenterImpl implements FormularioPresenter
     @Override
     public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
         mInteractor.saveDataMovilidadMultiple(movilidadEntity);
+    }
+
+    @Override
+    public void setTipoCambio()
+    {
+        mInteractor.setTipoCambio();
+    }
+
+    @Override
+    public LiquidacionEntity getLiquidacion() {
+        return mInteractor.getLiquidacion();
     }
 
 }

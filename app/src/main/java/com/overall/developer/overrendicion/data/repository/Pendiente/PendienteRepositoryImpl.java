@@ -98,15 +98,23 @@ public class PendienteRepositoryImpl implements PendienteRepository
     }
 
     @Override
-    public void sendResumeEmailApi(String codLiquidacion)
+    public void sendResumeEmailApi(String dni,String codRendicion)
     {
-        mApiPendiente.sendResumeEmailApi(codLiquidacion);
+        mApiPendiente.sendResumeEmailApi(dni, codRendicion);
     }
 
     @Override
-    public int pendienteListCountDB() {
-        return mDbPendiente.pendienteListCountDB();
+    public boolean validateRendicionisEmpyDB(String codLiquidacion)
+    {
+        return mDbPendiente.validateRendicionisEmpyDB(codLiquidacion);
     }
+
+    @Override
+    public void insertRmvDB(String sueldo)
+    {
+        mDbPendiente.insertRmvDB(sueldo);
+    }
+
 
     @Override
     public List<LiquidacionBean>  listPendienteDB()
@@ -129,6 +137,11 @@ public class PendienteRepositoryImpl implements PendienteRepository
     public void refreshListPendienteApi(String dniUser)
     {
         mApiPendiente.refreshListPendienteApi(dniUser);
+    }
+
+    @Override
+    public void setRmvApi() {
+        mApiPendiente.setRmvApi();
     }
 
     @Override

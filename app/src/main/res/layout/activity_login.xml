@@ -10,10 +10,14 @@
 
     <ViewSwitcher
         android:id="@+id/viewSwitcher"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:inAnimation="@android:anim/fade_in"
-        android:outAnimation="@android:anim/fade_out">
+        android:outAnimation="@android:anim/fade_out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.flaviofaria.kenburnsview.KenBurnsView
             android:id="@+id/image"
@@ -25,9 +29,13 @@
 
     <FrameLayout
         android:id="@+id/view_pager_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -49,10 +57,9 @@
         android:id="@+id/textView2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
-
         android:text="@string/Mensaje"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -112,7 +119,7 @@
         app:BL_circleColorSecond="#8000AFEF"
         app:BL_enable="true"
         app:BL_stateShow="normal"
-        app:BL_text="Login"
+        app:BL_text="Acceder"
         app:BL_textColor="#FFFFFF"
         app:BL_textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
@@ -130,18 +137,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnIngresar" >
+        app:layout_constraintTop_toBottomOf="@+id/btnIngresar">
 
         <TextView
             android:id="@+id/tvRecovery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp"
             android:text="@string/Recovery"
             android:textColor="@color/white"
-            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/etPassword"
-            android:layout_gravity="center"/>
+            app:layout_constraintStart_toStartOf="@+id/etPassword" />
 
         <View
             android:id="@+id/view6"
@@ -156,14 +163,27 @@
             android:id="@+id/tvRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="20dp"
             android:text="@string/Register"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view6"
-            android:layout_gravity="center"/>
+            app:layout_constraintStart_toEndOf="@+id/view6" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:text="@string/Mensaje2"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

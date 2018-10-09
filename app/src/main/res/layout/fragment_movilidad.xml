@@ -58,6 +58,13 @@
                 </info.hoang8f.android.segmented.SegmentedGroup>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -65,94 +72,97 @@
                     android:text="Fecha del viaje:"
                     android:layout_marginTop="5dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/lytFecha"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:animateLayoutChanges="true"
-                        android:layout_marginTop="5dp">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center">
 
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Del" />
+                            android:gravity="center">
 
-                        <com.libizo.CustomEditText
-                            android:id="@+id/etxFechaDesde"
+                            <TextView
+                                android:id="@+id/txvFechaInicio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Fecha de Inicio"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lytfechaFinal"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="5"
-                            android:gravity="center"
-                            android:hint="inicio"
-                            android:inputType="textEmailAddress"
-                            android:paddingBottom="12dp"
-                            android:paddingRight="12dp"
-                            android:paddingTop="12dp"
-                            android:text=""
-                            android:textSize="14sp"
-                            app:libIZO_setBorderColor="#d4d2d3"
-                            app:libIZO_setBorderView="true"
-                            app:libIZO_setClearIconVisible="true"
-                            app:libIZO_setCornerRadius="20dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="->"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/txvFechaFin"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Fecha Fin"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lytArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="right|center_vertical"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/ic_arrow_drop_down" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/lytfechaFinal"
-                        android:layout_width="0dp"
+                        android:id="@+id/lytCalendar"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:visibility="gone">
 
+                        <pyxis.uzuki.live.sectioncalendarview.SectionCalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
-                        <TextView
-                            android:id="@+id/txtFechaHasta"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Al"/>
-
-                        <com.libizo.CustomEditText
-                            android:id="@+id/etxFechaHasta"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="5"
-                            android:gravity="center"
-                            android:hint="fin"
-                            android:inputType="textEmailAddress"
-                            android:paddingBottom="12dp"
-                            android:paddingRight="12dp"
-                            android:paddingTop="12dp"
-                            android:text="-"
-                            android:textSize="14sp"
-                            app:libIZO_setBorderColor="#d4d2d3"
-                            app:libIZO_setBorderView="true"
-                            app:libIZO_setClearIconVisible="true"
-                            app:libIZO_setCornerRadius="20dp" />
 
                     </LinearLayout>
 
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    android:layout_margin="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,7 +175,9 @@
                     android:id="@+id/etxMotivo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
                     android:hint="motivo"
                     android:inputType="textPersonName"
                     android:paddingBottom="12dp"
@@ -173,7 +185,8 @@
                     android:paddingRight="12dp"
                     android:paddingTop="12dp"
                     android:text=""
-                    android:textSize="15sp"
+                    android:textSize="12sp"
+                    android:gravity="center"
                     app:libIZO_setBorderColor="#d4d2d3"
                     app:libIZO_setBorderView="true"
                     app:libIZO_setClearIconVisible="true"
@@ -190,15 +203,17 @@
                     android:id="@+id/etxDestino"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
                     android:hint="destino desplazamiento"
                     android:inputType="textPersonName"
                     android:paddingBottom="12dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="12dp"
                     android:paddingTop="12dp"
-                    android:text=""
-                    android:textSize="15sp"
+                    android:textSize="12sp"
+                    android:gravity="center"
                     app:libIZO_setBorderColor="#d4d2d3"
                     app:libIZO_setBorderView="true"
                     app:libIZO_setClearIconVisible="true"
@@ -216,7 +231,9 @@
                     android:id="@+id/etxMonto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
                     android:hint="monto gastado"
                     android:inputType="numberDecimal"
                     android:paddingBottom="12dp"
@@ -224,7 +241,8 @@
                     android:paddingRight="12dp"
                     android:paddingTop="12dp"
                     android:text=""
-                    android:textSize="15sp"
+                    android:textSize="12sp"
+                    android:gravity="center"
                     app:libIZO_setBorderColor="#d4d2d3"
                     app:libIZO_setBorderView="true"
                     app:libIZO_setClearIconVisible="true"

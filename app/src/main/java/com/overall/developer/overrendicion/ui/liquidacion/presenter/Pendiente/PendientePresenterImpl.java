@@ -26,16 +26,6 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
-    public void setAllDocument() {
-        mInteractor.setAllDocument();
-    }
-
-    @Override
-    public void setAllBanco() {
-        mInteractor.setAllBanco();
-    }
-
-    @Override
     public UserBean getUser()
     {
         return mInteractor.getUser();
@@ -79,14 +69,20 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
-    public void sendResumeEmail()
+    public void sendResumeEmail(String codRendicion)
     {
-        mInteractor.sendResumeEmail();
+        mInteractor.sendResumeEmail(codRendicion);
     }
 
     @Override
-    public int pendienteListCount() {
-        return mInteractor.pendienteListCount();
+    public boolean validateRendicionisEmpy(String codLiquidacion) {
+        return mInteractor.validateRendicionisEmpy(codLiquidacion);
+    }
+
+    @Override
+    public void initialDefaultApis()
+    {
+        mInteractor.initialDefaultApis();
     }
 
     @Override

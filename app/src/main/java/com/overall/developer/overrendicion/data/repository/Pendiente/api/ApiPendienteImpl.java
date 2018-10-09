@@ -7,6 +7,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import com.overall.developer.overrendicion.BuildConfig;
@@ -206,11 +207,12 @@ public class ApiPendienteImpl implements ApiPendiente
     }
 
     @Override
-    public void sendResumeEmailApi(String codLiquidacion)
+    public void sendResumeEmailApi(String dni,String codRendicion)
     {
         AndroidNetworking.post(UrlApi.urlSendResumeEmail)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
-                .addBodyParameter("codLiquidacion", codLiquidacion)
+                .addBodyParameter("dni", dni)
+                .addBodyParameter("codLiquidacion", codRendicion)
                 .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -224,6 +226,42 @@ public class ApiPendienteImpl implements ApiPendiente
                     public void onError(ANError anError)
                     {
                         mRepository.errorSendResume();
+                    }
+                });
+
+    }
+
+    @Override
+    public void setRmvApi()
+    {
+        AndroidNetworking.post(UrlApi.urlObtieneRMV)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        try
+                        {
+                            if (response.getString("message").equals("OK"))
+                            {
+                                String sueldo = response.getJSONObject("rmv").getString("valor");
+                                mRepository.insertRmvDB(sueldo);
+                            }
+                            else;
+
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(ANError anError)
+                    {
+
                     }
                 });
 

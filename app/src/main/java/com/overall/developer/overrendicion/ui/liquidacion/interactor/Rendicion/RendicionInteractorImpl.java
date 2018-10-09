@@ -92,7 +92,8 @@ public class RendicionInteractorImpl implements RendicionInteractor
                     {
                         movilidadList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
                                 detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
-                                detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
+                                detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario(),
+                                detalleBean.getDni(), detalleBean.getDatosTrabajador()));
 
                     }
                     mPresenter.getListMovilidad(movilidadList);
@@ -114,7 +115,8 @@ public class RendicionInteractorImpl implements RendicionInteractor
 
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
-                bean.getMotivoViaje(), provinciaEntity, bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.isStatus());
+                bean.getMotivoViaje(), provinciaEntity, bean.getFechaDesde(), bean.getFechaHasta(), bean.getTipoViatico(), bean.getEstado(), bean.getCodEgreso(),
+                bean.getFechaInicioLiq(), bean.getFechaFinLiq(), bean.isStatus());
 
         return entity;
     }
@@ -139,7 +141,8 @@ public class RendicionInteractorImpl implements RendicionInteractor
         {
             entityList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
                     detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
-                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
+                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario(),
+                    detalleBean.getDni(), detalleBean.getDatosTrabajador()));
 
         }
         mPresenter.getListMovilidad(entityList);
@@ -168,7 +171,8 @@ public class RendicionInteractorImpl implements RendicionInteractor
         {
             detalleEntityList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
                     detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
-                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario()));
+                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario(),
+                    detalleBean.getDni(), detalleBean.getDatosTrabajador()));
 
         }
         mPresenter.deleteDetMovSuccess(rendicionList, detalleEntityList);
@@ -192,6 +196,12 @@ public class RendicionInteractorImpl implements RendicionInteractor
     @Override
     public String getUrlImage(String codRendicion) {
         return mRepository.getUrlImageDB(codRendicion);
+    }
+
+    @Override
+    public String getCodLiquidacion()
+    {
+        return mRepository.getCodLiquidacionDB();
     }
 
 }

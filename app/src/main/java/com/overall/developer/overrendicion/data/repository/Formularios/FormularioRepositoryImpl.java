@@ -8,6 +8,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
@@ -156,6 +157,36 @@ public class FormularioRepositoryImpl implements FormularioRepository
 
     @Override
     public void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest) { mApiFormularios.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);}
+
+    @Override
+    public void setTipoCambioApi(String fecha)
+    {
+        mApiFormularios.setTipoCambioApi(fecha);
+    }
+
+    @Override
+    public void insertTipoCambioDB(String desc)
+    {
+        mDbFormularios.insertTipoCambioDB(desc);
+    }
+
+    @Override
+    public String getTipoCambioDB()
+    {
+        return mDbFormularios.getTipoCambioDB();
+    }
+
+    @Override
+    public LiquidacionBean getLiquidacionDB()
+    {
+        return mDbFormularios.getLiquidacionDB();
+    }
+
+    @Override
+    public void errorTipoCambio()
+    {
+        mInteractor.errorTipoCambio();
+    }
 
 
 }

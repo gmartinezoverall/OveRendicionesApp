@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Ca
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.utils.Util;
 import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -49,20 +52,36 @@ import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
-public class CartaPorteAereoFragment extends Fragment {
+public class CartaPorteAereoFragment extends Fragment
+{
 
     //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
     @BindView(R.id.etxRazonSocial)
     CustomEditText etxRazonSocial;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
     @BindView(R.id.etxNDocumento)
     CustomEditText etxNDocumento;
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
-    @BindView(R.id.view6)
-    View view6;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
     @BindView(R.id.spnTipoMoneda)
     NiceSpinner spnTipoMoneda;
     @BindView(R.id.etxValorVenta)
@@ -85,10 +104,6 @@ public class CartaPorteAereoFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnSearch)
-    ImageButton btnSearch;
-    @BindView(R.id.etxNSerie)
-    CustomEditText etxNSerie;
 
     //endregion
 
@@ -109,15 +124,12 @@ public class CartaPorteAereoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+
+        initialCalendar();
         if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoMoneda = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moneda));
         spnTipoMoneda.setAdapter(adapterTipoMoneda);
-
-
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -128,15 +140,12 @@ public class CartaPorteAereoFragment extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) etxPrecioVenta.setText(String.valueOf(etxValorVenta.getText()));
+            if (!hasFocus) sumaTotal();
         });
 
         RxTextView.textChanges(etxRuc)
-                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11))
                 .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
@@ -153,12 +162,16 @@ public class CartaPorteAereoFragment extends Fragment {
 
         });
 
+        RxTextView.textChanges(etxOtrosGastos).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
+        RxTextView.textChanges(etxValorVenta).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
+
+
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, btnSearch);
 
         return mView;
     }
 
-
+    //region Estados Fragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -177,6 +190,7 @@ public class CartaPorteAereoFragment extends Fragment {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
+    //endregion
 
     @Subscribe
     public void searchRucSuccess(Communicator razonSocial) {
@@ -192,7 +206,7 @@ public class CartaPorteAereoFragment extends Fragment {
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
         etxNDocumento.setText(String.valueOf(strings[0]));
         etxNSerie.setText(String.valueOf(strings[1]));
-        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        txvFechaDocumento.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         spnTipoMoneda.setSelectedIndex((rendicionEntity.getTipoMoneda().equals("S") ? 0 : 1));
         etxValorVenta.setText(String.valueOf(rendicionEntity.getValorNeto()));
         if (rendicionEntity.getAfectoIgv().equals("1")) chkAfectoIgv.setChecked(true);
@@ -206,7 +220,7 @@ public class CartaPorteAereoFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.btnGuardar, R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto, R.id.btnSearch})
+    @OnClick({R.id.btnGuardar, R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto, R.id.btnSearch, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnGuardar:
@@ -215,9 +229,8 @@ public class CartaPorteAereoFragment extends Fragment {
                     String tipoMoneda = spnTipoMoneda.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new CartaPorteAereoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()),
-                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
+                            String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-" + String.valueOf(etxNSerie.getText()), String.valueOf(txvFechaDocumento.getText()), tipoMoneda, String.valueOf(getResources().getString(R.string.IGV)), String.valueOf(chkAfectoIgv.isChecked() ? "1" : "0"),
                             String.valueOf(etxOtrosGastos.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(rtgId), String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
-
                 }
                 break;
 
@@ -230,9 +243,9 @@ public class CartaPorteAereoFragment extends Fragment {
                 break;
 
             case R.id.chkAfectoIgv:
-                if (!etxValorVenta.getText().toString().isEmpty()) {
-                    txvMontoIGV.setText(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
-                    etxPrecioVenta.setText(String.valueOf(Double.valueOf(txvMontoIGV.getText().toString()) + Double.valueOf(etxValorVenta.getText().toString())));
+                if (!etxValorVenta.getText().toString().isEmpty())
+                {
+                    sumaTotal();
                 } else {
                     Toast.makeText(mView.getContext(), "Debe ingresar Valor de Venta", Toast.LENGTH_LONG).show();
                     chkAfectoIgv.setChecked(false);
@@ -246,37 +259,57 @@ public class CartaPorteAereoFragment extends Fragment {
 
                 }
                 break;
+            case R.id.lytFecha:
+                lytFecha.setVisibility(View.GONE);
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
+                break;
         }
     }
 
+    private void sumaTotal() {
+        Double neto, igv, otros;
 
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString() .isEmpty() ? 0 : etxValorVenta.getText().toString()));
+        igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
+        txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
+        otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-
+        etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
     }
 
-
     private boolean ValideWidgets() {
-        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() ||
+        if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || txvFechaDocumento.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()
                 || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
         } else return true;
     }
+
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
+        {
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                etxNDocumento.requestFocus();
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
+    }
+    //endregion
 
     //region Foto
 

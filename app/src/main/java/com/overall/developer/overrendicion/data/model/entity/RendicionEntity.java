@@ -9,10 +9,10 @@ public class RendicionEntity
     private String idUsuario;
     private String numeroDoc;
     private String bienServicio;
-    private String igv;
+    private String igv = "0";
     private String afectoIgv;
-    private String valorNeto;
-    private String precioTotal;
+    private String valorNeto = "0";
+    private String precioTotal = "0";
     private String observacion;
     private String fechaDocumento;
     private String fechaVencimiento;
@@ -21,7 +21,7 @@ public class RendicionEntity
     private String bcoCod;
     private String tipoServicio;
     private String rtgId;
-    private String otroGasto;
+    private String otroGasto = "0";
     private String codDestino;
     private String afectoRetencion;
     private String codSuspencionH;

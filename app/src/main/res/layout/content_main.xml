@@ -9,9 +9,25 @@
     tools:context="com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity"
     tools:showIn="@layout/app_bar_main">
 
-        <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
-            android:id="@+id/rvPendiente"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnablePreviewInEditMode="true">
+        <!--srlAccentColor srlPrimaryColor 将会改变 Header 和 Footer 的主题颜色-->
+        <!--srlEnablePreviewInEditMode 可以开启和关闭预览功能-->
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
+
+                <xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
+                    android:id="@+id/rvPendiente"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -24,7 +24,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="RUC: " />
+                    android:text="RUC: "
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -36,23 +38,23 @@
                         android:id="@+id/etxRuc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="9"
                         android:gravity="center"
+                        android:layout_gravity="center"
+                        android:imeOptions="actionNext"
                         android:hint="RUC"
                         android:inputType="number"
                         android:maxLength="11"
-                        android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setCornerRadius="20dp">
-                        <requestFocus />
                     </com.libizo.CustomEditText>
 
                     <ImageButton
@@ -77,14 +79,15 @@
                         android:id="@+id/etxRazonSocial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
                         android:hint="Razon Social"
                         android:inputType="textPersonName"
-                        android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
                         android:textSize="12sp"
                         android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
@@ -103,14 +106,15 @@
                         android:id="@+id/etxNSerie"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
                         android:hint="Número: Serie"
-                        android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:maxLength="4"
                         android:inputType="textCapCharacters"
                         android:digits="@string/factura"
@@ -132,14 +136,15 @@
                         android:id="@+id/etxNDocumento"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
                         android:hint="Número: Documento"
-                        android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:maxLength="8"
                         android:inputType="number"
                         android:digits="@string/numbers"
@@ -149,47 +154,78 @@
                         app:libIZO_setBorderView="true"
                         app:libIZO_setCornerRadius="20dp"/>
 
-                    <View
-                        android:id="@+id/view1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:layout_margin="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"
+                    android:layout_marginTop="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Fecha Documento: "
-                        android:layout_marginTop="5dp"/>
-
-                    <com.libizo.CustomEditText
-                        android:id="@+id/etxCalendar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:hint="feacha documento"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        app:libIZO_setClearIconVisible="true"
-                        app:libIZO_setBorderColor="#d4d2d3"
-                        app:libIZO_setBorderView="true"
-                        app:libIZO_setCornerRadius="20dp"/>
+                        android:text="Fecha Documento:"/>
 
                     <View
-                        android:id="@+id/view6"
+                        android:id="@+id/view1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:layout_margin="10dp"/>
+                        android:background="@color/transparent"/>
+
+                    <LinearLayout
+                        android:id="@+id/lytFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/txvFechaDocumento"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Fecha de Documento"
+                            android:textSize="12sp"/>
+
+                        <LinearLayout
+                            android:id="@+id/lytArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="right|center_vertical"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/ic_arrow_drop_down" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lytCalendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <pyxis.uzuki.live.sectioncalendarview.SectionCalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
+                </LinearLayout>
 
 
                     <TextView
@@ -217,15 +253,16 @@
                     android:id="@+id/etxValorVenta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:hint="Valor Venta"
-                    android:inputType="numberDecimal"
-                    android:paddingBottom="12dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     android:paddingLeft="15dp"
                     android:paddingRight="12dp"
-                    android:paddingTop="12dp"
-                    android:text=""
-                    android:textSize="15sp"
+                    android:hint="0.0"
+                    android:inputType="numberDecimal"
+                    android:textSize="12sp"
                     android:gravity="center"
                     app:libIZO_setClearIconVisible="true"
                     app:libIZO_setBorderColor="#d4d2d3"
@@ -241,8 +278,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
                             android:text="IGV"
-                            android:layout_weight="0.7"/>
+                            android:layout_weight="0.7"
+                            android:checked="true"/>
 
                         <TextView
                             android:id="@+id/txvMontoIGV"
@@ -283,15 +323,16 @@
                         android:id="@+id/etxOtrosGastos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:hint="Otros Gastos"
-                        android:inputType="numberDecimal"
-                        android:paddingBottom="12dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
-                        android:text=""
-                        android:textSize="15sp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
+                        android:hint="0.0"
+                        android:inputType="numberDecimal"
+                        android:textSize="12sp"
                         android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
@@ -319,13 +360,6 @@
                         android:paddingLeft="15dp"/>
 
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:layout_margin="10dp"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -337,16 +371,16 @@
                         android:id="@+id/etxObservaciones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:hint="Observaciones"
                         android:inputType="textPersonName"
-                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="12dp"
-                        android:paddingTop="12dp"
                         android:text=""
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:gravity="center"
                         app:libIZO_setBorderColor="#d4d2d3"
                         app:libIZO_setBorderView="true"

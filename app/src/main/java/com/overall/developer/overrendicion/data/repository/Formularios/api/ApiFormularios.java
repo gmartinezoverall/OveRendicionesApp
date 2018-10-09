@@ -18,4 +18,6 @@ public interface ApiFormularios
     void searchRucApi(String ruc);
 
     void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
+
+    void setTipoCambioApi(String fecha);
 }

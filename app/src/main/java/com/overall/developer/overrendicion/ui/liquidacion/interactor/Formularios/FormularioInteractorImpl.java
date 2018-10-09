@@ -2,9 +2,11 @@ package com.overall.developer.overrendicion.ui.liquidacion.interactor.Formulario
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.overall.developer.overrendicion.BuildConfig;
+import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
@@ -14,6 +16,7 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
@@ -75,11 +78,11 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
 
     @Override
-    public List<String> getProvinciaDestinoList()
+    public List<ProvinciaEntity> getProvinciaDestinoList()
     {
-        List<String> mList = new ArrayList<>();
+        List<ProvinciaEntity> mList = new ArrayList<>();
 
-        for (ProvinciaBean bean : mRepository.getProvinciaDestinoList()) mList.add(bean.getDesc());
+        for (ProvinciaBean bean : mRepository.getProvinciaDestinoList()) mList.add(new ProvinciaEntity(bean.getCode(), bean.getDesc()));
 
         return mList;
     }
@@ -95,6 +98,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
         entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
         entity.setCodLiquidacion(codLiqui);
         entity.setIdUsuario(mRepository.getIdUsuarioDB());
+        entity.setPrecioTotal(String.valueOf(Double.valueOf(entity.getPrecioTotal()) - Double.valueOf(entity.getOtroGasto())));
+        if (entity.getTipoMoneda().equals("D"))entity.setTipoCambio(mRepository.getTipoCambioDB());
+
         Log.i("NDaImage", entity.getFoto());
         String pathTemp = entity.getFoto();
 
@@ -170,7 +176,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         RendicionDetalleEntity entity = new RendicionDetalleEntity(bean.getId(), bean.getIdMovilidad(), bean.getCodRendicion(), bean.getRdoId(), bean.getRtgId(), bean.getPrecioTotal(), bean.getFechaRendicion(),
                 bean.getEstado(), bean.getDestinoMovilidad(), bean.getMontoMovilidad(), bean.getMotivoMovilidad(), bean.getBeneficiario(), bean.getFechaDesde(), bean.getFechaHasta(),
-                bean.getNumBeneficiario());
+                bean.getNumBeneficiario(), bean.getDni(), bean.getDatosTrabajador());
 
         return entity;
 
@@ -181,9 +187,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
         //RendicionDetalleBean detalleDefault = mRepository.setMovilidadForEditDB(movilidadEntity.getId());
-        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(),"-","-",
+        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(), movilidadEntity.getDniTrabajador(),movilidadEntity.getDatosTrabajador(),
                 movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
-                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM(), "-");
+                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM(), movilidadEntity.getFoto());
 
         mRepository.insertMovilidadDB(bean);
 
@@ -246,6 +252,25 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         }
 
+    }
+
+    @Override
+    public void setTipoCambio()
+    {
+        mRepository.setTipoCambioApi(String.valueOf(Util.getCurrentDate()));
+    }
+
+    @Override
+    public LiquidacionEntity getLiquidacion()
+    {
+        LiquidacionEntity liquidacionEntity = new LiquidacionEntity(mRepository.getLiquidacionDB());
+        return liquidacionEntity;
+    }
+
+    @Override
+    public void errorTipoCambio()
+    {
+        //Toast.makeText(mContext, mContext.getResources().getString(R.string.servidorError), Toast.LENGTH_LONG).show();
     }
 
     @Override

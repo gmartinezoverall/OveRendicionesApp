@@ -1,8 +1,10 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -23,9 +25,11 @@ import android.widget.Toast;
 
 import com.asksira.dropdownview.DropDownView;
 import com.github.florent37.awesomebar.AwesomeBar;
+import com.jaredrummler.android.widget.AnimatedSvgView;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.BancoEntity;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
@@ -62,9 +66,13 @@ import com.overall.developer.overrendicion.utils.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -103,6 +111,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     private RendicionDetalleEntity rendicionDetalleEntity;
     private String nombreUser, emailUser, codLiquidacion;
     private Boolean visible = false;
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +126,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         txvSaldo.setText(listDefault.get(2));
         txvTitulo.setText("Formularios");
 
+        mPresenter.setTipoCambio();
 
         List<String> typeFormList = Arrays.asList(getResources().getStringArray(R.array.formularios));
         sesionManager();
@@ -124,6 +134,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         fragmentManager = getSupportFragmentManager();
         dropdownview.setDropDownListItem(typeFormList);
         codLiquidacion = mPresenter.getCodLiquidacion();
+
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -221,7 +232,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return mPresenter.getDocumentForId(String.valueOf(Util.getIdFragment(dropdownview.getSelectingPosition())));
     }
 
-    public List<String> getListProvinciaDestino() {
+    public List<ProvinciaEntity> getListProvinciaDestino() {
         return mPresenter.getProvinciaDestinoList();
     }
 
@@ -233,9 +244,19 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return mPresenter.getAllBancos();
     }
 
-    public void searchRuch(String ruc) {
+    public void searchRuch(String ruc)
+    {
+        showDialog();
         mPresenter.searchRuc(ruc);
     }
+
+    public LiquidacionEntity getLiquidacion()
+    {
+        return mPresenter.getLiquidacion();
+
+    }
+
+
 
     public void saveAndSendData(int idFragment, Object objectDinamyc) {
         List<String> typeFragment = new ArrayList<>();
@@ -268,11 +289,12 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     }
 
     @Override
-    public void searchRucSuccess(String razonSocial) {
+    public void searchRucSuccess(String razonSocial)
+    {
         OttoBus.getBus().post(new Communicator(razonSocial));
+        mDialog.dismiss();
 
     }
-
 
     //region NavigationView
 
@@ -333,6 +355,34 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         DrawerLayout drawer = findViewById(R.id.drawer_layout_formularios);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    //endregion
+
+    //region Dialog
+    private void showDialog()
+    {
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.dialog_progress);
+        AnimatedSvgView svgView = mDialog.findViewById(R.id.animated_svg_view);
+        //svgView.postDelayed(() -> svgView.start(), 200);
+
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundtext_card)));
+        mDialog.setCancelable(false);
+        mDialog.show();
+
+        Observable.interval(500, 3500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(timer-> svgView.start());
+    }
+
+    void timerInterval()
+    {
+        Observable.interval(3000, TimeUnit.MILLISECONDS)
+                .subscribe(timer->
+                {
+                    mDialog.dismiss();
+                });
     }
     //endregion
 }

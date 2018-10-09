@@ -13,6 +13,7 @@
     <string name="Upload">Subiendo</string>
     <string name="Bienvenido">Bienvenido</string>
     <string name="Mensaje">Por medio de esta aplicacion podrás rendir tus documentos por concepto de viaticos, movilidad, entregas y otros.</string>
+    <string name="Mensaje2">Si no has ingresado anteriormente presiona en la opción <u>Registrar</u></string>
     <string name="Recovery">Recuperar</string>
     <string name="Register">Registrar</string>
     <string name="Registered">Registrarse</string>
@@ -186,6 +187,7 @@
 
     <string name="autocomplete">00000000000000000000</string>
     <string name="validateValorVenta">El importe no puede ser mayor a 700</string>
+    <string name="validateValorVentaLidacion">El importe no puede ser mayor</string>
     <string name="sendEmailSuccess">Se envio un Resumen a tu correo</string>
     <string name="sendEmailError">Error, No se pudo enviar la solicitud</string>
 

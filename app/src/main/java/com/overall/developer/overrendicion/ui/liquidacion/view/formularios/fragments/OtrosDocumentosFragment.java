@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,23 +17,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
-import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
-import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
-import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,25 +42,32 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
 
 public class OtrosDocumentosFragment extends Fragment {
 
     //region Injeccion de Vistas
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
     @BindView(R.id.etxNSerie)
     CustomEditText etxNSerie;
     @BindView(R.id.etxNDocumento)
     CustomEditText etxNDocumento;
-    @BindView(R.id.view1)
-    View view1;
     @BindView(R.id.etxMontoAfectado)
     CustomEditText etxMontoAfectado;
     @BindView(R.id.etxMontoNoAfectado)
@@ -81,6 +84,7 @@ public class OtrosDocumentosFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+
     //endregion
 
     private SpinnerDialog spinnerDialogTipoGasto;
@@ -98,11 +102,9 @@ public class OtrosDocumentosFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
-        if (rendicionEntity != null) setAllDefaultValues();
 
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
+        initialCalendar();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -115,13 +117,15 @@ public class OtrosDocumentosFragment extends Fragment {
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus) etxNSerie.setText(String.valueOf(etxNSerie.getText())+ getResources().getString(R.string.autocomplete));
+            if (!hasFocus)
+                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
         });
 
         etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus) etxNDocumento.setText(String.valueOf(etxNDocumento.getText())+ getResources().getString(R.string.autocomplete));
+            if (!hasFocus)
+                etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
         });
 
@@ -141,7 +145,7 @@ public class OtrosDocumentosFragment extends Fragment {
 
         String[] strings = rendicionEntity.getNumeroDoc().split("\\-");
 
-        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        txvFechaDocumento.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxNSerie.setText(String.valueOf(strings[0]));
         etxNDocumento.setText(String.valueOf(strings[1]));
         etxMontoAfectado.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
@@ -153,32 +157,17 @@ public class OtrosDocumentosFragment extends Fragment {
 
     }
 
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-    }
 
     private boolean ValideWidgets() {
-        if (etxCalendar.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxMontoAfectado.getText().toString().isEmpty()
+        if (txvFechaDocumento.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || etxMontoAfectado.getText().toString().isEmpty()
                 || etxMontoNoAfectado.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty() || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
         } else return true;
     }
 
-    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar})
+    //region OnClick
+    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnTipoGasto:
@@ -191,13 +180,44 @@ public class OtrosDocumentosFragment extends Fragment {
 
                 if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new OtrosDocumentosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxCalendar.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxMontoAfectado.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
+                            String.valueOf(txvFechaDocumento.getText()), String.valueOf(etxNDocumento.getText()) + "-" + String.valueOf(etxNSerie.getText()), String.valueOf(etxMontoAfectado.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
                             String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
                 }
                 break;
+            case R.id.lytFecha:
+                lytFecha.setVisibility(View.GONE);
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
+                break;
         }
     }
+
+    //endregion
+
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
+        {
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                etxNDocumento.requestFocus();
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
+    }
+    //endregion
 
 
     //region Foto

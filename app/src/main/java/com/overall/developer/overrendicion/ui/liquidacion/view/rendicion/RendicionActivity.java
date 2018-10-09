@@ -104,7 +104,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     String nombreUser;
     String emailUser;
     ImageView imgFoto;
-    String pathImage;
+    String pathImage, codLiquidacion;
     Dialog mDialog;
 
     @Override
@@ -116,11 +116,10 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         AWSMobileClient.getInstance().initialize(this, awsStartupResult -> Log.d("AWS", "Conneccion exitosa a AWS :D")).execute();
         mPresenter = new RendicionPresenterImpl(this, this);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
-        {
-            mLiquidacionEntity = mPresenter.getForCodLiquidacion(String.valueOf(bundle.getString("CodLiquidacion")));
-            txvCodLiquidacion.setText(String.valueOf(mLiquidacionEntity.getCodLiquidacion()));
-        }
+        if (bundle != null) mLiquidacionEntity = mPresenter.getForCodLiquidacion(String.valueOf(bundle.getString("CodLiquidacion")));
+
+        txvCodLiquidacion.setText(String.valueOf(mPresenter.getCodLiquidacion()));
+
         sesionManager();
         initialDrawable();
         showDialog();
@@ -239,7 +238,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         mDialog.setCancelable(false);
         mDialog.show();
 
-        Observable.interval(1, 3, TimeUnit.SECONDS)
+        Observable.interval(1000, 3500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(timer-> svgView.start());

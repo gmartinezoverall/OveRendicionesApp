@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Re
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.utils.Util;
 import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -49,18 +51,40 @@ import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
-public class ReciboServiciosPublicos extends Fragment {
+public class ReciboServiciosPublicos extends Fragment
+{
 
     //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
     @BindView(R.id.etxRazonSocial)
     CustomEditText etxRazonSocial;
+    @BindView(R.id.etxNSerie)
+    CustomEditText etxNSerie;
+    @BindView(R.id.etxNDocumento)
+    CustomEditText etxNDocumento;
     @BindView(R.id.spnTipoServicio)
     NiceSpinner spnTipoServicio;
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
+    @BindView(R.id.etxVencimiento)
+    CustomEditText etxVencimiento;
     @BindView(R.id.etxValorVenta)
     CustomEditText etxValorVenta;
     @BindView(R.id.txvIgv)
@@ -79,14 +103,7 @@ public class ReciboServiciosPublicos extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnSearch)
-    ImageButton btnSearch;
-    @BindView(R.id.etxNSerie)
-    CustomEditText etxNSerie;
-    @BindView(R.id.etxNDocumento)
-    CustomEditText etxNDocumento;
-    @BindView(R.id.etxVencimiento)
-    CustomEditText etxVencimiento;
+
     //endregion
 
 
@@ -106,6 +123,8 @@ public class ReciboServiciosPublicos extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
+
+        initialCalendar();
         if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayAdapter<String> adapterTipoServicio = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_servicio));
@@ -120,10 +139,6 @@ public class ReciboServiciosPublicos extends Fragment {
             rtgId = ((TipoGastoEntity) item).getRtgId().toString();
         });
 
-
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -141,7 +156,7 @@ public class ReciboServiciosPublicos extends Fragment {
         });
 
         RxTextView.textChanges(etxRuc)
-                .filter(etx -> (etx.length() > 0 && etx.length() != 11 ))
+                .filter(etx -> (etx.length() > 0 && etx.length() != 11))
                 .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
@@ -196,7 +211,7 @@ public class ReciboServiciosPublicos extends Fragment {
         etxRazonSocial.setText(String.valueOf(rendicionEntity.getRazonSocial()));
         etxNSerie.setText(String.valueOf(strings[0]));
         etxNDocumento.setText(String.valueOf(strings[1]));
-        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        txvFechaDocumento.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxValorVenta.setText(String.valueOf(rendicionEntity.getPrecioTotal()));
         txvIgv.setText(String.valueOf(rendicionEntity.getIgv()));
         spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
@@ -206,27 +221,8 @@ public class ReciboServiciosPublicos extends Fragment {
 
     }
 
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-            //if (!etxCalendar.getText().toString().isEmpty());
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-
-    }
-
-
-    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch})
+    //region OnClick
+    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.btnSearch, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnTipoGasto:
@@ -240,9 +236,8 @@ public class ReciboServiciosPublicos extends Fragment {
                     //String tipoMoneda = mSpnTipoDocumento.getSelectedIndex() == 0 ? "S" : "D";
                     // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ReciboServiciosPublicosEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-"+ String.valueOf(etxNSerie.getText()), String.valueOf(etxCalendar.getText()), String.valueOf(rtgId), String.valueOf(txvIgv.getText()), String.valueOf("1"),
+                            String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()), String.valueOf(etxNDocumento.getText()) + "-" + String.valueOf(etxNSerie.getText()), String.valueOf(txvFechaDocumento.getText()), String.valueOf(rtgId), String.valueOf(txvIgv.getText()), String.valueOf("1"),
                             String.valueOf(etxImpNoAfectado.getText()), String.valueOf(etxPrecioVenta.getText()), String.valueOf(pathImage)));
-
                 }
                 break;
             case R.id.btnSearch:
@@ -253,16 +248,46 @@ public class ReciboServiciosPublicos extends Fragment {
 
                 }
                 break;
+            case R.id.lytFecha:
+                lytFecha.setVisibility(View.GONE);
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
+                break;
         }
     }
+    //endregion
 
     private boolean ValideWidgets() {
-        if (etxNDocumento.getText().toString().isEmpty() || etxCalendar.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
+        if (etxNDocumento.getText().toString().isEmpty() || txvFechaDocumento.getText().toString().isEmpty() || etxValorVenta.getText().toString().isEmpty()
                 || spnTipoGasto.getText().equals("Seleccionar") || etxImpNoAfectado.getText().toString().isEmpty() || pathImage == null) {
             return false;
 
         } else return true;
     }
+
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
+        {
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                etxNDocumento.requestFocus();
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
+    }
+    //endregion
 
     //region Foto
 

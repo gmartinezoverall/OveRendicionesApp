@@ -182,10 +182,10 @@ public class ApiRendicionImpl implements ApiRendicion
                         try
                         {
                             mRendionList = gson.fromJson(jsonObject.getString("rendicion"), collectionType);
+                            mRepository.insertListRendicionInDB(mRendionList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mRepository.insertListRendicionInDB(mRendionList);
 
                     }
 

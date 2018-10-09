@@ -8,8 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".RendicionApplication"
@@ -28,12 +27,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.liquidacion.view.pendiente.PendienteActivity" />
+        <activity android:name=".ui.liquidacion.view.pendiente.PendienteActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.user.view.CreateAccount.CreateAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".ui.liquidacion.view.rendicion.RendicionActivity" />
-        <activity android:name=".ui.liquidacion.view.formularios.FormularioActivity" />
+        <activity android:name=".ui.liquidacion.view.rendicion.RendicionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.liquidacion.view.formularios.FormularioActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity" />
 
         <service
@@ -63,7 +62,7 @@
 
         <activity android:name=".ui.user.view.Drawable.RecoveryPasswordActivity" />
         <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity" />
-        <activity android:name=".ui.liquidacion.view.rendicion.contentFoto.FotoContentActivity"></activity>
+
     </application>
 
 </manifest>

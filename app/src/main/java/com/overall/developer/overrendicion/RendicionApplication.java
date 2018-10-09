@@ -1,25 +1,31 @@
 package com.overall.developer.overrendicion;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 
 import com.androidnetworking.AndroidNetworking;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crash.FirebaseCrash;
+
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class RendicionApplication extends Application
-{
+public class RendicionApplication extends Application {
     private static Context sContext;
-    private static RendicionApplication sLiquidacionApplication ;
+    private static RendicionApplication sLiquidacionApplication;
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+
+        sendCrashReport();
 
         sLiquidacionApplication = this;
         sContext = getApplicationContext();
@@ -31,9 +37,17 @@ public class RendicionApplication extends Application
                 .build();
         Realm.setDefaultConfiguration(config);
 
-
     }
 
+    private void sendCrashReport() {
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            return;
+        }
+        String mPhoneNumber = tMgr.getLine1Number();
+        FirebaseCrash.log("ASD.Cell -> "+ mPhoneNumber);
+    }
 
     public static Context getContext() {
         return sContext;

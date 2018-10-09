@@ -14,6 +14,7 @@ import com.overall.developer.overrendicion.RendicionApplication;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +35,32 @@ public class Util
 
         return mdformat.format(calendar.getTime());
 
+    }
+
+    public static String getChangeOrderDate(String date) {
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return output.format(input.parse(date));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+
+    }
+
+    public static String changeDateFormat(String date)
+    {
+        SimpleDateFormat input = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return output.format(input.parse(date));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 

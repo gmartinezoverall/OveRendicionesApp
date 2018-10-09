@@ -13,16 +13,15 @@ import java.util.List;
 public interface PendientePresenter
 {
     //region Sets
-    void setAllDocument();
-    void setAllBanco();
     UserBean getUser();
     void listPendiente(String dniUser);
     void filterLiquidacion(String entidad, String texto);
     void filterLiquidacionForUser(String dniUser);
     void insertProvincia(String dniUser);
     void refreshList(String dniUser);
-    void sendResumeEmail();
-    int pendienteListCount();
+    void sendResumeEmail(String codRendicion);
+    boolean validateRendicionisEmpy(String codLiquidacion);
+    void initialDefaultApis();
     //endregion
 
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.SinSustentoTributarioEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.File;
@@ -42,12 +44,26 @@ import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
-public class SinSustentoTributarioFragment extends Fragment {
+public class SinSustentoTributarioFragment extends Fragment
+{
 
     //region Injeccion de Vistas
-    @BindView(R.id.etxCalendar)
-    CustomEditText etxCalendar;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.txvFechaDocumento)
+    TextView txvFechaDocumento;
+    @BindView(R.id.lytArrow)
+    LinearLayout lytArrow;
+    @BindView(R.id.lytFecha)
+    LinearLayout lytFecha;
+    @BindView(R.id.calendarView)
+    SectionCalendarView calendarView;
+    @BindView(R.id.lytCalendar)
+    LinearLayout lytCalendar;
+    @BindView(R.id.view2)
+    View view2;
     @BindView(R.id.etxMontoNoAfectado)
     CustomEditText etxMontoNoAfectado;
     @BindView(R.id.spnTipoGasto)
@@ -60,6 +76,7 @@ public class SinSustentoTributarioFragment extends Fragment {
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+
     //endregion
 
     private SpinnerDialog spinnerDialogTipoGasto;
@@ -77,11 +94,9 @@ public class SinSustentoTributarioFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
-        if (rendicionEntity != null) setAllDefaultValues();
 
-        etxCalendar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) showDatePickerDialog();
-        });
+        initialCalendar();
+        if (rendicionEntity != null) setAllDefaultValues();
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -106,7 +121,7 @@ public class SinSustentoTributarioFragment extends Fragment {
     private void setAllDefaultValues() {
         gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGasto();
 
-        etxCalendar.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
+        txvFechaDocumento.setText(String.valueOf(rendicionEntity.getFechaDocumento()));
         etxMontoNoAfectado.setText(rendicionEntity.getOtroGasto());
         spnTipoGasto.setText(String.valueOf(gastoEntity.getRtgDes()));
         rtgId = String.valueOf(gastoEntity.getRtgId());
@@ -115,32 +130,18 @@ public class SinSustentoTributarioFragment extends Fragment {
 
     }
 
-    private void showDatePickerDialog() {
-        int mYear, mMonth, mDay;
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mView.getContext(), (view, year, month, dayOfMonth) ->
-        {
-            etxCalendar.setText(String.valueOf(dayOfMonth) + "/" + month + "/" + year);
-
-        }, mYear, mMonth, mDay);
-
-        datePickerDialog.show();
-
-    }
 
     private boolean ValideWidgets() {
-        if (etxCalendar.getText().toString().isEmpty() || etxMontoNoAfectado.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
-                || etxObservaciones.getText().toString().isEmpty()|| pathImage == null) {
+        if (txvFechaDocumento.getText().toString().isEmpty() || etxMontoNoAfectado.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar")
+                || etxObservaciones.getText().toString().isEmpty() || pathImage == null) {
             Toast.makeText(mView.getContext(), getResources().getString(R.string.validarCampos), Toast.LENGTH_LONG).show();
             return false;
         } else return true;
     }
 
-    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar})
+
+    //region OnClick
+    @OnClick({R.id.spnTipoGasto, R.id.btnFoto, R.id.btnGuardar, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.spnTipoGasto:
@@ -150,16 +151,44 @@ public class SinSustentoTributarioFragment extends Fragment {
                 Pix.start(this, 100, 1);//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
                 break;
             case R.id.btnGuardar:
-                if (ValideWidgets())
-                {
+                if (ValideWidgets()) {
                     ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new SinSustentoTributarioEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()),
-                            String.valueOf(etxCalendar.getText()),  String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
+                            String.valueOf(txvFechaDocumento.getText()), String.valueOf(etxMontoNoAfectado.getText()), String.valueOf(rtgId),
                             String.valueOf(etxObservaciones.getText()), String.valueOf(pathImage)));
 
                 }
                 break;
+            case R.id.lytFecha:
+                lytFecha.setVisibility(View.GONE);
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                calendarView.clearDate();
+                break;
         }
     }
+    //endregion
+
+    //region Calendar
+    private void initialCalendar()
+    {
+        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        calendarView.setDateFormat("dd/MM/yyyy");
+        calendarView.setPreventPreviousDate(false);
+        //calendarView.setErrToastMessage(R.string.error_date);
+        calendarView.setOnDaySelectedListener((startDay, endDay) ->
+        {
+            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+            if (!startDay.equals("")) {
+                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                lytFecha.setVisibility(View.VISIBLE);
+            }
+        });
+        calendarView.buildCalendar();
+    }
+    //endregion
 
     //region Foto
 
