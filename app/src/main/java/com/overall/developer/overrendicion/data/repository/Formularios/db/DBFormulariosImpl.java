@@ -184,7 +184,7 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            OtrosBean bean = new OtrosBean();
+            OtrosBean bean = mRealm.where(OtrosBean.class).findFirst();
             bean.setTipoCambio(desc);
             mRealm.insertOrUpdate(bean);
         });

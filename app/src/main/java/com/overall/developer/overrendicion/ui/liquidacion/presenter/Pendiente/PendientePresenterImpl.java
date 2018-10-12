@@ -36,6 +36,12 @@ public class PendientePresenterImpl implements PendientePresenter
         mInteractor.finisLogin();
     }
 
+    @Override
+    public void successSendResume() { mView.successSendResume();}
+
+    @Override
+    public void errorSendResume() { mView.errorSendResume();}
+
     //region Interfaces
     @Override
     public void listPendiente(String dniUser)

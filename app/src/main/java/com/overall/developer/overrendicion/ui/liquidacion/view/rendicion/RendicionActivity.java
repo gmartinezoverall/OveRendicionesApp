@@ -54,6 +54,7 @@ import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActi
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 
 import com.overall.developer.overrendicion.utils.GlideApp;
+import com.overall.developer.overrendicion.utils.Util;
 import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -226,6 +227,12 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     }
 
+    @Override
+    public void sendPhotoSuccess()
+    {
+
+    }
+
     //region ShowDialog
     private void showDialog()
     {
@@ -247,6 +254,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     private void showCustomDialog(String codRendicion)
     {
+        //AwsUtility.downloadWithTransferUtility(this);
 
         Dialog mDialog = new Dialog(this);
         mDialog.setContentView(R.layout.dialog_foto);
@@ -258,8 +266,12 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         TextView txvGuardar = mDialog.findViewById(R.id.txvGuardar);
         txvGuardar.setOnClickListener(v ->
         {
-            mPresenter.sendDataPhote(codRendicion, pathImage);
             mDialog.dismiss();
+            if (pathImage != null) {
+                mPresenter.sendDataPhote(codRendicion, pathImage);
+                showDialog();
+                mPresenter.listRendicion();
+            }
 
         });
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -270,8 +282,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         GlideApp.with(this)
                 //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
                 .load(urlImage)
-                .placeholder(R.drawable.ic_email)
-                .error(R.drawable.ic_add_a_photo)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH)
                 .into(imgFoto);

@@ -124,6 +124,12 @@ public class FormularioPresenterImpl implements FormularioPresenter
     }
 
     @Override
+    public void searchRucError()
+    {
+        mView.searchRucError();
+    }
+
+    @Override
     public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
         mInteractor.saveDataMovilidadMultiple(movilidadEntity);
     }

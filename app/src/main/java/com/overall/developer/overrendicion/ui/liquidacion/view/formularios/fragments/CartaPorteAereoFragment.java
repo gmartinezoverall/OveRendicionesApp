@@ -150,14 +150,13 @@ public class CartaPorteAereoFragment extends Fragment
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus)
-                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+            if (!hasFocus && etxNSerie != null) etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
         });
 
         etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus)
+            if (!hasFocus && etxNDocumento!= null)
                 etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
         });

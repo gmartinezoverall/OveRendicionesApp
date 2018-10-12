@@ -31,7 +31,13 @@ public interface RendicionInteractor
 
     void sendDataPhote(String codRendicion, String pathImage);
 
+    void sendPhotoError();
+
+    void sendPhotoSuccess();
+
     String getUrlImage(String codRendicion);
 
     String getCodLiquidacion();
+
+
 }

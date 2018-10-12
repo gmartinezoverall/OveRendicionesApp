@@ -2,7 +2,6 @@ package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.frag
 
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,6 +30,7 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
@@ -45,7 +45,11 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import org.angmarch.views.NiceSpinner;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,8 +61,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
-public class FacturaFragment extends Fragment
-{
+public class FacturaFragment extends Fragment {
 
     //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
@@ -107,6 +110,8 @@ public class FacturaFragment extends Fragment
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
+    @BindView(R.id.txvRuc)
+    TextView txvRuc;
 
     //endregion
 
@@ -116,7 +121,7 @@ public class FacturaFragment extends Fragment
     private RendicionEntity rendicionEntity;
     private TipoGastoEntity gastoEntity;
     private String pathImage;
-
+    private LiquidacionEntity liquidacionEntity;
 
     Unbinder unbinder;
     View mView;
@@ -127,6 +132,7 @@ public class FacturaFragment extends Fragment
         mView = inflater.inflate(R.layout.fragment_factura, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
 
         initialCalendar();
@@ -139,24 +145,23 @@ public class FacturaFragment extends Fragment
         spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes());
+            rtgId = ((TipoGastoEntity) item).getRtgId();
         });
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) sumaTotal();
+            if (!hasFocus && etxValorVenta != null) sumaTotal();
         });
 
         etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus)
-                etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
+            if (!hasFocus && etxNSerie != null) etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
         });
 
         etxNDocumento.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (!hasFocus)
+            if (!hasFocus && etxNDocumento!= null)
                 etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
         });
@@ -181,12 +186,14 @@ public class FacturaFragment extends Fragment
     private void sumaTotal() {
         Double neto, igv, otros;
 
-        neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString() .isEmpty() ? 0 : etxValorVenta.getText().toString()));
-        igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
-        txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
-        otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
+        if (etxValorVenta != null) {
+            neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString().isEmpty() ? 0 : etxValorVenta.getText().toString()));
+            igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
+            txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
+            otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
 
-        etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
+            etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
+        }
     }
 
     private void setAllDefaultValues() {
@@ -220,7 +227,7 @@ public class FacturaFragment extends Fragment
 
     }
 
-
+    //region Estados Fragmento
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -234,15 +241,17 @@ public class FacturaFragment extends Fragment
 
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
         OttoBus.getBus().unregister(this);
     }
 
+    //endregion
+
     @Subscribe
-    public void searchRucSuccess(Communicator razonSocial)
-    {
+    public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
         etxRazonSocial.setEnabled(false);
         etxNSerie.requestFocus();
@@ -281,8 +290,7 @@ public class FacturaFragment extends Fragment
                 }
                 break;
             case R.id.btnSearch:
-                if (etxRuc.getText().toString().length() == 11)
-                {
+                if (etxRuc.getText().toString().length() == 11) {
                     ((FormularioActivity) getContext()).searchRuch(String.valueOf(etxRuc.getText()));
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.validarRuc), Toast.LENGTH_LONG).show();
@@ -299,23 +307,64 @@ public class FacturaFragment extends Fragment
     }
 
     //region Calendar
-    private void initialCalendar()
-    {
+    private void initialCalendar() {
         txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);
         calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
-            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
-            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
-            if (!startDay.equals("")) {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                etxNDocumento.requestFocus();
-                lytFecha.setVisibility(View.VISIBLE);
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
+
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateNow = format.parse(Util.changeDateFormat(startDay));
+                    Date dateBefore = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)));
+                    Date dateAfter = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)));
+
+                    if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
+                    {
+                        txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+                        txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+                        txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+                        if (!startDay.equals("")) {
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                            etxValorVenta.requestFocus();
+                            lytFecha.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        calendarView.clearDate();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+                //if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf("10/08/2018")))
+/*                {
+                    txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+                    txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+                    txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+                    if (!startDay.equals("")) {
+                        lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                        lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                        etxValorVenta.requestFocus();
+                        lytFecha.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.errorDate), Toast.LENGTH_LONG).show();
+
+                }*/
             }
+
         });
         calendarView.buildCalendar();
     }

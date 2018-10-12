@@ -27,10 +27,16 @@
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="8dp">
 
+            <com.daimajia.androidviewhover.BlurLayout
+                android:id="@+id/lytBlur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
             <FrameLayout
                 android:background="@color/pendienteColor"
                 android:layout_width="5dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="100dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,7 +47,7 @@
                     android:id="@+id/lytFondo"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="100dp"
                     android:padding="4dp">
 
                     <LinearLayout
@@ -157,66 +163,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/viewButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <View
-                        android:id="@+id/view6"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp">
-
-
-                        <Button
-                            android:id="@+id/btnDatos"
-                            android:layout_width="100dp"
-                            android:layout_height="25dp"
-                            android:text="Datos"
-                            android:textColor="@color/white"
-                            android:background="@drawable/button_style"/>
-
-                        <Button
-                            android:id="@+id/btnRendicion"
-                            android:layout_width="100dp"
-                            android:layout_height="25dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="10dp"
-                            android:text="Rendicion"
-                            android:textColor="@color/white"
-                            android:background="@drawable/button_style"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEnviarResumen"
-                            android:layout_width="60dp"
-                            android:layout_height="25dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/ic_menu_send"
-                            android:background="@drawable/button_style"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </LinearLayout>
 
-
+            </com.daimajia.androidviewhover.BlurLayout>
 
         </android.support.v7.widget.CardView>
 

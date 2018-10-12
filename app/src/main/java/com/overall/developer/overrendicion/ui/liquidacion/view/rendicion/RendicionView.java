@@ -15,4 +15,6 @@ public interface RendicionView
     void getListMovilidad(List<RendicionDetalleEntity> listMovilidad);
 
     void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList);
+
+    void sendPhotoSuccess();
 }

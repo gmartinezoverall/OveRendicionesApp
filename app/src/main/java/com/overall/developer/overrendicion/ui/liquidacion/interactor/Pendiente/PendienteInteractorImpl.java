@@ -164,12 +164,14 @@ public class PendienteInteractorImpl implements PendienteInteractor
     public void successSendResume()
     {
         Toast.makeText(mContext, String.valueOf(mContext.getResources().getString(R.string.sendEmailSuccess)),Toast.LENGTH_SHORT).show();
+        mPresenter.successSendResume();
     }
 
     @Override
     public void errorSendResume()
     {
         Toast.makeText(mContext, String.valueOf(mContext.getResources().getString(R.string.sendEmailError)),Toast.LENGTH_SHORT).show();
+        mPresenter.errorSendResume();
     }
 
     private void listUserForDNI(String dniUser)

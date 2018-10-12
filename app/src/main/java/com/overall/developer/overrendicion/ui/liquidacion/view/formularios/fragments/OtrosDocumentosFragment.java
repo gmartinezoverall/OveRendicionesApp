@@ -129,6 +129,8 @@ public class OtrosDocumentosFragment extends Fragment {
 
         });
 
+
+
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto);
 
         return mView;

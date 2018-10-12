@@ -296,6 +296,12 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
     }
 
+    @Override
+    public void searchRucError()
+    {
+        mDialog.dismiss();
+    }
+
     //region NavigationView
 
     @Override

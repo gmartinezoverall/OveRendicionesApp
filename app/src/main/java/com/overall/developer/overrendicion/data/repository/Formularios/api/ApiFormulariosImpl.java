@@ -160,7 +160,8 @@ public class ApiFormulariosImpl implements ApiFormularios
 
     private void searchRucProveedoresAPi(String ruc)
     {
-        AndroidNetworking.get(UrlApi.urlSearchProveedores)
+        AndroidNetworking.post(UrlApi.urlSearchProveedores)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
                 .addPathParameter("ruc", ruc)
                 .setPriority(Priority.IMMEDIATE)
                 .build()
@@ -175,6 +176,10 @@ public class ApiFormulariosImpl implements ApiFormularios
                                 String desc = response.getJSONArray("proveedor").getJSONObject(0).getString("desc");
                                 mRepository.searchRucSuccess(desc);
                             }
+                            else
+                            {
+                                mRepository.searchRucError();
+                            }
                         } catch (JSONException e)
                         {
                             e.printStackTrace();
@@ -182,8 +187,9 @@ public class ApiFormulariosImpl implements ApiFormularios
                     }
 
                     @Override
-                    public void onError(ANError anError) {
-
+                    public void onError(ANError anError)
+                    {
+                        Log.e("ApiFormulariosImpl", anError.getResponse().toString());
                     }
                 });
     }

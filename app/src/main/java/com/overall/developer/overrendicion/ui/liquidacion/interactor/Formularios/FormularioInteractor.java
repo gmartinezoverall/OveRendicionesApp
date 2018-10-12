@@ -47,6 +47,8 @@ public interface FormularioInteractor
 
     void searchRucSuccess(String razonSocial);
 
+    void searchRucError();
+
     void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
 
     void setTipoCambio();
@@ -54,4 +56,6 @@ public interface FormularioInteractor
     LiquidacionEntity getLiquidacion();
 
     void errorTipoCambio();
+
+
 }

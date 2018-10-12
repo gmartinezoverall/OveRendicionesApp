@@ -233,6 +233,13 @@ public class FormularioInteractorImpl implements FormularioInteractor
     }
 
     @Override
+    public void searchRucError()
+    {
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.rucError), Toast.LENGTH_LONG).show();
+        mPresenter.searchRucError();
+    }
+
+    @Override
     public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity)
     {
         String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();

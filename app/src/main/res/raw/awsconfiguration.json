@@ -4,8 +4,8 @@
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "us-east-2:5da16a77-7996-49fc-ac36-c1af2777b2ee",
-        "Region": "us-east-2"
+        "PoolId": "us-east-1:645fb963-3675-4b49-a5dd-48fd493ea010",
+        "Region": "us-east-1"
       }
     }
   },
@@ -14,13 +14,13 @@
   },
   "S3TransferUtility": {
     "Default": {
-      "Bucket": "overrendicion-userfiles-mobilehub-1058830409",
-      "Region": "us-east-2"
+      "Bucket": "overrendicionfotos-userfiles-mobilehub-924249223",
+      "Region": "us-east-1"
     }
   },
   "PinpointAnalytics": {
     "Default": {
-      "AppId": "5d208a638cff40b89f312cca3ade883a",
+      "AppId": "3302bd69ac0641e1930f2715d5ef0303",
       "Region": "us-east-1"
     }
   },
@@ -31,8 +31,8 @@
   },
   "UserFileManager": {
     "Default": {
-      "Bucket": "overrendicion-userfiles-mobilehub-1058830409",
-      "Region": "us-east-2"
+      "Bucket": "overrendicionfotos-userfiles-mobilehub-924249223",
+      "Region": "us-east-1"
     }
   }
 }

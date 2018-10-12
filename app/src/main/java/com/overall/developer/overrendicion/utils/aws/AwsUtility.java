@@ -23,17 +23,15 @@ public class AwsUtility
     {
         AWSMobileClient.getInstance().initialize(context).execute();
 
-        TransferUtility transferUtility =
-                TransferUtility.builder()
-                        .context(context)
-                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
-                        .build();
+        TransferUtility transferUtility =   TransferUtility.builder()
+                                            .context(RendicionApplication.getContext())
+                                            .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                                            .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
+                                            .build();
 
-        TransferObserver uploadObserver =
-                transferUtility.upload(
-                        "uploads/"+ path.substring(34),
-                        new File(path));
+        TransferObserver uploadObserver =  transferUtility.upload(
+                                        "uploads/"+ path.substring(34),
+                                            new File(path));
 
         Log.i("AWS",path);
 
@@ -83,21 +81,18 @@ public class AwsUtility
     {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/overRendicion/";
 
-        TransferUtility transferUtility =
-                TransferUtility.builder()
-                        .context(RendicionApplication.getContext())
-                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
-                        .build();
+        TransferUtility transferUtility =   TransferUtility.builder()
+                                            .context(context)
+                                            .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                                            .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
+                                            .build();
 
-        TransferObserver downloadObserver =
-                transferUtility.download(
-                        "uploads/20180826232411.jpg",
-                        new File(path+"20180826232411.jpg"));
+        TransferObserver downloadObserver = transferUtility.download("uploads/20181012022614.jpg",
+                                            new File(path+"20181012022614.jpg"));
 
         // Attach a listener to the observer to get state update and progress notifications
-        downloadObserver.setTransferListener(new TransferListener() {
-
+        downloadObserver.setTransferListener(new TransferListener()
+        {
             @Override
             public void onStateChanged(int id, TransferState state) {
                 if (TransferState.COMPLETED == state) {

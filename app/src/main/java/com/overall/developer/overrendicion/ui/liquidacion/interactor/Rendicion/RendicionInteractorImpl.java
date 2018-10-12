@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.ui.liquidacion.interactor.Rendicion;
 
 
+import android.widget.Toast;
+
 import com.overall.developer.overrendicion.BuildConfig;
 import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
@@ -190,6 +192,21 @@ public class RendicionInteractorImpl implements RendicionInteractor
         file.delete();
         //mRepository.sendDataPhoteApi(codRendicion, Util.SaveImage(pathImage));
         mRepository.sendDataPhoteApi(codRendicion, imageSend);
+
+    }
+
+    @Override
+    public void sendPhotoSuccess()
+    {
+        Toast.makeText(RendicionApplication.getContext(), "Se Actualizo su foto correctamente", Toast.LENGTH_LONG).show();
+        mPresenter.sendPhotoSuccess();
+    }
+
+    @Override
+    public void sendPhotoError()
+    {
+        Toast.makeText(RendicionApplication.getContext(), "No se pudo Actualizar su foto intento mas tarde", Toast.LENGTH_LONG).show();
+
 
     }
 

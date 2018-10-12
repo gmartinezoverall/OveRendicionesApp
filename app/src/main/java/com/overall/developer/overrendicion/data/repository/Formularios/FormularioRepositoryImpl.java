@@ -156,6 +156,9 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
+    public void searchRucError() { mInteractor.searchRucError();}
+
+    @Override
     public void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest) { mApiFormularios.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);}
 
     @Override

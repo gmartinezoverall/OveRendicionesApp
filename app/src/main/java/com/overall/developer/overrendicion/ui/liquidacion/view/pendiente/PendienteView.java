@@ -13,11 +13,20 @@ public interface PendienteView
 
     //region Sets
     void successPendienteList(String message);
+
     void refreshListSuccess(List<LiquidacionBean> listPendiente);
+
     void errorPendienteList(String message);
+
     void setListPendiente(List<LiquidacionBean> pendienteBean);
+
     void searchListPendienteResult(List<LiquidacionBean> pendienteBean);
+
     void setListPendienteForUser(List<LiquidacionBean> pendienteBean);
+
+    void successSendResume();
+
+    void errorSendResume();
 
     //endregion
 

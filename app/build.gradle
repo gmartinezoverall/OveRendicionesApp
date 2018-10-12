@@ -29,6 +29,8 @@ android {
         versionCode gradle.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
 
     }
     buildTypes {
@@ -164,6 +166,13 @@ dependencies {
 
     //browser Image
     implementation project(':PixLibrary')
+
+    //ViewHover
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.daimajia.easing:library:1.0.0@aar'
+    implementation 'com.daimajia.androidanimations:library:1.1.2@aar'
+    implementation 'com.daimajia.androidviewhover:library:1.0.4@aar'
+
 
     //AWS
     implementation('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }

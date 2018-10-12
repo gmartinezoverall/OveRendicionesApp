@@ -65,6 +65,8 @@ public interface FormularioRepository
 
     void searchRucSuccess(String razonSocial);
 
+    void searchRucError();
+
     void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
 
     void setTipoCambioApi(String fecha);
@@ -76,4 +78,6 @@ public interface FormularioRepository
     LiquidacionBean getLiquidacionDB();
 
     void errorTipoCambio();
+
+
 }

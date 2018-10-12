@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/animation_area"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:background="@color/transparentBlack">
+
+        <Button
+            android:id="@+id/btnDatos"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:text="Datos"
+            android:textColor="@color/white"
+            android:background="@drawable/button_style"/>
+
+        <Button
+            android:id="@+id/btnRendicion"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Rendicion"
+            android:textColor="@color/white"
+            android:background="@drawable/button_style"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/btnEnviarResumen"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_menu_send"
+            android:background="@drawable/button_style"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txvDescription"
+        android:text="Seleccionar"
+        android:layout_marginLeft="15dp"
+        android:textSize="10sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

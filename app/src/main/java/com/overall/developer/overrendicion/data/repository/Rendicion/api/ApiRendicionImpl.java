@@ -138,7 +138,7 @@ public class ApiRendicionImpl implements ApiRendicion
                             Toast.makeText(RendicionApplication.getContext(), "Se Guardo la Foto Correctamente", Toast.LENGTH_LONG).show();
                             if (response.getString("code").equals("0"))
                             {
-
+                                mRepository.sendPhotoSuccess();
 
                             }
                         } catch (JSONException e)
@@ -150,6 +150,7 @@ public class ApiRendicionImpl implements ApiRendicion
                     @Override
                     public void onError(ANError error)
                     {
+                        mRepository.sendPhotoError();
 
                     }
                 });

@@ -199,7 +199,9 @@ public class DBRendicionImpl implements DBRendicion
     @Override
     public String getUrlImageDB(String codRendicion)
     {
-        return null;
+        Realm mRealm = Realm.getDefaultInstance();
+        RendicionBean rendicionBean = mRealm.where(RendicionBean.class).equalTo("codRendicion",codRendicion).findFirst();
+        return rendicionBean.getFoto();
     }
 
 }

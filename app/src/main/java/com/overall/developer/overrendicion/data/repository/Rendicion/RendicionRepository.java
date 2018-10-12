@@ -49,5 +49,11 @@ public interface RendicionRepository
 
     void sendDataPhoteApi(String codRendicion, String pathImage);
 
+    void sendPhotoSuccess();
+
+    void sendPhotoError();
+
     String getUrlImageDB(String codRendicion);
+
+
 }

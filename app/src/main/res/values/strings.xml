@@ -80,6 +80,7 @@
     <string name="tittleSpinerBanco">Selecciona un Banco</string>
 
     <string name="IGV">0.18</string>
+    <string name="errorDate">La fecha seleccionada debe estar entre las fechas de la liquidacion</string>
 
     <array name="tipo_liquidacion">
         <item>Nacional</item>
@@ -112,13 +113,6 @@
     <color name="colorOverlayLight">#40000000</color>
     <color name="colorOverlayDark">#AA000000</color>
 
-    <array name="tipo_documento_arrendamiento">
-        <item>documento 1</item>
-        <item>documento 2</item>
-        <item>documento 3</item>
-        <item>documento 4</item>
-        <item>documento 5</item>
-    </array>
 
     <array name="tipo_documento">
         <item>DNI</item>
@@ -128,21 +122,7 @@
         <item>Partida de Nacimiento</item>
     </array>
 
-    <array name="tipo_gasto_arrendamiento">
-        <item>gasto 1</item>
-        <item>gasto 2</item>
-        <item>gasto 3</item>
-        <item>gasto 4</item>
-        <item>gasto 5</item>
-    </array>
 
-    <array name="tipo_destinos">
-        <item>destinos 1</item>
-        <item>destinos 2</item>
-        <item>destinos 3</item>
-        <item>destinos 4</item>
-        <item>destinos 5</item>
-    </array>
 
     <array name="formularios">
         <item>ARRENDAMIENTO</item>
@@ -190,7 +170,7 @@
     <string name="validateValorVentaLidacion">El importe no puede ser mayor</string>
     <string name="sendEmailSuccess">Se envio un Resumen a tu correo</string>
     <string name="sendEmailError">Error, No se pudo enviar la solicitud</string>
-
+    <string name="rucError">No se a encontrado ningun RUC asociado a este numero</string>
     <!--Documentos-->
     <integer name="otros_documentos">20</integer>
 

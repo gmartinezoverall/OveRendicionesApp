@@ -139,6 +139,18 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
+    public void sendPhotoSuccess()
+    {
+        mInteractor.sendPhotoSuccess();
+    }
+
+    @Override
+    public void sendPhotoError()
+    {
+        mInteractor.sendPhotoError();
+    }
+
+    @Override
     public String getUrlImageDB(String codRendicion) {
         return mDbRendicion.getUrlImageDB(codRendicion);
     }

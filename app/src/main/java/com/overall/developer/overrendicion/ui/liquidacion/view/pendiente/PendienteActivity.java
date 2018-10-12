@@ -259,6 +259,8 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     //endregion
 
 
+
+
     //region Interfaces
     @Override
     public void successPendienteList(String message) {
@@ -310,6 +312,13 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         initialRecyclerView();
     }
 
+    @Override
+    public void successSendResume() { timerInterval(); }
+
+    @Override
+    public void errorSendResume() { timerInterval(); }
+
+
     private void initialRecyclerView() {
         mRecyclerView.setAdapter(new PendienteAdapter(this, pendienteBeanList, this));
         final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.getContext(), R.anim.layout_slide_bottom);
@@ -319,8 +328,10 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     }
 
-    public void sendResumeEmail(String codRendicion) {
+    public void sendResumeEmail(String codRendicion)
+    {
         mPresenter.sendResumeEmail(codRendicion);
+        showDialog();
     }
 
     public boolean validateRendicionisEmpy(String codLiquidacion)

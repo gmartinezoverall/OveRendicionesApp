@@ -15,7 +15,9 @@ import java.util.List;
 public interface FormularioPresenter
 {
     List<TipoGastoEntity> getDocumentForId(String idDocumento);
+
     List<ProvinciaEntity> getProvinciaDestinoList();
+
     void saveData(List<String> typeFragment, Object objectDinamyc);
 
 
@@ -48,9 +50,13 @@ public interface FormularioPresenter
 
     void searchRucSuccess(String razonSocial);
 
+    void searchRucError();
+
     void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
 
     void setTipoCambio();
 
     LiquidacionEntity getLiquidacion();
+
+
 }

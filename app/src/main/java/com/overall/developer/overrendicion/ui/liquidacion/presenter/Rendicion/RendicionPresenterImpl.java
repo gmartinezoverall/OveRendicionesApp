@@ -95,6 +95,11 @@ public class RendicionPresenterImpl implements RendicionPresenter
     }
 
     @Override
+    public void sendPhotoSuccess() {
+        mView.sendPhotoSuccess();
+    }
+
+    @Override
     public String getUrlImage(String codRendicion) {
         return mInteractor.getUrlImage(codRendicion);
     }

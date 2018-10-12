@@ -33,7 +33,11 @@ public interface RendicionPresenter
 
     void sendDataPhote(String codRendicion, String pathImage);
 
+    void sendPhotoSuccess();
+
     String getUrlImage(String codRendicion);
 
     String getCodLiquidacion();
+
+
 }
