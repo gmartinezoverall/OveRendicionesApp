@@ -7,6 +7,7 @@ public class RendicionDetalleBean extends RealmObject
 {
     @PrimaryKey
     private Integer id;
+    private String codLiquidacion;
     private String idMovilidad;
     private String codRendicion;
     private String rdoId;
@@ -14,6 +15,7 @@ public class RendicionDetalleBean extends RealmObject
     private String precioTotal;
     private String fechaRendicion;
     private String estado;
+    private String fechaMovilidad;
     private String destinoMovilidad;
     private String montoMovilidad;
     private String motivoMovilidad;
@@ -30,8 +32,9 @@ public class RendicionDetalleBean extends RealmObject
 
     }
 
-    public RendicionDetalleBean(Integer id, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, Boolean send) {
+    public RendicionDetalleBean(Integer id, String codLiquidacion, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String fechaMovilidad, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, Boolean send) {
         this.id = id;
+        this.codLiquidacion = codLiquidacion;
         this.idMovilidad = idMovilidad;
         this.codRendicion = codRendicion;
         this.rdoId = rdoId;
@@ -39,6 +42,7 @@ public class RendicionDetalleBean extends RealmObject
         this.precioTotal = precioTotal;
         this.fechaRendicion = fechaRendicion;
         this.estado = estado;
+        this.fechaMovilidad = fechaMovilidad;
         this.destinoMovilidad = destinoMovilidad;
         this.montoMovilidad = montoMovilidad;
         this.motivoMovilidad = motivoMovilidad;
@@ -57,6 +61,14 @@ public class RendicionDetalleBean extends RealmObject
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodLiquidacion() {
+        return codLiquidacion;
+    }
+
+    public void setCodLiquidacion(String codLiquidacion) {
+        this.codLiquidacion = codLiquidacion;
     }
 
     public String getIdMovilidad() {
@@ -113,6 +125,14 @@ public class RendicionDetalleBean extends RealmObject
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getFechaMovilidad() {
+        return fechaMovilidad;
+    }
+
+    public void setFechaMovilidad(String fechaMovilidad) {
+        this.fechaMovilidad = fechaMovilidad;
     }
 
     public String getDestinoMovilidad() {

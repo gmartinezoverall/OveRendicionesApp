@@ -34,7 +34,7 @@ public class DBLoginUserImpl implements DBLoginUser
 
     @Override
     public Boolean searchUserBD() {
-        List<UserBean> list= searchUserRealm();
+        RealmResults<UserBean> list= searchUserRealm();
         return list.size() > 0 ? true : false ;
     }
 

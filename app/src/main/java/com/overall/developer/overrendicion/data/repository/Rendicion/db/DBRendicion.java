@@ -28,7 +28,7 @@ public interface DBRendicion
 
     ProvinciaBean getProvinciaDB(String ubigeoProvDestino);
 
-    void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList);
+    void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList);
 
     List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
 

@@ -256,7 +256,10 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
     }
 
-
+    public Boolean validateMontoMaxMovilidad(Double monto,String fechaViaje, String fechaFin)
+    {
+        return mPresenter.validateMontoMovilidad(monto, fechaViaje, fechaFin);
+    }
 
     public void saveAndSendData(int idFragment, Object objectDinamyc) {
         List<String> typeFragment = new ArrayList<>();
@@ -280,11 +283,13 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     }
 
     @Override
-    public void saveDataSuccess() {
+    public void saveDataSuccess()
+    {
         Toast.makeText(this, getResources().getString(R.string.sendDataSuccess), Toast.LENGTH_LONG).show();
-        startActivity(new Intent(this, RendicionActivity.class));
-        customType(this, "fadein-to-fadeout");
         finish();
+/*        startActivity(new Intent(this, RendicionActivity.class));
+        customType(this, "fadein-to-fadeout");*/
+
 
     }
 

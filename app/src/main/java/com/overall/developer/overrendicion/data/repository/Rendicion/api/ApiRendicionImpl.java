@@ -71,7 +71,7 @@ public class ApiRendicionImpl implements ApiRendicion
                                 Type collectionType = new TypeToken<Collection<RendicionDetalleBean>>(){}.getType();
                                 List<RendicionDetalleBean> movilidadList = gson.fromJson(response.getString("rendicion"), collectionType);
 
-                                mRepository.insertListMovilidadDB(movilidadList);
+                                mRepository.insertListMovilidadDB(codLiquidacionDB, movilidadList);
                             }
                         } catch (JSONException e)
                         {

@@ -171,6 +171,7 @@
     <string name="sendEmailSuccess">Se envio un Resumen a tu correo</string>
     <string name="sendEmailError">Error, No se pudo enviar la solicitud</string>
     <string name="rucError">No se a encontrado ningun RUC asociado a este numero</string>
+    <string name="errorMontoMovilidad">El monto diario no puede sobresar el 4% del sueldo minimo</string>
     <!--Documentos-->
     <integer name="otros_documentos">20</integer>
 

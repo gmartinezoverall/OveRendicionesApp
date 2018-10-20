@@ -57,5 +57,5 @@ public interface FormularioInteractor
 
     void errorTipoCambio();
 
-
+    Boolean validateMontoMovilidad(Double monto, String fechaViaje, String fechaFin);
 }

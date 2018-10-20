@@ -46,8 +46,13 @@ import com.overall.developer.overrendicion.utils.Util;
 import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FormularioInteractorImpl implements FormularioInteractor
 {
@@ -140,6 +145,8 @@ public class FormularioInteractorImpl implements FormularioInteractor
                         entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio(), entity.getFoto());
                 mRepository.sendDataForUpdateApi(request, idRendicion);
             }
+            updateLiquidacion(bean);
+
         }
         mPresenter.saveDataSuccess();
     }
@@ -281,6 +288,43 @@ public class FormularioInteractorImpl implements FormularioInteractor
     }
 
     @Override
+    public Boolean validateMontoMovilidad(Double sueldo, String fechaViaje, String fechaFin)
+    {
+        Double sueldoMin = Double.valueOf(mRepository.getOtrosBeanDB().getSueldo())* 0.04;
+        List<Date> datesInRange = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date startday = sdf.parse(fechaViaje);
+            Date endday = sdf.parse(fechaFin);
+
+            datesInRange = new ArrayList<>();
+            Calendar calendar =  Calendar.getInstance();
+            calendar.setTime(startday);
+
+            Calendar endCalendar = Calendar.getInstance();
+            endCalendar.setTime(endday);
+
+            while (calendar.before(endCalendar)) {
+                Date result = calendar.getTime();
+                datesInRange.add(result);
+                calendar.add(Calendar.DATE, 1);
+            }
+            datesInRange.add(endCalendar.getTime());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        if (mRepository.getSumaAcuentaDB(fechaViaje) + sueldo > sueldoMin && fechaFin.equals("-")) return true;
+        for (int i = 0; i < datesInRange.size(); i++)
+        {
+            if (mRepository.getSumaAcuentaDB(String.valueOf(sdf.format(datesInRange.get(i))))+ sueldo > sueldoMin) return true;
+        }
+        return false;
+    }
+
+    @Override
     public UserBean getUser() {
         return mRepository.getUserDB();
     }
@@ -376,5 +420,11 @@ public class FormularioInteractorImpl implements FormularioInteractor
         }
         return entity;
 
+    }
+
+
+    private void updateLiquidacion(RendicionBean bean)
+    {
+        mRepository.updateLiquidacionDB(bean);
     }
 }

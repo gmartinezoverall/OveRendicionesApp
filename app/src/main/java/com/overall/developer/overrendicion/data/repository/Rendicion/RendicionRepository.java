@@ -37,7 +37,7 @@ public interface RendicionRepository
 
     void insertListMovilidadApi(String codLiquidacionDB);
 
-    void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList);
+    void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList);
 
     List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
 

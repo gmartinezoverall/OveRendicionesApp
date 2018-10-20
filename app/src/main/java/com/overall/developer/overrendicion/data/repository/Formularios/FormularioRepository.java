@@ -4,13 +4,12 @@ package com.overall.developer.overrendicion.data.repository.Formularios;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
@@ -79,5 +78,9 @@ public interface FormularioRepository
 
     void errorTipoCambio();
 
+    void updateLiquidacionDB(RendicionBean bean);
 
+    OtrosBean getOtrosBeanDB();
+
+    Double getSumaAcuentaDB(String fechaViaje);
 }

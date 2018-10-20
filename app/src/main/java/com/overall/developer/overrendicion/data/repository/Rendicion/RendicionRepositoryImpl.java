@@ -104,9 +104,9 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
-    public void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList)
+    public void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList)
     {
-        mDbRendicion.insertListMovilidadDB(movilidadList);
+        mDbRendicion.insertListMovilidadDB(codLiquidacionDB, movilidadList);
         mInteractor.successListMovilidad(movilidadList);
     }
 

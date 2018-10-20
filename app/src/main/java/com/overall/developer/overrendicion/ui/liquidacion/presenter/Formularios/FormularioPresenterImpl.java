@@ -145,4 +145,9 @@ public class FormularioPresenterImpl implements FormularioPresenter
         return mInteractor.getLiquidacion();
     }
 
+    @Override
+    public Boolean validateMontoMovilidad(Double monto, String fechaViaje, String fechaFin) {
+        return mInteractor.validateMontoMovilidad(monto, fechaViaje, fechaFin);
+    }
+
 }

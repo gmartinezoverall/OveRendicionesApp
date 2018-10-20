@@ -1,6 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Formularios.db;
 
 
+import com.daimajia.androidanimations.library.fading_exits.FadeOutRightAnimator;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
@@ -10,8 +11,6 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.repository.Formularios.FormularioRepository;
 
 import java.util.List;
@@ -206,6 +205,47 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         LiquidacionBean liquidacion = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
         return liquidacion;
+    }
+
+    @Override
+    public void updateLiquidacionDB(RendicionBean rendicionBean)
+    {
+        LiquidacionBean liquidacionBean = getLiquidacionDB();
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            Double acuenta, saldo;
+            acuenta = Double.valueOf(liquidacionBean.getaCuenta()) + Double.valueOf(rendicionBean.getPrecioTotal());
+            saldo = liquidacionBean.getMonto() - acuenta;
+            liquidacionBean.setaCuenta(acuenta);
+            liquidacionBean.setSaldo(saldo);
+            mRealm.insertOrUpdate(liquidacionBean);
+        });
+
+    }
+
+    @Override
+    public OtrosBean getOtrosBeanDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        OtrosBean otrosBean = mRealm.where(OtrosBean.class).findFirst();
+        return otrosBean;
+    }
+
+    @Override
+    public Double getSumaAcuentaDB(String fechaViaje)
+    {
+        Double montoMovilidad = 0.0;
+        Realm mRealm = Realm.getDefaultInstance();
+
+        RealmResults<RendicionDetalleBean> detalleBean= mRealm.where(RendicionDetalleBean.class).equalTo("codLiquidacion", getLiquidacionDB().getCodLiquidacion()).and().equalTo("fechaRendicion", fechaViaje).findAll();
+
+        for(RendicionDetalleBean bean: detalleBean)
+        {
+            montoMovilidad = montoMovilidad + Double.valueOf(bean.getMontoMovilidad());
+        }
+
+        return montoMovilidad;
     }
 
 }

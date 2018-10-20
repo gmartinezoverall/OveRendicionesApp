@@ -3,20 +3,21 @@ package com.overall.developer.overrendicion.data.repository.Formularios.db;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 
 import java.util.List;
 
 public interface DBFormularios
 {
     List<TipoDocumentoBean> getDocumentForIdDB(String idDocumento);
+
     List<ProvinciaBean> getProvinciaDestinoList();
+
     Integer saveDataDB(RendicionBean rendicionBean);
 
     LiquidacionBean getCodLiquidacionDB();
@@ -50,4 +51,10 @@ public interface DBFormularios
     String getTipoCambioDB();
 
     LiquidacionBean getLiquidacionDB();
+
+    void updateLiquidacionDB(RendicionBean bean);
+
+    OtrosBean getOtrosBeanDB();
+
+    Double getSumaAcuentaDB(String fechaViaje);
 }

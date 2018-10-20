@@ -29,7 +29,7 @@ public class DBRendicionImpl implements DBRendicion
         Realm mRealm = Realm.getDefaultInstance();
 
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
-        List<RendicionBean>  rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", liquidacionBean.getCodLiquidacion()).sort("idRendicion", Sort.DESCENDING).findAll();
+        RealmResults<RendicionBean>  rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", liquidacionBean.getCodLiquidacion()).sort("idRendicion", Sort.DESCENDING).findAll();
         return rendicionList;
     }
 
@@ -37,10 +37,16 @@ public class DBRendicionImpl implements DBRendicion
     public String deleteRendicionForCodDB(int position)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        String codRendicion;
+
         RendicionBean rendicionBean = mRealm.where(RendicionBean.class).equalTo("idRendicion",position).findFirst();
-        codRendicion = rendicionBean.getCodRendicion();
-        mRealm.executeTransaction(realm -> rendicionBean.deleteFromRealm());
+        String codRendicion = rendicionBean.getCodRendicion();
+        RealmResults<RendicionDetalleBean> detalleBean = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
+        mRealm.executeTransaction(realm ->
+        {
+            rendicionBean.deleteFromRealm();
+            detalleBean.deleteAllFromRealm();
+
+        });
 
         return codRendicion;
     }
@@ -99,7 +105,7 @@ public class DBRendicionImpl implements DBRendicion
     {
         Realm mRealm = Realm.getDefaultInstance();
 
-        List<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
+        RealmResults<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
         if (listBean != null)
         {
             mRealm.executeTransaction(realm ->
@@ -148,7 +154,7 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public void insertListMovilidadDB(List<RendicionDetalleBean> movilidadList)
+    public void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList)
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
@@ -161,19 +167,21 @@ public class DBRendicionImpl implements DBRendicion
                 RendicionDetalleBean detalleBean = realm.where(RendicionDetalleBean.class).equalTo("idMovilidad", bean.getIdMovilidad()).findFirst();
                 if (detalleBean != null)detalleBean.deleteFromRealm();
                 bean.setId(nextID);
+                bean.setCodLiquidacion(codLiquidacionDB);
+                bean.setPrecioTotal(bean.getPrecioTotal().replace(",","."));
+                bean.setMontoMovilidad(bean.getMontoMovilidad().replace(",","."));
                 nextID++;
             }
             mRealm.insertOrUpdate(movilidadList);
 
         });
-
     }
 
     @Override
     public List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        List<RendicionDetalleBean> bean = mRealm.where(RendicionDetalleBean.class).findAll();
+        RealmResults<RendicionDetalleBean> bean = mRealm.where(RendicionDetalleBean.class).findAll();
         return bean;
     }
 
@@ -188,8 +196,8 @@ public class DBRendicionImpl implements DBRendicion
         mRealm.executeTransaction(realm ->
         {
             movilidadBean.deleteFromRealm();
-            List<RendicionBean> beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findAll();
-            List<RendicionDetalleBean> detalleBeansList = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
+            RealmResults<RendicionBean> beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findAll();
+            RealmResults<RendicionDetalleBean> detalleBeansList = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
             mRepository.deleteDetMovSuccess(beanList, detalleBeansList);
         });
         return idMovilidad;

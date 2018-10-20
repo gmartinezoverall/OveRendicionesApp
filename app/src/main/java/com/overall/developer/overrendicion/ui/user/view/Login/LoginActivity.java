@@ -96,7 +96,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
         mBtnIngresar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener() {
             @Override
             public void onClick() {
-                finishLoading();
+                if (!mEtUsuario.getText().toString().isEmpty() || !mEtPassword.getText().toString().isEmpty()) finishLoading();
+                else
+                {
+                    mBtnIngresar.setProgress(false);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sessionError) , Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

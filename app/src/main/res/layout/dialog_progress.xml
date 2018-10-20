@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lytGif"
         android:layout_centerHorizontal="true"
-        android:text="Buscando..."
+        android:text="Procesando..."
         android:textColor="@color/white" />
 
 

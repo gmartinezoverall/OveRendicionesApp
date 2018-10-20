@@ -7,7 +7,10 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.overall.developer.overrendicion.BuildConfig;
+import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
@@ -162,8 +165,8 @@ public class ApiFormulariosImpl implements ApiFormularios
     {
         AndroidNetworking.post(UrlApi.urlSearchProveedores)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
-                .addPathParameter("ruc", ruc)
-                .setPriority(Priority.IMMEDIATE)
+                .addBodyParameter("ruc", ruc)
+                .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override

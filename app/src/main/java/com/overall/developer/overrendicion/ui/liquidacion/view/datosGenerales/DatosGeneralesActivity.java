@@ -294,12 +294,12 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
                 break;
 
-            case R.id.lytFecha:
+/*            case R.id.lytFecha:
 
                 mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
 
-                break;
+                break;*/
 
             case R.id.btnSaveDate:
 

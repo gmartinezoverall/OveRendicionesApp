@@ -3,13 +3,12 @@ package com.overall.developer.overrendicion.data.repository.Formularios;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.MovilidadBean;
+import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
-import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.MovilidadUpdateRequest;
@@ -191,5 +190,18 @@ public class FormularioRepositoryImpl implements FormularioRepository
         mInteractor.errorTipoCambio();
     }
 
+    @Override
+    public void updateLiquidacionDB(RendicionBean bean) { mDbFormularios.updateLiquidacionDB(bean); }
+
+    @Override
+    public OtrosBean getOtrosBeanDB()
+    {
+        return mDbFormularios.getOtrosBeanDB();
+    }
+
+    @Override
+    public Double getSumaAcuentaDB(String fechaViaje) {
+        return mDbFormularios.getSumaAcuentaDB(fechaViaje);
+    }
 
 }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
@@ -97,13 +98,13 @@ public class MovilidadFragment extends Fragment {
 
         if (itemList.size() == 1) {
             spnTipoGasto.setText(itemList.get(0).toString());
-            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId().toString();
+            rtgId = ((TipoGastoEntity) itemList.get(0)).getRtgId();
         }
         spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes());
+            rtgId = ((TipoGastoEntity) item).getRtgId();
         });
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, spnTipoGasto);
@@ -147,6 +148,7 @@ public class MovilidadFragment extends Fragment {
             {
                 lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                txvFechaFin.setText("-");
 
             }else if (btnMasivo.isChecked() && !endDay.equals(""))
             {
@@ -175,11 +177,19 @@ public class MovilidadFragment extends Fragment {
                 break;
             case R.id.btnGuardar:
                 // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
-                ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
-                        String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), "-", "-", String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
-                        String.valueOf(Util.getCurrentDate()), String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I" : "M"),
-                        String.valueOf(txvFechaInicio.getText()), String.valueOf(txvFechaFin.getText()), "-"
-                ));
+
+                if ( ((FormularioActivity)getContext()).validateMontoMaxMovilidad(Double.valueOf(etxMonto.getText().toString()), txvFechaInicio.getText().toString(), txvFechaFin.getText().toString()))
+                {
+                    Toast.makeText(getContext(), getResources().getString(R.string.errorMontoMovilidad), Toast.LENGTH_LONG).show();
+
+                }else
+                {
+                    ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
+                            String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), "-", "-", String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
+                            String.valueOf(txvFechaInicio.getText()), String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I" : "M"),
+                            String.valueOf(txvFechaInicio.getText()), String.valueOf(txvFechaFin.getText()), "-"
+                    ));
+                }
                 break;
             case R.id.lytFecha:
                 lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);

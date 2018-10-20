@@ -20,4 +20,5 @@ public interface ApiFormularios
     void sendDataInsertMovilidadMultipleApi(MovilidadMultipleRequest movilidadMultipleRequest);
 
     void setTipoCambioApi(String fecha);
+
 }

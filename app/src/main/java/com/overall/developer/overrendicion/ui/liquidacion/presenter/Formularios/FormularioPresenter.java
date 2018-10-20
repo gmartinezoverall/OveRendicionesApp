@@ -20,7 +20,6 @@ public interface FormularioPresenter
 
     void saveData(List<String> typeFragment, Object objectDinamyc);
 
-
     void saveDataSuccess();
 
     List<String> getDefaultValues();
@@ -58,5 +57,5 @@ public interface FormularioPresenter
 
     LiquidacionEntity getLiquidacion();
 
-
+    Boolean validateMontoMovilidad(Double monto, String fechaViaje, String fechaFin);
 }

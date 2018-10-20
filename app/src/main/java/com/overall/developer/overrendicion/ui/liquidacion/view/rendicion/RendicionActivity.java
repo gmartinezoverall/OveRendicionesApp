@@ -148,6 +148,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         realmBrowser = new RealmBrowser();
         realmBrowser.start();
         realmBrowser.showServerAddress(this);
+        mPresenter.listRendicion();
 
     }
 
@@ -245,9 +246,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         mDialog.setCancelable(false);
         mDialog.show();
 
-        Observable.interval(1000, 3500, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        Observable.interval(600, 3000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+
                 .subscribe(timer-> svgView.start());
     }
 
@@ -271,6 +272,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
                 mPresenter.sendDataPhote(codRendicion, pathImage);
                 showDialog();
                 mPresenter.listRendicion();
+                pathImage = null;
             }
 
         });
@@ -299,7 +301,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     void timerInterval()
     {
-        Observable.interval(3, TimeUnit.SECONDS)
+        Observable.timer(5, TimeUnit.SECONDS)
                 .subscribe(timer->
 
                     mDialog.dismiss()

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class DBDatosGeneralesImpl implements DBDatosGenerales
 {
@@ -27,7 +28,7 @@ public class DBDatosGeneralesImpl implements DBDatosGenerales
     {
         Realm mRealm = Realm.getDefaultInstance();
 
-        List<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
+        RealmResults<LiquidacionBean> listBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findAll();
 
         if (listBean != null)
         {
@@ -54,7 +55,7 @@ public class DBDatosGeneralesImpl implements DBDatosGenerales
     public List<ProvinciaBean> listProvinciaForSpinnerDB()
     {
         Realm mRealm = Realm.getDefaultInstance();
-        List<ProvinciaBean> provinciaBeanList = mRealm.where(ProvinciaBean.class).findAll();
+        RealmResults<ProvinciaBean> provinciaBeanList = mRealm.where(ProvinciaBean.class).findAll();
         return provinciaBeanList;
 
     }
@@ -82,7 +83,7 @@ public class DBDatosGeneralesImpl implements DBDatosGenerales
         Realm mRealm = Realm.getDefaultInstance();
         LiquidacionBean liquidacionBean = mRealm.where(LiquidacionBean.class).equalTo("status",true).findFirst();
         String codLiquidacion  = liquidacionBean.getCodLiquidacion();
-        List<RendicionBean> rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", codLiquidacion).findAll();
+        RealmResults<RendicionBean> rendicionList = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", codLiquidacion).findAll();
         return rendicionList.isEmpty();
     }
 
