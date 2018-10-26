@@ -125,9 +125,9 @@ public class FormularioRepositoryImpl implements FormularioRepository
     }
 
     @Override
-    public void insertMovilidadDB(MovilidadBean movilidadBean)
+    public void insertMovilidadDB(RendicionBean rendicionBean, RendicionDetalleBean detalleBean)
     {
-        mDbFormularios.insertMovilidadDB(movilidadBean);
+        mDbFormularios.insertMovilidadDB(rendicionBean, detalleBean);
     }
 
     @Override
@@ -202,6 +202,12 @@ public class FormularioRepositoryImpl implements FormularioRepository
     @Override
     public Double getSumaAcuentaDB(String fechaViaje) {
         return mDbFormularios.getSumaAcuentaDB(fechaViaje);
+    }
+
+    @Override
+    public RendicionBean getDetailMovOffLineDB()
+    {
+        return mDbFormularios.getDetailMovOffLineDB();
     }
 
 }

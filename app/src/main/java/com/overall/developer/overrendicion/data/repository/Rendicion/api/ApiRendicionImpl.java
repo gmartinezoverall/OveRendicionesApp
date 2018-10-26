@@ -69,9 +69,9 @@ public class ApiRendicionImpl implements ApiRendicion
                             {
                                 Gson gson = new Gson();
                                 Type collectionType = new TypeToken<Collection<RendicionDetalleBean>>(){}.getType();
-                                List<RendicionDetalleBean> movilidadList = gson.fromJson(response.getString("rendicion"), collectionType);
+                                List<RendicionDetalleBean> detalleBeanList = gson.fromJson(response.getString("rendicion"), collectionType);
 
-                                mRepository.insertListMovilidadDB(codLiquidacionDB, movilidadList);
+                                mRepository.insertListMovilidadDB(codLiquidacionDB, detalleBeanList);
                             }
                         } catch (JSONException e)
                         {

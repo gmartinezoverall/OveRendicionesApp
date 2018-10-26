@@ -29,6 +29,7 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Ca
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboHonorariosEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboServiciosPublicosEntity;
@@ -46,11 +47,13 @@ import com.overall.developer.overrendicion.utils.Util;
 import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -97,7 +100,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
 
-        RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment
+        RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment *-> devuelve la entidada a insertar
 
         if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
         entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
@@ -122,7 +125,6 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         Integer idRendicion = mRepository.saveDataDB(bean);
 
-
         if (Util.isOnline())
         {
             AwsUtility.UploadTransferUtilityS3(mContext,entity.getFoto());
@@ -145,9 +147,9 @@ public class FormularioInteractorImpl implements FormularioInteractor
                         entity.getCodSuspencionH(), entity.getTipoMoneda(), entity.getTipoCambio(), entity.getFoto());
                 mRepository.sendDataForUpdateApi(request, idRendicion);
             }
-            updateLiquidacion(bean);
 
         }
+        updateLiquidacion(bean);
         mPresenter.saveDataSuccess();
     }
 
@@ -190,39 +192,90 @@ public class FormularioInteractorImpl implements FormularioInteractor
     }
 
     @Override
-    public void saveDataMovilidad(MovilidadEntity movilidadEntity)
+    public void saveDataMovilidad(MovilidadRendicionEntity rendicionEntity, MovilidadEntity movilidadEntity)
     {
-        String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
-        //RendicionDetalleBean detalleDefault = mRepository.setMovilidadForEditDB(movilidadEntity.getId());
-        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(), movilidadEntity.getDniTrabajador(),movilidadEntity.getDatosTrabajador(),
-                movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
-                movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(), movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM(), movilidadEntity.getFoto());
-
-        mRepository.insertMovilidadDB(bean);
-
         if (Util.isOnline())
         {
             if (movilidadEntity.getIdMovilidad().equals("-"))
             {
-                MovilidadInsertRequest movilidadInsertRequest = new MovilidadInsertRequest(bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(),
-                        bean.getMotivo(), bean.getDestino(), bean.getMonto(), bean.getFechaDocumento(), bean.getRtgId(), bean.getTipoMov(),
-                        bean.getFecha(), bean.getFechaHastaM());
+                MovilidadInsertRequest movilidadInsertRequest = new MovilidadInsertRequest(movilidadEntity.getRdoId(), getCodLiquidacion(), getUser().getIdUsuario(),
+                        movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(), movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(),
+                        movilidadEntity.getFecha(), movilidadEntity.getFechaHastaM());
                 mRepository.sendDataInsertMovilidadApi(movilidadInsertRequest);
 
             }
             else
             {
-                MovilidadUpdateRequest updateRequest = new MovilidadUpdateRequest(movilidadEntity.getIdMovilidad(), bean.getFecha(), bean.getMotivo(),
-                        bean.getDestino(), bean.getMonto());
+                MovilidadUpdateRequest updateRequest = new MovilidadUpdateRequest(movilidadEntity.getIdMovilidad(), movilidadEntity.getFecha(), movilidadEntity.getMotivo(),
+                        movilidadEntity.getDestino(), movilidadEntity.getMonto());
                 mRepository.sendDataUpdateMovilidadApi(updateRequest);
 
             }
 
+        }else
+        {
+            RendicionBean rendicionBean = mRepository.getDetailMovOffLineDB();
+            if (rendicionBean == null)//nueva movilidad
+            {
+                rendicionBean = new RendicionBean(0, "-", "10", "MOVILIDAD INDIVIDUAL - HOJA RUTA", getCodLiquidacion(), getUser().getIdUsuario(),
+                        "-", "-", "-", "-", rendicionEntity.getPrecioTotal(), rendicionEntity.getPrecioTotal(), "-",
+                        getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), "-", "-", "-", "-",
+                        rendicionEntity.getTipoGasto(), "-", "-", "-", "-", "S",
+                        "-", rendicionEntity.getFoto(), false);
+
+            }
+
+            if (movilidadEntity.getTipoMov().equals("I"))
+            {
+                insertMovilidad(rendicionBean,movilidadEntity);
+
+            }else
+            {
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                try {
+                    Date dateBefore = format.parse(movilidadEntity.getFecha());
+                    Date dateAfter = format.parse(movilidadEntity.getFechaHastaM());
+
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(dateBefore);
+
+                    Calendar endCalendar = new GregorianCalendar();
+                    endCalendar.setTime(dateAfter);
+
+                    while (calendar.before(endCalendar)) {
+                        movilidadEntity.setFechaDocumento(String.valueOf(format.format(calendar.getTime())));
+                        movilidadEntity.setTipoMov("I");
+                        insertMovilidad(rendicionBean,movilidadEntity);
+                        calendar.add(Calendar.DATE, 1);
+                    }
+                    movilidadEntity.setFechaDocumento(movilidadEntity.getFechaHastaM());
+                    movilidadEntity.setTipoMov("I");
+                    insertMovilidad(rendicionBean,movilidadEntity);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+            updateLiquidacion(rendicionBean);
         }
 
         mPresenter.saveDataSuccess();
 
 
+    }
+
+    private void insertMovilidad( RendicionBean rendicionBean, MovilidadEntity movilidadEntity)
+    {
+        RendicionDetalleBean detalleBean =  new RendicionDetalleBean(getCodLiquidacion(), movilidadEntity.getRdoId(), movilidadEntity.getTipoMov(),
+                movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(), "P", movilidadEntity.getFecha(),
+                movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(), movilidadEntity.getFecha(),
+                movilidadEntity.getFechaHastaM(), getUser().getNumDocBeneficiario(), " - ", " - ", false);
+
+        mRepository.insertMovilidadDB(rendicionBean, detalleBean);
     }
 
     @Override
@@ -255,7 +308,11 @@ public class FormularioInteractorImpl implements FormularioInteractor
                 ,movilidadEntity.getDatosTrabajador(),  movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
                 movilidadEntity.getRtgId(), "-", "-", "-", movilidadEntity.getFoto());
 
-        mRepository.insertMovilidadDB(bean);
+        RendicionDetalleBean detalleBean = new RendicionDetalleBean(getCodLiquidacion(),  movilidadEntity.getRdoId() ,  "-", movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
+                "P", movilidadEntity.getFechaDocumento(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(),
+                getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
+
+        //mRepository.insertMovilidadDB(detalleBean);
 
         if (Util.isOnline())
         {

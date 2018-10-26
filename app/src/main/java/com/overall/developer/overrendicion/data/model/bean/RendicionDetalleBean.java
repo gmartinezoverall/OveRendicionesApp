@@ -11,6 +11,7 @@ public class RendicionDetalleBean extends RealmObject
     private String idMovilidad;
     private String codRendicion;
     private String rdoId;
+    private String tipoMov;
     private String rtgId;
     private String precioTotal;
     private String fechaRendicion;
@@ -32,12 +33,10 @@ public class RendicionDetalleBean extends RealmObject
 
     }
 
-    public RendicionDetalleBean(Integer id, String codLiquidacion, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String fechaMovilidad, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, Boolean send) {
-        this.id = id;
+    public RendicionDetalleBean(String codLiquidacion,String rdoId, String tipoMov, String rtgId, String precioTotal, String fechaRendicion, String estado, String fechaMovilidad, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, boolean send) {
         this.codLiquidacion = codLiquidacion;
-        this.idMovilidad = idMovilidad;
-        this.codRendicion = codRendicion;
         this.rdoId = rdoId;
+        this.tipoMov = tipoMov;
         this.rtgId = rtgId;
         this.precioTotal = precioTotal;
         this.fechaRendicion = fechaRendicion;
@@ -53,6 +52,7 @@ public class RendicionDetalleBean extends RealmObject
         this.dni = dni;
         this.datosTrabajador = datosTrabajador;
         this.send = send;
+
     }
 
     public Integer getId() {
@@ -93,6 +93,14 @@ public class RendicionDetalleBean extends RealmObject
 
     public void setRdoId(String rdoId) {
         this.rdoId = rdoId;
+    }
+
+    public String getTipoMov() {
+        return tipoMov;
+    }
+
+    public void setTipoMov(String tipoMov) {
+        this.tipoMov = tipoMov;
     }
 
     public String getRtgId() {
@@ -207,11 +215,12 @@ public class RendicionDetalleBean extends RealmObject
         this.numBeneficiario = numBeneficiario;
     }
 
-    public Boolean getSend() {
+    public boolean isSend() {
         return send;
     }
 
-    public void setSend(Boolean send) {
+    public void setSend(boolean send)
+    {
         this.send = send;
     }
 }

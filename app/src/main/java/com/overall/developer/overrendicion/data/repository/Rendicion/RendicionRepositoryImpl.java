@@ -111,9 +111,9 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
-    public List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion)
+    public List<RendicionDetalleBean> getListMovilidadDB(String codRendicion)
     {
-        return mDbRendicion.getListMovilidadDB(codLiquidacion);
+        return mDbRendicion.getListMovilidadDB(codRendicion);
     }
 
     @Override

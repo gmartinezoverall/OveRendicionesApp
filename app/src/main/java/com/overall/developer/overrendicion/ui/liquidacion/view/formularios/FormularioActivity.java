@@ -36,6 +36,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.ArrendamientoFragment;
@@ -274,8 +275,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         return rendicionDetalleEntity == null ? "-" : rendicionDetalleEntity.getIdMovilidad();
     }
 
-    public void saveAndSendDataForMovilidad(MovilidadEntity movilidadEntity) {
-        mPresenter.saveDataMovilidad(movilidadEntity);
+    public void saveAndSendDataForMovilidad(MovilidadRendicionEntity entity, MovilidadEntity movilidadEntity) {
+        mPresenter.saveDataMovilidad(entity, movilidadEntity);
     }
 
     public void saveAndSendDataForMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {

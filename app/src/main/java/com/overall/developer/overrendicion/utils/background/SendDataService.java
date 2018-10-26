@@ -48,7 +48,7 @@ public class SendDataService extends Service
             {
                 if (Util.isOnline())
                 {
-                    Toast.makeText(context,"hay internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"hay internetssss", Toast.LENGTH_LONG).show();
                 }
             }
         };

@@ -4,6 +4,8 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 
 import java.util.List;
 
@@ -39,5 +41,5 @@ public interface RendicionInteractor
 
     String getCodLiquidacion();
 
-
+    List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion);
 }

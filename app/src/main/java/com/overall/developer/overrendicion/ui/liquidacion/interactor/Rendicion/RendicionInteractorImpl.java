@@ -88,9 +88,9 @@ public class RendicionInteractorImpl implements RendicionInteractor
                 List<RendicionDetalleEntity> movilidadList = new ArrayList<>();
                 if (Util.isOnline())mRepository.insertListMovilidadApi(bean.getCodLiquidacion());
 
-                if (mRepository.getListMovilidadDB(bean.getCodLiquidacion()).size() > 0)
+                if (mRepository.getListMovilidadDB(bean.getCodRendicion()).size() > 0)
                 {
-                    for (RendicionDetalleBean detalleBean : mRepository.getListMovilidadDB(bean.getCodLiquidacion()))
+                    for (RendicionDetalleBean detalleBean : mRepository.getListMovilidadDB(bean.getCodRendicion()))
                     {
                         movilidadList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
                                 detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
@@ -219,6 +219,22 @@ public class RendicionInteractorImpl implements RendicionInteractor
     public String getCodLiquidacion()
     {
         return mRepository.getCodLiquidacionDB();
+    }
+
+    @Override
+    public List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion)
+    {
+        List<RendicionDetalleEntity> detalleEntityList = new ArrayList<>();
+        for (RendicionDetalleBean detalleBean : mRepository.getListMovilidadDB(codRendicion))
+        {
+            detalleEntityList.add(new RendicionDetalleEntity(detalleBean.getId(),detalleBean.getIdMovilidad(), detalleBean.getCodRendicion(), detalleBean.getRdoId(), detalleBean.getRtgId(),
+                    detalleBean.getPrecioTotal(), detalleBean.getFechaRendicion(), detalleBean.getEstado(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(),
+                    detalleBean.getMotivoMovilidad(), detalleBean.getBeneficiario(), detalleBean.getFechaDesde(), detalleBean.getFechaHasta(), detalleBean.getNumBeneficiario(),
+                    detalleBean.getDni(), detalleBean.getDatosTrabajador()));
+
+        }
+
+        return detalleEntityList;
     }
 
 }

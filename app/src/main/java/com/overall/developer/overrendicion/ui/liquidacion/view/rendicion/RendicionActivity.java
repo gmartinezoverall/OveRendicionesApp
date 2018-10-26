@@ -72,6 +72,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.overall.developer.overrendicion.utils.background.InitialServiceBrodcast.sendDataOffLine;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 /**
@@ -149,6 +150,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         realmBrowser.start();
         realmBrowser.showServerAddress(this);
         mPresenter.listRendicion();
+        if(Util.isOnline())sendDataOffLine();
 
     }
 
@@ -190,7 +192,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         {
             showDialog();
             mPresenter.listRendicion();
-            Log.i("Rendicion","Listando");
+            //Log.i("Rendicion","Listando");
 
         } else if (id == R.id.menu_sync) {
 
@@ -232,6 +234,11 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     public void sendPhotoSuccess()
     {
 
+    }
+
+    public List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion)
+    {
+        return mPresenter.getListRendicionDetalle(codRendicion);
     }
 
     //region ShowDialog

@@ -149,7 +149,7 @@ public class MovilidadMultipleFragment extends Fragment
     //region Calendar
     private void initialCalendar()
     {
-        txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        //txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);

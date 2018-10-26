@@ -33,7 +33,7 @@ public class RendicionBean extends RealmObject {
     private String tipoMoneda;
     private String tipoCambio;
     private String foto;
-    private boolean send = false;
+    private Boolean send;
 
     public RendicionBean() {
     }
@@ -289,7 +289,8 @@ public class RendicionBean extends RealmObject {
         return send;
     }
 
-    public void setSend(boolean send) {
+    public void setSend(boolean send)
+    {
         this.send = send;
     }
 }

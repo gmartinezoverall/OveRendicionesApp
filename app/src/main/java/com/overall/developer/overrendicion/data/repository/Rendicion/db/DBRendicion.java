@@ -30,7 +30,7 @@ public interface DBRendicion
 
     void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList);
 
-    List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
+    List<RendicionDetalleBean> getListMovilidadDB(String codRendicion);
 
     String deleteDetMovForCodDB(int idDetMov);
 

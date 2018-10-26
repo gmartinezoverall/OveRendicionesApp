@@ -34,6 +34,8 @@ import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.Pe
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter.PendienteAdapter;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
+import com.overall.developer.overrendicion.utils.Util;
+import com.overall.developer.overrendicion.utils.background.InitialServiceBrodcast;
 import com.overall.developer.overrendicion.utils.background.SendDataService;
 import com.overall.developer.overrendicion.utils.toolbarRippleEffect.RippleEffect;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -55,6 +57,8 @@ import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration;
 import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView;
 import xyz.sangcomz.stickytimelineview.model.SectionInfo;
 
+import static com.overall.developer.overrendicion.utils.background.InitialServiceBrodcast.sendDataOffLine;
+
 public class PendienteActivity extends AppCompatActivity implements PendienteView, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
 
     //region Injeccion de Vistas
@@ -72,7 +76,6 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     SmartRefreshLayout pullRefresh;
     @BindView(R.id.refresh)
     ClassicsHeader refresh;
-
 
     //endregion
 
@@ -101,8 +104,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        if (dniUser != null)
-            mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
+        if (dniUser != null) mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
         mPresenter.insertProvincia(dniUser);
 
         mPresenter.initialDefaultApis();
@@ -237,13 +239,15 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
             //mPresenter.sendResumeEmail();
 
         } else if (id == R.id.nav_actContra) {
-            startActivity(new Intent(this, RecoveryPasswordActivity.class));
+           startActivity(new Intent(this, RecoveryPasswordActivity.class));
 
         } else if (id == R.id.nav_actCorreo) {
-            startActivity(new Intent(this, UpdateEmailActivity.class));
+           startActivity(new Intent(this, UpdateEmailActivity.class));
 
         } else if (id == R.id.nav_liqPend) {
-            startActivity(new Intent(this, PendienteActivity.class));
+            showDialog();
+            mPresenter.refreshList(String.valueOf(dniUser));
+
 
         } else if (id == R.id.nav_reenbolso) {
 
@@ -272,7 +276,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     {
         timerInterval();
         pendienteBeanList = listPendiente;
-
+        if (mRecyclerView == null)mRecyclerView.getAdapter().notifyDataSetChanged();
 
     }
 
@@ -295,7 +299,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         } else {
             Toast.makeText(this, getResources().getString(R.string.messagePendienteListNull), Toast.LENGTH_LONG).show();
         }
-
+        timerInterval();
         initialToolbar();
     }
 
@@ -345,6 +349,10 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     protected void onResume() {
         super.onResume();
+        showDialog();
+        mPresenter.refreshList(String.valueOf(dniUser));
+        if (Util.isOnline())sendDataOffLine();
+
 
 /*        Log.i("NDa","NDa");
         realmBrowser = new RealmBrowser();
@@ -402,7 +410,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     void timerInterval()
     {
-        Observable.interval(3000, TimeUnit.MILLISECONDS)
+        Observable.timer(3000, TimeUnit.MILLISECONDS)
                 .subscribe(timer->
                 {
                     pullRefresh.finishRefresh();

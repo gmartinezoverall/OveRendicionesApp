@@ -15,14 +15,20 @@ import android.widget.Toast;
 
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +82,7 @@ public class MovilidadFragment extends Fragment {
     private String rtgId;
     private TipoGastoEntity gastoEntity;
     private RendicionDetalleEntity rendicionDetalleEntity;
+    private LiquidacionEntity liquidacionEntity;
     private String pathImage;
 
     Unbinder unbinder;
@@ -88,6 +95,7 @@ public class MovilidadFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_movilidad, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
         rendicionDetalleEntity = ((FormularioActivity) getContext()).getDetalleDefaultValues();
 
         initialCalendar();
@@ -130,31 +138,53 @@ public class MovilidadFragment extends Fragment {
     }
 
     //region Calendar
-    private void initialCalendar() {
-        txvFechaInicio.setText(String.valueOf(Util.getCurrentDate()));
-        txvFechaFin.setText(String.valueOf(Util.getCurrentDate()));
+    private void initialCalendar()
+    {
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         calendarView.setErrToastMessage(R.string.error_date);
         calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            txvFechaInicio.setText(Util.changeDateFormat(startDay));
-            txvFechaInicio.setTypeface(null, Typeface.BOLD);
-            txvFechaInicio.setTextColor(getResources().getColor(R.color.black));
-            txvFechaFin.setText(Util.changeDateFormat(endDay));
-            txvFechaFin.setTypeface(null, Typeface.BOLD);
-            txvFechaFin.setTextColor(getResources().getColor(R.color.black));
-            if (btnIndividual.isChecked() && !startDay.equals(""))
-            {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                txvFechaFin.setText("-");
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
 
-            }else if (btnMasivo.isChecked() && !endDay.equals(""))
-            {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateNow = format.parse(Util.changeDateFormat(startDay));
+                    Date dateBefore = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0, 10)));
+                    Date dateAfter = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0, 10)));
 
+                    if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter)) {
+                        txvFechaInicio.setText(Util.changeDateFormat(startDay));
+                        txvFechaInicio.setTypeface(null, Typeface.BOLD);
+                        txvFechaInicio.setTextColor(getResources().getColor(R.color.black));
+
+                        if (btnIndividual.isChecked() && !startDay.equals("")) {
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                            lytFecha.setVisibility(View.VISIBLE);
+                        }
+                        else if (btnMasivo.isChecked() && !endDay.equals(""))
+                        {
+                            txvFechaFin.setText(Util.changeDateFormat(endDay));
+                            txvFechaFin.setTypeface(null, Typeface.BOLD);
+                            txvFechaFin.setTextColor(getResources().getColor(R.color.black));
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate), Toast.LENGTH_LONG).show();
+                        calendarView.clearDate();
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -184,7 +214,9 @@ public class MovilidadFragment extends Fragment {
 
                 }else
                 {
-                    ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
+                    ((FormularioActivity) getContext()).saveAndSendDataForMovilidad(
+                            new MovilidadRendicionEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), "-", String.valueOf(etxMonto.getText()), rtgId,"-"),
+                            new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
                             String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), "-", "-", String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()),
                             String.valueOf(txvFechaInicio.getText()), String.valueOf(rtgId), String.valueOf(btnIndividual.isChecked() ? "I" : "M"),
                             String.valueOf(txvFechaInicio.getText()), String.valueOf(txvFechaFin.getText()), "-"

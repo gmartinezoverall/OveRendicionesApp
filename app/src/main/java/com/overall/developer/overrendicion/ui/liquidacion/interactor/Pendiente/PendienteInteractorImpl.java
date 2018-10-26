@@ -97,7 +97,7 @@ public class PendienteInteractorImpl implements PendienteInteractor
     public void refreshList(String dniUser)
     {
         if (Util.isOnline()) mRepository.refreshListPendienteApi(dniUser);
-        else listUserForDNI(dniUser);
+        else refreshListSuccess(dniUser);
 
     }
 
@@ -130,8 +130,8 @@ public class PendienteInteractorImpl implements PendienteInteractor
     @Override
     public void successPendienteList(String message, String dniUser)
     {
-        mPresenter.successPendienteList(message);
         listUserForDNI(dniUser);
+        mPresenter.successPendienteList(message);
 
     }
 

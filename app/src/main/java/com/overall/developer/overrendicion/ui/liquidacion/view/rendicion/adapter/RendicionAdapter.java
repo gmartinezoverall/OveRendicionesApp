@@ -116,7 +116,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
                 holder.swipeLayout.open(false);
             }
         };
-        holder.swipeLayout.getViewTreeObserver().addOnGlobalLayoutListener(swipeGlobalLayoutListener);
+        //holder.swipeLayout.getViewTreeObserver().addOnGlobalLayoutListener(swipeGlobalLayoutListener);
         /*holder.swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
@@ -163,6 +163,8 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
 
         holder.lytDetalle.setOnClickListener(v ->
         {
+            mMovilidadList = ((RendicionActivity)mContext).getListRendicionDetalle(rendicion.getCodRendicion());
+
                 holder.lytDetMovilidad.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.FadeInLeft).duration(500).playOn(holder.itemView.findViewById(R.id.rowButton));
                 holder.rowButton.setRotation(90);

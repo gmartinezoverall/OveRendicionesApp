@@ -39,5 +39,5 @@ public interface RendicionPresenter
 
     String getCodLiquidacion();
 
-
+    List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion);
 }

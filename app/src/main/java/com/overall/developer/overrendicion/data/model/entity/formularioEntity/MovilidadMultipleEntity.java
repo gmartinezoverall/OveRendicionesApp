@@ -2,7 +2,6 @@ package com.overall.developer.overrendicion.data.model.entity.formularioEntity;
 
 public class MovilidadMultipleEntity
 {
-
     private String idMovilidad;
     private String rdoId;
     private String dniTrabajador;

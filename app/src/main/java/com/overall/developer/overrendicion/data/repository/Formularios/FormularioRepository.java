@@ -54,7 +54,7 @@ public interface FormularioRepository
 
     RendicionDetalleBean setMovilidadForEditDB(int idMov);
 
-    void insertMovilidadDB(MovilidadBean movilidadBean);
+    void insertMovilidadDB(RendicionBean rendicionBean, RendicionDetalleBean movilidadBean);
 
     void sendDataInsertMovilidadApi(MovilidadInsertRequest movilidadRequest);
 
@@ -83,4 +83,6 @@ public interface FormularioRepository
     OtrosBean getOtrosBeanDB();
 
     Double getSumaAcuentaDB(String fechaViaje);
+
+    RendicionBean getDetailMovOffLineDB();
 }

@@ -9,12 +9,12 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 
 import java.util.List;
 
 public interface FormularioInteractor
 {
-
     List<TipoGastoEntity> getDocumentForId(String idDocumento);
 
     List<ProvinciaEntity> getProvinciaDestinoList();
@@ -41,7 +41,7 @@ public interface FormularioInteractor
 
     RendicionDetalleEntity setMovilidadForEdit(int idMovilidad);
 
-    void saveDataMovilidad(MovilidadEntity movilidadEntity);
+    void saveDataMovilidad(MovilidadRendicionEntity rendicionEntity, MovilidadEntity movilidadEntity);
 
     void searchRuc(String ruc);
 

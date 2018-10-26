@@ -11,6 +11,7 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractor;
 import com.overall.developer.overrendicion.ui.liquidacion.interactor.Formularios.FormularioInteractorImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioView;
@@ -104,10 +105,9 @@ public class FormularioPresenterImpl implements FormularioPresenter
     }
 
     @Override
-    public void saveDataMovilidad(MovilidadEntity movilidadEntity)
+    public void saveDataMovilidad(MovilidadRendicionEntity rendicionEntity, MovilidadEntity movilidadEntity)
     {
-        mInteractor.saveDataMovilidad(movilidadEntity);
-
+        mInteractor.saveDataMovilidad(rendicionEntity, movilidadEntity);
     }
 
     @Override

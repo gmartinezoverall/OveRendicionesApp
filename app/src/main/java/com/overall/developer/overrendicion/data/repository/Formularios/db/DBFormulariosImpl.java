@@ -1,6 +1,5 @@
 package com.overall.developer.overrendicion.data.repository.Formularios.db;
 
-
 import com.daimajia.androidanimations.library.fading_exits.FadeOutRightAnimator;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
@@ -52,7 +51,9 @@ public class DBFormulariosImpl implements DBFormularios
             {
                 Number id = realm.where(RendicionBean.class).max("idRendicion");
                 int nextID = (id == null) ? 1 : id.intValue() + 1;
+                String codRendicion = String.format("%4s", nextID).replace(' ', '0');
                 rendicionBean.setIdRendicion(nextID);
+                rendicionBean.setCodRendicion("OFF-"+codRendicion);
             }
 
             mRealm.insertOrUpdate(rendicionBean);
@@ -161,18 +162,27 @@ public class DBFormulariosImpl implements DBFormularios
     }
 
     @Override
-    public void insertMovilidadDB(MovilidadBean movilidadBean)
+    public void insertMovilidadDB(RendicionBean rendicionBean, RendicionDetalleBean detalleBean)
     {
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            if (movilidadBean.getId() == null)
+            if (rendicionBean.getIdRendicion() == 0)
             {
-                Number id = realm.where(MovilidadBean.class).max("id");
-                int nextID = (id == null) ? 1 : id.intValue() + 1;
-                movilidadBean.setId(nextID);
+                Number idRendicion = realm.where(RendicionBean.class).max("idRendicion");
+                int nextID = (idRendicion == null) ? 1 : idRendicion.intValue() + 1;
+                String codRendicion = String.format("%4s", nextID).replace(' ', '0');
+                rendicionBean.setIdRendicion(nextID);
+                rendicionBean.setCodRendicion("OFF-"+codRendicion);
             }
-            mRealm.insertOrUpdate(movilidadBean);
+
+            mRealm.insertOrUpdate(rendicionBean);
+
+            Number idDet = realm.where(RendicionDetalleBean.class).max("id");
+            int nextID2 = (idDet == null) ? 1 : idDet.intValue() + 1;
+            detalleBean.setId(nextID2);
+            detalleBean.setCodRendicion(rendicionBean.getCodRendicion());
+            mRealm.insertOrUpdate(detalleBean);
 
         });
     }
@@ -214,8 +224,22 @@ public class DBFormulariosImpl implements DBFormularios
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            Double acuenta, saldo;
-            acuenta = Double.valueOf(liquidacionBean.getaCuenta()) + Double.valueOf(rendicionBean.getPrecioTotal());
+            Double acuenta, saldo, precio, sumMovilidad = 0.0;
+            precio = Double.valueOf(rendicionBean.getPrecioTotal());
+            if (rendicionBean.getRdoId().equals("10"))
+            {
+                RealmResults<RendicionDetalleBean> detalleList = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion",rendicionBean.getCodRendicion()).findAll();
+
+                for (RendicionDetalleBean detalleBean: detalleList)
+                {
+                    sumMovilidad = sumMovilidad + Double.valueOf(detalleBean.getMontoMovilidad());
+                }
+                rendicionBean.setPrecioTotal(String.valueOf(sumMovilidad));
+                mRealm.insertOrUpdate(rendicionBean);
+
+
+            }
+            acuenta = Double.valueOf(liquidacionBean.getaCuenta()) + precio;
             saldo = liquidacionBean.getMonto() - acuenta;
             liquidacionBean.setaCuenta(acuenta);
             liquidacionBean.setSaldo(saldo);
@@ -246,6 +270,17 @@ public class DBFormulariosImpl implements DBFormularios
         }
 
         return montoMovilidad;
+    }
+
+    @Override
+    public RendicionBean getDetailMovOffLineDB()
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+
+        RendicionBean rendicionBean = mRealm.where(RendicionBean.class).equalTo("codLiquidacion", getLiquidacionDB().getCodLiquidacion()).and().equalTo("rdoId", "10").and().equalTo("send", false).findFirst();
+
+        return rendicionBean;
+
     }
 
 }

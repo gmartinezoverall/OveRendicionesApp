@@ -109,4 +109,9 @@ public class RendicionPresenterImpl implements RendicionPresenter
         return mInteractor.getCodLiquidacion();
     }
 
+    @Override
+    public List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion) {
+        return mInteractor.getListRendicionDetalle(codRendicion);
+    }
+
 }

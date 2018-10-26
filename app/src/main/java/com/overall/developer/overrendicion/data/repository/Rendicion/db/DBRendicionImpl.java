@@ -93,6 +93,7 @@ public class DBRendicionImpl implements DBRendicion
                 bean.setValorNeto(bean.getValorNeto().replace(",","."));
                 bean.setPrecioTotal(bean.getPrecioTotal().replace(",","."));
                 bean.setOtroGasto(bean.getOtroGasto().replace(",","."));
+                bean.setSend(true);
                 nextID++;
             }
             mRealm.insertOrUpdate(mRendionList);
@@ -170,6 +171,7 @@ public class DBRendicionImpl implements DBRendicion
                 bean.setCodLiquidacion(codLiquidacionDB);
                 bean.setPrecioTotal(bean.getPrecioTotal().replace(",","."));
                 bean.setMontoMovilidad(bean.getMontoMovilidad().replace(",","."));
+                bean.setSend(true);
                 nextID++;
             }
             mRealm.insertOrUpdate(movilidadList);
@@ -178,10 +180,10 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion)
+    public List<RendicionDetalleBean> getListMovilidadDB(String codRendicion)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        RealmResults<RendicionDetalleBean> bean = mRealm.where(RendicionDetalleBean.class).findAll();
+        RealmResults<RendicionDetalleBean> bean = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
         return bean;
     }
 

@@ -6,6 +6,7 @@ import com.overall.developer.overrendicion.data.model.bean.ProvinciaBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface RendicionRepository
 
     void insertListMovilidadDB(String codLiquidacionDB, List<RendicionDetalleBean> movilidadList);
 
-    List<RendicionDetalleBean> getListMovilidadDB(String codLiquidacion);
+    List<RendicionDetalleBean> getListMovilidadDB(String codRendicion);
 
     String deleteDetMovForCodDB(int idDetMov);
 
@@ -54,6 +55,5 @@ public interface RendicionRepository
     void sendPhotoError();
 
     String getUrlImageDB(String codRendicion);
-
 
 }

@@ -87,12 +87,20 @@ public class MovilidadEntity
         return fechaDocumento;
     }
 
+    public void setFechaDocumento(String fechaDocumento) {
+        this.fechaDocumento = fechaDocumento;
+    }
+
     public String getRtgId() {
         return rtgId;
     }
 
     public String getTipoMov() {
         return tipoMov;
+    }
+
+    public void setTipoMov(String tipoMov) {
+        this.tipoMov = tipoMov;
     }
 
     public String getFecha() {
