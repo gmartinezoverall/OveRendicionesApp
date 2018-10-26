@@ -273,7 +273,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
         RendicionDetalleBean detalleBean =  new RendicionDetalleBean(getCodLiquidacion(), movilidadEntity.getRdoId(), movilidadEntity.getTipoMov(),
                 movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(), "P", movilidadEntity.getFecha(),
                 movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(), movilidadEntity.getFecha(),
-                movilidadEntity.getFechaHastaM(), getUser().getNumDocBeneficiario(), " - ", " - ", false);
+                movilidadEntity.getFechaHastaM(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
 
         mRepository.insertMovilidadDB(rendicionBean, detalleBean);
     }
@@ -300,27 +300,35 @@ public class FormularioInteractorImpl implements FormularioInteractor
     }
 
     @Override
-    public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity)
+    public void saveDataMovilidadMultiple(MovilidadRendicionEntity entity, MovilidadEntity movilidadEntity)
     {
-        String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
-
-        MovilidadBean bean = new MovilidadBean(movilidadEntity.getIdMovilidad(), movilidadEntity.getRdoId(), codLiqui, mRepository.getIdUsuarioDB(), movilidadEntity.getDniTrabajador()
-                ,movilidadEntity.getDatosTrabajador(),  movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
-                movilidadEntity.getRtgId(), "-", "-", "-", movilidadEntity.getFoto());
-
-        RendicionDetalleBean detalleBean = new RendicionDetalleBean(getCodLiquidacion(),  movilidadEntity.getRdoId() ,  "-", movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
-                "P", movilidadEntity.getFechaDocumento(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(),
-                getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
-
-        //mRepository.insertMovilidadDB(detalleBean);
 
         if (Util.isOnline())
         {
-            MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(bean.getRdoId(), bean.getCodLiquidacion(), bean.getIdUsuario(),
-                    bean.getMotivo(), bean.getDestino(), bean.getMonto(), String.valueOf(Util.getCurrentDate()), bean.getRtgId(), bean.getTipoMov(),
-                    bean.getFecha(), bean.getDniTrabajador(), bean.getDatosTrabajador());
+            MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(movilidadEntity.getRdoId(), movilidadEntity.getCodLiquidacion(), movilidadEntity.getIdUsuario(),
+                    movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), String.valueOf(Util.getCurrentDate()), movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(),
+                    movilidadEntity.getFecha(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador());
             mRepository.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);
 
+        }else
+        {
+            RendicionBean rendicionBean = mRepository.getDetailMovOffLineDB();
+            if (rendicionBean == null)//nueva movilidad
+            {
+                rendicionBean = new RendicionBean(0, "-", "19", "MOVILIDAD INDIVIDUAL - HOJA RUTA", getCodLiquidacion(), getUser().getIdUsuario(),
+                        "-", "-", "-", "-", entity.getPrecioTotal(), entity.getPrecioTotal(), "-",
+                        getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), "-", "-", "-", "-",
+                        entity.getTipoGasto(), "-", "-", "-", "-", "S",
+                        "-", entity.getFoto(), false);
+
+            }
+
+
+            RendicionDetalleBean detalleBean = new RendicionDetalleBean(getCodLiquidacion(),  movilidadEntity.getRdoId() ,  "I", movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
+                    "P", movilidadEntity.getFechaDocumento(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(),
+                    getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
+
+            mRepository.insertMovilidadDB(rendicionBean, detalleBean);
         }
 
     }

@@ -344,25 +344,6 @@ public class FacturaFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
-
-                //if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf("10/08/2018")))
-/*                {
-                    txvFechaDocumento.setText(Util.changeDateFormat(startDay));
-                    txvFechaDocumento.setTypeface(null, Typeface.BOLD);
-                    txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
-                    if (!startDay.equals("")) {
-                        lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                        lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                        etxValorVenta.requestFocus();
-                        lytFecha.setVisibility(View.VISIBLE);
-                    }
-
-                } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.errorDate), Toast.LENGTH_LONG).show();
-
-                }*/
             }
 
         });

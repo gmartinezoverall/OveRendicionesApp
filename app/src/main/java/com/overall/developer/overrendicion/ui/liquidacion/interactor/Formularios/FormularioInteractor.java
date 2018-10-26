@@ -49,7 +49,7 @@ public interface FormularioInteractor
 
     void searchRucError();
 
-    void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity);
+    void saveDataMovilidadMultiple(MovilidadRendicionEntity entity, MovilidadEntity movilidadEntity);
 
     void setTipoCambio();
 

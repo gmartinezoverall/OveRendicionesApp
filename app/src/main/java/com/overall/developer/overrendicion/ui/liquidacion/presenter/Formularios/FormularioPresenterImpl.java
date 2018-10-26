@@ -130,8 +130,8 @@ public class FormularioPresenterImpl implements FormularioPresenter
     }
 
     @Override
-    public void saveDataMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
-        mInteractor.saveDataMovilidadMultiple(movilidadEntity);
+    public void saveDataMovilidadMultiple(MovilidadRendicionEntity entity, MovilidadEntity movilidadEntity) {
+        mInteractor.saveDataMovilidadMultiple(entity, movilidadEntity);
     }
 
     @Override

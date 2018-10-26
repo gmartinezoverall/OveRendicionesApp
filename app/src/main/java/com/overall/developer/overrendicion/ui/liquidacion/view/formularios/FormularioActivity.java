@@ -279,8 +279,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         mPresenter.saveDataMovilidad(entity, movilidadEntity);
     }
 
-    public void saveAndSendDataForMovilidadMultiple(MovilidadMultipleEntity movilidadEntity) {
-        mPresenter.saveDataMovilidadMultiple(movilidadEntity);
+    public void saveAndSendDataForMovilidadMultiple(MovilidadRendicionEntity entity,MovilidadEntity movilidadEntity) {
+        mPresenter.saveDataMovilidadMultiple(entity, movilidadEntity);
     }
 
     @Override
