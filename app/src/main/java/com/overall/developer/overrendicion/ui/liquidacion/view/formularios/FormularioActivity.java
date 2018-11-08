@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -307,6 +308,26 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     {
         mDialog.dismiss();
     }
+
+
+    //region Estados de la Actividad
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.tittleDialog);
+        builder.setMessage(R.string.messageDialogBack);
+        builder.setPositiveButton(R.string.messageDialogBackMsg, (dialog, id) -> super.onBackPressed());
+        builder.setNegativeButton(R.string.btnNegative, (dialog, id) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+
+    //endregion
 
     //region NavigationView
 

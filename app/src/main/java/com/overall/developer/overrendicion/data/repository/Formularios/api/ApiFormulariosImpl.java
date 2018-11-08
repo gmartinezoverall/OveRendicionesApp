@@ -127,9 +127,9 @@ public class ApiFormulariosImpl implements ApiFormularios
     public void searchRucApi(String ruc)
     {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(8, TimeUnit.SECONDS)
+                .readTimeout(8, TimeUnit.SECONDS)
+                .writeTimeout(8, TimeUnit.SECONDS)
                 .build();
 
         AndroidNetworking.get(UrlApi.urlWSRuc)

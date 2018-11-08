@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -134,12 +135,25 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
         initialCalendar();
 
     }
-
+    //region Estados de la Actividad
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        mPresenter.changeStatusLiquidacion();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.tittleDialog);
+        builder.setMessage(R.string.messageDialogBackMsg);
+        builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
+                {
+                    super.onBackPressed();
+                    mPresenter.changeStatusLiquidacion();
+                });
+        builder.setNegativeButton(R.string.btnNegative, (dialog, id) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
+    //endregion
 
 
     //region Calendar
