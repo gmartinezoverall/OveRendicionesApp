@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
@@ -31,6 +33,7 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Mo
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
+import com.overall.developer.overrendicion.utils.GlideApp;
 import com.overall.developer.overrendicion.utils.Util;
 
 import java.io.File;
@@ -81,19 +84,13 @@ public class MovilidadMultipleFragment extends Fragment
     TextView spnTipoGasto;
     @BindView(R.id.img_foto)
     ImageView imgFoto;
-    @BindView(R.id.btnListar)
-    ImageButton btnListar;
     @BindView(R.id.btnFoto)
     ImageButton btnFoto;
     @BindView(R.id.btnGuardar)
     Button btnGuardar;
-    @BindView(R.id.btnSalir)
-    Button btnSalir;
-
     //endregion
 
     private SpinnerDialog spinnerDialog;
-    private String idProvincia;
     private String rtgId;
     private TipoGastoEntity gastoEntity;
     private RendicionDetalleEntity rendicionDetalleEntity;
@@ -112,7 +109,10 @@ public class MovilidadMultipleFragment extends Fragment
 
 
         liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
+        rendicionDetalleEntity = ((FormularioActivity) getContext()).getDetalleDefaultValues();
+
         initialCalendar();
+        if (rendicionDetalleEntity != null) setAllDefaultValues();
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
@@ -138,7 +138,7 @@ public class MovilidadMultipleFragment extends Fragment
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btnFoto, R.id.btnGuardar, R.id.btnListar, R.id.btnSalir, R.id.spnTipoGasto, R.id.lytFecha})
+    @OnClick({R.id.btnFoto, R.id.btnGuardar, R.id.spnTipoGasto, R.id.lytFecha})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnFoto:
@@ -151,7 +151,7 @@ public class MovilidadMultipleFragment extends Fragment
                             new MovilidadEntity(((FormularioActivity) getContext()).getIdMovilidad(),
                                     String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxNumDoc.getText()), String.valueOf(etxdatosTra.getText()),
                                     String.valueOf(etxMotivo.getText()), String.valueOf(etxDestino.getText()), String.valueOf(etxMonto.getText()), String.valueOf(txvFechaDocumento.getText()),
-                                    String.valueOf(rtgId),"I", String.valueOf(txvFechaDocumento.getText()), String.valueOf(txvFechaDocumento.getText()), pathImage
+                                    String.valueOf(rtgId),"U", String.valueOf(txvFechaDocumento.getText()), String.valueOf(txvFechaDocumento.getText()), pathImage
 
                             ));
 
@@ -159,12 +159,7 @@ public class MovilidadMultipleFragment extends Fragment
             case R.id.spnTipoGasto:
                 spinnerDialog.showSpinerDialog();
                 break;
-            case R.id.btnListar:
-                break;
-            case R.id.btnSalir:
-                //getActivity().getFragmentManager().beginTransaction().remove().commit();
-                getActivity().getSupportFragmentManager().popBackStack();
-                break;
+
             case R.id.lytFecha:
                 lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
@@ -187,8 +182,8 @@ public class MovilidadMultipleFragment extends Fragment
                 try {
                     DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     Date dateNow = format.parse(Util.changeDateFormat(startDay));
-                    Date dateBefore = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)));
-                    Date dateAfter = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
 
                     if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
                     {
@@ -203,7 +198,8 @@ public class MovilidadMultipleFragment extends Fragment
                         }
 
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
                         calendarView.clearDate();
 
                     }
@@ -268,4 +264,29 @@ public class MovilidadMultipleFragment extends Fragment
     }
 
     //endregion
+
+
+    private void setAllDefaultValues() {
+        txvFechaDocumento.setText(String.valueOf(rendicionDetalleEntity.getFechaRendicion()));
+        etxNumDoc.setText(String.valueOf(rendicionDetalleEntity.getDni()));
+        etxdatosTra.setText(String.valueOf(rendicionDetalleEntity.getDatosTrabajador()));
+        etxMotivo.setText(String.valueOf(rendicionDetalleEntity.getMotivoMovilidad()));
+        etxDestino.setText(String.valueOf(rendicionDetalleEntity.getDestinoMovilidad()));
+        etxMonto.setText(String.valueOf(rendicionDetalleEntity.getMontoMovilidad()));
+
+        gastoEntity = ((FormularioActivity) getContext()).getDefaultTipoGastoDetail();
+        spnTipoGasto.setText(gastoEntity.getRtgDes());
+        rtgId = (gastoEntity.getRtgId());
+
+        pathImage = rendicionDetalleEntity.getFoto();
+        imgFoto.setBackgroundColor(80000000);
+        GlideApp.with(this)
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(pathImage)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .into(imgFoto);
+    }
 }

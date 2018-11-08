@@ -152,8 +152,8 @@ public class MovilidadFragment extends Fragment {
                 try {
                     DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     Date dateNow = format.parse(Util.changeDateFormat(startDay));
-                    Date dateBefore = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0, 10)));
-                    Date dateAfter = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0, 10)));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
 
                     if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter)) {
                         txvFechaInicio.setText(Util.changeDateFormat(startDay));
@@ -176,7 +176,8 @@ public class MovilidadFragment extends Fragment {
                         }
 
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
                         calendarView.clearDate();
 
                     }

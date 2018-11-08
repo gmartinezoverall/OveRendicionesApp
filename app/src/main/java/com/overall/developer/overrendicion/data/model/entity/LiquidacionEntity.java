@@ -24,13 +24,15 @@ public class LiquidacionEntity {
     private String codEgreso;
     private String fechaInicioLiq;
     private String fechaFinLiq;
+    private String fechaDesdeR;
+    private String fechaHastaR;
     private boolean status;
 
 
     public LiquidacionEntity() {
     }
 
-    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, ProvinciaEntity ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq, boolean status) {
+    public LiquidacionEntity(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, ProvinciaEntity ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq, String fechaDesdeR, String fechaHastaR, boolean status) {
         this.codLiquidacion = codLiquidacion;
         this.tipoLiquidacion = tipoLiquidacion;
         this.descripcionLiquidacion = descripcionLiquidacion;
@@ -52,6 +54,8 @@ public class LiquidacionEntity {
         this.codEgreso = codEgreso;
         this.fechaInicioLiq = fechaInicioLiq;
         this.fechaFinLiq = fechaFinLiq;
+        this.fechaDesdeR = fechaDesdeR;
+        this.fechaHastaR = fechaHastaR;
         this.status = status;
     }
 
@@ -247,6 +251,22 @@ public class LiquidacionEntity {
 
     public void setFechaFinLiq(String fechaFinLiq) {
         this.fechaFinLiq = fechaFinLiq;
+    }
+
+    public String getFechaDesdeR() {
+        return fechaDesdeR;
+    }
+
+    public void setFechaDesdeR(String fechaDesdeR) {
+        this.fechaDesdeR = fechaDesdeR;
+    }
+
+    public String getFechaHastaR() {
+        return fechaHastaR;
+    }
+
+    public void setFechaHastaR(String fechaHastaR) {
+        this.fechaHastaR = fechaHastaR;
     }
 
     public boolean isStatus() {

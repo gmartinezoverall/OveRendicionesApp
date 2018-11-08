@@ -12,9 +12,11 @@ import com.overall.developer.overrendicion.RendicionApplication;
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.request.MovilidadInsertRequest;
+import com.overall.developer.overrendicion.data.model.request.MovilidadMultipleRequest;
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest;
 import com.overall.developer.overrendicion.utils.UrlApi;
 import com.overall.developer.overrendicion.utils.Util;
+import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import org.json.JSONObject;
@@ -49,15 +51,16 @@ public class InitialServiceBrodcast extends BroadcastReceiver {
             Toast.makeText(RendicionApplication.getContext(), "Iniciando Sincronizacion", Toast.LENGTH_SHORT).show();
             for (RendicionBean rendicionBean : rendicionList)
             {
-                if (!rendicionBean.getRdoId().equals("10"))sendRendicionApi(getRequest(rendicionBean), rendicionBean.getIdRendicion());//se sincronizan todas las Rendiciones excepto las Movilidades
+                if (!rendicionBean.getRdoId().equals("10") && !rendicionBean.getRdoId().equals("19"))sendRendicionApi(getRequest(rendicionBean), rendicionBean.getIdRendicion());//se sincronizan todas las Rendiciones excepto las Movilidades
                 else
-                    {
+                    {   //se comienza a sincronizar las movilidades
                         List<RendicionDetalleBean> detalleList = detalleBeanList(rendicionBean);
                         if (detalleList.size() > 0)
                         {
                             for (RendicionDetalleBean detalleBean : detalleList)
                             {
-                                sendDetalleRendicionApi(getRequestDetalle(rendicionBean, detalleBean), detalleBean.getId());
+                                if (rendicionBean.getRdoId().equals("10"))sendDetalleRendicionApi(getRequestDetalle(rendicionBean, detalleBean), detalleBean.getId());
+                                else sendDetalleRendicionMultApi(getRequestDetalleMult(rendicionBean, detalleBean), detalleBean.getId());
                             }
                         }
 
@@ -102,6 +105,18 @@ public class InitialServiceBrodcast extends BroadcastReceiver {
                 detalleBean.getFechaDesde(), detalleBean.getFechaHasta());
 
         return movilidadInsertRequest;
+    }
+
+    private static MovilidadMultipleRequest getRequestDetalleMult(RendicionBean rendicionBean, RendicionDetalleBean detalleBean)
+    {
+        AwsUtility.UploadTransferUtilityS3(RendicionApplication.getContext() ,detalleBean.getFoto());
+        detalleBean.setFoto(BuildConfig.URL_AWS + detalleBean.getFoto().substring(34));//se genera la URL de AWS para enviarlo por el WS
+
+        MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(detalleBean.getRdoId(), detalleBean.getCodLiquidacion(), rendicionBean.getIdUsuario(),
+                detalleBean.getMotivoMovilidad(), detalleBean.getDestinoMovilidad(), detalleBean.getMontoMovilidad(), detalleBean.getFechaRendicion(), detalleBean.getRtgId(), detalleBean.getTipoMov(),
+                String.valueOf(Util.getCurrentDate()), detalleBean.getDni(), detalleBean.getDatosTrabajador(), detalleBean.getFoto());
+
+        return movilidadMultipleRequest;
     }
 
     private static void sendRendicionApi(RendicionRequest request, Integer idRendicion)
@@ -195,6 +210,54 @@ public class InitialServiceBrodcast extends BroadcastReceiver {
                     }
                 });
     }
+
+
+    private static void sendDetalleRendicionMultApi(MovilidadMultipleRequest movilidadMultipleRequest, Integer detalleId)
+    {
+        Rx2AndroidNetworking.post(UrlApi.urlInsertarGastoMovilidadMultiple)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter(movilidadMultipleRequest)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getJSONObjectObservable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONObject>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(JSONObject jsonObject)
+                    {
+                        try
+                        {
+                            if (jsonObject.getString("code").equals("0"))
+                            {
+                                deleteDetalleRendicion(detalleId);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            //Log.i("DatosLog",String.valueOf(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        // Log.i("NDa", e.toString());
+                    }
+
+                    @Override
+                    public void onComplete()
+                    {
+                        //Log.i("NDa","Completado");
+                    }
+                });
+    }
+
 
     private static void deleteRendicion(Integer idRendicion)
     {

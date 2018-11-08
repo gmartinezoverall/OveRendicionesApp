@@ -50,7 +50,7 @@ public class DatosGeneralesInteractorImpl implements DatosGeneralesInteractor
         LiquidacionEntity entity = new LiquidacionEntity(bean.getCodLiquidacion(), bean.getTipoLiquidacion(), bean.getDescripcionLiquidacion(), bean.getMonto(),
                 bean.getNombre(), bean.getIdPeriodo(), bean.getFechaPago(), bean.getCodComp(), bean.getaCuenta(), bean.getSaldo(), bean.getDni(), bean.getFechaViatico(),
                 bean.getMotivoViaje(),provinciaEntity , Util.getChangeOrderDate(bean.getFechaDesde()), Util.getChangeOrderDate(bean.getFechaHasta()), bean.getTipoViatico(), bean.getEstado(), bean.getCodEgreso(),
-                Util.getChangeOrderDate(bean.getFechaInicioLiq().substring(0,10)), Util.getChangeOrderDate(bean.getFechaFinLiq().substring(0,10)), bean.isStatus());
+                bean.getFechaInicioLiq(), bean.getFechaFinLiq(), bean.getFechaDesdeR(), bean.getFechaHastaR(), bean.isStatus());
         return entity;
     }
 
@@ -87,15 +87,20 @@ public class DatosGeneralesInteractorImpl implements DatosGeneralesInteractor
         mLiquidacionBean.setSaldo(mBean.getSaldo());
         mLiquidacionBean.setDni(mBean.getDni());
         mLiquidacionBean.setEstado(mBean.getEstado());
+        mLiquidacionBean.setCodEgreso(mBean.getCodEgreso());
 
         //Datos View
         mLiquidacionBean.setCodLiquidacion(codLiquidacion);
         mLiquidacionBean.setFechaViatico(fechaViatico);
         mLiquidacionBean.setMotivoViaje(motivoViaje);
         mLiquidacionBean.setUbigeoProvDestino(ubigeoProvDestino);
+        mLiquidacionBean.setTipoViatico(tipoViatico.equals("Nacional") ? "N" : "E");
         mLiquidacionBean.setFechaDesde(fechaDesde);
         mLiquidacionBean.setFechaHasta(fechaHasta);
-        mLiquidacionBean.setTipoViatico(tipoViatico.equals("Nacional") ? "N" : "E");
+        mLiquidacionBean.setFechaInicioLiq(fechaDesde);
+        mLiquidacionBean.setFechaFinLiq(fechaHasta);
+        mLiquidacionBean.setFechaDesdeR(mBean.getFechaDesdeR());
+        mLiquidacionBean.setFechaHastaR(mBean.getFechaHastaR());
         mLiquidacionBean.setStatus(true);
 
 

@@ -57,6 +57,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
@@ -153,7 +154,19 @@ public class FacturaFragment extends Fragment {
             if (!hasFocus && etxValorVenta != null) sumaTotal();
         });
 
-        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+        RxTextView.textChanges(etxNSerie)
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("F") || etx.toString().equals("E"))))
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("0") || etx.toString().equals("1"))))
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("2") || etx.toString().equals("3"))))
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("4") || etx.toString().equals("5"))))
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("6") || etx.toString().equals("7"))))
+                .filter(etx -> (etx.length() > 0 && !(etx.length() > 0 && etx.toString().substring(0, 1).equals("8") || etx.toString().equals("9"))))
+                .subscribe(etx -> etxNSerie.setError("La serie solo puede empezar con F, E, ó numero"));
+
+
+
+
+/*        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
             if (!hasFocus && etxNSerie != null) etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
@@ -164,7 +177,7 @@ public class FacturaFragment extends Fragment {
             if (!hasFocus && etxNDocumento!= null)
                 etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
-        });
+        });*/
 
         RxTextView.textChanges(etxRuc).filter(etx -> (etx.length() > 0 && etx.length() != 11)).subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
@@ -308,7 +321,7 @@ public class FacturaFragment extends Fragment {
 
     //region Calendar
     private void initialCalendar() {
-        //txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        //txvFechaDocumento.setText(String.valueOf("-"));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);
@@ -321,8 +334,8 @@ public class FacturaFragment extends Fragment {
                 try {
                     DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     Date dateNow = format.parse(Util.changeDateFormat(startDay));
-                    Date dateBefore = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)));
-                    Date dateAfter = format.parse(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
 
                     if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
                     {
@@ -337,7 +350,8 @@ public class FacturaFragment extends Fragment {
                         }
 
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
                         calendarView.clearDate();
 
                     }

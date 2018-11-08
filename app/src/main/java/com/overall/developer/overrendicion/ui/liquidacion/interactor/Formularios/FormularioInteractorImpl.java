@@ -185,7 +185,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         RendicionDetalleEntity entity = new RendicionDetalleEntity(bean.getId(), bean.getIdMovilidad(), bean.getCodRendicion(), bean.getRdoId(), bean.getRtgId(), bean.getPrecioTotal(), bean.getFechaRendicion(),
                 bean.getEstado(), bean.getDestinoMovilidad(), bean.getMontoMovilidad(), bean.getMotivoMovilidad(), bean.getBeneficiario(), bean.getFechaDesde(), bean.getFechaHasta(),
-                bean.getNumBeneficiario(), bean.getDni(), bean.getDatosTrabajador());
+                bean.getNumBeneficiario(), bean.getDni(), bean.getDatosTrabajador(), bean.getFoto());
 
         return entity;
 
@@ -273,7 +273,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
         RendicionDetalleBean detalleBean =  new RendicionDetalleBean(getCodLiquidacion(), movilidadEntity.getRdoId(), movilidadEntity.getTipoMov(),
                 movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(), "P", movilidadEntity.getFecha(),
                 movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(), movilidadEntity.getFecha(),
-                movilidadEntity.getFechaHastaM(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
+                movilidadEntity.getFechaHastaM(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(),"-", false);
 
         mRepository.insertMovilidadDB(rendicionBean, detalleBean);
     }
@@ -281,7 +281,13 @@ public class FormularioInteractorImpl implements FormularioInteractor
     @Override
     public void searchRuc(String ruc)
     {
-        mRepository.searchRucApi(ruc);
+        if (Util.isOnline())mRepository.searchRucApi(ruc);
+        else
+        {
+            Toast.makeText(mContext, mContext.getResources().getString(R.string.errorInternet), Toast.LENGTH_LONG).show();
+            mPresenter.searchRucError();
+        }
+
 
     }
 
@@ -305,9 +311,12 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
         if (Util.isOnline())
         {
-            MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(movilidadEntity.getRdoId(), movilidadEntity.getCodLiquidacion(), movilidadEntity.getIdUsuario(),
+            AwsUtility.UploadTransferUtilityS3(mContext,movilidadEntity.getFoto());
+            movilidadEntity.setFoto(BuildConfig.URL_AWS + movilidadEntity.getFoto().substring(34));//se genera la URL de AWS para enviarlo por el WS
+
+            MovilidadMultipleRequest movilidadMultipleRequest = new MovilidadMultipleRequest(movilidadEntity.getRdoId(), getCodLiquidacion(), getUser().getIdUsuario(),
                     movilidadEntity.getMotivo(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), String.valueOf(Util.getCurrentDate()), movilidadEntity.getRtgId(), movilidadEntity.getTipoMov(),
-                    movilidadEntity.getFecha(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador());
+                    movilidadEntity.getFecha(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), movilidadEntity.getFoto());
             mRepository.sendDataInsertMovilidadMultipleApi(movilidadMultipleRequest);
 
         }else
@@ -315,7 +324,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
             RendicionBean rendicionBean = mRepository.getDetailMovOffLineDB();
             if (rendicionBean == null)//nueva movilidad
             {
-                rendicionBean = new RendicionBean(0, "-", "19", "MOVILIDAD INDIVIDUAL - HOJA RUTA", getCodLiquidacion(), getUser().getIdUsuario(),
+                rendicionBean = new RendicionBean(0, "-", "19", "VARIOS TRABAJADORES-  MOVILIDAD MULTIPLE", getCodLiquidacion(), getUser().getIdUsuario(),
                         "-", "-", "-", "-", entity.getPrecioTotal(), entity.getPrecioTotal(), "-",
                         getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), "-", "-", "-", "-",
                         entity.getTipoGasto(), "-", "-", "-", "-", "S",
@@ -326,10 +335,13 @@ public class FormularioInteractorImpl implements FormularioInteractor
 
             RendicionDetalleBean detalleBean = new RendicionDetalleBean(getCodLiquidacion(),  movilidadEntity.getRdoId() ,  "I", movilidadEntity.getRtgId(), movilidadEntity.getMonto(), movilidadEntity.getFechaDocumento(),
                     "P", movilidadEntity.getFechaDocumento(), movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getMotivo(), getUser().getNombre(),
-                    getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), false);
+                    getLiquidacion().getFechaDesde(), getLiquidacion().getFechaHasta(), getUser().getNumDocBeneficiario(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), movilidadEntity.getFoto(), false);
 
             mRepository.insertMovilidadDB(rendicionBean, detalleBean);
+            updateLiquidacion(rendicionBean);
         }
+
+        mPresenter.saveDataSuccess();
 
     }
 

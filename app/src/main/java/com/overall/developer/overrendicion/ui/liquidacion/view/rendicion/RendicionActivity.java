@@ -124,8 +124,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         sesionManager();
         initialDrawable();
-        showDialog();
-        mPresenter.listRendicion();
+        //showDialog();
+        //mPresenter.listRendicion();
 
         try {
             if (fab != null && fabMenu != null) {
@@ -149,6 +149,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
         realmBrowser = new RealmBrowser();
         realmBrowser.start();
         realmBrowser.showServerAddress(this);
+        showDialog();
         mPresenter.listRendicion();
         if(Util.isOnline())sendDataOffLine();
 
@@ -196,6 +197,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         } else if (id == R.id.menu_sync) {
 
+            if(Util.isOnline())sendDataOffLine();
+            else Toast.makeText(this, getResources().getString(R.string.errorInternet), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -204,8 +207,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     public void getListRendicion(List<RendicionEntity> rendicionList)
     {
-        mRendicionList = rendicionList;
         timerInterval();
+        mRendicionList = rendicionList;
         usedAdapter();
 
     }

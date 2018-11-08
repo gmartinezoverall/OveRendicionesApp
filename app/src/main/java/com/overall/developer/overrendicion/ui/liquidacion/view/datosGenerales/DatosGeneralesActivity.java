@@ -36,6 +36,8 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,23 +143,49 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
 
     //region Calendar
-    private void initialCalendar() {
+    private void initialCalendar()
+    {
         mCalendarView.setDateFormat("dd/MM/yyyy");
         mCalendarView.setPreventPreviousDate(false);
         mCalendarView.setErrToastMessage(R.string.error_date);
         mCalendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            mTxvFInicio.setText(Util.changeDateFormat(startDay));
-            mTxvFFin.setText(endDay.equals("") ? Util.changeDateFormat(startDay) : Util.changeDateFormat(endDay));
-            mTxvFFin.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-            mTxvFFin.setTypeface(null, Typeface.BOLD);
-            mTxvFInicio.setTypeface(null, Typeface.BOLD);
-            mTxvFFin.setTextColor(getResources().getColor(R.color.black));
-            mTxvFInicio.setTextColor(getResources().getColor(R.color.black));
-            if (!endDay.equals("")) {
-                mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
+
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateStart = format.parse(Util.changeDateFormat(startDay));
+                    Date dateEnd = format.parse(Util.changeDateFormat(endDay));
+                    Date dateBefore = format.parse((mLiquidacionEntity.getFechaDesdeR()));
+                    Date dateAfter = format.parse(mLiquidacionEntity.getFechaHastaR());
+
+                    if ((!dateStart.before(dateBefore) && !dateStart.after(dateAfter)) && (!dateEnd.before(dateBefore) && !dateEnd.after(dateAfter))) {
+                        mTxvFInicio.setText(Util.changeDateFormat(startDay));
+                        mTxvFInicio.setTypeface(null, Typeface.BOLD);
+                        mTxvFInicio.setTextColor(getResources().getColor(R.color.black));
+                        mTxvFFin.setText(Util.changeDateFormat(endDay));
+                        mTxvFFin.setTypeface(null, Typeface.BOLD);
+                        mTxvFFin.setTextColor(getResources().getColor(R.color.black));
+
+                        if (!endDay.equals("")) {
+                            mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
+                        }
+
+                    } else {
+                        Toast.makeText(this, getResources().getString(R.string.errorDate)+ " entre " + mLiquidacionEntity.getFechaDesdeR() + " y " + mLiquidacionEntity.getFechaHastaR(), Toast.LENGTH_LONG).show();
+                        mCalendarView.clearDate();
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         });
         mCalendarView.buildCalendar();
     }
@@ -198,9 +226,9 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
             mTxvDetMotivo.setText(String.valueOf(mLiquidacionEntity.getMotivoViaje()));
         mTxvSysDate.setText(String.valueOf(formattedDate));
         if (mLiquidacionEntity.getFechaDesde() != null)
-            mTxvFInicio.setText(String.valueOf(mLiquidacionEntity.getFechaDesde().substring(0, 10)));
+            mTxvFInicio.setText(String.valueOf(mLiquidacionEntity.getFechaDesde()));
         if (mLiquidacionEntity.getFechaHasta() != null)
-            mTxvFFin.setText(String.valueOf(mLiquidacionEntity.getFechaHasta().substring(0, 10)));
+            mTxvFFin.setText(String.valueOf(mLiquidacionEntity.getFechaHasta()));
         if (mLiquidacionEntity.getTipoViatico() != null)
             mSpnTipoViatico.setSelectedIndex(mLiquidacionEntity.getTipoViatico().equals("E") ? 1 : 0);
         if (mLiquidacionEntity.getUbigeoProvDestino() != null) {
@@ -294,12 +322,12 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
 
                 break;
 
-/*            case R.id.lytFecha:
+            case R.id.lytFecha:
 
                 mLayoutCalendar.setVisibility(mLayoutCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 mlytArrow.setRotation(mlytArrow.getRotation() == 90 ? 0 : 90);
 
-                break;*/
+                break;
 
             case R.id.btnSaveDate:
 

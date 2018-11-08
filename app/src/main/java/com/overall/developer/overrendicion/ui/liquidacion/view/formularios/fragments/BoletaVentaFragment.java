@@ -29,6 +29,7 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity;
@@ -43,7 +44,10 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import org.angmarch.views.NiceSpinner;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,6 +116,7 @@ public class BoletaVentaFragment extends Fragment
     private String rtgId;
 
     private RendicionEntity rendicionEntity;
+    private LiquidacionEntity liquidacionEntity;
     private TipoGastoEntity gastoEntity;
     private String pathImage;
 
@@ -125,6 +130,7 @@ public class BoletaVentaFragment extends Fragment
         mView = inflater.inflate(R.layout.fragment_boleta_venta, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
 
         initialCalendar();
@@ -149,7 +155,7 @@ public class BoletaVentaFragment extends Fragment
         });
 
 
-        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+/*        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
             if (!hasFocus && etxNSerie != null) etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
@@ -160,11 +166,13 @@ public class BoletaVentaFragment extends Fragment
             if (!hasFocus && etxNDocumento!= null)
                 etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
-        });
+        });*/
+
+        RxTextView.textChanges(etxRuc).filter(etx -> (etx.length() > 0 && etx.length() != 11)).subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
         RxTextView.textChanges(etxRuc)
-                .filter(etx -> ((etx.length() > 0 && etx.length() != 11) || (etx.length() > 2 && etx.toString().substring(0, 2).equals("20"))))
-                .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc) + ", No puede empezar con 20"));
+                .filter(etx -> (etx.length() > 0 && (etx.length() > 2 && etx.toString().substring(0, 2).equals("20"))))
+                .subscribe(etx -> etxRuc.setError("Ruc no puede empezar con 20"));
 
 
         RxTextView.textChanges(etxValorVenta)
@@ -173,6 +181,12 @@ public class BoletaVentaFragment extends Fragment
 
         RxTextView.textChanges(etxOtrosGastos).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
         RxTextView.textChanges(etxValorVenta).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
+
+ /*       etxRuc.setOnFocusChangeListener((v, hasFocus) ->
+        {
+            if (!hasFocus && etxNSerie != null)
+
+        });*/
 
         PushDownAnim.setPushDownAnimTo(btnGuardar, btnFoto, spnTipoGasto, btnSearch);
 
@@ -296,26 +310,49 @@ public class BoletaVentaFragment extends Fragment
 
     //region Calendar
     private void initialCalendar() {
-        //txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+        //txvFechaDocumento.setText(String.valueOf("-"));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);
         calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
-            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
-            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
-            if (!startDay.equals("")) {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                etxNDocumento.requestFocus();
-                lytFecha.setVisibility(View.VISIBLE);
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
+
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateNow = format.parse(Util.changeDateFormat(startDay));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
+
+                    if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
+                    {
+                        txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+                        txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+                        txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+                        if (!startDay.equals("")) {
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                            //etxValorVenta.requestFocus();
+                            lytFecha.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
+                        calendarView.clearDate();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         });
         calendarView.buildCalendar();
     }
     //endregion
-
     private boolean ValideWidgets() {
         if ((etxRuc.getText().toString().isEmpty() && etxRuc.getText().toString().trim().length() != 11) || etxRazonSocial.getText().toString().isEmpty() || etxNDocumento.getText().toString().isEmpty() || txvFechaDocumento.getText().toString().isEmpty() ||
                 etxValorVenta.getText().toString().isEmpty() || etxOtrosGastos.getText().toString().isEmpty() || spnTipoGasto.getText().equals("Seleccionar") || etxObservaciones.getText().toString().isEmpty()

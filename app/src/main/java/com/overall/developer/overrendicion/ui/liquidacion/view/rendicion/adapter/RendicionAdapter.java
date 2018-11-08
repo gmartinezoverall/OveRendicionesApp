@@ -145,7 +145,7 @@ public class RendicionAdapter extends RecyclerSwipeAdapter<RendicionAdapter.Rend
 
             holder.lytNew.setVisibility(View.VISIBLE);
 
-            holder.lytFoto.setVisibility(View.VISIBLE);
+            if (rendicion.getRdoId().equals("MOVILIDAD INDIVIDUAL - HOJA RUTA")) holder.lytFoto.setVisibility(View.VISIBLE);
 
             holder.lytEdit.setVisibility(View.GONE);
 

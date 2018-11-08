@@ -118,7 +118,7 @@
                         android:textSize="12sp"
                         android:maxLength="4"
                         android:inputType="textCapCharacters"
-                        android:digits="@string/factura"
+                        android:digits="@string/filters"
                         android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"

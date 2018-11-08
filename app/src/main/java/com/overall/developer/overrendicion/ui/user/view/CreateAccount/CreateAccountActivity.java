@@ -74,8 +74,11 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
 
         mBtnRegistrar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener() {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 if (ValideWidgets())finishLoading();
+                else mBtnRegistrar.setProgress(false);
+
 
             }
 

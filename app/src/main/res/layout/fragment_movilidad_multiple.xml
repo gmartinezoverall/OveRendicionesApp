@@ -107,12 +107,12 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="5dp"
-                        android:hint="N: Documento"
-                        android:inputType="number"
+                        android:hint="Numero documento"
                         android:paddingBottom="12dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
                         android:textSize="12sp"
+                        android:inputType="number"
                         android:gravity="center"
                         app:libIZO_setClearIconVisible="true"
                         app:libIZO_setBorderColor="#d4d2d3"
@@ -134,7 +134,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="5dp"
-                        android:hint="Datos del trabajador"
+                        android:hint="Nombres y Apellidos"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="12dp"
                         android:paddingLeft="15dp"
@@ -279,18 +279,6 @@
 
 
                     <ImageButton
-                        android:id="@+id/btnListar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/button_background"
-                        android:src="@drawable/ic_view_list"
-                        android:textColor="@color/white" />
-
-
-                    <ImageButton
                         android:id="@+id/btnFoto"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -304,7 +292,7 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center"
@@ -312,23 +300,15 @@
 
                     <Button
                         android:id="@+id/btnGuardar"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:text="Guardar"
                         android:textColor="@color/white"
                         android:background="@drawable/button_background"
                         android:layout_marginRight="10dp"/>
 
-                    <Button
-                        android:id="@+id/btnSalir"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:text="Salir"
-                        android:textColor="@color/white"
-                        android:background="@drawable/button_background"
-                        android:layout_marginRight="10dp"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 

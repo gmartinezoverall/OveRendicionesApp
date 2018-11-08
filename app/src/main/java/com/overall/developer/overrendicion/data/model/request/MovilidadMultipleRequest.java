@@ -14,11 +14,12 @@ public class MovilidadMultipleRequest
     private String fecha;
     private String dni;
     private String datosTrabajador;
+    private String foto;
 
     public MovilidadMultipleRequest() {
     }
 
-    public MovilidadMultipleRequest(String rdoId, String codLiquidacion, String idUsuario, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String dni, String datosTrabajador) {
+    public MovilidadMultipleRequest(String rdoId, String codLiquidacion, String idUsuario, String motivo, String destino, String monto, String fechaDocumento, String rtgId, String tipoMov, String fecha, String dni, String datosTrabajador, String foto) {
         this.rdoId = rdoId;
         this.codLiquidacion = codLiquidacion;
         this.idUsuario = idUsuario;
@@ -31,6 +32,7 @@ public class MovilidadMultipleRequest
         this.fecha = fecha;
         this.dni = dni;
         this.datosTrabajador = datosTrabajador;
+        this.foto = foto;
     }
 
     public String getRdoId() {
@@ -127,5 +129,13 @@ public class MovilidadMultipleRequest
 
     public void setDatosTrabajador(String datosTrabajador) {
         this.datosTrabajador = datosTrabajador;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

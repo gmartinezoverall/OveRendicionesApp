@@ -28,6 +28,7 @@ import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
@@ -42,8 +43,11 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import org.angmarch.views.NiceSpinner;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +115,7 @@ public class BoletoTerrestreFragment extends Fragment
     private SpinnerDialog spinnerDialogProv, spinnerDialogTipoGasto;
     private String rtgId, idProvincia;
     private RendicionEntity rendicionEntity;
+    private LiquidacionEntity liquidacionEntity;
     private TipoGastoEntity gastoEntity;
     private ProvinciaEntity provinciaEntity;
     private String pathImage;
@@ -124,6 +129,7 @@ public class BoletoTerrestreFragment extends Fragment
         mView = inflater.inflate(R.layout.fragment_boleto_terrestre, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
 
         initialCalendar();
@@ -160,7 +166,7 @@ public class BoletoTerrestreFragment extends Fragment
                 .filter(etx -> (etx.length() > 0 && etx.length() != 11))
                 .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
 
-        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
+ /*       etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
             if (!hasFocus && etxNSerie != null) etxNSerie.setText(String.valueOf(etxNSerie.getText()) + getResources().getString(R.string.autocomplete));
 
@@ -171,7 +177,7 @@ public class BoletoTerrestreFragment extends Fragment
             if (!hasFocus && etxNDocumento!= null)
                 etxNDocumento.setText(String.valueOf(etxNDocumento.getText()) + getResources().getString(R.string.autocomplete));
 
-        });
+        });*/
 
         RxTextView.textChanges(etxOtrosGastos).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
         RxTextView.textChanges(etxValorVenta).filter(etx -> (etx.length() > 0)).subscribe(etx -> sumaTotal());
@@ -295,23 +301,46 @@ public class BoletoTerrestreFragment extends Fragment
     }
 
     //region Calendar
-    private void initialCalendar()
-    {
-        //txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+    private void initialCalendar() {
+        //txvFechaDocumento.setText(String.valueOf("-"));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);
         calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
-            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
-            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
-            if (!startDay.equals("")) {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                etxNDocumento.requestFocus();
-                lytFecha.setVisibility(View.VISIBLE);
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
+
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateNow = format.parse(Util.changeDateFormat(startDay));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
+
+                    if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
+                    {
+                        txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+                        txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+                        txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+                        if (!startDay.equals("")) {
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                            //etxValorVenta.requestFocus();
+                            lytFecha.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
+                        calendarView.clearDate();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         });
         calendarView.buildCalendar();
     }

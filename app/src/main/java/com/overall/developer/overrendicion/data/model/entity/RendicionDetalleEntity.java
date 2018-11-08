@@ -19,11 +19,12 @@ public class RendicionDetalleEntity
     private String numBeneficiario;
     private String dni;
     private String datosTrabajador;
+    private String foto;
 
     public RendicionDetalleEntity() {
     }
 
-    public RendicionDetalleEntity(Integer id, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador) {
+    public RendicionDetalleEntity(Integer id, String idMovilidad, String codRendicion, String rdoId, String rtgId, String precioTotal, String fechaRendicion, String estado, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, String foto) {
         this.id = id;
         this.idMovilidad = idMovilidad;
         this.codRendicion = codRendicion;
@@ -41,6 +42,7 @@ public class RendicionDetalleEntity
         this.numBeneficiario = numBeneficiario;
         this.dni = dni;
         this.datosTrabajador = datosTrabajador;
+        this.foto = foto;
     }
 
     public Integer getId() {
@@ -177,5 +179,13 @@ public class RendicionDetalleEntity
 
     public void setDatosTrabajador(String datosTrabajador) {
         this.datosTrabajador = datosTrabajador;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

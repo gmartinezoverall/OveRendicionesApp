@@ -25,6 +25,7 @@ import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
+import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.SinSustentoTributarioEntity;
@@ -33,8 +34,11 @@ import com.overall.developer.overrendicion.utils.Util;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +87,7 @@ public class SinSustentoTributarioFragment extends Fragment
     private String rtgId, pathImage;
 
     private RendicionEntity rendicionEntity;
+    private LiquidacionEntity liquidacionEntity;
     private TipoGastoEntity gastoEntity;
     Unbinder unbinder;
     View mView;
@@ -93,6 +98,7 @@ public class SinSustentoTributarioFragment extends Fragment
         mView = inflater.inflate(R.layout.fragment_sin_sustento_tributario, container, false);
         unbinder = ButterKnife.bind(this, mView);
 
+        liquidacionEntity = ((FormularioActivity) getContext()).getLiquidacion();
         rendicionEntity = ((FormularioActivity) getContext()).getDefaultValues();
 
         initialCalendar();
@@ -169,22 +175,46 @@ public class SinSustentoTributarioFragment extends Fragment
     //endregion
 
     //region Calendar
-    private void initialCalendar()
-    {
-        //txvFechaDocumento.setText(String.valueOf(Util.getCurrentDate()));
+    private void initialCalendar() {
+        //txvFechaDocumento.setText(String.valueOf("-"));
         calendarView.setDateFormat("dd/MM/yyyy");
         calendarView.setPreventPreviousDate(false);
         //calendarView.setErrToastMessage(R.string.error_date);
         calendarView.setOnDaySelectedListener((startDay, endDay) ->
         {
-            txvFechaDocumento.setText(Util.changeDateFormat(startDay));
-            txvFechaDocumento.setTypeface(null, Typeface.BOLD);
-            txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
-            if (!startDay.equals("")) {
-                lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
-                lytFecha.setVisibility(View.VISIBLE);
+            if (!startDay.isEmpty()) {
+               /* if (Date.valueOf(Util.changeDateFormat(startDay)).after(Date.valueOf( Util.getChangeOrderDate(liquidacionEntity.getFechaInicioLiq().substring(0,10)))) &&
+                        Date.valueOf(Util.changeDateFormat(startDay)).before(Date.valueOf(Util.getChangeOrderDate(liquidacionEntity.getFechaFinLiq().substring(0,10)))))*/
+
+                try {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateNow = format.parse(Util.changeDateFormat(startDay));
+                    Date dateBefore = format.parse(liquidacionEntity.getFechaDesde());
+                    Date dateAfter = format.parse(liquidacionEntity.getFechaHasta());
+
+                    if (!dateNow.before(dateBefore) && !dateNow.after(dateAfter))
+                    {
+                        txvFechaDocumento.setText(Util.changeDateFormat(startDay));
+                        txvFechaDocumento.setTypeface(null, Typeface.BOLD);
+                        txvFechaDocumento.setTextColor(getResources().getColor(R.color.black));
+                        if (!startDay.equals("")) {
+                            lytCalendar.setVisibility(lytCalendar.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                            lytArrow.setRotation(lytArrow.getRotation() == 90 ? 0 : 90);
+                            //etxValorVenta.requestFocus();
+                            lytFecha.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        //Toast.makeText(getContext(), getResources().getString(R.string.errorDate) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.errorDate)+ " entre " + liquidacionEntity.getFechaDesde() + " y " + liquidacionEntity.getFechaHasta(), Toast.LENGTH_LONG).show();
+                        calendarView.clearDate();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         });
         calendarView.buildCalendar();
     }

@@ -8,6 +8,7 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionBean;
 import com.overall.developer.overrendicion.data.model.bean.TipoDocumentoBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.repository.Pendiente.PendienteRepository;
+import com.overall.developer.overrendicion.utils.Util;
 
 import java.util.List;
 
@@ -113,7 +114,16 @@ public class DBPendienteImpl implements DBPendiente
     public List<LiquidacionBean> listPendienteDB(String entidad, String texto)
     {
         Realm mRealm = Realm.getDefaultInstance();
-        RealmResults<LiquidacionBean> pendienteBeans = mRealm.where(LiquidacionBean.class).contains(entidad, texto.toUpperCase()).findAll();
+        RealmResults<LiquidacionBean> pendienteBeans;
+        if (entidad.equals("monto"))
+        {
+            pendienteBeans = mRealm.where(LiquidacionBean.class).equalTo(entidad, Double.valueOf(texto)).findAll();
+        }
+        else
+        {
+            pendienteBeans = mRealm.where(LiquidacionBean.class).contains(entidad, texto.toUpperCase()).findAll();
+        }
+
         return pendienteBeans;
     }
 
@@ -163,7 +173,18 @@ public class DBPendienteImpl implements DBPendiente
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
-            for (LiquidacionBean bean : pendienteBean) bean.setCodLiquidacion(bean.getCodLiquidacion().substring(bean.getCodLiquidacion().length()-6, bean.getCodLiquidacion().length()));
+            for (LiquidacionBean bean : pendienteBean)
+            {
+                bean.setCodLiquidacion(bean.getCodLiquidacion().substring(bean.getCodLiquidacion().length()-6, bean.getCodLiquidacion().length()));
+                bean.setFechaPago(Util.getChangeOrderDate(bean.getFechaPago().substring(0,10)));
+                bean.setFechaViatico(Util.getChangeOrderDate(bean.getFechaViatico().substring(0,10)));
+                bean.setFechaDesde(Util.getChangeOrderDate(bean.getFechaDesde().substring(0,10)));
+                bean.setFechaHasta(Util.getChangeOrderDate(bean.getFechaHasta().substring(0,10)));
+                bean.setFechaInicioLiq(Util.getChangeOrderDate(bean.getFechaInicioLiq().substring(0,10)));
+                bean.setFechaFinLiq(Util.getChangeOrderDate(bean.getFechaFinLiq().substring(0,10)));
+                bean.setFechaDesdeR(Util.getChangeOrderDate(bean.getFechaDesdeR().substring(0,10)));
+                bean.setFechaHastaR(Util.getChangeOrderDate(bean.getFechaHastaR().substring(0,10)));
+            }
             mRealm.insertOrUpdate(pendienteBean);
 
         });

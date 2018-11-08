@@ -125,9 +125,9 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         });
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+ /*       FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+                .setAction("Action", null).show());*/
 
     }
 
@@ -172,7 +172,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     public void onButtonClicked(int buttonCode) {
         switch (buttonCode) {
             case MaterialSearchBar.BUTTON_CLEAR:
-                initialRecyclerView();
+                mPresenter.filterLiquidacion(String.valueOf(mSearchBar.getTxvTipoBuscar()), "");
                 break;
         }
 

@@ -31,13 +31,15 @@ public class LiquidacionBean extends RealmObject
     private String codEgreso;
     private String fechaInicioLiq;
     private String fechaFinLiq;
+    private String fechaDesdeR;
+    private String fechaHastaR;
     private boolean status;
 
     public LiquidacionBean()
     {
     }
 
-    public LiquidacionBean(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq) {
+    public LiquidacionBean(String codLiquidacion, String tipoLiquidacion, String descripcionLiquidacion, Double monto, String nombre, String idPeriodo, String fechaPago, String codComp, Double aCuenta, Double saldo, String dni, String fechaViatico, String motivoViaje, String ubigeoProvDestino, String fechaDesde, String fechaHasta, String tipoViatico, String estado, String codEgreso, String fechaInicioLiq, String fechaFinLiq, String fechaDesdeR, String fechaHastaR) {
         this.codLiquidacion = codLiquidacion;
         this.tipoLiquidacion = tipoLiquidacion;
         this.descripcionLiquidacion = descripcionLiquidacion;
@@ -58,6 +60,8 @@ public class LiquidacionBean extends RealmObject
         this.codEgreso = codEgreso;
         this.fechaInicioLiq = fechaInicioLiq;
         this.fechaFinLiq = fechaFinLiq;
+        this.fechaDesdeR = fechaDesdeR;
+        this.fechaHastaR = fechaHastaR;
         this.estado = estado;
 
     }
@@ -230,6 +234,22 @@ public class LiquidacionBean extends RealmObject
 
     public void setFechaFinLiq(String fechaFinLiq) {
         this.fechaFinLiq = fechaFinLiq;
+    }
+
+    public String getFechaDesdeR() {
+        return fechaDesdeR;
+    }
+
+    public void setFechaDesdeR(String fechaDesdeR) {
+        this.fechaDesdeR = fechaDesdeR;
+    }
+
+    public String getFechaHastaR() {
+        return fechaHastaR;
+    }
+
+    public void setFechaHastaR(String fechaHastaR) {
+        this.fechaHastaR = fechaHastaR;
     }
 
     public boolean isStatus() {

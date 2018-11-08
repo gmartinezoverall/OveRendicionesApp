@@ -145,13 +145,47 @@ public class Util
             case 2://BOLETA DE VENTA
                 valor = 1;
                 break;
-
-            case 17://VOUCHER BANCARIO
-                valor = 14;
+            case 3://NOTA DE CREDITO
+                valor = 8;
                 break;
-
+            case 5://RECIBO POR HONORARIOS
+                valor = 10;
+                break;
+            case 8://BOLETO AEREO
+                valor = 2;
+                break;
+            case 9://BOLETO TERRESTRE
+                valor = 3;
+                break;
             case 10://MOVILIDAD
                 valor = 7;
+                break;
+            case 11://RECIBO POR SERVICIOS PUBLICOS
+                valor = 11;
+                break;
+            case 12://SIN SUSTENTO TRIBUTARIO
+                valor = 12;
+                break;
+            case 13://OTROS DOCUMENTOS
+                valor = 9;
+                break;
+            case 14://ARRENDAMIENTO
+                valor = 0;
+                break;
+            case 15://TICKET MAQUINA REGISTRADORA
+                valor = 13;
+                break;
+            case 17://VOUCHER BANCARIO
+                valor = 15;
+                break;
+            case 18://DESCUENTO BOLETA
+                valor = 5;
+                break;
+            case 19://MOVILIDAD
+                valor = 14;
+                break;
+            case 21://CARTA DE PORTE AEREO
+                valor = 4;
                 break;
 
             default:

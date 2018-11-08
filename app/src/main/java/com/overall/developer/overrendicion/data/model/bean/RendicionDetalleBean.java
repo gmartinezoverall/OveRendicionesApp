@@ -26,6 +26,7 @@ public class RendicionDetalleBean extends RealmObject
     private String numBeneficiario;
     private String dni;
     private String datosTrabajador;
+    private String foto;
     private Boolean send;
 
     public RendicionDetalleBean()
@@ -33,7 +34,7 @@ public class RendicionDetalleBean extends RealmObject
 
     }
 
-    public RendicionDetalleBean(String codLiquidacion,String rdoId, String tipoMov, String rtgId, String precioTotal, String fechaRendicion, String estado, String fechaMovilidad, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, boolean send) {
+    public RendicionDetalleBean(String codLiquidacion,String rdoId, String tipoMov, String rtgId, String precioTotal, String fechaRendicion, String estado, String fechaMovilidad, String destinoMovilidad, String montoMovilidad, String motivoMovilidad, String beneficiario, String fechaDesde, String fechaHasta, String numBeneficiario, String dni, String datosTrabajador, String foto, boolean send) {
         this.codLiquidacion = codLiquidacion;
         this.rdoId = rdoId;
         this.tipoMov = tipoMov;
@@ -51,6 +52,7 @@ public class RendicionDetalleBean extends RealmObject
         this.numBeneficiario = numBeneficiario;
         this.dni = dni;
         this.datosTrabajador = datosTrabajador;
+        this.foto = foto;
         this.send = send;
 
     }
@@ -213,6 +215,22 @@ public class RendicionDetalleBean extends RealmObject
 
     public void setNumBeneficiario(String numBeneficiario) {
         this.numBeneficiario = numBeneficiario;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public Boolean getSend() {
+        return send;
+    }
+
+    public void setSend(Boolean send) {
+        this.send = send;
     }
 
     public boolean isSend() {
