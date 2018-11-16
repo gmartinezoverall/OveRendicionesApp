@@ -158,9 +158,10 @@ public class MovilidadMultipleAdapter extends RecyclerSwipeAdapter<MovilidadMult
             builder.setMessage(R.string.messageDialog);
             builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
             {
-                itemCLick.onClick(v, rendicionDetalle.getId());
+                ((RendicionActivity)mContext).deleteDetRendicion(19, mMovilidadList.get(position).getId());
                 mMovilidadList.remove(position);
-                notifyItemRemoved(position);
+                //notifyItemRemoved(position);
+                notifyDataSetChanged();
 
             });
             builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->

@@ -103,6 +103,7 @@ public class ApiRendicionImpl implements ApiRendicion
                         {
                             if (response.getString("code").equals("0"))
                             {
+                                //mRepository.deleteMovSuccess();
 
                             }
                         } catch (JSONException e)

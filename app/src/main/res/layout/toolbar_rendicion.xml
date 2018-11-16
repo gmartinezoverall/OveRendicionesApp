@@ -34,7 +34,7 @@
                     android:id="@+id/txvTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rendiciones"
+                    android:text="Documentos"
                     android:textColor="@color/white"
                     android:textSize="18sp"/>
             </LinearLayout>
@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cod: "
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="14sp"/>
 

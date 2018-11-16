@@ -77,9 +77,9 @@ public class RendicionPresenterImpl implements RendicionPresenter
     }
 
     @Override
-    public void deleteDetMovForCod(int idDetMov)
+    public void deleteDetMovForCod(int rdoId, int idDetMov)
     {
-        mInteractor.deleteDetMovForCod(idDetMov);
+        mInteractor.deleteDetMovForCod(rdoId, idDetMov);
     }
 
     @Override
@@ -112,6 +112,11 @@ public class RendicionPresenterImpl implements RendicionPresenter
     @Override
     public List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion) {
         return mInteractor.getListRendicionDetalle(codRendicion);
+    }
+
+    @Override
+    public void deleteMovSuccess(int rdoId, Double totalMontoMovilidad) {
+        mView.deleteMovSuccess(rdoId, totalMontoMovilidad);
     }
 
 }

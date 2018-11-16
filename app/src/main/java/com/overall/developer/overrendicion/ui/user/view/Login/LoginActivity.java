@@ -95,7 +95,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
 
         mBtnIngresar.setOnButtonLoadingListener(new ButtonLoading.OnButtonLoadingListener() {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 if (!mEtUsuario.getText().toString().isEmpty() || !mEtPassword.getText().toString().isEmpty()) finishLoading();
                 else
                 {
@@ -179,7 +180,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Trans
                     mDialog.setPositiveListener(R.string.send, dialog1 ->
                     {
                         dialog1.dismiss();
-                        mPresenter.loginRecovery(String.valueOf(mDialog.getTextTXV()));                        return mDialog.getTextTXV();
+                        mPresenter.loginRecovery(String.valueOf(mDialog.getTextTXV()));
+                        return mDialog.getTextTXV();
 
                     }).setNegativeListener(R.string.cancel, dialog12 -> dialog12.dismiss()).show();
 

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +86,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     private String dniUser = "";
     private String nombreUser = "";
     private String emailUser = "";
-    Dialog mDialog;
+    Dialog mDialog, mDialogPhono;
     //private RealmBrowser realmBrowser;
 
     @Override
@@ -103,8 +104,12 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         mRecyclerView = findViewById(R.id.rvPendiente);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        if (!mPresenter.checkingPhone()) PendienteActivity.this.runOnUiThread(() -> showDialogTelefono());
+        else
+        {
+            if (dniUser != null) mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
+        }
 
-        if (dniUser != null) mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
         mPresenter.insertProvincia(dniUser);
 
         mPresenter.initialDefaultApis();
@@ -278,6 +283,7 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
         pendienteBeanList = listPendiente;
         if (mRecyclerView == null)mRecyclerView.getAdapter().notifyDataSetChanged();
 
+
     }
 
     @Override
@@ -349,9 +355,12 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
     @Override
     protected void onResume() {
         super.onResume();
-        showDialog();
-        mPresenter.refreshList(String.valueOf(dniUser));
-        if (Util.isOnline())sendDataOffLine();
+
+
+            showDialog();
+            mPresenter.refreshList(String.valueOf(dniUser));
+            if (Util.isOnline())sendDataOffLine();
+
 
 
 /*        Log.i("NDa","NDa");
@@ -408,14 +417,41 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
                 .subscribe(timer-> svgView.start());
     }
 
+    private void showDialogTelefono()
+    {
+
+        mDialogPhono = new Dialog(this);
+        mDialogPhono.setContentView(R.layout.dialog_telefono);
+        EditText etxNumeroTel = mDialogPhono.findViewById(R.id.etxNumeroTel);
+        TextView txvGuardar = mDialogPhono.findViewById(R.id.txvGuardar);
+        txvGuardar.setOnClickListener(v ->
+        {
+            if (!etxNumeroTel.getText().toString().isEmpty())
+            {
+                mPresenter.saveTelefono(String.valueOf(etxNumeroTel.getText()));
+                mDialogPhono.dismiss();
+                if (dniUser != null) mPresenter.listPendiente(String.valueOf(dniUser));//listar Liquidaciones Pendientes
+            }
+
+        });
+
+        mDialogPhono.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundtext_card)));
+        mDialogPhono.setCancelable(false);
+        mDialogPhono.show();
+
+    }
+
+
     void timerInterval()
     {
         Observable.timer(3000, TimeUnit.MILLISECONDS)
-                .subscribe(timer->
+                .subscribe(timer ->
                 {
                     pullRefresh.finishRefresh();
+
                     mDialog.dismiss();
                 });
     }
+
     //endregion
 }

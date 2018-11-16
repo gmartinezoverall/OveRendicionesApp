@@ -306,6 +306,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     @Override
     public void searchRucError()
     {
+        OttoBus.getBus().post(new Communicator(""));
         mDialog.dismiss();
     }
 
@@ -313,12 +314,12 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
     //region Estados de la Actividad
 
     @Override
-    public void onBackPressed() {
-
+    public void onBackPressed()
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.tittleDialog);
-        builder.setMessage(R.string.messageDialogBack);
-        builder.setPositiveButton(R.string.messageDialogBackMsg, (dialog, id) -> super.onBackPressed());
+        builder.setTitle(R.string.messageDialogBack);
+        builder.setMessage(R.string.messageDialogMsg);
+        builder.setPositiveButton(R.string.btnPositive, (dialog, id) -> super.onBackPressed());
         builder.setNegativeButton(R.string.btnNegative, (dialog, id) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();

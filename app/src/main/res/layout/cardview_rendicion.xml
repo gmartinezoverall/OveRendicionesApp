@@ -266,7 +266,7 @@
                     android:layout_weight="0.8"
                     android:maxLines="1"
                     android:gravity="center"
-                    android:text="codigo"/>
+                    android:text="Documento"/>
 
                 <TextView
                     android:id="@+id/txvDocumento"

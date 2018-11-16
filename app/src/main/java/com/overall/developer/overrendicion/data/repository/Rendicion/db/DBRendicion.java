@@ -32,7 +32,7 @@ public interface DBRendicion
 
     List<RendicionDetalleBean> getListMovilidadDB(String codRendicion);
 
-    String deleteDetMovForCodDB(int idDetMov);
+    String deleteDetMovForCodDB(int rdoId, int idDetMov);
 
     String getUrlImageDB(String codRendicion);
 }

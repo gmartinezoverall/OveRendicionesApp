@@ -126,6 +126,11 @@ public class PendienteInteractorImpl implements PendienteInteractor
 
     }
 
+    @Override
+    public boolean checkingPhone() {
+        return mRepository.checkingPhone(getUser().getNumDocBeneficiario());
+    }
+
 
     @Override
     public void successPendienteList(String message, String dniUser)
@@ -172,6 +177,12 @@ public class PendienteInteractorImpl implements PendienteInteractor
     {
         Toast.makeText(mContext, String.valueOf(mContext.getResources().getString(R.string.sendEmailError)),Toast.LENGTH_SHORT).show();
         mPresenter.errorSendResume();
+    }
+
+    @Override
+    public void saveTelefono(String numTelefono)
+    {
+        mRepository.saveTelefonoDB(numTelefono);
     }
 
     private void listUserForDNI(String dniUser)

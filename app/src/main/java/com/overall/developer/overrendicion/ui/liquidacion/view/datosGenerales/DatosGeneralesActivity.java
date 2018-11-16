@@ -140,8 +140,8 @@ public class DatosGeneralesActivity extends AppCompatActivity implements DatosGe
     public void onBackPressed() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.tittleDialog);
-        builder.setMessage(R.string.messageDialogBackMsg);
+        builder.setTitle(R.string.messageDialogBack);
+        builder.setMessage(R.string.messageDialogMsg);
         builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
                 {
                     super.onBackPressed();

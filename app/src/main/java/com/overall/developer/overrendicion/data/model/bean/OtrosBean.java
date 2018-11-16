@@ -9,13 +9,15 @@ public class OtrosBean extends RealmObject
     private Integer id;
     private String tipoCambio;
     private String sueldo;
+    private String telefono;
 
     public OtrosBean() {
     }
 
-    public OtrosBean(Integer id, String tipoCambio) {
+    public OtrosBean(Integer id, String tipoCambio, String telefono) {
         this.id = id;
         this.tipoCambio = tipoCambio;
+        this.telefono = telefono;
     }
 
     public Integer getId() {
@@ -36,5 +38,13 @@ public class OtrosBean extends RealmObject
 
     public void setSueldo(String sueldo) {
         this.sueldo = sueldo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

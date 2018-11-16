@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.swipe.util.Attributes;
@@ -55,7 +53,6 @@ import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 
 import com.overall.developer.overrendicion.utils.GlideApp;
 import com.overall.developer.overrendicion.utils.Util;
-import com.overall.developer.overrendicion.utils.aws.AwsUtility;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -69,7 +66,6 @@ import butterknife.ButterKnife;
 import id.zelory.compressor.Compressor;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.overall.developer.overrendicion.utils.background.InitialServiceBrodcast.sendDataOffLine;
@@ -230,6 +226,8 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     public void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList)
     {
+ /*       mRendicionList = entityList;
+        usedAdapter();*/
 
     }
 
@@ -237,6 +235,29 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     public void sendPhotoSuccess()
     {
 
+    }
+
+    @Override
+    public void deleteMovSuccess(int rdoId, Double totalMontoMovilidad)
+    {
+        String rdoIdValue = rdoId==19 ? "VARIOS TRABAJADORES-  MOVILIDAD MULTIPLE" : "MOVILIDAD INDIVIDUAL - HOJA RUTA";
+        for (int i=0; i< mRendicionList.size(); i++)
+        {
+            if (mRendicionList.get(i).getRdoId().equals(rdoIdValue))mRendicionList.get(i).setPrecioTotal(String.valueOf(totalMontoMovilidad));
+            if (totalMontoMovilidad.equals(0.0))
+            {
+                mRendicionList.remove(i);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        //
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteDetRendicion(int rdoId, int idRendicion)
+    {
+        mPresenter.deleteDetMovForCod(rdoId, idRendicion);
     }
 
     public List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion)
@@ -291,18 +312,17 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         String urlImage = mPresenter.getUrlImage(codRendicion);
 
-        GlideApp.with(this)
-                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
-                .load(urlImage)
-                .placeholder(R.drawable.ic_add_a_photo)
-                .error(R.drawable.ic_highlight_off)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(imgFoto);
-/*        Glide.with(this)
-                .load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180823133248.jpg")
-                .into(imgFoto);*/
-
+        if (!urlImage.equals("-"))
+        {
+            GlideApp.with(this)
+                    //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                    .load(urlImage)
+                    .placeholder(R.drawable.ic_add_a_photo)
+                    .error(R.drawable.ic_highlight_off)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH)
+                    .into(imgFoto);
+        }
 
         PushDownAnim.setPushDownAnimTo(btnFoto);
 
@@ -311,7 +331,7 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
     void timerInterval()
     {
-        Observable.timer(5, TimeUnit.SECONDS)
+        Observable.timer(3, TimeUnit.SECONDS)
                 .subscribe(timer->
 
                     mDialog.dismiss()
@@ -359,12 +379,6 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
                     break;
 
-                case R.id.lytRemoveDet:
-
-                    mPresenter.deleteDetMovForCod(position);
-                    mPresenter.listRendicion();
-
-                    break;
 
                 case R.id.lytFoto:
 

@@ -207,7 +207,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
             else
             {
                 MovilidadUpdateRequest updateRequest = new MovilidadUpdateRequest(movilidadEntity.getIdMovilidad(), movilidadEntity.getFecha(), movilidadEntity.getMotivo(),
-                        movilidadEntity.getDestino(), movilidadEntity.getMonto());
+                        movilidadEntity.getDestino(), movilidadEntity.getMonto(), movilidadEntity.getDniTrabajador(), movilidadEntity.getDatosTrabajador(), movilidadEntity.getFoto());
                 mRepository.sendDataUpdateMovilidadApi(updateRequest);
 
             }

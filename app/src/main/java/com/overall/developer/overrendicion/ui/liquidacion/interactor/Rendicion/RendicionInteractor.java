@@ -5,7 +5,6 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionDetalleBean;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public interface RendicionInteractor
 
     void successListMovilidad(List<RendicionDetalleBean> movilidadList);
 
-    void deleteDetMovForCod(int idDetMov);
+    void deleteDetMovForCod(int rdoId, int idDetMov);
 
     void deleteDetMovSuccess(List<RendicionBean> beanList, List<RendicionDetalleBean> detalleBeansList);
 
@@ -42,4 +41,6 @@ public interface RendicionInteractor
     String getCodLiquidacion();
 
     List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion);
+
+    void deleteMovSuccess(int rdoId, Double totalMontoMovilidad);
 }

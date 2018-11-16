@@ -39,4 +39,8 @@ public interface DBPendiente
     boolean validateRendicionisEmpyDB(String codLiquidacion);
 
     void insertRmvDB(String sueldo);
+
+    boolean checkingPhone(String numDocBeneficiario);
+
+    void saveTelefonoDB(String numTelefono);
 }

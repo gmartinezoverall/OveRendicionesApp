@@ -188,9 +188,10 @@ public class DBRendicionImpl implements DBRendicion
     }
 
     @Override
-    public String deleteDetMovForCodDB(int idDetMov)
+    public String deleteDetMovForCodDB(int rdoId, int idDetMov)
     {
         String idMovilidad, codRendicion;
+        final Double[] totalMontoMovilidad = {0.0};
         Realm mRealm = Realm.getDefaultInstance();
         RendicionDetalleBean movilidadBean = mRealm.where(RendicionDetalleBean.class).equalTo("id", idDetMov).findFirst();
         idMovilidad = movilidadBean.getIdMovilidad();
@@ -198,9 +199,21 @@ public class DBRendicionImpl implements DBRendicion
         mRealm.executeTransaction(realm ->
         {
             movilidadBean.deleteFromRealm();
-            RealmResults<RendicionBean> beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findAll();
+            //RealmResults<RendicionBean> beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findAll();
             RealmResults<RendicionDetalleBean> detalleBeansList = mRealm.where(RendicionDetalleBean.class).equalTo("codRendicion", codRendicion).findAll();
-            mRepository.deleteDetMovSuccess(beanList, detalleBeansList);
+            if (detalleBeansList.size() == 0)
+            {
+                RendicionBean beanList = mRealm.where(RendicionBean.class).equalTo("codRendicion", codRendicion).findFirst();
+                beanList.deleteFromRealm();
+            }
+            for (RendicionDetalleBean bean : detalleBeansList)
+            {
+                totalMontoMovilidad[0] = totalMontoMovilidad[0] + Double.valueOf(bean.getMontoMovilidad());
+            }
+
+
+            mRepository.deleteMovSuccess(rdoId,totalMontoMovilidad[0]);
+            //mRepository.deleteDetMovSuccess(beanList, detalleBeansList);
         });
         return idMovilidad;
 

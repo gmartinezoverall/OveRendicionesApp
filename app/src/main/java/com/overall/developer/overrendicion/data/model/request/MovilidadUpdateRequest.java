@@ -7,16 +7,22 @@ public class MovilidadUpdateRequest
     private String motivo;
     private String destino;
     private String monto;
+    private String dni;
+    private String datosTrabajador;
+    private String foto;
 
     public MovilidadUpdateRequest() {
     }
 
-    public MovilidadUpdateRequest(String idMovilidad, String fecha, String motivo, String destino, String monto) {
+    public MovilidadUpdateRequest(String idMovilidad, String fecha, String motivo, String destino, String monto, String dni, String datosTrabajador, String foto) {
         this.idMovilidad = idMovilidad;
         this.fecha = fecha;
         this.motivo = motivo;
         this.destino = destino;
         this.monto = monto;
+        this.dni = dni;
+        this.datosTrabajador = datosTrabajador;
+        this.foto = foto;
     }
 
     public String getIdMovilidad() {
@@ -57,5 +63,29 @@ public class MovilidadUpdateRequest
 
     public void setMonto(String monto) {
         this.monto = monto;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getDatosTrabajador() {
+        return datosTrabajador;
+    }
+
+    public void setDatosTrabajador(String datosTrabajador) {
+        this.datosTrabajador = datosTrabajador;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

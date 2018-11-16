@@ -29,6 +29,8 @@ public interface PendienteInteractor
     boolean validateRendicionisEmpy(String codLiquidacion);
 
     void initialDefaultApis();
+
+    boolean checkingPhone();
     //endregion
 
     //region Sets
@@ -41,6 +43,8 @@ public interface PendienteInteractor
     void successSendResume();
 
     void errorSendResume();
+
+    void saveTelefono(String numTelefono);
 
     //endregion
 }

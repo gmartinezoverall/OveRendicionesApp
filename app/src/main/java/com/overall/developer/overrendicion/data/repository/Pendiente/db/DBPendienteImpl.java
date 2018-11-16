@@ -1,5 +1,7 @@
 package com.overall.developer.overrendicion.data.repository.Pendiente.db;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.overall.developer.overrendicion.data.model.bean.BancoBean;
 import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean;
 import com.overall.developer.overrendicion.data.model.bean.OtrosBean;
@@ -153,6 +155,32 @@ public class DBPendienteImpl implements DBPendiente
             OtrosBean bean = new OtrosBean();
             bean.setSueldo(sueldo);
             mRealm.insertOrUpdate(bean);
+        });
+
+    }
+
+    @Override
+    public boolean checkingPhone(String numDocBeneficiario)
+    {
+        Realm mRealm = Realm.getDefaultInstance();
+        UserBean userBeanList = mRealm.where(UserBean.class).equalTo("numDocBeneficiario", numDocBeneficiario).findFirst();
+        if (userBeanList.getTelefono()!= null)return true;
+        return false;
+    }
+
+    @Override
+    public void saveTelefonoDB(String numTelefono)
+    {
+
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(realm ->
+        {
+            UserBean userBean = getUser();
+            userBean.setTelefono(numTelefono);
+            Crashlytics.setString("Nombre",userBean.getNombre());
+            Crashlytics.setString("NumberPhone",userBean.getTelefono());
+            FirebaseCrash.log("ASD.Cell -> "+ userBean.getTelefono());
+            mRealm.insertOrUpdate(userBean);
         });
 
     }

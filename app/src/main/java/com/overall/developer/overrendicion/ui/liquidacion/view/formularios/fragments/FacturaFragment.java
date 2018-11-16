@@ -151,7 +151,7 @@ public class FacturaFragment extends Fragment {
         });
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus && etxValorVenta != null) sumaTotal();
+            if (!hasFocus && etxValorVenta != null && !etxValorVenta.getText().toString().isEmpty()) sumaTotal();
         });
 
         RxTextView.textChanges(etxNSerie)
@@ -200,6 +200,7 @@ public class FacturaFragment extends Fragment {
         Double neto, igv, otros;
 
         if (etxValorVenta != null) {
+            if (etxValorVenta.getText().toString().isEmpty())etxValorVenta.setText("0");
             neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString().isEmpty() ? 0 : etxValorVenta.getText().toString()));
             igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
             txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
@@ -266,8 +267,17 @@ public class FacturaFragment extends Fragment {
     @Subscribe
     public void searchRucSuccess(Communicator razonSocial) {
         etxRazonSocial.setText(razonSocial.getRazonSocial());
-        etxRazonSocial.setEnabled(false);
-        etxNSerie.requestFocus();
+        if (razonSocial.getRazonSocial().trim().isEmpty())
+        {
+            etxRazonSocial.setEnabled(true);
+            etxRazonSocial.requestFocus();
+
+        }else
+        {
+            etxRazonSocial.setEnabled(false);
+            etxNSerie.requestFocus();
+        }
+
     }
 
     @OnClick({R.id.btnGuardar, R.id.chkAfectoIgv, R.id.spnTipoGasto, R.id.btnFoto, R.id.btnSearch, R.id.lytFecha})

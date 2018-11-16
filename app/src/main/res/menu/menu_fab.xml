@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_note_add"
-        android:title="Agregar Rendicion"/>
+        android:title="Agregar Documento"/>
 
     <item
         android:id="@+id/menu_list"

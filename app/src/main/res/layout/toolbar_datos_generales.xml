@@ -3,15 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     tools:context=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity">
 
     <com.github.florent37.awesomebar.AwesomeBar
         android:id="@+id/toolbarDatosGenerales"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="@color/toolbarColor"
         android:elevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/lytTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingLeft="120dp">
+
+                <TextView
+                    android:id="@+id/txvTitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datos Generales"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lyt1"
@@ -20,6 +37,7 @@
                 android:layout_alignLeft="@+id/lyt2"
                 android:gravity="right|center"
                 android:paddingRight="140dp"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
                 <LinearLayout

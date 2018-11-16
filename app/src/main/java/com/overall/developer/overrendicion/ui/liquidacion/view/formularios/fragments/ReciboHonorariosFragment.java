@@ -132,11 +132,11 @@ public class ReciboHonorariosFragment extends Fragment
 
         ArrayList<Object> itemList = new ArrayList<>();
         itemList.addAll(((FormularioActivity) getContext()).getListSpinner());
-        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerSearch));
+        spinnerDialog = new SpinnerDialog(getActivity(), itemList, getResources().getString(R.string.tittleSpinerTipoGasto));
         spinnerDialog.bindOnSpinerListener((item, position) ->
         {
-            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes().toString());
-            rtgId = ((TipoGastoEntity) item).getRtgId().toString();
+            spnTipoGasto.setText(((TipoGastoEntity) item).getRtgDes());
+            rtgId = ((TipoGastoEntity) item).getRtgId();
         });
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {

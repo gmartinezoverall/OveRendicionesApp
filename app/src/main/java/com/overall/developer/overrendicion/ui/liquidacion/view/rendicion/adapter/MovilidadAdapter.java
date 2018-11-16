@@ -112,9 +112,13 @@ public class MovilidadAdapter extends RecyclerSwipeAdapter<MovilidadAdapter.Movi
             builder.setMessage(R.string.messageDialog);
             builder.setPositiveButton(R.string.btnPositive, (dialog, id) ->
             {
-                itemCLick.onClick(v, rendicion.getId());
+                //itemCLick.onClick(v, position);
+
+                ((RendicionActivity)mContext).deleteDetRendicion(10, mMovilidadList.get(position).getId());
                 mMovilidadList.remove(position);
-                notifyItemRemoved(position);
+                //notifyItemRemoved(position);
+                notifyDataSetChanged();
+
 
             });
             builder.setNegativeButton(R.string.btnNegative, (dialog, id) ->

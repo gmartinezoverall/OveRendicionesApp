@@ -152,7 +152,7 @@
     <string name="messageDialog">¿Desea eliminar la rendicion?</string>
     <string name="messageDialogMov">¿Desea Eliminar la Rendicion de Movilidad?</string>
     <string name="messageDialogBack">¿Desea salir de la Rendicion?</string>
-    <string name="messageDialogBackMsg">Se perderan todos los datos registrados</string>
+    <string name="messageDialogMsg">Se perderan todos los datos registrados</string>
     <string name="messagePendienteListNull">Felicidades, no tienes pendientes por rendir.</string>
     <string name="validarRuc">Verificar RUC</string>
     <string name="validatDatosGenerales">Debe completar los datos Generales antes de continuar</string>

@@ -42,7 +42,11 @@ public class PendientePresenterImpl implements PendientePresenter
     @Override
     public void errorSendResume() { mView.errorSendResume();}
 
-    //region Interfaces
+    @Override
+    public void saveTelefono(String numTelefono) {
+        mInteractor.saveTelefono(numTelefono);
+    }
+
     @Override
     public void listPendiente(String dniUser)
     {
@@ -92,6 +96,11 @@ public class PendientePresenterImpl implements PendientePresenter
     }
 
     @Override
+    public boolean checkingPhone() {
+        return mInteractor.checkingPhone();
+    }
+
+    @Override
     public void successPendienteList(String message)
     {
         mView.successPendienteList(message);
@@ -128,6 +137,6 @@ public class PendientePresenterImpl implements PendientePresenter
         mView.searchListPendienteResult(pendienteBean);
 
     }
-    //endregion
+
 
 }

@@ -13,6 +13,7 @@ public class UserBean extends RealmObject {
     private String estadoUsuario;
     private String fechaNac;
     private String email;
+    private String telefono;
     private boolean status = false;
 
     public UserBean()
@@ -65,6 +66,14 @@ public class UserBean extends RealmObject {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public boolean isStatus() {

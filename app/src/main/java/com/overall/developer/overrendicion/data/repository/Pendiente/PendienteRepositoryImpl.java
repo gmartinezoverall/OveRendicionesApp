@@ -115,6 +115,16 @@ public class PendienteRepositoryImpl implements PendienteRepository
         mDbPendiente.insertRmvDB(sueldo);
     }
 
+    @Override
+    public boolean checkingPhone(String numDocBeneficiario) {
+        return mDbPendiente.checkingPhone(numDocBeneficiario);
+    }
+
+    @Override
+    public void saveTelefonoDB(String numTelefono) {
+        mDbPendiente.saveTelefonoDB(numTelefono);
+    }
+
 
     @Override
     public List<LiquidacionBean>  listPendienteDB()

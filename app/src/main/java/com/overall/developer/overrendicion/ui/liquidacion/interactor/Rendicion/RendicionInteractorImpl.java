@@ -151,10 +151,10 @@ public class RendicionInteractorImpl implements RendicionInteractor
     }
 
     @Override
-    public void deleteDetMovForCod(int idDetMov)
+    public void deleteDetMovForCod(int rdoId, int idDetMov)
     {
-        String idMovilidad = mRepository.deleteDetMovForCodDB(idDetMov);
-        if (Util.isOnline())mRepository.deleteDetMovForCodApi(idMovilidad);
+        String idMovilidad = mRepository.deleteDetMovForCodDB(rdoId, idDetMov);
+        if (Util.isOnline())mRepository.deleteDetMovForCodApi(idMovilidad);//borro por background
     }
 
     @Override
@@ -235,6 +235,12 @@ public class RendicionInteractorImpl implements RendicionInteractor
         }
 
         return detalleEntityList;
+    }
+
+    @Override
+    public void deleteMovSuccess(int rdoId, Double totalMontoMovilidad)
+    {
+        mPresenter.deleteMovSuccess(rdoId, totalMontoMovilidad);
     }
 
 }

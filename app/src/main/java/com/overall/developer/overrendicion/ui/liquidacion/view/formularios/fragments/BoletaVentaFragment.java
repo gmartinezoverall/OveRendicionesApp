@@ -149,9 +149,8 @@ public class BoletaVentaFragment extends Fragment
             rtgId = ((TipoGastoEntity) item).getRtgId();
         });
 
-
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) sumaTotal();
+            if (!hasFocus && etxValorVenta != null && !etxValorVenta.getText().toString().isEmpty()) sumaTotal();
         });
 
 
@@ -226,12 +225,15 @@ public class BoletaVentaFragment extends Fragment
     private void sumaTotal() {
         Double neto, igv, otros;
 
-        neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString() .isEmpty() ? 0 : etxValorVenta.getText().toString()));
-        igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
-        txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
-        otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
+        if (etxValorVenta != null) {
+            if (etxValorVenta.getText().toString().isEmpty())etxValorVenta.setText("0");
+            neto = Double.valueOf(String.valueOf(etxValorVenta.getText().toString().isEmpty() ? 0 : etxValorVenta.getText().toString()));
+            igv = Double.valueOf(chkAfectoIgv.isChecked() ? String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18) : "0.00");
+            txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
+            otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
 
-        etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
+            etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
+        }
     }
 
     @Override

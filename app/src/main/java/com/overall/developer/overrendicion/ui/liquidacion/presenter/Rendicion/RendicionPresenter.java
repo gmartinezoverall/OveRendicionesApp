@@ -27,7 +27,7 @@ public interface RendicionPresenter
 
     void getListMovilidad(List<RendicionDetalleEntity> listMovilidad);
 
-    void deleteDetMovForCod(int idDetMov);
+    void deleteDetMovForCod(int rdoId, int idDetMov);
 
     void deleteDetMovSuccess(List<RendicionEntity> entityList, List<RendicionDetalleEntity> detalleEntityList);
 
@@ -40,4 +40,6 @@ public interface RendicionPresenter
     String getCodLiquidacion();
 
     List<RendicionDetalleEntity> getListRendicionDetalle(String codRendicion);
+
+    void deleteMovSuccess(int rdoId, Double totalMontoMovilidad);
 }

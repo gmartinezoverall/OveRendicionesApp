@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.crash.FirebaseCrash;
+import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.utils.background.SendDataService;
 
 import io.fabric.sdk.android.Fabric;
@@ -27,7 +29,7 @@ public class RendicionApplication extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
 
-        sendCrashReport();
+
 
         startService(new Intent(this, SendDataService.class));
 
@@ -40,18 +42,8 @@ public class RendicionApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
-
     }
 
-    private void sendCrashReport() {
-        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            return;
-        }
-        String mPhoneNumber = tMgr.getLine1Number();
-        FirebaseCrash.log("ASD.Cell -> "+ mPhoneNumber);
-    }
 
     public static Context getContext() {
         return sContext;

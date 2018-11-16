@@ -16,4 +16,5 @@ public interface LoginPresenter
 
     Observable validateSucces(String dniUser, String nombrUser, String emamilUser);
     Observable validateError(String errorMessaje);
+
 }

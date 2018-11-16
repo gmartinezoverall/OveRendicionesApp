@@ -42,6 +42,10 @@ public interface PendienteRepository
     void sendResumeEmailApi(String dni,String codRendicion);
     boolean validateRendicionisEmpyDB(String codLiquidacion);
     void insertRmvDB(String sueldo);
+
+    boolean checkingPhone(String numDocBeneficiario);
+    void saveTelefonoDB(String numTelefono);
+
       //endregion
 
     //region Sets
@@ -51,6 +55,8 @@ public interface PendienteRepository
 
     void successSendResume();
     void errorSendResume();
+
+
 
     //endregion
 

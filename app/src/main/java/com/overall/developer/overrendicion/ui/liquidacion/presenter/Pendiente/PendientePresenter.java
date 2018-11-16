@@ -30,6 +30,8 @@ public interface PendientePresenter
     boolean validateRendicionisEmpy(String codLiquidacion);
 
     void initialDefaultApis();
+
+    boolean checkingPhone();
     //endregion
 
 
@@ -52,6 +54,9 @@ public interface PendientePresenter
     void successSendResume();
 
     void errorSendResume();
+
+    void saveTelefono(String numTelefono);
+
 
     //endregion
 }

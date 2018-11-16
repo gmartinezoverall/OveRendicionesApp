@@ -120,8 +120,8 @@ public class MovilidadFragment extends Fragment {
     }
 
     private void setAllDefaultValues() {
-        txvFechaInicio.setText(String.valueOf(rendicionDetalleEntity.getFechaDesde()));
-        txvFechaFin.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
+        txvFechaInicio.setText(String.valueOf(rendicionDetalleEntity.getFechaRendicion()));
+        //txvFechaFin.setText(String.valueOf(rendicionDetalleEntity.getFechaHasta()));
         etxMotivo.setText(String.valueOf(rendicionDetalleEntity.getMotivoMovilidad()));
         etxDestino.setText(String.valueOf(rendicionDetalleEntity.getDestinoMovilidad()));
         etxMonto.setText(String.valueOf(rendicionDetalleEntity.getMontoMovilidad()));

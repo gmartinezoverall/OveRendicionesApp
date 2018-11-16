@@ -219,8 +219,14 @@
                     <TextView
                         android:id="@+id/spnTipoGasto"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center"/>
+                        android:layout_height="40dp"
+                        android:text="Seleccionar"
+                        android:drawableRight="@drawable/ic_arrow_drop_down"
+                        android:textStyle="bold"
+                        android:gravity="left|center"
+                        android:textColor="@color/black"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"/>
 
 
                     <TextView

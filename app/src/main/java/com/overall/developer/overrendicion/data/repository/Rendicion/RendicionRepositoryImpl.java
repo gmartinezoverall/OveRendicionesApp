@@ -117,8 +117,8 @@ public class RendicionRepositoryImpl implements RendicionRepository
     }
 
     @Override
-    public String deleteDetMovForCodDB(int idDetMov) {
-        return mDbRendicion.deleteDetMovForCodDB(idDetMov);
+    public String deleteDetMovForCodDB(int rdoId, int idDetMov) {
+        return mDbRendicion.deleteDetMovForCodDB(rdoId, idDetMov);
     }
 
     @Override
@@ -153,6 +153,12 @@ public class RendicionRepositoryImpl implements RendicionRepository
     @Override
     public String getUrlImageDB(String codRendicion) {
         return mDbRendicion.getUrlImageDB(codRendicion);
+    }
+
+    @Override
+    public void deleteMovSuccess(int rdoId, Double totalMontoMovilidad)
+    {
+        mInteractor.deleteMovSuccess(rdoId, totalMontoMovilidad);
     }
 
 
