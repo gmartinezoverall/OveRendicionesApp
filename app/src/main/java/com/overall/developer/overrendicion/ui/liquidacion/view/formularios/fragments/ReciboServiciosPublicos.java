@@ -147,7 +147,7 @@ public class ReciboServiciosPublicos extends Fragment
 
 
         etxValorVenta.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
+            if (!hasFocus && etxValorVenta != null && !etxValorVenta.getText().toString().isEmpty()) {
                 txvIgv.setText(String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) * 0.18));
                 etxPrecioVenta.setText(String.valueOf(Double.valueOf(etxValorVenta.getText().toString()) + Double.valueOf(txvIgv.getText().toString())));
             }
@@ -164,6 +164,8 @@ public class ReciboServiciosPublicos extends Fragment
         RxTextView.textChanges(etxRuc)
                 .filter(etx -> (etx.length() > 0 && etx.length() != 11))
                 .subscribe(etx -> etxRuc.setError(getResources().getString(R.string.validarRuc)));
+
+
 
 /*        etxNSerie.setOnFocusChangeListener((v, hasFocus) ->
         {
