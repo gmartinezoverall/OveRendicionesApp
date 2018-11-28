@@ -232,7 +232,7 @@ public class BoletaVentaFragment extends Fragment
             txvMontoIGV.setText(String.valueOf(String.format("%.2f", igv)));
             otros = Double.valueOf(String.valueOf(etxOtrosGastos.getText().toString().isEmpty() ? 0 : etxOtrosGastos.getText().toString()));
 
-            etxPrecioVenta.setText(String.valueOf(neto + igv + otros));
+            etxPrecioVenta.setText(String.valueOf(String.format("%.3f",neto + igv + otros)));
         }
     }
 

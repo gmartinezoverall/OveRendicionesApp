@@ -142,9 +142,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     protected void onResume() {
         super.onResume();
-        realmBrowser = new RealmBrowser();
+/*        realmBrowser = new RealmBrowser();
         realmBrowser.start();
-        realmBrowser.showServerAddress(this);
+        realmBrowser.showServerAddress(this);*/
         showDialog();
         mPresenter.listRendicion();
         if(Util.isOnline())sendDataOffLine();
@@ -154,9 +154,9 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
     @Override
     protected void onStop() {
         super.onStop();
-        if (realmBrowser != null) {
+/*        if (realmBrowser != null) {
             realmBrowser.stop();
-        }
+        }*/
     }
 
     @Override

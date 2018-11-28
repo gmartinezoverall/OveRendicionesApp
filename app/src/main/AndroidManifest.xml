@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".RendicionApplication"
-        android:icon="@drawable/ic_launcher"
         android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -27,21 +27,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.liquidacion.view.pendiente.PendienteActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.liquidacion.view.pendiente.PendienteActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.user.view.CreateAccount.CreateAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity android:name=".ui.liquidacion.view.rendicion.RendicionActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.liquidacion.view.formularios.FormularioActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.liquidacion.view.rendicion.RendicionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.liquidacion.view.formularios.FormularioActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity" />
 
         <service
-            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
-
-        <service
-            android:name=".utils.notification.MessagingService">
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+        <service android:name=".utils.notification.MessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -63,11 +68,14 @@
             android:name=".utils.background.SendDataService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"/>
+            android:stopWithTask="false" />
 
         <activity android:name=".ui.user.view.Drawable.RecoveryPasswordActivity" />
         <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity" />
-
+        <activity
+            android:name=".ui.reembolso.reembolso.view.ReembolsoActivity"
+            android:label="@string/title_activity_reembolso"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
