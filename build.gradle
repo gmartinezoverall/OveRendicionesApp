@@ -8,8 +8,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath "io.realm:realm-gradle-plugin:$gradle.realmVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$gradle.kotlinVersion"
+        classpath "io.realm:realm-gradle-plugin:$gradle.realmVersion"
         classpath 'com.google.gms:google-services:4.0.1'
 
 

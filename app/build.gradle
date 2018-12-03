@@ -8,14 +8,16 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'realm-android'
-apply plugin: 'kotlin-android'
+
 
 android {
 
@@ -72,7 +74,7 @@ dependencies {
     implementation project(':Stickytimelineview')
     implementation project(':ToolbarLibrary')
     implementation project(':ToolbarSearchLibrary')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$gradle.kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$gradle.kotlinVersion"
     implementation "com.android.support:appcompat-v7:$gradle.supportVersion"
     implementation "com.android.support:design:$gradle.supportVersion"
     implementation "com.android.support.constraint:constraint-layout:$gradle.constraintVersion"

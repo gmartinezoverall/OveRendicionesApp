@@ -1,9 +1,10 @@
 package com.overall.developer.overrendicion.ui.reembolso.reembolso.interactor
 
-import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 
 interface IReembolsoInteractor
 {
-    fun onLogin(email:String, password:String)
-    fun getReembolsoList(): List<ReembolsoEntity>
+    fun getReembolsoList()
+    fun listReembolsoApiSuccess(reembolsoBeans: List<ReembolsoBean>)
+    fun listReembolsoApiError()
 }

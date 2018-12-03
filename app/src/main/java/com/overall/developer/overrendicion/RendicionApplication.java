@@ -30,12 +30,12 @@ public class RendicionApplication extends Application {
         Fabric.with(this, new Crashlytics());
 
 
-
         startService(new Intent(this, SendDataService.class));
 
         sLiquidacionApplication = this;
         sContext = getApplicationContext();
         AndroidNetworking.initialize(this);
+
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("DBLiquidacion.realm")

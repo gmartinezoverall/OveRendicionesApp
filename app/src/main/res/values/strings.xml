@@ -48,7 +48,7 @@
     <string name="actulizar_contraseña">Actualizar Contraseña</string>
     <string name="actulizar_correo">Actualizar Correo</string>
     <string name="liquidaciones_pendientes">Liquidaciones Pendientes</string>
-    <string name="reenbolso">Reenbolso</string>
+    <string name="reembolso">Reembolso</string>
     <string name="configuracion">Configuracion</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="mensajeRecovyPassword">Por medio de esta opción podrás actualizar tu contraseña de forma rápida.</string>

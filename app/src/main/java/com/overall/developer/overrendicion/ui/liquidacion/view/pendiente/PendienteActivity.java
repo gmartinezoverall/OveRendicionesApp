@@ -33,6 +33,7 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Pendiente.PendientePresenterImpl;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.adapter.PendienteAdapter;
+import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.ReembolsoActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.utils.Util;
@@ -254,7 +255,9 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
             mPresenter.refreshList(String.valueOf(dniUser));
 
 
-        } else if (id == R.id.nav_reenbolso) {
+        } else if (id == R.id.nav_reenbolso)
+        {
+            startActivity(new Intent(this, ReembolsoActivity.class));
 
         } else if (id == R.id.nav_sesion) {
             mPresenter.finisLogin();

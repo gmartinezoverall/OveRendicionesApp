@@ -28,7 +28,7 @@ class ReembolsoAdapter(private val items: ArrayList<ReembolsoEntity>, val contex
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
     {
         holder?.txvTitulo?.text = items[position].nombreConsultora
-        holder?.txvDescripcion?.text = items[position].codTReembolso
+        holder?.txvDescripcion?.text = items[position].descTReembolso
         holder?.txvMonto?.text = items[position].monto
         holder?.txvEstado?.text = items[position].estado
 

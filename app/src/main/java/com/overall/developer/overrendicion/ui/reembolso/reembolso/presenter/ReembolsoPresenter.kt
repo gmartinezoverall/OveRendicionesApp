@@ -8,15 +8,13 @@ class ReembolsoPresenter (internal var mView:IReembolsoView):IReembolsoPresenter
 {
     internal var mInteractor = ReembolsoInteractor(this)
 
-
-    override fun getReembolsoList(): List<ReembolsoEntity>
+    override fun getReembolsoList()
     {
-        return mInteractor.getReembolsoList()
+        mInteractor.getReembolsoList()
     }
 
-
-    override fun onLogin(email: String, password: String)
+    override fun listReembolsoSuccess(reembolsoEntityList: ArrayList<ReembolsoEntity>)
     {
-        mInteractor.onLogin(email, password)
+        mView.listReembolsoSuccess(reembolsoEntityList)
     }
 }

@@ -3,7 +3,8 @@ package com.overall.developer.overrendicion.data.model.bean;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class UserBean extends RealmObject {
+public class UserBean extends RealmObject
+{
     @PrimaryKey
     private String numDocBeneficiario;
     private String password;

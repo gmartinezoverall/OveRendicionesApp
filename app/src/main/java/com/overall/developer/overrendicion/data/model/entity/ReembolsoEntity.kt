@@ -1,6 +1,9 @@
 package com.overall.developer.overrendicion.data.model.entity
 
-data class ReembolsoEntity(
+import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
+
+data class ReembolsoEntity
+(
         var codReemboslo: String,
         var codComp: String,
         var numBenDni: String,
@@ -15,4 +18,24 @@ data class ReembolsoEntity(
         var fechaPago: String,
         var fechaDesde: String,
         var fechaHasta: String,
-        var estado: String)
+        var estado: String
+)
+fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
+{
+    return ReembolsoEntity(
+            reembosloBean.codReemboslo,
+            reembosloBean.codComp,
+            reembosloBean.numBenDni,
+            reembosloBean.nombreBen,
+            reembosloBean.monto,
+            reembosloBean.tipoMoneda,
+            reembosloBean.nombreConsultora,
+            reembosloBean.codTReembolso,
+            reembosloBean.descTReembolso,
+            reembosloBean.motivoReembolso,
+            reembosloBean.fechaReembolso,
+            reembosloBean.fechaPago,
+            reembosloBean.fechaDesde,
+            reembosloBean.fechaHasta,
+            reembosloBean.estado)
+}

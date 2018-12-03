@@ -1,33 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_reembolso"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
     tools:context=".ui.reembolso.reembolso.view.ReembolsoActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:background="@color/PendienteBackGround"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <include layout="@layout/toolbar_reembolso" />
+        <include layout="@layout/content_reembolso" />
 
-    </android.support.design.widget.AppBarLayout>
+</LinearLayout>
 
-    <include layout="@layout/content_reembolso" />
 
-<!--    <android.support.design.widget.FloatingActionButton
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/ic_menu_fab"
+        app:backgroundTint="@color/swipeoption_green"/>
 
-</android.support.design.widget.CoordinatorLayout>
+    <com.hlab.fabrevealmenu.view.FABRevealMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:animateItems="true"
+        app:menuBackgroundColor="@color/colorAccent"
+        app:menuDirection="down"
+        app:menuRes="@menu/menu_fab"
+        app:menuSize="normal"
+        app:menuTitleTextColor="@color/colorWhite"
+        app:showOverlay="true"
+        app:showTitle="true" />
+
+</RelativeLayout>
+
+<android.support.design.widget.NavigationView
+    android:id="@+id/nav_view_reembolso"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    app:headerLayout="@layout/nav_header_main"
+    app:menu="@menu/activity_main_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

@@ -36,7 +36,7 @@
             <FrameLayout
                 android:background="@color/pendienteColor"
                 android:layout_width="5dp"
-                android:layout_height="100dp"/>
+                android:layout_height="80dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:id="@+id/lytFondo"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:padding="4dp">
 
                     <LinearLayout
