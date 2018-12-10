@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/datos_generales_background">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/layout_marginTop"
+        android:transitionName="fondo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/layout_marginTop"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="COM : " />
+
+            <TextView
+                android:id="@+id/txvComNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Overall Strategy" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="DNI : " />
+
+            <TextView
+                android:id="@+id/txvDniNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="46454171" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center_vertical"
+                android:text="Nombre :" />
+
+            <TextView
+                android:id="@+id/txvNombreNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Nombres"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:paddingRight="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lytTipoReembolso"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="Tipo Reembolso :" />
+
+            <TextView
+                android:id="@+id/spnTipoReembolsoNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Seleccionar"
+                android:drawableRight="@drawable/ic_arrow_drop_down"
+                android:textStyle="bold"
+                android:gravity="right|center"
+                android:textColor="@color/black"
+                android:paddingRight="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/layout_marginTop"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Fecha desde : " />
+
+            <TextView
+                android:id="@+id/txvFechaDesdeNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="21/10/2018" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/layout_marginTop"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Fecha hasta : " />
+
+            <TextView
+                android:id="@+id/txvFechaHastaNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="21/11/2018" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lytTipoMoneda"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/layout_marginTop"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical"
+                android:text="Tipo moneda:" />
+
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/spnTipoMonedaNR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="vertical"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detalla el motivo:" />
+
+            <EditText
+                android:id="@+id/txvMotivoNR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="escribe tu motivo"
+                android:ems="10"
+                android:inputType="textMultiLine"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_margin="5dp">
+
+            <io.rmiri.buttonloading.ButtonLoading
+                android:id="@+id/btnSaveNR"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/margin_layout"
+                android:text="Button"
+                android:textColor="@color/white"
+                app:BL_backgroundColor="#50090009"
+                app:BL_circleColor="#00AFEF"
+                app:BL_circleColorSecond="#8000AFEF"
+                app:BL_enable="true"
+                app:BL_stateShow="normal"
+                app:BL_text="Guardar"
+                app:BL_textColor="#FFFFFF"
+                app:BL_textSize="14sp" />
+
+            <io.rmiri.buttonloading.ButtonLoading
+                android:id="@+id/btnCancelNR"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/margin_layout"
+                android:text="Button"
+                android:textColor="@color/white"
+                app:BL_backgroundColor="#50090009"
+                app:BL_circleColor="#00AFEF"
+                app:BL_circleColorSecond="#8000AFEF"
+                app:BL_enable="true"
+                app:BL_stateShow="normal"
+                app:BL_text="Cancelar"
+                app:BL_textColor="#FFFFFF"
+                app:BL_textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

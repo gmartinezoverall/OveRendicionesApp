@@ -12,15 +12,12 @@ class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembols
 
         realm.executeTransaction{realm ->
 
-
-            for (bean in reembolsoBeans)
+/*            for (bean in reembolsoBeans)
             {
                 bean.monto = bean.monto?.replace(",",".")
-
-            }
-
+            }*/
+            reembolsoBeans.map {it.monto.replace(",",".") }
             realm.insertOrUpdate(reembolsoBeans)
-
         }
         return reembolsoBeans
     }

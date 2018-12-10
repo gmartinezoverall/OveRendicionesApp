@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout_reembolso"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".ui.reembolso.reembolso.view.ReembolsoActivity">
+    tools:context=".ui.reembolso.nuevoReembolso.view.NuevoReembolsoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,11 +16,12 @@
         android:orientation="vertical">
 
         <include layout="@layout/toolbar_reembolso" />
-        <include layout="@layout/content_reembolso" />
+        <include layout="@layout/content_nuevo_reembolso" />
 
     </LinearLayout>
 
-    <RelativeLayout
+
+<!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_menu_fab"
             app:backgroundTint="@color/swipeoption_green"/>
 
         <com.hlab.fabrevealmenu.view.FABRevealMenu
@@ -49,10 +49,10 @@
             app:showOverlay="true"
             app:showTitle="true" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view_reembolso"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

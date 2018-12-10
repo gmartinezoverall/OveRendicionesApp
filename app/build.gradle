@@ -182,6 +182,11 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
+
+    //Anko
+    implementation "org.jetbrains.anko:anko:$gradle.ankoVersion"
+    //implementation "org.jetbrains.anko:anko-commons:$gradle.ankoVersion"
+
 }
 
 apply plugin: 'com.google.gms.google-services'

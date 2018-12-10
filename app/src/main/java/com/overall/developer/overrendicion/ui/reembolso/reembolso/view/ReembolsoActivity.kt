@@ -11,6 +11,7 @@ import android.view.MenuItem
 import com.github.florent37.awesomebar.AwesomeBar
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.view.NuevoReembolsoActivity
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.presenter.IReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.presenter.ReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.adapter.ReembolsoAdapter
@@ -18,6 +19,7 @@ import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser
 
 import kotlinx.android.synthetic.main.activity_reembolso.*
 import kotlinx.android.synthetic.main.toolbar_reembolso.*
+import org.jetbrains.anko.startActivity
 import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
 import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
 import xyz.sangcomz.stickytimelineview.model.SectionInfo
@@ -36,8 +38,12 @@ class ReembolsoActivity : AppCompatActivity(), IReembolsoView,  NavigationView.O
         mPresenter.getReembolsoList()
 
 
+        fab.setOnClickListener {
+            startActivity<NuevoReembolsoActivity>()
+        }
+
         val mToolbar: AwesomeBar = toolbarReembolso
-        mToolbar.setOnMenuClickedListener { v -> drawer_layout_reembolso.openDrawer(Gravity.START) }
+        mToolbar.setOnMenuClickedListener { drawer_layout_reembolso.openDrawer(Gravity.START) }
 
         val toggle = ActionBarDrawerToggle(this, drawer_layout_reembolso, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout_reembolso.addDrawerListener(toggle)

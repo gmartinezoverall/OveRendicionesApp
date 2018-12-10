@@ -20,6 +20,7 @@ data class ReembolsoEntity
         var fechaHasta: String,
         var estado: String
 )
+
 fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
 {
     return ReembolsoEntity(
@@ -38,4 +39,25 @@ fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
             reembosloBean.fechaDesde,
             reembosloBean.fechaHasta,
             reembosloBean.estado)
+}
+
+fun convertReembolsoEntityInBean(reembolsoEntity: ReembolsoEntity): ReembolsoBean
+{
+    return ReembolsoBean(
+            reembolsoEntity.codReemboslo.hashCode().toString(),
+            reembolsoEntity.codComp,
+            reembolsoEntity.numBenDni,
+            reembolsoEntity.nombreBen,
+            reembolsoEntity.monto,
+            reembolsoEntity.tipoMoneda,
+            reembolsoEntity.nombreConsultora,
+            reembolsoEntity.codTReembolso,
+            reembolsoEntity.descTReembolso,
+            reembolsoEntity.motivoReembolso,
+            reembolsoEntity.fechaReembolso,
+            reembolsoEntity.fechaPago,
+            reembolsoEntity.fechaDesde,
+            reembolsoEntity.fechaHasta,
+            reembolsoEntity.estado
+    )
 }

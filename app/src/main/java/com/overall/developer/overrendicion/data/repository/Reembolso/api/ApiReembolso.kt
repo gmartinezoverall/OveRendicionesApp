@@ -28,7 +28,6 @@ class ApiReembolso (internal val mInteractor: IReembolsoInteractor) : IApiReembo
                         val collectionType = object : TypeToken<Collection<ReembolsoBean>>() {}.type
                         val reembolsoBeans = Gson().fromJson<List<ReembolsoBean>>(response?.getString("refunds"), collectionType)
                         mInteractor.listReembolsoApiSuccess(reembolsoBeans)
-
                     }
 
                     override fun onError(anError: ANError?)
