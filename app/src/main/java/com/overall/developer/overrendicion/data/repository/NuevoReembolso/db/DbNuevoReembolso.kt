@@ -10,6 +10,7 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
     override fun insertNewRefundDB(reembolsoBean: ReembolsoBean) {
         val realm = Realm.getDefaultInstance()
 
+        //reembolsoBean.codReemboslo = (reembolsoBean.codReemboslo.toInt() + 1).toString()
         realm.executeTransaction{realm ->
             run {
                 realm.insert(reembolsoBean)
