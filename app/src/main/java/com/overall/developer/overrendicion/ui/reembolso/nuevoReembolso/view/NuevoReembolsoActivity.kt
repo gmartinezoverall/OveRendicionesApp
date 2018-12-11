@@ -24,7 +24,7 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 
 
         btnSaveNR.setOnClickListener{
-            mPresenter.saveDateNewRefund(ReembolsoEntity(txvDniNR.text.toString(), txvNombreNR.text.toString(), spnTipoReembolsoNR.text.toString(),
+            mPresenter.saveDateNewRefund(ReembolsoEntity(txvDniNR.text.toString(), txvNombreNR.text.toString(), "0000312", spnTipoReembolsoNR.text.toString(),
                                          txvFechaDesdeNR.text.toString(), txvFechaHastaNR.text.toString(), spnTipoMonedaNR.text.toString(),
                                          txvMotivoNR.text.toString(),"", "", txvMotivoNR.text.toString(),
                                          "", "", txvFechaDesdeNR.text.toString(), txvFechaHastaNR.text.toString(), ""))

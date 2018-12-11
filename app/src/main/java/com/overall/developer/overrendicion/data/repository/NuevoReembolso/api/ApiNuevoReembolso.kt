@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.NuevoReembolso.api
 
+import android.util.Log
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
@@ -14,7 +15,7 @@ class ApiNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IA
 {
     override fun insertNewRefundApi(reembolsoRequest: ReembolsoRequest) {
 
-        AndroidNetworking.post(UrlApi.urlListarReembolso)
+        AndroidNetworking.post(UrlApi.urlInsertarReembolso)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
                 .addBodyParameter(reembolsoRequest)
                 .setPriority(Priority.IMMEDIATE)
@@ -27,7 +28,7 @@ class ApiNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IA
 
                     override fun onError(anError: ANError?)
                     {
-
+                        Log.i("ASDError",anError.toString())
                     }
                 })
     }

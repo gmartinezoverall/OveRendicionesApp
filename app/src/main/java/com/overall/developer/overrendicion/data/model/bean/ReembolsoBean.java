@@ -8,6 +8,7 @@ public class ReembolsoBean extends RealmObject
     @PrimaryKey
     String codReemboslo;
     String codComp;
+    String codTrab;
     String numBenDni;
     String nombreBen;
     String monto;
@@ -25,9 +26,10 @@ public class ReembolsoBean extends RealmObject
     public ReembolsoBean() {
     }
 
-    public ReembolsoBean(String codReemboslo, String codComp, String numBenDni, String nombreBen, String monto, String tipoMoneda, String nombreConsultora, String codTReembolso, String descTReembolso, String motivoReembolso, String fechaReembolso, String fechaPago, String fechaDesde, String fechaHasta, String estado) {
+    public ReembolsoBean(String codReemboslo, String codComp,String codTrab, String numBenDni, String nombreBen, String monto, String tipoMoneda, String nombreConsultora, String codTReembolso, String descTReembolso, String motivoReembolso, String fechaReembolso, String fechaPago, String fechaDesde, String fechaHasta, String estado) {
         this.codReemboslo = codReemboslo;
         this.codComp = codComp;
+        this.codTrab = codTrab;
         this.numBenDni = numBenDni;
         this.nombreBen = nombreBen;
         this.monto = monto;
@@ -57,6 +59,14 @@ public class ReembolsoBean extends RealmObject
 
     public void setCodComp(String codComp) {
         this.codComp = codComp;
+    }
+
+    public String getCodTrab() {
+        return codTrab;
+    }
+
+    public void setCodTrab(String codTrab) {
+        this.codTrab = codTrab;
     }
 
     public String getNumBenDni() {

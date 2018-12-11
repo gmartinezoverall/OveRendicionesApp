@@ -30,6 +30,7 @@ public class UrlApi
     public static String urlObtieneRMV = BuildConfig.URL_BASE + "liquidation/ObtieneRMV";
     public static String urlSearchProveedores = BuildConfig.URL_BASE + "liquidation/proveedores";
     public static String urlListarReembolso = BuildConfig.URL_BASE + "Refund/List";
+    public static String urlInsertarReembolso = BuildConfig.URL_BASE + "Refund/InsertReembolso";
     public static String urlWSRuc = "http://200.60.6.20:8081/ruc/consulta/{ruc}";
 
 

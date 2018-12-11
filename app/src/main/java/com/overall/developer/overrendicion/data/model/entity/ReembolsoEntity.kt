@@ -7,6 +7,7 @@ data class ReembolsoEntity
 (
         var codReemboslo: String,
         var codComp: String,
+        var codTrab: String,
         var numBenDni: String,
         var nombreBen: String,
         var monto: String,
@@ -27,6 +28,7 @@ fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
     return ReembolsoEntity(
             reembosloBean.codReemboslo,
             reembosloBean.codComp,
+            reembosloBean.codTrab,
             reembosloBean.numBenDni,
             reembosloBean.nombreBen,
             reembosloBean.monto,
@@ -47,6 +49,7 @@ fun convertReembolsoEntityInBean(reembolsoEntity: ReembolsoEntity): ReembolsoBea
     return ReembolsoBean(
             Random.nextInt(10, 100).toString(),
             reembolsoEntity.codComp,
+            reembolsoEntity.codTrab,
             reembolsoEntity.numBenDni,
             reembolsoEntity.nombreBen,
             reembolsoEntity.monto,
