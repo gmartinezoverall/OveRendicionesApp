@@ -1,8 +1,10 @@
 package com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.interactor
 
+import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 import com.overall.developer.overrendicion.data.model.bean.UserBean
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.UserEntity
+import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoEntityInBean
 import com.overall.developer.overrendicion.data.model.request.convertReembolsoEntityToRequest
 import com.overall.developer.overrendicion.data.repository.NuevoReembolso.api.ApiNuevoReembolso
@@ -17,15 +19,11 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
     internal val mDBNuevoReembolso = DbNuevoReembolso(this)
     internal val mApiNuevoReembolso = ApiNuevoReembolso(this)
 
-    override fun changeStateAllReembolso() {
-        mDBNuevoReembolso.changeStateAllReembolsoDB()
-    }
-
     override fun saveDateNewRefund(reembolsoEntity: ReembolsoEntity) {
 
         val userBean = mDBNuevoReembolso.getUser()
 
-        reembolsoEntity.codComp = "03"
+        reembolsoEntity.codComp = userBean.codCia
         reembolsoEntity.codTrab = userBean.idUsuario//codTrab
          when(reembolsoEntity.descTReembolso)
         {
@@ -53,6 +51,11 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
 
         val bean = mDBNuevoReembolso.getUser()
 
-        return listOf("OVERALL STRATEGY", bean.numDocBeneficiario, bean.nombre)
+        return listOf(bean.compania, bean.numDocBeneficiario, bean.nombre)
+    }
+
+    override fun getDefaultValesReembolso(codReemboslo: String): ReembolsoEntity {
+        val reembolsoBean: ReembolsoBean = mDBNuevoReembolso.getDefaultValesReembolso(codReemboslo)
+        return convertReembolsoBeanInEntity(reembolsoBean)
     }
 }

@@ -35,6 +35,8 @@ class ReembolsoActivity : AppCompatActivity(), IReembolsoView,  NavigationView.O
 
 
         mPresenter = ReembolsoPresenter(this)
+
+        mPresenter.changeStateAllReembolso()//cambia el estado de todos los reembolsos a False
         mPresenter.getReembolsoList()
 
 

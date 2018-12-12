@@ -9,6 +9,19 @@ import io.realm.Realm
 
 class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembolso
 {
+    override fun changeStateAllReembolsoDB() {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction{
+            run{
+                val reembolsoBeans = realm.where(ReembolsoBean::class.java).findAll()
+                reembolsoBeans.map { it ->
+                    it.estadoR = false
+                    realm.insertOrUpdate(it)
+                }
+            }
+        }
+    }
+
     override fun getUserDb(): UserBean {
         val realm = Realm.getDefaultInstance()
         return realm.where(UserBean::class.java).equalTo("status",true).findFirst()!!

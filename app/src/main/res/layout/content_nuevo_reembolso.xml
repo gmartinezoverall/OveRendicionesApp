@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="Consultora : " />
 
             <TextView
@@ -154,6 +154,8 @@
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
                 android:text="Selecionar"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="14sp"/>
 
             <LinearLayout

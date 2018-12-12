@@ -5,8 +5,8 @@ import com.overall.developer.overrendicion.data.model.bean.UserBean
 
 interface IDbNuevoReembolso
 {
-    fun changeStateAllReembolsoDB()
     fun insertNewRefundDB(reembolsoBean: ReembolsoBean)
     fun getUser(): UserBean
+    fun getDefaultValesReembolso(codReembolso: String): ReembolsoBean
 
 }

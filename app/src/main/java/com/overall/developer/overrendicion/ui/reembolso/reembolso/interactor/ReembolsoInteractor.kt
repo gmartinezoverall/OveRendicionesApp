@@ -12,6 +12,10 @@ class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReemb
     internal val mDbReembolso = DbReembolso(this)
     internal val mApiReembolso = ApiReembolso(this)
 
+    override fun changeStateAllReembolso() {
+        mDbReembolso.changeStateAllReembolsoDB()
+    }
+
     override fun getReembolsoList()
     {
 

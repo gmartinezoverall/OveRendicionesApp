@@ -8,6 +8,10 @@ class ReembolsoPresenter (internal val mView:IReembolsoView):IReembolsoPresenter
 {
     internal val mInteractor = ReembolsoInteractor(this)
 
+    override fun changeStateAllReembolso() {
+        mInteractor.changeStateAllReembolso()
+    }
+
     override fun getReembolsoList()
     {
         mInteractor.getReembolsoList()

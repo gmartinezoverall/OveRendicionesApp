@@ -7,11 +7,9 @@ import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import com.github.florent37.awesomebar.AwesomeBar
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.data.model.entity.TipoReembolso
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity
 import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.INuevoReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.NuevoReembolsoPresenter
@@ -20,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_reembolso.*
 import kotlinx.android.synthetic.main.content_nuevo_reembolso.*
 import kotlinx.android.synthetic.main.toolbar_reembolso.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 
 class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
@@ -32,8 +29,6 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
         setContentView(R.layout.activity_nuevo_reembolso)
 
         mPresenter = NuevoReembolsoPresenter(this)
-
-        mPresenter.changeStateAllReembolso()//cambia el estado de todos los reembolsos a False
 
         val datosList = mPresenter.getUser()
 
@@ -51,6 +46,8 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
         spnTipoReembolsoNR.setAdapter(adapterTipoReembolso)
 
         initialCalendar()
+
+        intent?.let {getDefaultValesReembolso(it.extras.get("codReembolso").toString())}
 
         lytFecha.setOnClickListener{alterCalendarView()}
 
@@ -85,8 +82,8 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
                 val format = SimpleDateFormat("dd/MM/yyyy")
                 val dateStart = format.parse(Util.changeDateFormat(startDay))
                 txvFechaDesdeNR.text = (Util.changeDateFormat(startDay))
-                txvFechaDesdeNR.setTypeface(null, Typeface.BOLD)
-                txvFechaDesdeNR.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
+                //txvFechaDesdeNR.setTypeface(null, Typeface.BOLD)
+                //txvFechaDesdeNR.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 alterCalendarView()
                 cldFechaDesdeNR.clearDate()
 
@@ -100,5 +97,19 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
     {
         lytCalendar.visibility = (if (lytCalendar.visibility == View.VISIBLE) View.GONE else View.VISIBLE)
         lytArrow.rotation = (if (lytArrow.rotation == 90F) 0F else 90F)
+    }
+
+    private fun getDefaultValesReembolso(codReembolso:String) {
+        val reembolsoEntity: ReembolsoEntity = mPresenter.getDefaultValesReembolso(codReembolso)
+        spnTipoReembolsoNR.selectedIndex= when(reembolsoEntity.descTReembolso){
+            "VIATICOS" -> 0
+            "MOVILIDAD" -> 1
+            "CAJA CHICA" -> 2
+            else->{3}
+        }
+        txvFechaDesdeNR.text = reembolsoEntity.fechaDesde
+        spnTipoMonedaNR.selectedIndex = if (reembolsoEntity.tipoMoneda == "S") 0 else 1
+        txvMotivoNR?.setText(reembolsoEntity.motivoReembolso)
+
     }
 }

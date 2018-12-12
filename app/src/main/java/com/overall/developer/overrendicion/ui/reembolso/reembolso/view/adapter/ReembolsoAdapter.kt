@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import com.daimajia.androidanimations.library.Techniques
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.view.NuevoReembolsoActivity
 import kotlinx.android.synthetic.main.cardview_reembolso.view.*
 import kotlinx.android.synthetic.main.hover_pendiente.view.*
+import org.jetbrains.anko.startActivity
 
 class ReembolsoAdapter(private val items: ArrayList<ReembolsoEntity>, val context: Context) : RecyclerView.Adapter<ReembolsoAdapter.ViewHolder>()
 {
@@ -60,20 +62,29 @@ class ReembolsoAdapter(private val items: ArrayList<ReembolsoEntity>, val contex
 
             hoverDescripcion.text = txvDescripcion.text.toString()
 
-            lytContent.setHoverView(hover)
-            lytContent.setBlurDuration(1000)
+            btnDatos.setOnClickListener{
+                context.startActivity<NuevoReembolsoActivity>("codReembolso" to items[position].codReemboslo)
+            }
 
-            lytContent.addChildAppearAnimator(hover, R.id.btnDatos, Techniques.FlipInX, 550, 0)
-            lytContent.addChildDisappearAnimator(hover, R.id.btnDatos, Techniques.FlipOutX, 550, 500)
+            with(lytContent)
+            {
+                setHoverView(hover)
+                setBlurDuration(1000)
 
-            lytContent.addChildAppearAnimator(hover, R.id.txvDescription, Techniques.FadeInUp)
-            lytContent.addChildDisappearAnimator(hover, R.id.txvDescription, Techniques.FadeOutDown)
+                addChildAppearAnimator(hover, R.id.btnDatos, Techniques.FlipInX, 550, 0)
+                addChildDisappearAnimator(hover, R.id.btnDatos, Techniques.FlipOutX, 550, 500)
 
-            lytContent.addChildAppearAnimator(hover, R.id.btnRendicion, Techniques.FlipInX, 550, 250)
-            lytContent.addChildDisappearAnimator(hover, R.id.btnRendicion, Techniques.FlipOutX, 550, 250)
+                addChildAppearAnimator(hover, R.id.txvDescription, Techniques.FadeInUp)
+                addChildDisappearAnimator(hover, R.id.txvDescription, Techniques.FadeOutDown)
 
-            lytContent.addChildAppearAnimator(hover, R.id.btnEnviarResumen, Techniques.FlipInX, 550, 500)
-            lytContent.addChildDisappearAnimator(hover, R.id.btnEnviarResumen, Techniques.FlipOutX, 550, 0)
+                addChildAppearAnimator(hover, R.id.btnRendicion, Techniques.FlipInX, 550, 250)
+                addChildDisappearAnimator(hover, R.id.btnRendicion, Techniques.FlipOutX, 550, 250)
+
+                addChildAppearAnimator(hover, R.id.btnEnviarResumen, Techniques.FlipInX, 550, 500)
+                addChildDisappearAnimator(hover, R.id.btnEnviarResumen, Techniques.FlipOutX, 550, 0)
+
+            }
+
 
         }
 

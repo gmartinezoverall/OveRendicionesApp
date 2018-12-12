@@ -8,18 +8,6 @@ import io.realm.Realm
 
 class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDbNuevoReembolso
 {
-    override fun changeStateAllReembolsoDB() {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction{
-            run{
-             val reembolsoBeans = realm.where(ReembolsoBean::class.java).findAll()
-                reembolsoBeans.map { it ->
-                    it.estadoR = false
-                    realm.insertOrUpdate(it)
-                }
-            }
-        }
-    }
 
     override fun insertNewRefundDB(reembolsoBean: ReembolsoBean) {
         val realm = Realm.getDefaultInstance()
@@ -46,5 +34,16 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
         val realm = Realm.getDefaultInstance()
 
         return realm.where(UserBean::class.java).equalTo("status",true).findFirst()!!
+    }
+
+    override fun getDefaultValesReembolso(codReembolso: String): ReembolsoBean {
+        val realm = Realm.getDefaultInstance()
+        val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReemboslo", codReembolso).findFirst()
+        realm.executeTransaction{
+            reembolsoBean?.estadoR = true
+            realm.insertOrUpdate(reembolsoBean)
+        }
+        return reembolsoBean!!
+
     }
 }

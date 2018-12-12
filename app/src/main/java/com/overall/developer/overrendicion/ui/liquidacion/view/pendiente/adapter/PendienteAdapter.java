@@ -123,7 +123,6 @@ public class PendienteAdapter extends RecyclerView.Adapter<PendienteAdapter.Comp
 
        holder.btnDatos.setOnClickListener(v ->
                 {
-
                     Intent intent = new Intent(mContext, DatosGeneralesActivity.class);
                     intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getCodLiquidacion()));
                     //intent.putExtra("CodLiquidacion", String.valueOf(liquidacionBean.getDescripcionLiquidacion()));
