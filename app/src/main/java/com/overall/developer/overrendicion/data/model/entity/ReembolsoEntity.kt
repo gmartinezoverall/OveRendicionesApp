@@ -47,7 +47,7 @@ fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
 fun convertReembolsoEntityInBean(reembolsoEntity: ReembolsoEntity): ReembolsoBean
 {
     return ReembolsoBean(
-            Random.nextInt(10, 100).toString(),
+            reembolsoEntity.codReemboslo,
             reembolsoEntity.codComp,
             reembolsoEntity.codTrab,
             reembolsoEntity.numBenDni,

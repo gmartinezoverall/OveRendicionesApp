@@ -14,7 +14,8 @@ class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReemb
 
     override fun getReembolsoList()
     {
-        mApiReembolso.listReembolsoApi("72372900")//get DNI
+
+        mApiReembolso.listReembolsoApi(mDbReembolso.getUserDb().numDocBeneficiario)//get DNI
     }
 
     override fun listReembolsoApiSuccess(reembolsoBeans: List<ReembolsoBean>)

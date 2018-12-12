@@ -19,7 +19,7 @@ data class ReembolsoRequest
 fun convertReembolsoEntityToRequest(reembolsoEntity: ReembolsoEntity) : ReembolsoRequest
 {
     return ReembolsoRequest(
-            reembolsoEntity.codComp,
+            reembolsoEntity.codComp,//no tengo
             reembolsoEntity.codTrab,
             reembolsoEntity.numBenDni,
             reembolsoEntity.nombreBen,

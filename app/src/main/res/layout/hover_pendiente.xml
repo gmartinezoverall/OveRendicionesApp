@@ -14,7 +14,7 @@
 
         <Button
             android:id="@+id/btnDatos"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="25dp"
             android:text="Datos"
             android:textColor="@color/white"
@@ -22,7 +22,7 @@
 
         <Button
             android:id="@+id/btnRendicion"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="25dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"

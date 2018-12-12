@@ -6,6 +6,7 @@ import io.realm.annotations.PrimaryKey;
 public class ReembolsoBean extends RealmObject
 {
     @PrimaryKey
+    private Integer idReembolso;
     String codReemboslo;
     String codComp;
     String codTrab;
@@ -22,7 +23,7 @@ public class ReembolsoBean extends RealmObject
     String fechaDesde;
     String fechaHasta;
     String estado;
-
+    Boolean estadoR = false;
     public ReembolsoBean() {
     }
 
@@ -43,6 +44,14 @@ public class ReembolsoBean extends RealmObject
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         this.estado = estado;
+    }
+
+    public Integer getIdReembolso() {
+        return idReembolso;
+    }
+
+    public void setIdReembolso(Integer idReembolso) {
+        this.idReembolso = idReembolso;
     }
 
     public String getCodReemboslo() {
@@ -171,5 +180,13 @@ public class ReembolsoBean extends RealmObject
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Boolean getEstadoR() {
+        return estadoR;
+    }
+
+    public void setEstadoR(Boolean estadoR) {
+        this.estadoR = estadoR;
     }
 }
