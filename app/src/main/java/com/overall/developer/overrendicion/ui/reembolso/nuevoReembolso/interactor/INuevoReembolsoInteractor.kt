@@ -7,7 +7,7 @@ import com.overall.developer.overrendicion.data.model.entity.UserEntity
 interface INuevoReembolsoInteractor
 {
     fun saveDateNewRefund(reembolsoEntity: ReembolsoEntity)
-    fun insertNRSuccess()
+    fun successRestApi()
     fun getUser(): List<String>
     fun getDefaultValesReembolso(codReembolso: String ): ReembolsoEntity
 

@@ -122,13 +122,10 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         ButterKnife.bind(this);
         mPresenter = new FormularioPresenterImpl(this, this);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            List<String> listDefault = mPresenter.getDefaultValues();
-            txvAcuenta.setText(listDefault.get(0));
-            txvMonto.setText(listDefault.get(1));//devuelvo el codigo de liquidaicon
-            txvSaldo.setText(listDefault.get(2));
-        }
+        List<String> listDefault = mPresenter.getDefaultValues();
+        txvAcuenta.setText(listDefault.get(0));
+        txvMonto.setText(listDefault.get(1));//devuelvo el codigo de liquidaicon
+        txvSaldo.setText(listDefault.get(2));
         txvTitulo.setText("Formularios");
 
         mPresenter.setTipoCambio();
@@ -140,6 +137,8 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         dropdownview.setDropDownListItem(typeFormList);
         codLiquidacion = mPresenter.getCodLiquidacion();
 
+
+        Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             visible = true;
             if (bundle.getString("id") != null) {
@@ -157,7 +156,9 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
             dropdownview.setSelectingPosition(6);//formulario por defecto
 
-            dropdownview.setOnSelectionListener((view, position) ->  {
+
+            dropdownview.setOnSelectionListener((view, position) ->
+            {
                 replaceFragment(dropdownview.getSelectingPosition());
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(dropdownview.getWindowToken(), 0);

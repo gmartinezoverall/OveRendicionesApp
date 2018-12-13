@@ -8,5 +8,6 @@ interface IDbNuevoReembolso
     fun insertNewRefundDB(reembolsoBean: ReembolsoBean)
     fun getUser(): UserBean
     fun getDefaultValesReembolso(codReembolso: String): ReembolsoBean
+    fun getReembolso(): ReembolsoBean
 
 }

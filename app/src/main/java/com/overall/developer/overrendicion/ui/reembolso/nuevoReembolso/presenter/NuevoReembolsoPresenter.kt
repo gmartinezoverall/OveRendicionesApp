@@ -12,8 +12,8 @@ class NuevoReembolsoPresenter (internal val mView: INuevoReembolsoView): INuevoR
         mInteractor.saveDateNewRefund(reembolsoEntity)
     }
 
-    override fun insertNRSuccess() {
-        mView.insertNRSuccess()
+    override fun successRestApi() {
+        mView.successRestApi()
     }
 
     override fun getUser(): List<String> {

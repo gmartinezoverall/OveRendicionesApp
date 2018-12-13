@@ -2,7 +2,7 @@ package com.overall.developer.overrendicion.data.model.request
 
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 
-data class ReembolsoRequest
+data class InsertReembolsoRequest
 (
     var codComp: String,
     var codTrab: String,
@@ -16,10 +16,10 @@ data class ReembolsoRequest
     var fechaHasta: String
 )
 
-fun convertReembolsoEntityToRequest(reembolsoEntity: ReembolsoEntity) : ReembolsoRequest
+fun convertInsertReembolsoEntityToRequest(reembolsoEntity: ReembolsoEntity) : InsertReembolsoRequest
 {
-    return ReembolsoRequest(
-            reembolsoEntity.codComp,//no tengo
+    return InsertReembolsoRequest(
+            reembolsoEntity.codComp,
             reembolsoEntity.codTrab,
             reembolsoEntity.numBenDni,
             reembolsoEntity.nombreBen,

@@ -6,7 +6,8 @@ import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.UserEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoEntityInBean
-import com.overall.developer.overrendicion.data.model.request.convertReembolsoEntityToRequest
+import com.overall.developer.overrendicion.data.model.request.convertInsertReembolsoEntityToRequest
+import com.overall.developer.overrendicion.data.model.request.convertUpdateReembolsoEntityToRequest
 import com.overall.developer.overrendicion.data.repository.NuevoReembolso.api.ApiNuevoReembolso
 import com.overall.developer.overrendicion.data.repository.NuevoReembolso.db.DbNuevoReembolso
 import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.INuevoReembolsoPresenter
@@ -22,7 +23,9 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
     override fun saveDateNewRefund(reembolsoEntity: ReembolsoEntity) {
 
         val userBean = mDBNuevoReembolso.getUser()
+        val reembolsoBean = mDBNuevoReembolso.getReembolso()
 
+        reembolsoBean?.let { reembolsoEntity.codReemboslo = reembolsoBean.codReemboslo}
         reembolsoEntity.codComp = userBean.codCia
         reembolsoEntity.codTrab = userBean.idUsuario//codTrab
          when(reembolsoEntity.descTReembolso)
@@ -38,13 +41,16 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
 
         mDBNuevoReembolso.insertNewRefundDB(convertReembolsoEntityInBean(reembolsoEntity))//Inserta en el BD un nuevo reembolso
 
-        mApiNuevoReembolso.insertNewRefundApi(convertReembolsoEntityToRequest(reembolsoEntity))//ingresar nuevo reembolso por el WS
+        if(reembolsoEntity.codReemboslo == "-")  mApiNuevoReembolso.insertNewRefundApi(convertInsertReembolsoEntityToRequest(reembolsoEntity))//ingresar nuevo reembolso por el WS
+        else mApiNuevoReembolso.updateRefundApi(convertUpdateReembolsoEntityToRequest(reembolsoEntity))
+
+
 
     }
 
-    override fun insertNRSuccess()
+    override fun successRestApi()
     {
-        mPresenter.insertNRSuccess()
+        mPresenter.successRestApi()
     }
 
     override fun getUser(): List<String>{

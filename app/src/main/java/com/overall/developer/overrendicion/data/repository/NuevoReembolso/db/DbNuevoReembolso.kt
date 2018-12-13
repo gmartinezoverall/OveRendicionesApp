@@ -22,10 +22,10 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
                     "A" -> reembolsoBean.estado = "Aprobado"
                     "R" -> reembolsoBean.estado = "Rechazado"
                 }
-                realm.insert(reembolsoBean)
-                val userBean = realm.where(LiquidacionBean::class.java).findFirst()
+                realm.insertOrUpdate(reembolsoBean)
+/*                val userBean = realm.where(LiquidacionBean::class.java).findFirst()
                 userBean?.isStatus = true
-                realm.insertOrUpdate(userBean)
+                realm.insertOrUpdate(userBean)*/
             }
         }
     }
@@ -34,6 +34,11 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
         val realm = Realm.getDefaultInstance()
 
         return realm.where(UserBean::class.java).equalTo("status",true).findFirst()!!
+    }
+
+    override fun getReembolso(): ReembolsoBean {
+        val realm = Realm.getDefaultInstance()
+        return realm.where(ReembolsoBean::class.java).equalTo("estadoR", true).findFirst()!!
     }
 
     override fun getDefaultValesReembolso(codReembolso: String): ReembolsoBean {

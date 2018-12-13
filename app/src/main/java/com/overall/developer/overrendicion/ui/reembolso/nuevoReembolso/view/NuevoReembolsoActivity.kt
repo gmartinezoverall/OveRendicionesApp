@@ -13,7 +13,9 @@ import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity
 import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.INuevoReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.NuevoReembolsoPresenter
+import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.ReembolsoActivity
 import com.overall.developer.overrendicion.utils.Util
+import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser
 import kotlinx.android.synthetic.main.activity_reembolso.*
 import kotlinx.android.synthetic.main.content_nuevo_reembolso.*
 import kotlinx.android.synthetic.main.toolbar_reembolso.*
@@ -23,6 +25,7 @@ import java.text.SimpleDateFormat
 class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 {
     internal lateinit var mPresenter: INuevoReembolsoPresenter
+    private var realmBrowser: RealmBrowser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +50,44 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 
         initialCalendar()
 
-        intent?.let {getDefaultValesReembolso(it.extras.get("codReembolso").toString())}
+        val bundle = intent.extras
+        if(bundle != null){getDefaultValesReembolso(bundle.getString("codReembolso").toString())}
+        //intent?.let {getDefaultValesReembolso(it.extras.get("codReembolso").toString())}
 
         lytFecha.setOnClickListener{alterCalendarView()}
-
-        btnSaveNR.setOnClickListener{
-            mPresenter.saveDateNewRefund(ReembolsoEntity("-", "-", "-", txvDniNR.text.toString(),
-                                         txvNombreNR.text.toString(), "0", spnTipoMonedaNR.text.toString(),
-                                         txvComNR.text.toString(),"-", spnTipoReembolsoNR.text.toString(), txvMotivoNR.text.toString(),
-                                         Util.getCurrentDate(), "-", txvFechaDesdeNR.text.toString(), Util.getCurrentDate(), "P"))
-        }
 
         val mToolbar: AwesomeBar = toolbarReembolso
         mToolbar.setOnMenuClickedListener { drawer_layout_reembolso.openDrawer(Gravity.START) }
         val txvTittleToolbar = txvTitulo
         txvTittleToolbar.text = "Nuevo Reembolso"
+
+        clickButtons()
     }
 
-    override fun insertNRSuccess()
+    override fun successRestApi()
     {
-        startActivity<FormularioActivity>()
+        startActivity<ReembolsoActivity>()
         finish()
     }
+
+    //region estadosActividad
+    override fun onResume() {
+        super.onResume()
+        realmBrowser = RealmBrowser()
+        realmBrowser!!.start()
+        realmBrowser!!.showServerAddress(this)
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (realmBrowser != null) {
+            realmBrowser!!.stop()
+        }
+    }
+
+
 
     private fun initialCalendar(){
         cldFechaDesdeNR.setDateFormat("dd/MM/yyyy")
@@ -110,6 +129,17 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
         txvFechaDesdeNR.text = reembolsoEntity.fechaDesde
         spnTipoMonedaNR.selectedIndex = if (reembolsoEntity.tipoMoneda == "S") 0 else 1
         txvMotivoNR?.setText(reembolsoEntity.motivoReembolso)
+
+    }
+
+    private fun clickButtons()
+    {
+        btnSaveNR.setOnClickListener{
+            mPresenter.saveDateNewRefund(ReembolsoEntity("-", "-", "-", txvDniNR.text.toString(),
+                    txvNombreNR.text.toString(), "0", spnTipoMonedaNR.text.toString(),
+                    txvComNR.text.toString(),"-", spnTipoReembolsoNR.text.toString(), txvMotivoNR.text.toString(),
+                    Util.getCurrentDate(), "-", txvFechaDesdeNR.text.toString(), Util.getCurrentDate(), "P"))
+        }
 
     }
 }

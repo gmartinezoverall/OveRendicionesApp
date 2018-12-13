@@ -93,18 +93,18 @@ class ReembolsoActivity : AppCompatActivity(), IReembolsoView,  NavigationView.O
     //region estadosActividad
     override fun onResume() {
         super.onResume()
-        realmBrowser = RealmBrowser()
+/*        realmBrowser = RealmBrowser()
         realmBrowser!!.start()
-        realmBrowser!!.showServerAddress(this)
+        realmBrowser!!.showServerAddress(this)*/
 
     }
 
     override fun onStop() {
         super.onStop()
 
-        if (realmBrowser != null) {
+/*        if (realmBrowser != null) {
             realmBrowser!!.stop()
-        }
+        }*/
     }
 
     //endregion
