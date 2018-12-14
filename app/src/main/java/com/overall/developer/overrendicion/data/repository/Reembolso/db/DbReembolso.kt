@@ -37,7 +37,7 @@ class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembols
             var nextId:Int  = (if (count.size == 0) 1 else count.last()!!.idReembolso + 1  )
 
             reembolsoBeans.map {
-                val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReemboslo", it.codReemboslo).or().equalTo("codReemboslo", "-").findFirst()
+                val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReembolso", it.codReembolso).or().equalTo("codReembolso", "-").findFirst()
                 reembolsoBean.let {  reembolsoBean?.deleteFromRealm()}
 
                 it.idReembolso = nextId
@@ -60,5 +60,17 @@ class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembols
         return reembolsoBeans
     }
 
+    override fun changeStatusReembolsoDB(codReembolso: String) {
+        val realm = Realm.getDefaultInstance()
 
+        realm.executeTransaction{
+            run{
+                val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReembolso", codReembolso).findFirst()
+                reembolsoBean?.estadoR = true
+                realm.insertOrUpdate(reembolsoBean)
+
+            }
+
+        }
+    }
 }

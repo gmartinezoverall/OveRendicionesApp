@@ -11,6 +11,7 @@ import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.interactor.IReembolsoInteractor
 import com.overall.developer.overrendicion.utils.UrlApi
 import org.json.JSONObject
+import kotlin.random.Random
 
 
 class ApiReembolso (internal val mInteractor: IReembolsoInteractor) : IApiReembolso
@@ -27,6 +28,8 @@ class ApiReembolso (internal val mInteractor: IReembolsoInteractor) : IApiReembo
                     {
                         val collectionType = object : TypeToken<Collection<ReembolsoBean>>() {}.type
                         val reembolsoBeans = Gson().fromJson<List<ReembolsoBean>>(response?.getString("refunds"), collectionType)
+
+                        reembolsoBeans.map {it.codReembolso = Random.nextInt(1, 100).toString() }
                         mInteractor.listReembolsoApiSuccess(reembolsoBeans)
                     }
 

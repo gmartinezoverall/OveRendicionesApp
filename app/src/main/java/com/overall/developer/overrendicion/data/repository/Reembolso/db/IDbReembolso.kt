@@ -8,4 +8,5 @@ interface IDbReembolso
     fun changeStateAllReembolsoDB()
     fun insertReembolsoListDB(reembolsoBeans: List<ReembolsoBean>): List<ReembolsoBean>
     fun getUserDb(): UserBean
+    fun changeStatusReembolsoDB(codReembolso: String)
 }

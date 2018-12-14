@@ -1,18 +1,15 @@
-package com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.view
+package com.overall.developer.overrendicion.ui.reembolso.datosGenerales.view
 
-import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.ArrayAdapter
 import com.github.florent37.awesomebar.AwesomeBar
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.INuevoReembolsoPresenter
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.NuevoReembolsoPresenter
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.presenter.INuevoReembolsoPresenter
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.presenter.NuevoReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.ReembolsoActivity
 import com.overall.developer.overrendicion.utils.Util
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser
@@ -25,7 +22,7 @@ import java.text.SimpleDateFormat
 class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 {
     internal lateinit var mPresenter: INuevoReembolsoPresenter
-    private var realmBrowser: RealmBrowser? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +47,22 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 
         initialCalendar()
 
+        val txvTittleToolbar = txvTitulo
+        txvTittleToolbar.text = "Nuevo Reembolso"
+
         val bundle = intent.extras
-        if(bundle != null){getDefaultValesReembolso(bundle.getString("codReembolso").toString())}
+        if(bundle != null){
+            getDefaultValesReembolso(bundle.getString("codReembolso").toString())
+            txvTittleToolbar.text = "Editar Reembolso"
+        }
         //intent?.let {getDefaultValesReembolso(it.extras.get("codReembolso").toString())}
 
         lytFecha.setOnClickListener{alterCalendarView()}
 
         val mToolbar: AwesomeBar = toolbarReembolso
         mToolbar.setOnMenuClickedListener { drawer_layout_reembolso.openDrawer(Gravity.START) }
-        val txvTittleToolbar = txvTitulo
-        txvTittleToolbar.text = "Nuevo Reembolso"
+
+
 
         clickButtons()
     }
@@ -70,22 +73,6 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
         finish()
     }
 
-    //region estadosActividad
-    override fun onResume() {
-        super.onResume()
-        realmBrowser = RealmBrowser()
-        realmBrowser!!.start()
-        realmBrowser!!.showServerAddress(this)
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        if (realmBrowser != null) {
-            realmBrowser!!.stop()
-        }
-    }
 
 
 

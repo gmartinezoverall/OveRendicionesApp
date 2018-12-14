@@ -1,8 +1,8 @@
-package com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter
+package com.overall.developer.overrendicion.ui.reembolso.datosGenerales.presenter
 
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.interactor.NuevoReembolsoInteractor
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.view.INuevoReembolsoView
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.interactor.NuevoReembolsoInteractor
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.view.INuevoReembolsoView
 
 class NuevoReembolsoPresenter (internal val mView: INuevoReembolsoView): INuevoReembolsoPresenter
 {

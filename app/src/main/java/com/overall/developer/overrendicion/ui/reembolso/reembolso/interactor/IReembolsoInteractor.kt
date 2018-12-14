@@ -8,4 +8,5 @@ interface IReembolsoInteractor
     fun getReembolsoList()
     fun listReembolsoApiSuccess(reembolsoBeans: List<ReembolsoBean>)
     fun listReembolsoApiError()
+    fun changeStatusReembolso(codReembolso: String)
 }

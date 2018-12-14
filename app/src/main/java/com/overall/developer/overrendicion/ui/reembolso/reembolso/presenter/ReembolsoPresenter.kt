@@ -21,4 +21,8 @@ class ReembolsoPresenter (internal val mView:IReembolsoView):IReembolsoPresenter
     {
         mView.listReembolsoSuccess(reembolsoEntityList)
     }
+
+    override fun changeStatusReembolso(codReembolso: String) {
+        mInteractor.changeStatusReembolso(codReembolso)
+    }
 }

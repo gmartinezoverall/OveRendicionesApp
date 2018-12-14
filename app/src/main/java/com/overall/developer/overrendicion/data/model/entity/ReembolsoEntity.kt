@@ -1,11 +1,10 @@
 package com.overall.developer.overrendicion.data.model.entity
 
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
-import kotlin.random.Random
 
 data class ReembolsoEntity
 (
-        var codReemboslo: String,
+        var codReembolso: String,
         var codComp: String,
         var codTrab: String,
         var numBenDni: String,
@@ -26,7 +25,7 @@ data class ReembolsoEntity
 fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
 {
     return ReembolsoEntity(
-            reembosloBean.codReemboslo,
+            reembosloBean.codReembolso,
             reembosloBean.codComp,
             reembosloBean.codTrab,
             reembosloBean.numBenDni,
@@ -47,7 +46,7 @@ fun convertReembolsoBeanInEntity(reembosloBean: ReembolsoBean) : ReembolsoEntity
 fun convertReembolsoEntityInBean(reembolsoEntity: ReembolsoEntity): ReembolsoBean
 {
     return ReembolsoBean(
-            reembolsoEntity.codReemboslo,
+            reembolsoEntity.codReembolso,
             reembolsoEntity.codComp,
             reembolsoEntity.codTrab,
             reembolsoEntity.numBenDni,

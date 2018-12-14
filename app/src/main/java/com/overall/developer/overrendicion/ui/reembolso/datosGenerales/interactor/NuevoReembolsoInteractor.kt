@@ -1,18 +1,14 @@
-package com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.interactor
+package com.overall.developer.overrendicion.ui.reembolso.datosGenerales.interactor
 
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
-import com.overall.developer.overrendicion.data.model.bean.UserBean
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.data.model.entity.UserEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoEntityInBean
 import com.overall.developer.overrendicion.data.model.request.convertInsertReembolsoEntityToRequest
 import com.overall.developer.overrendicion.data.model.request.convertUpdateReembolsoEntityToRequest
 import com.overall.developer.overrendicion.data.repository.NuevoReembolso.api.ApiNuevoReembolso
 import com.overall.developer.overrendicion.data.repository.NuevoReembolso.db.DbNuevoReembolso
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.presenter.INuevoReembolsoPresenter
-import java.text.SimpleDateFormat
-import java.util.*
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.presenter.INuevoReembolsoPresenter
 
 class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter): INuevoReembolsoInteractor
 {
@@ -25,7 +21,7 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
         val userBean = mDBNuevoReembolso.getUser()
         val reembolsoBean = mDBNuevoReembolso.getReembolso()
 
-        reembolsoBean?.let { reembolsoEntity.codReemboslo = reembolsoBean.codReemboslo}
+        reembolsoBean?.let { reembolsoEntity.codReembolso = reembolsoBean.codReembolso}
         reembolsoEntity.codComp = userBean.codCia
         reembolsoEntity.codTrab = userBean.idUsuario//codTrab
          when(reembolsoEntity.descTReembolso)
@@ -41,7 +37,7 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
 
         mDBNuevoReembolso.insertNewRefundDB(convertReembolsoEntityInBean(reembolsoEntity))//Inserta en el BD un nuevo reembolso
 
-        if(reembolsoEntity.codReemboslo == "-")  mApiNuevoReembolso.insertNewRefundApi(convertInsertReembolsoEntityToRequest(reembolsoEntity))//ingresar nuevo reembolso por el WS
+        if(reembolsoEntity.codReembolso == "-")  mApiNuevoReembolso.insertNewRefundApi(convertInsertReembolsoEntityToRequest(reembolsoEntity))//ingresar nuevo reembolso por el WS
         else mApiNuevoReembolso.updateRefundApi(convertUpdateReembolsoEntityToRequest(reembolsoEntity))
 
 
@@ -60,8 +56,8 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
         return listOf(bean.compania, bean.numDocBeneficiario, bean.nombre)
     }
 
-    override fun getDefaultValesReembolso(codReemboslo: String): ReembolsoEntity {
-        val reembolsoBean: ReembolsoBean = mDBNuevoReembolso.getDefaultValesReembolso(codReemboslo)
+    override fun getDefaultValesReembolso(codReembolso: String): ReembolsoEntity {
+        val reembolsoBean: ReembolsoBean = mDBNuevoReembolso.getDefaultValesReembolso(codReembolso)
         return convertReembolsoBeanInEntity(reembolsoBean)
     }
 }

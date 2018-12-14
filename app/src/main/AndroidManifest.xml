@@ -72,8 +72,13 @@
 
         <activity android:name=".ui.user.view.Drawable.RecoveryPasswordActivity" />
         <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity" />
-        <activity android:name=".ui.reembolso.reembolso.view.ReembolsoActivity"></activity>
-        <activity android:name=".ui.reembolso.nuevoReembolso.view.NuevoReembolsoActivity"></activity>
+        <activity android:name=".ui.reembolso.reembolso.view.ReembolsoActivity" />
+        <activity android:name=".ui.reembolso.datosGenerales.view.NuevoReembolsoActivity" />
+        <activity android:name=".ui.reembolso.documentoList.view.DocumentosListActivity" />
+<!--        <activity
+            android:name=".ui.reembolso.documentoList.view.DocumentosListActivity"
+            android:label="@string/title_activity_documentos_list"
+            android:theme="@style/AppTheme"></activity>-->
     </application>
 
 </manifest>

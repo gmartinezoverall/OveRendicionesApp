@@ -187,6 +187,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko:$gradle.ankoVersion"
     //implementation "org.jetbrains.anko:anko-commons:$gradle.ankoVersion"
 
+    //omega Library recyclerView, Swipe and others
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

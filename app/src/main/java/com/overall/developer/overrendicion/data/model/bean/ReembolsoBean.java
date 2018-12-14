@@ -7,7 +7,7 @@ public class ReembolsoBean extends RealmObject
 {
     @PrimaryKey
     private Integer idReembolso;
-    String codReemboslo;
+    String codReembolso;
     String codComp;
     String codTrab;
     String numBenDni;
@@ -27,8 +27,8 @@ public class ReembolsoBean extends RealmObject
     public ReembolsoBean() {
     }
 
-    public ReembolsoBean(String codReemboslo, String codComp,String codTrab, String numBenDni, String nombreBen, String monto, String tipoMoneda, String nombreConsultora, String codTReembolso, String descTReembolso, String motivoReembolso, String fechaReembolso, String fechaPago, String fechaDesde, String fechaHasta, String estado) {
-        this.codReemboslo = codReemboslo;
+    public ReembolsoBean(String codReembolso, String codComp,String codTrab, String numBenDni, String nombreBen, String monto, String tipoMoneda, String nombreConsultora, String codTReembolso, String descTReembolso, String motivoReembolso, String fechaReembolso, String fechaPago, String fechaDesde, String fechaHasta, String estado) {
+        this.codReembolso = codReembolso;
         this.codComp = codComp;
         this.codTrab = codTrab;
         this.numBenDni = numBenDni;
@@ -54,12 +54,12 @@ public class ReembolsoBean extends RealmObject
         this.idReembolso = idReembolso;
     }
 
-    public String getCodReemboslo() {
-        return codReemboslo;
+    public String getCodReembolso() {
+        return codReembolso;
     }
 
-    public void setCodReemboslo(String codReemboslo) {
-        this.codReemboslo = codReemboslo;
+    public void setCodReembolso(String codReembolso) {
+        this.codReembolso = codReembolso;
     }
 
     public String getCodComp() {

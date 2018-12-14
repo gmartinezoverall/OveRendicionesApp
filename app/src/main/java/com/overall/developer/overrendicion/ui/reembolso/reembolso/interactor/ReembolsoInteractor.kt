@@ -35,4 +35,8 @@ class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReemb
     override fun listReembolsoApiError() {
 
     }
+
+    override fun changeStatusReembolso(codReembolso: String) {
+        mDbReembolso.changeStatusReembolsoDB(codReembolso)
+    }
 }

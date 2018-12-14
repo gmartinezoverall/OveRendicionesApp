@@ -11,7 +11,7 @@ import android.view.MenuItem
 import com.github.florent37.awesomebar.AwesomeBar
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.view.NuevoReembolsoActivity
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.view.NuevoReembolsoActivity
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.presenter.IReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.presenter.ReembolsoPresenter
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.adapter.ReembolsoAdapter
@@ -108,6 +108,10 @@ class ReembolsoActivity : AppCompatActivity(), IReembolsoView,  NavigationView.O
     }
 
     //endregion
+
+    fun changeStatusReembolso(codReembolso: String){
+        mPresenter.changeStatusReembolso(codReembolso)
+    }
 
     override fun listReembolsoSuccess(reembolsoEntityList: ArrayList<ReembolsoEntity>)
     {

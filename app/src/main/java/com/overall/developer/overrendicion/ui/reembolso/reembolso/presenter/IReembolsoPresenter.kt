@@ -7,4 +7,5 @@ interface IReembolsoPresenter
     fun changeStateAllReembolso()
     fun getReembolsoList()
     fun listReembolsoSuccess(reembolsoEntityList: ArrayList<ReembolsoEntity>)
+    fun changeStatusReembolso(codReembolso: String)
 }

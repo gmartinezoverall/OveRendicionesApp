@@ -15,7 +15,7 @@ data class UpdateReembolsoRequest
 fun convertUpdateReembolsoEntityToRequest(reembolsoEntity: ReembolsoEntity) : UpdateReembolsoRequest
 {
     return UpdateReembolsoRequest(
-            reembolsoEntity.codReemboslo,
+            reembolsoEntity.codReembolso,
             reembolsoEntity.codTReembolso,
             reembolsoEntity.descTReembolso,
             reembolsoEntity.fechaDesde,

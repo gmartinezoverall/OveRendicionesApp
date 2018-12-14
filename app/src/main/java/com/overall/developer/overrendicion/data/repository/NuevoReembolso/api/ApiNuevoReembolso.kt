@@ -8,7 +8,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.overall.developer.overrendicion.BuildConfig
 import com.overall.developer.overrendicion.data.model.request.InsertReembolsoRequest
 import com.overall.developer.overrendicion.data.model.request.UpdateReembolsoRequest
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.interactor.INuevoReembolsoInteractor
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.interactor.INuevoReembolsoInteractor
 import com.overall.developer.overrendicion.utils.UrlApi
 import org.json.JSONObject
 

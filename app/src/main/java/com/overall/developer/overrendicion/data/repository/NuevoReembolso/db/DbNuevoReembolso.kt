@@ -1,9 +1,8 @@
 package com.overall.developer.overrendicion.data.repository.NuevoReembolso.db
 
-import com.overall.developer.overrendicion.data.model.bean.LiquidacionBean
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 import com.overall.developer.overrendicion.data.model.bean.UserBean
-import com.overall.developer.overrendicion.ui.reembolso.nuevoReembolso.interactor.INuevoReembolsoInteractor
+import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.interactor.INuevoReembolsoInteractor
 import io.realm.Realm
 
 class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDbNuevoReembolso
@@ -43,7 +42,7 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
 
     override fun getDefaultValesReembolso(codReembolso: String): ReembolsoBean {
         val realm = Realm.getDefaultInstance()
-        val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReemboslo", codReembolso).findFirst()
+        val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReembolso", codReembolso).findFirst()
         realm.executeTransaction{
             reembolsoBean?.estadoR = true
             realm.insertOrUpdate(reembolsoBean)
