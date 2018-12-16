@@ -24,10 +24,10 @@ class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReemb
 
     override fun listReembolsoApiSuccess(reembolsoBeans: List<ReembolsoBean>)
     {
-        val reembolsoList = mDbReembolso.insertReembolsoListDB(reembolsoBeans)//por siacaso tenga que filtrarlos
+        mDbReembolso.insertReembolsoListDB(reembolsoBeans)//por siacaso tenga que filtrarlos
         val reembolsoEntityList = arrayListOf<ReembolsoEntity>()
 
-        reembolsoList.map { reembolsoEntityList.add(convertReembolsoBeanInEntity(it)) }
+        reembolsoBeans.map { reembolsoEntityList.add(convertReembolsoBeanInEntity(it)) }
 
         mPresenter.listReembolsoSuccess(reembolsoEntityList)
     }

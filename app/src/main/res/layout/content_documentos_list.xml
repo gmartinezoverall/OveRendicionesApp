@@ -65,11 +65,14 @@
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rcvDatosReembolsoList"
+        <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+            android:id="@+id/recycler_view_contacts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"/>
+            app:divider="@color/white"
+            app:dividerHeight="2dp"
+            app:itemSpace="4dp"
+            app:showDivider="middle"/>
 
 
     </LinearLayout>

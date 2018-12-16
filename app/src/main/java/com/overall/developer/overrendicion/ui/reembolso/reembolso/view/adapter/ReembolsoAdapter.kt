@@ -10,7 +10,7 @@ import com.daimajia.androidanimations.library.Techniques
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.view.NuevoReembolsoActivity
-import com.overall.developer.overrendicion.ui.reembolso.documentoList.view.DocumentosListActivity
+import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.view.DocumentosListActivity
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.view.ReembolsoActivity
 import kotlinx.android.synthetic.main.cardview_reembolso.view.*
 import kotlinx.android.synthetic.main.hover_pendiente.view.*
