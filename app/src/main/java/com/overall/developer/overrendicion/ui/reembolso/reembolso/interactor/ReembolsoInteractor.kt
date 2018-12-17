@@ -3,8 +3,8 @@ package com.overall.developer.overrendicion.ui.reembolso.reembolso.interactor
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
-import com.overall.developer.overrendicion.data.repository.Reembolso.api.ApiReembolso
-import com.overall.developer.overrendicion.data.repository.Reembolso.db.DbReembolso
+import com.overall.developer.overrendicion.data.repository.reembolso.Reembolso.api.ApiReembolso
+import com.overall.developer.overrendicion.data.repository.reembolso.Reembolso.db.DbReembolso
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.presenter.IReembolsoPresenter
 
 class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReembolsoInteractor

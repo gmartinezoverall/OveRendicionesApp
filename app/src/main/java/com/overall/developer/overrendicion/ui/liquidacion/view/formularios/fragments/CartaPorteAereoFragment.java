@@ -60,7 +60,6 @@ import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
 
 public class CartaPorteAereoFragment extends Fragment
 {
-
     //region Injeccion de Vistas
     @BindView(R.id.etxRuc)
     CustomEditText etxRuc;

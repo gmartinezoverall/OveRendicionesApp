@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
+import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.presenter.DocumentosListPresenter
 import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.presenter.IDocumentosListPresenter
 import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.view.adapter.DocumentosAdapter
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser
 
 import kotlinx.android.synthetic.main.activity_documentos_list.*
-
+import org.jetbrains.anko.startActivity
 
 
 class DocumentosListActivity : AppCompatActivity(), IDocumentosListView {
@@ -22,13 +23,15 @@ class DocumentosListActivity : AppCompatActivity(), IDocumentosListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_documentos_list)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
 
         mPresenter = DocumentosListPresenter(this)
 
         mPresenter.setDocumentosList()
 
-
+        fab.setOnClickListener {
+            startActivity<FormularioActivity>()
+        }
 
     }
 

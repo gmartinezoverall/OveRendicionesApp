@@ -6,8 +6,8 @@ import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBea
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoEntityInBean
 import com.overall.developer.overrendicion.data.model.request.convertInsertReembolsoEntityToRequest
 import com.overall.developer.overrendicion.data.model.request.convertUpdateReembolsoEntityToRequest
-import com.overall.developer.overrendicion.data.repository.NuevoReembolso.api.ApiNuevoReembolso
-import com.overall.developer.overrendicion.data.repository.NuevoReembolso.db.DbNuevoReembolso
+import com.overall.developer.overrendicion.data.repository.reembolso.NuevoReembolso.api.ApiNuevoReembolso
+import com.overall.developer.overrendicion.data.repository.reembolso.NuevoReembolso.db.DbNuevoReembolso
 import com.overall.developer.overrendicion.ui.reembolso.datosGenerales.presenter.INuevoReembolsoPresenter
 
 class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter): INuevoReembolsoInteractor

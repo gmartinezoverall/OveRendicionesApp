@@ -2,8 +2,8 @@ package com.overall.developer.overrendicion.ui.reembolso.rendicionesList.interac
 
 import com.overall.developer.overrendicion.data.model.bean.RendicionReembolsoBean
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
-import com.overall.developer.overrendicion.data.repository.documentosReembolsoList.api.ApiDocumentosList
-import com.overall.developer.overrendicion.data.repository.documentosReembolsoList.db.DbDocumentosList
+import com.overall.developer.overrendicion.data.repository.reembolso.documentosReembolsoList.api.ApiDocumentosList
+import com.overall.developer.overrendicion.data.repository.reembolso.documentosReembolsoList.db.DbDocumentosList
 import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.presenter.IDocumentosListPresenter
 
 class DocumentosListInteractor(internal val mPresenter: IDocumentosListPresenter): IDocumentosListInteractor

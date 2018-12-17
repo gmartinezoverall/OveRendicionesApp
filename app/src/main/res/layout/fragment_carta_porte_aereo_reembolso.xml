@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="RUC: " />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <com.libizo.CustomEditText
+                        android:id="@+id/etxRuc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:hint="RUC"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="12dp"
+                        android:text=""
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        app:libIZO_setBorderColor="#d4d2d3"
+                        app:libIZO_setBorderView="true"
+                        app:libIZO_setClearIconVisible="true"
+                        app:libIZO_setCornerRadius="20dp" />
+
+                    <ImageButton
+                        android:id="@+id/btnSearch"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_search"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Razon Social:"
+                    android:layout_marginTop="5dp"/>
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxRazonSocial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Razon Social"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="N: Serie"
+                    android:layout_marginTop="5dp"/>
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxNSerie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Número: Serie"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:maxLength="4"
+                    android:inputType="number"
+                    android:digits="@string/numbers"
+                    android:gravity="center"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="N: Documento"
+                    android:layout_marginTop="5dp"/>
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxNDocumento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Número: Documento"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:maxLength="8"
+                    android:inputType="number"
+                    android:digits="@string/numbers"
+                    android:gravity="center"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Fecha Documento:"/>
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
+
+                    <LinearLayout
+                        android:id="@+id/lytFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/txvFechaDocumento"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="Fecha Documento"
+                            android:textSize="12sp"/>
+
+                        <LinearLayout
+                            android:id="@+id/lytArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="right|center_vertical"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/ic_arrow_drop_down" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lytCalendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <pyxis.uzuki.live.sectioncalendarview.SectionCalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Tipo Moneda: "
+                    android:layout_marginTop="5dp"/>
+
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/spnTipoMoneda"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Valor Venta: "
+                    android:layout_marginTop="5dp"/>
+
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxValorVenta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Valor Venta"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <CheckBox
+                        android:id="@+id/chkAfectoIgv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="IGV"
+                        android:layout_weight="0.7"
+                        android:checked="true"/>
+
+                    <TextView
+                        android:id="@+id/txvMontoIGV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0.00"
+                        android:layout_weight="1"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Total Venta: "
+                        android:layout_weight="1"/>
+
+
+                    <TextView
+                        android:id="@+id/etxPrecioVenta"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0.00"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Otros Gastos: "
+                    android:layout_marginTop="5dp"/>
+
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxOtrosGastos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Otros Gastos"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setCornerRadius="20dp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Tipo gasto: "
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/spnTipoGasto"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Seleccionar"
+                    android:drawableRight="@drawable/ic_arrow_drop_down"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:textColor="@color/black"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Observaciones: "
+                    android:layout_marginTop="5dp"/>
+
+                <com.libizo.CustomEditText
+                    android:id="@+id/etxObservaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:hint="Observaciones"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:libIZO_setBorderColor="#d4d2d3"
+                    app:libIZO_setBorderView="true"
+                    app:libIZO_setClearIconVisible="true"
+                    app:libIZO_setCornerRadius="20dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Foto: "
+                    android:layout_marginTop="5dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:layout_margin="15dp"
+                        android:background="@drawable/ic_add_a_photo"/>
+
+                    <ImageButton
+                        android:id="@+id/btnFoto"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/button_background"
+                        android:src="@drawable/ic_add_a_photo_white" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center"
+                    android:paddingTop="10dp">
+
+                    <Button
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_background"/>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

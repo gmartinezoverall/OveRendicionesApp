@@ -5,8 +5,8 @@ import android.widget.Toast;
 
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.UserEntity;
-import com.overall.developer.overrendicion.data.repository.Login.LoginRepository;
-import com.overall.developer.overrendicion.data.repository.Login.LoginRepositoryImpl;
+import com.overall.developer.overrendicion.data.repository.user.Login.LoginRepository;
+import com.overall.developer.overrendicion.data.repository.user.Login.LoginRepositoryImpl;
 import com.overall.developer.overrendicion.ui.user.presenter.Login.LoginPresenter;
 import com.overall.developer.overrendicion.utils.Util;
 

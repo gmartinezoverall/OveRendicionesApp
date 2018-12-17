@@ -1,7 +1,7 @@
 package com.overall.developer.overrendicion.ui.user.interactor.CreateAccount;
 
-import com.overall.developer.overrendicion.data.repository.CreateAccount.CreateAccountRepository;
-import com.overall.developer.overrendicion.data.repository.CreateAccount.CreateAccountRepositoryImpl;
+import com.overall.developer.overrendicion.data.repository.user.CreateAccount.CreateAccountRepository;
+import com.overall.developer.overrendicion.data.repository.user.CreateAccount.CreateAccountRepositoryImpl;
 import com.overall.developer.overrendicion.ui.user.presenter.CreateAccount.CreateAccountPresenter;
 
 /**

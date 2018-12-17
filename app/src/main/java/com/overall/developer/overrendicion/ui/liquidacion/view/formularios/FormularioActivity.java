@@ -130,9 +130,10 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
 
         mPresenter.setTipoCambio();
 
-        List<String> typeFormList = Arrays.asList(getResources().getStringArray(R.array.formularios));
         sesionManager();
         initialDrawable();
+
+        List<String> typeFormList = Arrays.asList(getResources().getStringArray(R.array.formularios));
         fragmentManager = getSupportFragmentManager();
         dropdownview.setDropDownListItem(typeFormList);
         codLiquidacion = mPresenter.getCodLiquidacion();
@@ -153,9 +154,7 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
             }
 
         } else {
-
             dropdownview.setSelectingPosition(6);//formulario por defecto
-
 
             dropdownview.setOnSelectionListener((view, position) ->
             {
@@ -197,7 +196,6 @@ public class FormularioActivity extends AppCompatActivity implements FormularioV
         fragmentTransaction.commit();
 
         if (visible) {
-
             lytDropdownview.setVisibility(View.INVISIBLE);
             txvDefaultFragment.setVisibility(View.VISIBLE);
             txvDefaultFragment.setText(String.valueOf(dropdownview.getFilterTextView().getText()));
