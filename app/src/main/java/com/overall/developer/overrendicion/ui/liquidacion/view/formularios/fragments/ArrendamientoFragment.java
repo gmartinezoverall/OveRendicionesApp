@@ -2,11 +2,13 @@ package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.frag
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jaredrummler.android.widget.AnimatedSvgView;
 import com.libizo.CustomEditText;
 import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.LiquidacionEntity;
@@ -47,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +58,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import id.zelory.compressor.Compressor;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import pyxis.uzuki.live.sectioncalendarview.SectionCalendarView;
@@ -353,4 +358,5 @@ public class ArrendamientoFragment extends Fragment {
     }
 
     //endregion
+
 }

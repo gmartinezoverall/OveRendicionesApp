@@ -1,20 +1,32 @@
 package com.overall.developer.overrendicion.ui.reembolso.formularios.view
 
-import android.content.Context
+import android.app.Dialog
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.jaredrummler.android.widget.AnimatedSvgView
 import com.overall.developer.overrendicion.R
+import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator
+import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.fragments.*
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.FormularioPresenter
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.IFormularioPresenter
+import com.overall.developer.overrendicion.utils.Util
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.content_formulario.*
-import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class FormularioActivity : AppCompatActivity(), IFormularioView {
 
     internal lateinit var mPresenter: IFormularioPresenter
 
+    private var mDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,4 +78,47 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
         ft.commit()
 
     }
+    fun getReembolso(): ReembolsoEntity = mPresenter.getReembolso()
+
+    fun getListSpinner(): ArrayList<TipoGastoEntity> = mPresenter.getListSpinner(Util.getIdFragment(dropdownview.selectingPosition).toString())
+
+    fun searchRuch(ruc: String){
+
+        showDialog()
+        mPresenter.searchRuch(ruc)
+    }
+
+
+    //region Interfaces
+    override fun searchRucSuccess(razonSocial: String) {
+        mDialog!!.dismiss()
+        OttoBus.getBus().post(Communicator(razonSocial))
+
+    }
+
+    override fun searchRucError() {
+        mDialog!!.dismiss()
+        OttoBus.getBus().post(Communicator(""))
+    }
+    //endregion
+
+
+    //region Dialog
+    private fun showDialog() {
+        mDialog = Dialog(this)
+        mDialog!!.setContentView(R.layout.dialog_progress)
+        val svgView: AnimatedSvgView = mDialog!!.findViewById(R.id.animated_svg_view)
+        //svgView.postDelayed(() -> svgView.start(), 200);
+
+        mDialog!!.getWindow().setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.backgroundtext_card)))
+        mDialog!!.setCancelable(false)
+        mDialog!!.show()
+
+        Observable.interval(500, 3500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { timer -> svgView.start() }
+    }
+    //endregion
+
 }

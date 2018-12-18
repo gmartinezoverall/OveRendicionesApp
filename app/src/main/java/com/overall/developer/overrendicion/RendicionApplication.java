@@ -12,6 +12,7 @@ import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 
 import com.crashlytics.android.Crashlytics;
+
 import com.google.firebase.crash.FirebaseCrash;
 import com.overall.developer.overrendicion.data.model.bean.UserBean;
 import com.overall.developer.overrendicion.utils.background.SendDataService;
@@ -28,7 +29,6 @@ public class RendicionApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-
 
         startService(new Intent(this, SendDataService.class));
 
