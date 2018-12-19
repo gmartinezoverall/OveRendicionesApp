@@ -422,7 +422,6 @@ public class PendienteActivity extends AppCompatActivity implements PendienteVie
 
     private void showDialogTelefono()
     {
-
         mDialogPhono = new Dialog(this);
         mDialogPhono.setContentView(R.layout.dialog_telefono);
         EditText etxNumeroTel = mDialogPhono.findViewById(R.id.etxNumeroTel);

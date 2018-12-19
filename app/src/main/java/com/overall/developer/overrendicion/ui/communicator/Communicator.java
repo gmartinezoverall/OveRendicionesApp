@@ -1,4 +1,4 @@
-package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator;
+package com.overall.developer.overrendicion.ui.communicator;
 
 public class Communicator
 {

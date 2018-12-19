@@ -15,10 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -26,8 +23,8 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus
+import com.overall.developer.overrendicion.ui.communicator.Communicator
+import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 
 import com.overall.developer.overrendicion.utils.Util
@@ -156,6 +153,12 @@ class ArrendamientoFragment : Fragment() {
 
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
+        }
+
+        btnGuardar.setOnClickListener{
+     /*       ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()),
+                    String.valueOf(txvFechaDocumento.getText()), String.valueOf(etxNSerie.getText()) + "-" + String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
+*/
         }
 
     }

@@ -10,4 +10,5 @@ interface IFormularioInteractor {
     fun searchRuch(ruc: String)
     fun searchRucSuccess(razon_social: String)
     fun searchRucError()
+    fun saveDate(typeFragment: ArrayList<String>, objectDinamyc: Any)
 }

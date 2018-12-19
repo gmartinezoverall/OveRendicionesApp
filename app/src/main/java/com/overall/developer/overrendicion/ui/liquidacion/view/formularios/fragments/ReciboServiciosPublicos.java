@@ -1,7 +1,6 @@
 package com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -32,8 +31,8 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboServiciosPublicosEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.ui.communicator.Communicator;
+import com.overall.developer.overrendicion.ui.communicator.OttoBus;
 import com.overall.developer.overrendicion.utils.Util;
 import com.squareup.otto.Subscribe;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -44,7 +43,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;

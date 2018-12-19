@@ -1,41 +1,13 @@
 package com.overall.developer.overrendicion.ui.reembolso.formularios.view.fragments
 
 import `in`.galaxyofandroid.spinerdialog.SpinnerDialog
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.fxn.pix.Pix
-import com.fxn.utility.PermUtil
-import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
-import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus
-import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
-import com.overall.developer.overrendicion.utils.Util
-import com.squareup.otto.Subscribe
-import id.zelory.compressor.Compressor
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_factura_reembolso.*
-import org.jetbrains.anko.support.v4.toast
-import java.io.File
-import java.text.SimpleDateFormat
 
 class NotaCreditoFragment : Fragment() {
 

@@ -97,7 +97,7 @@ public class FormularioInteractorImpl implements FormularioInteractor
     {
         String codLiqui = mRepository.getCodLiquidacionDB().getCodLiquidacion();
 
-        RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment *-> devuelve la entidada a insertar
+        RendicionEntity entity =  filterFragment(Integer.valueOf(typeFragment.get(0)), dinamyObj);//jugada para traer el Texto y el id del tipo de fragment *-> devuelve la entidad a insertar
 
         if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
         entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
@@ -489,7 +489,6 @@ public class FormularioInteractorImpl implements FormularioInteractor
             case 21:
                 entity = new CartaPorteAereoEntity().getEntity(dinamyObj);
                 break;
-
 
         }
         return entity;

@@ -2,14 +2,12 @@ package com.overall.developer.overrendicion.ui.reembolso.formularios.view.fragme
 
 import `in`.galaxyofandroid.spinerdialog.SpinnerDialog
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -24,8 +22,8 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus
+import com.overall.developer.overrendicion.ui.communicator.Communicator
+import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.utils.Util
 import com.squareup.otto.Subscribe

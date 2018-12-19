@@ -8,8 +8,8 @@ import com.jaredrummler.android.widget.AnimatedSvgView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus
+import com.overall.developer.overrendicion.ui.communicator.Communicator
+import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.fragments.*
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.FormularioPresenter
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.IFormularioPresenter
@@ -32,7 +32,7 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_reembolso)
 
-        mPresenter = FormularioPresenter(this)
+        mPresenter = FormularioPresenter(this, this)
 
 
         val dropdownview = dropdownview
@@ -87,6 +87,16 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
         showDialog()
         mPresenter.searchRuch(ruc)
     }
+
+    fun  saveAndSendData(idFragment: Int, objectDinamyc: Any)
+    {
+        val typeFragment = java.util.ArrayList<String>()
+        typeFragment.add(idFragment.toString())
+        typeFragment.add(dropdownview.filterTextView.text.toString())
+        mPresenter.saveDate(typeFragment, objectDinamyc)
+
+    }
+
 
 
     //region Interfaces

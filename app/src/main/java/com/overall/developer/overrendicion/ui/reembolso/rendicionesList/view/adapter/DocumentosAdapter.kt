@@ -7,6 +7,7 @@ import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
 import com.omega_r.libs.omegarecyclerview.swipe_menu.SwipeViewHolder
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
+import kotlinx.android.synthetic.main.card_view_rendicion_reembolso.view.*
 
 
 class DocumentosAdapter(val context: Context, private val itemsList: ArrayList<RendicionEntity>): OmegaRecyclerView.Adapter<DocumentosAdapter.ViewHolder>()
@@ -25,9 +26,11 @@ class DocumentosAdapter(val context: Context, private val itemsList: ArrayList<R
     {
         with(holder)
         {
-
+            itemView.txvCodReembolso.text = itemsList[position].codLiquidacion
+            itemView.txvDocumento.text = itemsList[position].rdoId
+            itemView.txvNumDocumento.text = itemsList[position].valorNeto
+            itemView.txvPrecioTotal.text = itemsList[position].precioTotal
         }
-        //holder.itemView.txvPrueba01.text = itemsList[position]?.desc
 
     }
 

@@ -170,15 +170,14 @@ public class DBPendienteImpl implements DBPendiente
     @Override
     public void saveTelefonoDB(String numTelefono)
     {
-
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(realm ->
         {
             UserBean userBean = getUser();
             userBean.setTelefono(numTelefono);
-            Crashlytics.setString("Nombre",userBean.getNombre());
-            Crashlytics.setString("NumberPhone",userBean.getTelefono());
-            FirebaseCrash.log("ASD.Cell -> "+ userBean.getTelefono());
+            Crashlytics.setString("Name", String.valueOf(userBean.getNombre()));
+            Crashlytics.setString("Number", String.valueOf(userBean.getTelefono()));
+            //FirebaseCrash.log("ASD.Cell -> "+ String.valueOf(userBean.getTelefono()));
             mRealm.insertOrUpdate(userBean);
         });
 

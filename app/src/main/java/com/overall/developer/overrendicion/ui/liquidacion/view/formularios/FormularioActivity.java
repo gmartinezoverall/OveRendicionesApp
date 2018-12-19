@@ -36,7 +36,6 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEnt
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity;
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadEntity;
-import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenter;
 import com.overall.developer.overrendicion.ui.liquidacion.presenter.Formularios.FormularioPresenterImpl;
@@ -56,10 +55,9 @@ import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragm
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.SinSustentoTributarioFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.TicketMaquinaRegistradoraFragment;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.VoucherBancarioFragment;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.Communicator;
-import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.fragments.communicator.OttoBus;
+import com.overall.developer.overrendicion.ui.communicator.Communicator;
+import com.overall.developer.overrendicion.ui.communicator.OttoBus;
 import com.overall.developer.overrendicion.ui.liquidacion.view.pendiente.PendienteActivity;
-import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswordActivity;
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
