@@ -14,4 +14,6 @@ interface IDbFormulaio {
     fun getOtrosBean(): OtrosBean
 
     fun saveDataDB(bean: RendicionBean): Int
+
+    fun deleteRendicionSend(idRendicion: Int)
 }

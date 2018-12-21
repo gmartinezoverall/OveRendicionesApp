@@ -21,4 +21,6 @@ class FormularioPresenter (internal val mView: IFormularioView, context: Context
     override fun searchRucError() {mView.searchRucError()}
 
     override fun saveDate(typeFragment: ArrayList<String>, objectDinamyc: Any) = mInteractor.saveDate(typeFragment, objectDinamyc)
+
+    override fun saveDataSuccess() { mView.saveDataSuccess()}
 }

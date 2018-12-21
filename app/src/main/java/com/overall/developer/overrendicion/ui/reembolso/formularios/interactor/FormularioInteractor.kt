@@ -9,6 +9,9 @@ import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.*
+import com.overall.developer.overrendicion.data.model.request.InsertRendicionReembolsoRequest
+import com.overall.developer.overrendicion.data.model.request.RendicionRequest
+import com.overall.developer.overrendicion.data.model.request.convertInsertRendicionEntityToRequest
 import com.overall.developer.overrendicion.data.repository.reembolso.Formulario.api.ApiFormulario
 import com.overall.developer.overrendicion.data.repository.reembolso.Formulario.db.DbFormulario
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.IFormularioPresenter
@@ -46,7 +49,7 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
 
         val entity = filterFragment(typeFragment[0].toInt(), objectDinamyc)
         //if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
-        //entity.setCodRendicion(entity.getIdRendicion() == null ? "-" : mRepository.getCodRendicion(entity.getIdRendicion()));
+        entity.codRendicion = (if(entity.idRendicion == null) "-" else  mDb.getReembolsoDB().codReembolso)
         entity.codLiquidacion = codReembolso
         entity.idUsuario = mDb.getIdUsuarioDB().idUsuario
         entity.precioTotal = (entity.precioTotal.toDouble() - entity.otroGasto.toDouble()).toString()
@@ -68,12 +71,14 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
             AwsUtility.UploadTransferUtilityS3(mContext, entity.foto)
             entity.foto = BuildConfig.URL_AWS + entity.foto.substring(34)//se genera la URL de AWS para enviarlo por el WS
 
-/*            if (entity.codRendicion == "-") {
+            if (entity.codRendicion == "-") {
                 entity.codRendicion = ""
-                val request = RendicionRequest(entity.codRendicion, entity.rdoId, entity.codLiquidacion, entity.idUsuario, entity.numeroDoc,
+  /*              val request = InsertRendicionReembolsoRequest(entity.codRendicion, entity.rdoId, entity.codLiquidacion, entity.idUsuario, entity.numeroDoc,
                         entity.bienServicio, entity.igv, entity.afectoIgv, entity.precioTotal, entity.observacion, entity.fechaDocumento, entity.fechaVencimiento,
                         entity.ruc, entity.razonSocial, entity.bcoCod, entity.tipoServicio, entity.rtgId, entity.otroGasto, entity.codDestino, entity.afectoRetencion,
-                        entity.codSuspencionH, entity.tipoMoneda, entity.tipoCambio, entity.foto)
+                        entity.codSuspencionH, entity.tipoMoneda, entity.tipoCambio, entity.foto)*/
+
+                val request = convertInsertRendicionEntityToRequest(entity)
                 mApi.sendDataForInsertApi(request, idRendicion)
             } else {
                 val request = RendicionRequest(entity.codRendicion, entity.rdoId, entity.codLiquidacion, entity.idUsuario, entity.numeroDoc,
@@ -81,10 +86,15 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
                         entity.ruc, entity.razonSocial, entity.bcoCod, entity.tipoServicio, entity.rtgId, entity.otroGasto, entity.codDestino, entity.afectoRetencion,
                         entity.codSuspencionH, entity.tipoMoneda, entity.tipoCambio, entity.foto)
                 mApi.sendDataForUpdateApi(request, idRendicion)
-            }*/
+            }
 
         }
+        mPresenter.saveDataSuccess()
 
+    }
+
+    override fun deleteRendicionSend(idRendicion: Int) {
+        mDb.deleteRendicionSend(idRendicion)
     }
 
     private fun filterFragment(typeFragment: Int, dinamyObj: Any) : RendicionEntity {

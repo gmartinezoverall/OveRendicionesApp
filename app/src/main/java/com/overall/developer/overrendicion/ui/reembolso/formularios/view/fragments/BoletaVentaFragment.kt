@@ -22,6 +22,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
@@ -31,6 +32,7 @@ import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_boleta_venta_reembolso.*
+import kotlinx.android.synthetic.main.fragment_movilidad_multiple.*
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
 import java.text.SimpleDateFormat
@@ -154,6 +156,11 @@ class BoletaVentaFragment : Fragment() {
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
         }
+
+/*        btnGuardar.setOnClickListener{
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(),  BoletaVentaEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(),
+                    etxRazonSocial.text.toString(), etxNumDoc.text.toString(), ))
+        }*/
 
     }
     //endregion

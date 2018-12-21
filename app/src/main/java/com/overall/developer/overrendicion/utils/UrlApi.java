@@ -33,6 +33,9 @@ public class UrlApi
     public static String urlInsertarReembolso = BuildConfig.URL_BASE + "Refund/InsertReembolso";
     public static String urlEditarReembolso = BuildConfig.URL_BASE + "Refund/UpdateReembolso";
     public static String urlListarRendicionReembolso = BuildConfig.URL_BASE + "Refund/listarDocumentosReembolso";
+    public static String urlInsertarRendicionReembolso = BuildConfig.URL_BASE + "Refund/InsertarRendicionReembolso";
+    public static String urlEditarRendicionReembolso = BuildConfig.URL_BASE + "Refund/EditarRendicionReembolso";
+    public static String urlEliminarRendicionReembolso = BuildConfig.URL_BASE + "Refund/EliminarRendicionReembolso";
     public static String urlWSRuc = "http://200.60.6.20:8081/ruc/consulta/{ruc}";
 
 

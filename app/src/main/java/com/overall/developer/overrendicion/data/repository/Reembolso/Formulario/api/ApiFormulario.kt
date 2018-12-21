@@ -7,6 +7,8 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.overall.developer.overrendicion.BuildConfig
+import com.overall.developer.overrendicion.data.model.request.InsertRendicionReembolsoRequest
+import com.overall.developer.overrendicion.data.model.request.RendicionRequest
 import com.overall.developer.overrendicion.ui.reembolso.formularios.interactor.FormularioInteractor
 import com.overall.developer.overrendicion.utils.UrlApi
 import okhttp3.OkHttpClient
@@ -48,6 +50,7 @@ class ApiFormulario (internal val mInteractor: FormularioInteractor): IApiFormul
     }
 
     private fun searchRucProveedoresAPi(ruc: String) {
+
         AndroidNetworking.post(UrlApi.urlSearchProveedores)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)
                 .addBodyParameter("ruc", ruc)
@@ -72,5 +75,58 @@ class ApiFormulario (internal val mInteractor: FormularioInteractor): IApiFormul
                         Log.e("ApiFormulariosImpl", anError.response.toString())
                     }
                 })
+    }
+
+    override fun sendDataForInsertApi(request: InsertRendicionReembolsoRequest, idRendicion: Int) {
+
+        AndroidNetworking.post(UrlApi.urlInsertarRendicionReembolso)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter(request)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener {
+                    override fun onResponse(response: JSONObject) {
+                        try {
+                            if (response.getString("code") == "0") {
+                                //val desc = response.getJSONArray("proveedor").getJSONObject(0).getString("desc")
+                                mInteractor.deleteRendicionSend(idRendicion)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                    }
+
+                    override fun onError(anError: ANError) {
+                        Log.e("ApiFormulariosImpl", anError.response.toString())
+                    }
+                })
+
+    }
+
+    override fun sendDataForUpdateApi(request: RendicionRequest, idRendicion: Int) {
+
+        AndroidNetworking.post(UrlApi.urlEditarRendicionReembolso)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter(request)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener {
+                    override fun onResponse(response: JSONObject) {
+                        try {
+                            if (response.getString("code") == "0") {
+                                mInteractor.deleteRendicionSend(idRendicion)
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                    }
+
+                    override fun onError(anError: ANError) {
+                        Log.e("ApiFormulariosImpl", anError.response.toString())
+                    }
+                })
+
     }
 }

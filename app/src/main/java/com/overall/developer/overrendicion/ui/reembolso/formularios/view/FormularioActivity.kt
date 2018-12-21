@@ -13,12 +13,14 @@ import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.fragments.*
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.FormularioPresenter
 import com.overall.developer.overrendicion.ui.reembolso.formularios.presenter.IFormularioPresenter
+import com.overall.developer.overrendicion.ui.reembolso.rendicionesList.view.DocumentosListActivity
 import com.overall.developer.overrendicion.utils.Util
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.content_formulario.*
+import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
@@ -78,6 +80,11 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
         ft.commit()
 
     }
+
+    fun getSelectTypoDoc(): Int {
+        return Util.getIdFragment(dropdownview.selectingPosition)
+    }
+
     fun getReembolso(): ReembolsoEntity = mPresenter.getReembolso()
 
     fun getListSpinner(): ArrayList<TipoGastoEntity> = mPresenter.getListSpinner(Util.getIdFragment(dropdownview.selectingPosition).toString())
@@ -110,6 +117,11 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
         mDialog!!.dismiss()
         OttoBus.getBus().post(Communicator(""))
     }
+
+    override fun saveDataSuccess() {
+        startActivity<DocumentosListActivity>()
+    }
+
     //endregion
 
 

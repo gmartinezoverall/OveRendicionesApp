@@ -23,6 +23,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ArrendamientoEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
@@ -156,9 +157,8 @@ class ArrendamientoFragment : Fragment() {
         }
 
         btnGuardar.setOnClickListener{
-     /*       ((FormularioActivity) getContext()).saveAndSendData(((FormularioActivity) getContext()).getSelectTypoDoc(), new ArrendamientoEntity(String.valueOf(((FormularioActivity) getContext()).getSelectTypoDoc()), String.valueOf(etxRuc.getText()), String.valueOf(etxRazonSocial.getText()),
-                    String.valueOf(txvFechaDocumento.getText()), String.valueOf(etxNSerie.getText()) + "-" + String.valueOf(etxNDocumento.getText()), String.valueOf(etxMonto.getText()), String.valueOf(rtgId), String.valueOf(pathImage)));
-*/
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(),  ArrendamientoEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(), etxRazonSocial.text.toString(),
+                    txvFechaDocumento.text.toString(), etxNSerie.text.toString() + "-" + etxNDocumento.text.toString(), etxMonto.text.toString(), rtgId, pathImage))
         }
 
     }

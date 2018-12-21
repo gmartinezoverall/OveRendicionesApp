@@ -11,4 +11,5 @@ interface IFormularioInteractor {
     fun searchRucSuccess(razon_social: String)
     fun searchRucError()
     fun saveDate(typeFragment: ArrayList<String>, objectDinamyc: Any)
+    fun deleteRendicionSend(idRendicion: Int)
 }

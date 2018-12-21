@@ -75,12 +75,6 @@
         <activity android:name=".ui.reembolso.reembolso.view.ReembolsoActivity" />
         <activity android:name=".ui.reembolso.datosGenerales.view.NuevoReembolsoActivity" />
         <activity android:name=".ui.reembolso.rendicionesList.view.DocumentosListActivity" />
-        <!--
-            <activity
-            android:name=".ui.reembolso.documentoList.view.DocumentosListActivity"
-            android:label="@string/title_activity_documentos_list"
-            android:theme="@style/AppTheme"></activity>
-        -->
         <activity android:name=".ui.reembolso.formularios.view.FormularioActivity"></activity>
     </application>
 

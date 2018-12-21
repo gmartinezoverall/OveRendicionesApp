@@ -43,4 +43,10 @@ class DbFormulario(internal val mInteractor: IFormularioInteractor): IDbFormulai
         }
         return bean.idRendicion
     }
+
+    override fun deleteRendicionSend(idRendicion: Int) {
+        val mRealm = Realm.getDefaultInstance()
+        val bean = mRealm.where(RendicionBean::class.java).equalTo("idRendicion", idRendicion).findFirst()
+        mRealm.executeTransaction { bean!!.deleteFromRealm()}
+    }
 }
