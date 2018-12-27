@@ -54,7 +54,7 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
 
         val entity = filterFragment(typeFragment[0].toInt(), objectDinamyc)
         if (typeFragment.size > 2)entity.idRendicion = typeFragment[2].toInt()
-        entity.codRendicion = (if(entity.idRendicion == null) "-" else  mDb.getReembolsoDB().codReembolso)
+        entity.codRendicion = (if(entity.idRendicion == null) "-" else  mDb.getRendicion(entity.idRendicion).codRendicion)
         entity.codLiquidacion = codReembolso
         entity.idUsuario = mDb.getIdUsuarioDB().idUsuario
         entity.precioTotal = (entity.precioTotal.toDouble() - entity.otroGasto.toDouble()).toString()

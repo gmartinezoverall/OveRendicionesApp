@@ -73,4 +73,9 @@ class DbFormulario(internal val mInteractor: IFormularioInteractor): IDbFormulai
         val mRealm = Realm.getDefaultInstance()
         return mRealm.where(ProvinciaBean::class.java).equalTo("code", codDestino).findFirst()!!
     }
+
+    override fun getRendicion(idRendicion: Int?): RendicionReembolsoBean {
+        val mRealm = Realm.getDefaultInstance()
+        return mRealm.where(RendicionReembolsoBean::class.java).equalTo("idRendicion", idRendicion).findFirst()!!
+    }
 }

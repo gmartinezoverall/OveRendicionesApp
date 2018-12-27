@@ -8,6 +8,7 @@ import com.overall.developer.overrendicion.utils.Util
 import io.realm.Realm
 import io.realm.RealmResults
 
+
 class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembolso
 {
     override fun changeStateAllReembolsoDB() {
@@ -34,8 +35,13 @@ class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembols
 
         realm.executeTransaction{
 
-            val count = realm.where(ReembolsoBean::class.java).findAll()
-            var nextId:Int  = (if (count.size == 0) 1 else count.last()!!.idReembolso + 1  )
+            val currentIdNum = realm.where(ReembolsoBean::class.java).max("idReembolso")
+            var nextId: Int
+            if (currentIdNum == null) {
+                nextId = 1
+            } else {
+                nextId = currentIdNum!!.toInt() + 1
+            }
 
             reembolsoBeans.map {
                 val reembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("codReembolso", it.codReembolso).or().equalTo("codReembolso", "-").findFirst()

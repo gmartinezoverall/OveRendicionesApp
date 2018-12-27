@@ -14,6 +14,20 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
         //reembolsoBean.codReemboslo = (reembolsoBean.codReemboslo.toInt() + 1).toString()
         realm.executeTransaction{
             run {
+
+                if (reembolsoBean.codReembolso == "-")
+                {
+                    run{
+                        val currentIdNum = realm.where(ReembolsoBean::class.java).max("idReembolso")
+                        var nextId: Int
+                        if (currentIdNum == null) {
+                            nextId = 1
+                        } else {
+                            nextId = currentIdNum!!.toInt() + 1
+                        }
+                        reembolsoBean.idReembolso = nextId
+                    }
+                }
                 reembolsoBean.estadoR = true
                 when(reembolsoBean.estado){
                     "P" -> reembolsoBean.estado = "Por Enviar"

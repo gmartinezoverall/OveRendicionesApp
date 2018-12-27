@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat
 class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
 {
     internal lateinit var mPresenter: INuevoReembolsoPresenter
-
+    var reembolsoEntity: ReembolsoEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,23 +106,23 @@ class NuevoReembolsoActivity : AppCompatActivity(), INuevoReembolsoView
     }
 
     private fun getDefaultValesReembolso(codReembolso:String) {
-        val reembolsoEntity: ReembolsoEntity = mPresenter.getDefaultValesReembolso(codReembolso)
-        spnTipoReembolsoNR.selectedIndex= when(reembolsoEntity.descTReembolso){
+        reembolsoEntity = mPresenter.getDefaultValesReembolso(codReembolso)
+        spnTipoReembolsoNR.selectedIndex= when(reembolsoEntity?.descTReembolso){
             "VIATICOS" -> 0
             "MOVILIDAD" -> 1
             "CAJA CHICA" -> 2
             else->{3}
         }
-        txvFechaDesdeNR.text = reembolsoEntity.fechaDesde
-        spnTipoMonedaNR.selectedIndex = if (reembolsoEntity.tipoMoneda == "S") 0 else 1
-        txvMotivoNR?.setText(reembolsoEntity.motivoReembolso)
+        txvFechaDesdeNR.text = reembolsoEntity?.fechaDesde
+        spnTipoMonedaNR.selectedIndex = if (reembolsoEntity?.tipoMoneda == "S") 0 else 1
+        txvMotivoNR?.setText(reembolsoEntity?.motivoReembolso)
 
     }
 
     private fun clickButtons()
     {
         btnSaveNR.setOnClickListener{
-            mPresenter.saveDateNewRefund(ReembolsoEntity("-", "-", "-", txvDniNR.text.toString(),
+            mPresenter.saveDateNewRefund(ReembolsoEntity(reembolsoEntity?.codReembolso ?: "-", "-", "-", txvDniNR.text.toString(),
                     txvNombreNR.text.toString(), "0", spnTipoMonedaNR.text.toString(),
                     txvComNR.text.toString(),"-", spnTipoReembolsoNR.text.toString(), txvMotivoNR.text.toString(),
                     Util.getCurrentDate(), "-", txvFechaDesdeNR.text.toString(), Util.getCurrentDate(), "P"))

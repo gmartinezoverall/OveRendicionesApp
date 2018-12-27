@@ -45,7 +45,7 @@ class FormularioActivity : AppCompatActivity(), IFormularioView {
 
         dropdownview.setDropDownListItem(typeFormList)
 
-        if(intent != null){
+        if(intent.getStringExtra("codRendicion") != null){
 
             rendicionEntity = mPresenter.getRendicionForEdit((intent.getStringExtra("codRendicion")))  //se llenaron los datos del formulario automaticamente
             dropdownview.selectingPosition = Util.getFragmentForRdoId(Integer.valueOf(rendicionEntity?.rdoId))//formulario para editar

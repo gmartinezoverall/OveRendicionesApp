@@ -19,9 +19,7 @@ class NuevoReembolsoInteractor(internal val mPresenter: INuevoReembolsoPresenter
     override fun saveDateNewRefund(reembolsoEntity: ReembolsoEntity) {
 
         val userBean = mDBNuevoReembolso.getUser()
-        val reembolsoBean = mDBNuevoReembolso.getReembolso()
 
-        reembolsoBean?.let { reembolsoEntity.codReembolso = reembolsoBean.codReembolso}
         reembolsoEntity.codComp = userBean.codCia
         reembolsoEntity.codTrab = userBean.idUsuario//codTrab
          when(reembolsoEntity.descTReembolso)

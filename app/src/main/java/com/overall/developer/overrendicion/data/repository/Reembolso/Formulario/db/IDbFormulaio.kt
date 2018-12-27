@@ -26,4 +26,6 @@ interface IDbFormulaio {
     fun getDefaultTipoGastoDB(rtgId: String?): TipoDocumentoBean
 
     fun getDefaultProvinciaDB(codDestino: String?): ProvinciaBean
+
+    abstract fun getRendicion(idRendicion: Int?): RendicionReembolsoBean
 }

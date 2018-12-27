@@ -72,6 +72,22 @@ class FacturaFragment : Fragment() {
                 .filter { etx -> etx.isNotEmpty() && etx.length != 11 }
                 .subscribe { etxRuc.error = resources.getString(R.string.validarRuc) }
 
+        RxTextView.textChanges(etxNSerie)
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "F" || etx.toString() == "E") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "0" || etx.toString() == "1") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "2" || etx.toString() == "3") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "4" || etx.toString() == "5") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "6" || etx.toString() == "7") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "8" || etx.toString() == "9") }
+                .subscribe { etx -> etxNSerie.error = "La serie solo puede empezar con F, E, ó numero" }
+
+        RxTextView.textChanges(etxValorVenta)
+                .filter { etx -> etx.isNotEmpty() && java.lang.Double.valueOf(etx.toString()) > 700 }
+                .subscribe { etxValorVenta.error = resources.getString(R.string.validateValorVenta) }
+
+        RxTextView.textChanges(etxOtrosGastos).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+        RxTextView.textChanges(etxValorVenta).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+
         val itemList = ArrayList<Any>()
         itemList.addAll((context as FormularioActivity).getListSpinner())
 
@@ -147,26 +163,6 @@ class FacturaFragment : Fragment() {
             lytCalendar.visibility = (if (lytCalendar.visibility == View.VISIBLE) View.GONE else View.VISIBLE)
             calendarView.clearDate()
         }
-
-        RxTextView.textChanges(etxNSerie)
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "F" || etx.toString() == "E") }
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "0" || etx.toString() == "1") }
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "2" || etx.toString() == "3") }
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "4" || etx.toString() == "5") }
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "6" || etx.toString() == "7") }
-                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "8" || etx.toString() == "9") }
-                .subscribe { etx -> etxNSerie.error = "La serie solo puede empezar con F, E, ó numero" }
-
-        RxTextView.textChanges(etxRuc)
-                .filter { etx -> etx.isNotEmpty() && etx.length != 11 }
-                .subscribe { etxRuc.error = resources.getString(R.string.validarRuc) }
-
-        RxTextView.textChanges(etxValorVenta)
-                .filter { etx -> etx.isNotEmpty() && java.lang.Double.valueOf(etx.toString()) > 700 }
-                .subscribe { etxValorVenta.error = resources.getString(R.string.validateValorVenta) }
-
-        RxTextView.textChanges(etxOtrosGastos).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
-        RxTextView.textChanges(etxValorVenta).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
 
         spnTipoGasto.setOnClickListener {
             spnDialog!!.showSpinerDialog()
