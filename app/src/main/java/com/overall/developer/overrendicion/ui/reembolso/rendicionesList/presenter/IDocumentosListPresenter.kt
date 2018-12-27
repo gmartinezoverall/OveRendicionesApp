@@ -9,4 +9,6 @@ interface IDocumentosListPresenter {
     fun setDocumentosList()
 
     fun listRendicionSuccess(rendicionEntityList: ArrayList<RendicionEntity>)
+
+    fun deleteRendicion(codRendicion: String)
 }

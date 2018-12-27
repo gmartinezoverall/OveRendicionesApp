@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.data.repository.reembolso.Reembolso.api
 
+import android.util.Log
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
@@ -39,5 +40,22 @@ class ApiReembolso (internal val mInteractor: IReembolsoInteractor) : IApiReembo
                 })
     }
 
+    override fun sendResumeApi(codReembolso: String) {
+        AndroidNetworking.post(UrlApi.urlSendResumeEmailReemsolo)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("codReembolso", codReembolso)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener{
+                    override fun onResponse(response: JSONObject?)
+                    {
+                       mInteractor.sendResumeSuccess()
+                    }
 
+                    override fun onError(anError: ANError?)
+                    {
+                      Log.i("ASD.Api",anError.toString())
+                    }
+                })
+    }
 }

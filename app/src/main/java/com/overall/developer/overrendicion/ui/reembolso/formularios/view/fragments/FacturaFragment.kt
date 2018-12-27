@@ -14,19 +14,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
 import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.FacturaEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.utils.Util
 import com.squareup.otto.Subscribe
+import com.squareup.picasso.Picasso
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -41,6 +46,8 @@ class FacturaFragment : Fragment() {
     private var pathImage: String? = null
     private val razonSocial: String? = null
     private var spnDialog: SpinnerDialog? = null
+    private var rendicionEntity: RendicionEntity? = null
+    private var gastoEntity: TipoGastoEntity? = null
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         // Inflate the layout for this fragment
@@ -74,7 +81,11 @@ class FacturaFragment : Fragment() {
             rtgId = item.rtgId
         }
 
+        val adapterTipoMoneda = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.tipo_moneda))
+        spnTipoMoneda.setAdapter(adapterTipoMoneda)
 
+        rendicionEntity = (context as FormularioActivity).getDefaultValues()
+        rendicionEntity?.let { setAllDefaultValues() }
 
     }
     //endregion
@@ -137,6 +148,26 @@ class FacturaFragment : Fragment() {
             calendarView.clearDate()
         }
 
+        RxTextView.textChanges(etxNSerie)
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "F" || etx.toString() == "E") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "0" || etx.toString() == "1") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "2" || etx.toString() == "3") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "4" || etx.toString() == "5") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "6" || etx.toString() == "7") }
+                .filter { etx -> etx.isNotEmpty() && !(etx.isNotEmpty() && etx.toString().substring(0, 1) == "8" || etx.toString() == "9") }
+                .subscribe { etx -> etxNSerie.error = "La serie solo puede empezar con F, E, ó numero" }
+
+        RxTextView.textChanges(etxRuc)
+                .filter { etx -> etx.isNotEmpty() && etx.length != 11 }
+                .subscribe { etxRuc.error = resources.getString(R.string.validarRuc) }
+
+        RxTextView.textChanges(etxValorVenta)
+                .filter { etx -> etx.isNotEmpty() && java.lang.Double.valueOf(etx.toString()) > 700 }
+                .subscribe { etxValorVenta.error = resources.getString(R.string.validateValorVenta) }
+
+        RxTextView.textChanges(etxOtrosGastos).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+        RxTextView.textChanges(etxValorVenta).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+
         spnTipoGasto.setOnClickListener {
             spnDialog!!.showSpinerDialog()
         }
@@ -152,6 +183,14 @@ class FacturaFragment : Fragment() {
 
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
+        }
+
+        btnGuardar.setOnClickListener{
+            val tipoMoneda = if (spnTipoMoneda.selectedIndex == 0) "S" else "D"
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), FacturaEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(),
+                    etxRazonSocial.text.toString(), etxNSerie.text.toString() + "-" + etxNDocumento.text.toString(), txvFechaDocumento.text.toString(), tipoMoneda, resources.getString(R.string.IGV).toString(), (if (chkAfectoIgv.isChecked) "1" else "0").toString(),
+                    etxOtrosGastos.text.toString(), etxValorVenta.text.toString(), etxPrecioVenta.text.toString(), rtgId, etxObservaciones.text.toString(), pathImage.toString()))
+
         }
 
     }
@@ -194,7 +233,7 @@ class FacturaFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ file ->
-                                img_foto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
                                 pathImage = file.absolutePath
 
                             }, { throwable -> Log.i("ErrorCompressImage", throwable.message) })
@@ -216,6 +255,56 @@ class FacturaFragment : Fragment() {
             }
         }
     }
+
+    //endregion
+
+    //region Funciones
+    private fun sumaTotal() {
+        val neto: Double?
+        val igv: Double?
+        val otros: Double?
+
+        if (etxValorVenta != null) {
+            if (etxValorVenta.text.toString().isEmpty()) etxValorVenta.setText("0")
+            neto = ((if (etxValorVenta.text.toString().isEmpty()) 0 else etxValorVenta.text.toString()).toString()).toDouble()
+            igv = java.lang.Double.valueOf(if (chkAfectoIgv.isChecked) (java.lang.Double.valueOf(etxValorVenta.text.toString()) * 0.18).toString() else "0.00")
+            txvMontoIGV.text = String.format("%.2f", igv)
+            otros = java.lang.Double.valueOf((if (etxOtrosGastos.text.toString().isEmpty()) 0 else etxOtrosGastos.text.toString()).toString())
+
+            etxPrecioVenta.text = String.format("%.3f", neto!! + igv!! + otros!!)
+        }
+    }
+
+    private fun setAllDefaultValues() {
+        gastoEntity = (context as FormularioActivity).getDefaultTipoGasto()
+
+        val strings = rendicionEntity?.numeroDoc?.split("-")!!
+        etxRuc.setText(rendicionEntity?.ruc.toString())
+        etxRazonSocial.setText(rendicionEntity?.razonSocial.toString())
+        etxNSerie.setText(strings[0])
+        etxNDocumento.setText(strings[1])
+        txvFechaDocumento.text = rendicionEntity?.fechaDocumento.toString()
+        spnTipoMoneda.selectedIndex = if (rendicionEntity?.tipoMoneda == "D") 1 else 0
+        etxPrecioVenta.text = rendicionEntity?.precioTotal.toString()
+        etxValorVenta.setText(rendicionEntity?.valorNeto.toString())
+        etxOtrosGastos.setText(rendicionEntity?.otroGasto.toString())
+        if (rendicionEntity?.afectoIgv == "1") chkAfectoIgv.isChecked = true
+        txvMontoIGV.text = rendicionEntity?.igv.toString()
+        spnTipoGasto.text = gastoEntity?.rtgDes.toString()
+        rtgId = gastoEntity?.rtgId.toString()
+        etxObservaciones.setText(rendicionEntity?.observacion.toString())
+        pathImage = rendicionEntity?.foto
+
+        Picasso.get()
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(pathImage)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .into(imgFoto)
+
+    }
+
+
 
     //endregion
 

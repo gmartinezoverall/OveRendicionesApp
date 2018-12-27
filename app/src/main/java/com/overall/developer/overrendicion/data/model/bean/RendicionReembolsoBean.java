@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 public class RendicionReembolsoBean extends RealmObject {
     @PrimaryKey
     private Integer idRendicion;
-    private String codRendicion;
+    private String codRendicionR;
     private String rdoId;
     private String rdoDes;
     private String codReembolso;
@@ -44,11 +44,11 @@ public class RendicionReembolsoBean extends RealmObject {
     }
 
     public String getCodRendicion() {
-        return codRendicion;
+        return codRendicionR;
     }
 
     public void setCodRendicion(String codRendicion) {
-        this.codRendicion = codRendicion;
+        this.codRendicionR = codRendicion;
     }
 
     public String getRdoId() {

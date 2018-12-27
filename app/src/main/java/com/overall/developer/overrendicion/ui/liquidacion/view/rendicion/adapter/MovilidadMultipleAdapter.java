@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.swipe.SimpleSwipeListener;
@@ -28,7 +26,7 @@ import com.overall.developer.overrendicion.R;
 import com.overall.developer.overrendicion.data.model.entity.RendicionDetalleEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.rendicion.RendicionActivity;
-import com.overall.developer.overrendicion.utils.GlideApp;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -140,13 +138,11 @@ public class MovilidadMultipleAdapter extends RecyclerSwipeAdapter<MovilidadMult
 
             String urlImage = rendicionDetalle.getFoto();
 
-            GlideApp.with(mContext)
+            Picasso.get()
                     //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
                     .load(urlImage)
                     .placeholder(R.drawable.ic_add_a_photo)
                     .error(R.drawable.ic_highlight_off)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
                     .into(imgFoto);
 
         });

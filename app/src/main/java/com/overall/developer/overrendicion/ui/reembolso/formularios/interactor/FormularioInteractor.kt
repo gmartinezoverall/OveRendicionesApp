@@ -4,13 +4,11 @@ import android.content.Context
 import com.overall.developer.overrendicion.BuildConfig
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
 import com.overall.developer.overrendicion.data.model.bean.RendicionBean
-import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
-import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
-import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
-import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
+import com.overall.developer.overrendicion.data.model.entity.*
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.*
 import com.overall.developer.overrendicion.data.model.request.InsertRendicionReembolsoRequest
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest
+import com.overall.developer.overrendicion.data.model.request.convertEditRendicionEntityToRequest
 import com.overall.developer.overrendicion.data.model.request.convertInsertRendicionEntityToRequest
 import com.overall.developer.overrendicion.data.repository.reembolso.Formulario.api.ApiFormulario
 import com.overall.developer.overrendicion.data.repository.reembolso.Formulario.db.DbFormulario
@@ -37,6 +35,13 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
         return mList
     }
 
+    override fun getProvinciaDestinoList(): ArrayList<ProvinciaEntity> {
+        //for (bean in mRepository.getProvinciaDestinoList()) mList.add(ProvinciaEntity(bean.getCode(), bean.getDesc()))
+        val mList = ArrayList<ProvinciaEntity>()
+        mDb.getProvinciaDestinoList().map{mList.add(ProvinciaEntity(it.code, it.desc)) }
+        return mList
+    }
+
     override fun searchRuch(ruc: String) { mApi.searchRuchApi(ruc)}
 
     override fun searchRucSuccess(razonSocial: String) {mPresenter.searchRucSuccess(razonSocial)   }
@@ -48,7 +53,7 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
         val codReembolso = mDb.getReembolsoDB().codReembolso
 
         val entity = filterFragment(typeFragment[0].toInt(), objectDinamyc)
-        //if (typeFragment.size() > 2)entity.setIdRendicion(Integer.valueOf(typeFragment.get(2)));
+        if (typeFragment.size > 2)entity.idRendicion = typeFragment[2].toInt()
         entity.codRendicion = (if(entity.idRendicion == null) "-" else  mDb.getReembolsoDB().codReembolso)
         entity.codLiquidacion = codReembolso
         entity.idUsuario = mDb.getIdUsuarioDB().idUsuario
@@ -73,18 +78,13 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
 
             if (entity.codRendicion == "-") {
                 entity.codRendicion = ""
-  /*              val request = InsertRendicionReembolsoRequest(entity.codRendicion, entity.rdoId, entity.codLiquidacion, entity.idUsuario, entity.numeroDoc,
-                        entity.bienServicio, entity.igv, entity.afectoIgv, entity.precioTotal, entity.observacion, entity.fechaDocumento, entity.fechaVencimiento,
-                        entity.ruc, entity.razonSocial, entity.bcoCod, entity.tipoServicio, entity.rtgId, entity.otroGasto, entity.codDestino, entity.afectoRetencion,
-                        entity.codSuspencionH, entity.tipoMoneda, entity.tipoCambio, entity.foto)*/
 
                 val request = convertInsertRendicionEntityToRequest(entity)
                 mApi.sendDataForInsertApi(request, idRendicion)
             } else {
-                val request = RendicionRequest(entity.codRendicion, entity.rdoId, entity.codLiquidacion, entity.idUsuario, entity.numeroDoc,
-                        entity.bienServicio, entity.igv, entity.afectoIgv, entity.precioTotal, entity.observacion, entity.fechaDocumento, entity.fechaVencimiento,
-                        entity.ruc, entity.razonSocial, entity.bcoCod, entity.tipoServicio, entity.rtgId, entity.otroGasto, entity.codDestino, entity.afectoRetencion,
-                        entity.codSuspencionH, entity.tipoMoneda, entity.tipoCambio, entity.foto)
+
+                val request = convertEditRendicionEntityToRequest(entity)
+
                 mApi.sendDataForUpdateApi(request, idRendicion)
             }
 
@@ -95,6 +95,27 @@ class FormularioInteractor(internal val mPresenter: IFormularioPresenter, contex
 
     override fun deleteRendicionSend(idRendicion: Int) {
         mDb.deleteRendicionSend(idRendicion)
+    }
+
+    override fun getRendicionForEdit(codRendicion: String?): RendicionEntity? {
+
+        val bean = mDb.getRendicionForEdit(codRendicion)!!
+
+        return  RendicionEntity(bean.idRendicion, bean.codRendicion, bean.rdoId, bean.codReembolso, bean.idUsuario, bean.numeroDoc, bean.bienServicio,
+                bean.afectoIgv, bean.afectoIgv, bean.valorNeto, bean.precioTotal, bean.observacion, bean.fechaDocumento, bean.fechaVencimiento, bean.ruc, bean.razonSocial,
+                bean.bcoCod, bean.tipoServicio, bean.rtgId, bean.otroGasto, bean.codDestino, bean.afectoRetencion, bean.codSuspencionH, bean.tipoMoneda, bean.tipoCambio,
+                bean.foto, bean.send)
+
+    }
+
+    override fun getDefaultTipoGasto(rtgId: String?): TipoGastoEntity {
+        val bean = mDb.getDefaultTipoGastoDB(rtgId)
+        return TipoGastoEntity(bean.rtgId, bean.rtgDes)
+    }
+
+    override fun getDefaultProvincia(codDestino: String?): ProvinciaEntity {
+        val bean = mDb.getDefaultProvinciaDB(codDestino)
+        return ProvinciaEntity(bean.code, bean.desc)
     }
 
     private fun filterFragment(typeFragment: Int, dinamyObj: Any) : RendicionEntity {

@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
@@ -44,7 +45,7 @@ class VoucherBancarioFragment : Fragment() {
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ticket_maquina_registradora_reembolso, container, false)
+        return inflater.inflate(R.layout.fragment_voucher_bancario_reembolso, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +74,6 @@ class VoucherBancarioFragment : Fragment() {
             spnTipoGasto.text = (item as TipoGastoEntity).rtgDes
             rtgId = item.rtgId
         }
-
 
 
     }

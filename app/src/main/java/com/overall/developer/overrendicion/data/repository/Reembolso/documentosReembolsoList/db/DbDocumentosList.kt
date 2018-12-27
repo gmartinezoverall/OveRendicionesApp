@@ -8,29 +8,49 @@ import io.realm.RealmResults
 
 class DbDocumentosList(internal val mInteractor: IDocumentosListInteractor): IDbDocumentosList
 {
-    val realm = Realm.getDefaultInstance()!!
-    override fun getReembolsoBean(): ReembolsoBean = realm.where(ReembolsoBean::class.java).equalTo("estadoR", true).findFirst()!!
 
-    override fun getDocumentosReembolsoDB(): RealmResults<RendicionReembolsoBean> =
-            realm.where(RendicionReembolsoBean::class.java).equalTo("codReembolso", getReembolsoBean().codReembolso).findAll()
+    override fun getReembolsoBean(): ReembolsoBean {
+        val realm = Realm.getDefaultInstance()
+        return realm.where(ReembolsoBean::class.java).equalTo("estadoR", true).findFirst()!!
+    }
 
-    override fun insertRendicionDB(rendicionBeans: ArrayList<RendicionReembolsoBean>) {
+    override fun getDocumentosReembolsoDB(): RealmResults<RendicionReembolsoBean>
+    {
+        val realm = Realm.getDefaultInstance()
+        return  realm.where(RendicionReembolsoBean::class.java).equalTo("codReembolso", getReembolsoBean().codReembolso.toString()).findAll()
+    }
 
-            val count = realm.where(ReembolsoBean::class.java).findAll()
-            var nextId:Int  = (if (count.size == 0) 1 else count.last()!!.idReembolso + 1  )
+    override fun insertRendicionDB(rendicionBeans: ArrayList<RendicionReembolsoBean>)
+    {
+        val realm = Realm.getDefaultInstance()!!
+        val count = realm.where(RendicionReembolsoBean::class.java).findAll()
+        var nextId:Int  = (if (count.size == 0) 1 else count.last()!!.idRendicion + 1  )
 
         realm.executeTransaction{realm->
             rendicionBeans.map{
-                val rendicionBean = realm.where(RendicionReembolsoBean::class.java).equalTo("codRendicion", it.codReembolso).findFirst()
+                val rendicionBean = realm.where(RendicionReembolsoBean::class.java).equalTo("codRendicionR", it.codRendicion).findFirst()
                 rendicionBean.let{ rendicionBean?.deleteFromRealm()}
 
                 it.idRendicion = nextId
-
+                it.igv = it.igv.replace(",", ".")
+                it.valorNeto = it.valorNeto.replace(",", ".")
+                it.precioTotal = it.precioTotal.replace(",", ".")
+                it.otroGasto = it.otroGasto.replace(",", ".")
+                it.send = true
+                nextId += 1
             }
-            nextId += 1
-            realm.insert(rendicionBeans)
+
+            realm.insertOrUpdate(rendicionBeans)
         }
+    }
 
+    override fun deleteRendicionDb(codRendicion: String) {
+        val realm = Realm.getDefaultInstance()
 
+        realm.executeTransaction{
+            run{
+                val bean = realm.where(RendicionReembolsoBean::class.java).equalTo("codRendicionR", codRendicion).findFirst()
+                bean?.deleteFromRealm()}
+        }
     }
 }

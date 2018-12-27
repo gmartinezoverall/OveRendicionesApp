@@ -1,10 +1,12 @@
 package com.overall.developer.overrendicion.data.repository.reembolso.Reembolso.db
 
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
+import com.overall.developer.overrendicion.data.model.bean.RendicionReembolsoBean
 import com.overall.developer.overrendicion.data.model.bean.UserBean
 import com.overall.developer.overrendicion.ui.reembolso.reembolso.interactor.IReembolsoInteractor
 import com.overall.developer.overrendicion.utils.Util
 import io.realm.Realm
+import io.realm.RealmResults
 
 class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembolso
 {
@@ -30,7 +32,7 @@ class DbReembolso (internal val mInteractor: IReembolsoInteractor) : IDbReembols
     {
         val realm = Realm.getDefaultInstance()
 
-        realm.executeTransaction{realm ->
+        realm.executeTransaction{
 
             val count = realm.where(ReembolsoBean::class.java).findAll()
             var nextId:Int  = (if (count.size == 0) 1 else count.last()!!.idReembolso + 1  )

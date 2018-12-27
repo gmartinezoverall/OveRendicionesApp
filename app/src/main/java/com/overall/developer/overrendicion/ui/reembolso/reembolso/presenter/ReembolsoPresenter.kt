@@ -22,7 +22,9 @@ class ReembolsoPresenter (internal val mView:IReembolsoView):IReembolsoPresenter
         mView.listReembolsoSuccess(reembolsoEntityList)
     }
 
-    override fun changeStatusReembolso(codReembolso: String) {
-        mInteractor.changeStatusReembolso(codReembolso)
-    }
+    override fun changeStatusReembolso(codReembolso: String) { mInteractor.changeStatusReembolso(codReembolso) }
+
+    override fun sendResume(codReembolso: String) { mInteractor.sendResume(codReembolso) }
+
+    override fun sendResumeSuccess() { mView.sendResumeSuccess()}
 }

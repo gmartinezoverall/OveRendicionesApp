@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.data.repository.reembolso.Formulario.db
 
 import com.overall.developer.overrendicion.data.model.bean.*
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
+import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
 import com.overall.developer.overrendicion.ui.reembolso.formularios.interactor.IFormularioInteractor
 import io.realm.Realm
 import io.realm.RealmResults
@@ -44,9 +46,31 @@ class DbFormulario(internal val mInteractor: IFormularioInteractor): IDbFormulai
         return bean.idRendicion
     }
 
+    override fun getProvinciaDestinoList(): List<ProvinciaBean> {
+
+        val realm = Realm.getDefaultInstance()
+
+        return  realm.where(ProvinciaBean::class.java).findAll()
+    }
+
     override fun deleteRendicionSend(idRendicion: Int) {
         val mRealm = Realm.getDefaultInstance()
         val bean = mRealm.where(RendicionBean::class.java).equalTo("idRendicion", idRendicion).findFirst()
         mRealm.executeTransaction { bean!!.deleteFromRealm()}
+    }
+
+    override fun getRendicionForEdit(codRendicion: String?): RendicionReembolsoBean? {
+        val mRealm = Realm.getDefaultInstance()
+        return mRealm.where(RendicionReembolsoBean::class.java).equalTo("codRendicionR", codRendicion).findFirst()
+    }
+
+    override fun getDefaultTipoGastoDB(rtgId: String?): TipoDocumentoBean {
+        val mRealm = Realm.getDefaultInstance()
+        return mRealm.where(TipoDocumentoBean::class.java).equalTo("rtgId", rtgId).findFirst()!!
+    }
+
+    override fun getDefaultProvinciaDB(codDestino: String?): ProvinciaBean {
+        val mRealm = Realm.getDefaultInstance()
+        return mRealm.where(ProvinciaBean::class.java).equalTo("code", codDestino).findFirst()!!
     }
 }

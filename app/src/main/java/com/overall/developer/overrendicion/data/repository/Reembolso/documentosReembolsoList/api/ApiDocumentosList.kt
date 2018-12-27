@@ -26,7 +26,27 @@ class ApiDocumentosList(internal val mInteractor: IDocumentosListInteractor): IA
                     {
                         val collectionType = object : TypeToken<Collection<RendicionReembolsoBean>>() {}.type
                         val reembolsoBeans = Gson().fromJson<ArrayList<RendicionReembolsoBean>>(response?.getString("rendicionReembolso"), collectionType)
+
                         mInteractor.successGetRendicionesListtApi(reembolsoBeans)
+                    }
+
+                    override fun onError(anError: ANError?)
+                    {
+                        Log.i("ASDError",anError.toString())
+                    }
+                })
+    }
+
+    override fun deleteRendicionApi(codRendicion: String) {
+        AndroidNetworking.post(UrlApi.urlEliminarRendicionReembolso)
+                .addBodyParameter("apiKey", BuildConfig.API_KEY)
+                .addBodyParameter("codRendicionR", codRendicion)
+                .setPriority(Priority.IMMEDIATE)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener {
+                    override fun onResponse(response: JSONObject?)
+                    {
+                        Log.i("ASDCorrecto","Exito al Elminar")
                     }
 
                     override fun onError(anError: ANError?)

@@ -1,5 +1,6 @@
 package com.overall.developer.overrendicion.ui.reembolso.rendicionesList.interactor
 
+import android.util.Log
 import com.overall.developer.overrendicion.data.model.bean.RendicionReembolsoBean
 import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.repository.reembolso.documentosReembolsoList.api.ApiDocumentosList
@@ -19,25 +20,37 @@ class DocumentosListInteractor(internal val mPresenter: IDocumentosListPresenter
     override fun getDocumentosReembolso(): ArrayList<RendicionEntity> {
         val rendicionBeanList = mDb.getDocumentosReembolsoDB()
         val rendicionList = ArrayList<RendicionEntity>()
-        rendicionBeanList.map {
-            rendicionList.add(RendicionEntity(it.idRendicion, it.codRendicion, it.rdoId, it.codReembolso,
-                    it.idUsuario, it.numeroDoc, it.bienServicio, it.igv, it.afectoIgv, it.valorNeto, it.precioTotal,
-                    it.observacion, it.fechaDocumento, it.fechaVencimiento, it.ruc, it.razonSocial, it.bcoCod,
-                    it.tipoServicio, it.rtgId, it.otroGasto, it.codDestino, it.afectoRetencion, it.codSuspencionH,
-                    it.tipoMoneda, it.tipoCambio, it.foto, it.send))
+
+        try {
+            rendicionBeanList.map {
+                rendicionList.add(RendicionEntity(it.idRendicion ?: 0, it.codRendicion ?: "", it.rdoId ?: "", it.codReembolso ?: "",
+                        it.idUsuario ?: "", it.numeroDoc ?: "", it.bienServicio ?: "", it.igv ?: "", it.afectoIgv ?: "", it.valorNeto ?: "", it.precioTotal ?: "",
+                        it.observacion ?: "", it.fechaDocumento ?: "", it.fechaVencimiento ?: "", it.ruc ?: "", it.razonSocial ?: "", it.bcoCod ?: "",
+                        it.tipoServicio ?: "", it.rtgId ?: "", it.otroGasto ?: "", it.codDestino ?: "", it.afectoRetencion ?: "", it.codSuspencionH ?: "",
+                        it.tipoMoneda ?: "", it.tipoCambio ?: "", it.foto ?: "", it.send ?: true))
+            }
+
+        }catch (e: Exception)
+        {
+            Log.i("ASD", e.toString())
+
         }
+
         return rendicionList
     }
 
     override fun successGetRendicionesListtApi(reembolsoBeans: ArrayList<RendicionReembolsoBean>) {
         mDb.insertRendicionDB(reembolsoBeans)
-        //val rendicionEntityList = arrayListOf<RendicionEntity>()
 
-/*        reembolsoBeans.map { rendicionEntityList.add(RendicionEntity(it.idRendicion, it.codRendicion, it.rdoId,
-                it.codReembolso, it.idUsuario, it.numeroDoc, it.bienServicio, it.igv, it.afectoIgv, it.valorNeto,
-                it.precioTotal, it.observacion, it.fechaDocumento, it.fechaVencimiento, it.ruc, it.razonSocial,
-                it.bcoCod, it.tipoServicio, it.rtgId, it.otroGasto, it.codDestino, it.afectoRetencion, it.codSuspencionH,
-                it.tipoMoneda, it.tipoCambio, it.foto, it.send)) }*/
+        mPresenter.listRendicionSuccess(getDocumentosReembolso())
+
+    }
+
+    override fun deleteRendicion(codRendicion: String) {
+
+        mDb.deleteRendicionDb(codRendicion)
+
+        mApi.deleteRendicionApi(codRendicion)
 
         mPresenter.listRendicionSuccess(getDocumentosReembolso())
 

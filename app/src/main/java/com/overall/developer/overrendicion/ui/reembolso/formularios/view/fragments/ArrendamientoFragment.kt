@@ -22,6 +22,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ArrendamientoEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
@@ -30,6 +31,7 @@ import com.overall.developer.overrendicion.ui.reembolso.formularios.view.Formula
 
 import com.overall.developer.overrendicion.utils.Util
 import com.squareup.otto.Subscribe
+import com.squareup.picasso.Picasso
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -44,7 +46,10 @@ class ArrendamientoFragment : Fragment() {
     private var pathImage: String? = null
     private val razonSocial: String? = null
     private var spnDialog: SpinnerDialog? = null
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    private var rendicionEntity: RendicionEntity? = null
+    private var gastoEntity: TipoGastoEntity? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_arrendamiento_reembolso, container, false)
     }
@@ -76,6 +81,8 @@ class ArrendamientoFragment : Fragment() {
             rtgId = item.rtgId
         }
 
+        rendicionEntity = (context as FormularioActivity).getDefaultValues()
+        rendicionEntity?.let { setAllDefaultValues() }
 
 
     }
@@ -89,7 +96,7 @@ class ArrendamientoFragment : Fragment() {
         {
             calendarView.setDateFormat("dd/MM/yyyy")
             setPreventPreviousDate(false)
-            setOnDaySelectedListener{ startDay, endDay ->
+            setOnDaySelectedListener { startDay, endDay ->
                 if (!startDay.isEmpty()) {
 
                     try {
@@ -129,9 +136,9 @@ class ArrendamientoFragment : Fragment() {
     //endregion
 
     //region Buttons
-    fun onClickButtons(){
+    fun onClickButtons() {
 
-        lytFecha.setOnClickListener{
+        lytFecha.setOnClickListener {
             //lytFecha.visibility = View.GONE
 
             lytArrow.rotation = (if (lytArrow.rotation == 90f) 0 else 90).toFloat()
@@ -156,8 +163,8 @@ class ArrendamientoFragment : Fragment() {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
         }
 
-        btnGuardar.setOnClickListener{
-            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(),  ArrendamientoEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(), etxRazonSocial.text.toString(),
+        btnGuardar.setOnClickListener {
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), ArrendamientoEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(), etxRazonSocial.text.toString(),
                     txvFechaDocumento.text.toString(), etxNSerie.text.toString() + "-" + etxNDocumento.text.toString(), etxMonto.text.toString(), rtgId, pathImage))
         }
 
@@ -226,5 +233,32 @@ class ArrendamientoFragment : Fragment() {
     }
 
     //endregion
+
+    //region Function
+
+    private fun setAllDefaultValues()
+    {
+        gastoEntity = (context as FormularioActivity).getDefaultTipoGasto()
+
+        val strings = rendicionEntity?.numeroDoc?.split("-")!!
+        etxRuc.setText(rendicionEntity?.ruc.toString())
+        etxRazonSocial.setText(rendicionEntity?.razonSocial.toString())
+        txvFechaDocumento.text = rendicionEntity?.fechaDocumento.toString()
+        etxNSerie.setText(strings[0])
+        etxNDocumento.setText(strings[1])
+        etxMonto.setText(rendicionEntity?.precioTotal.toString())
+        spnTipoGasto.text = gastoEntity?.rtgDes.toString()
+        rtgId = gastoEntity?.rtgId.toString()
+        pathImage = rendicionEntity?.foto
+        //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
+        Picasso.get()
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(rendicionEntity?.foto)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .into(imgFoto)
+    }
+
+    //
 
 }

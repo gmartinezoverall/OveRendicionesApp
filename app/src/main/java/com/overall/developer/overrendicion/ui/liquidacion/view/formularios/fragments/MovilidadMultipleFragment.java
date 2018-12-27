@@ -20,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.libizo.CustomEditText;
@@ -33,8 +31,8 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Mo
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadMultipleEntity;
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.MovilidadRendicionEntity;
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
-import com.overall.developer.overrendicion.utils.GlideApp;
 import com.overall.developer.overrendicion.utils.Util;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -280,13 +278,11 @@ public class MovilidadMultipleFragment extends Fragment
 
         pathImage = rendicionDetalleEntity.getFoto();
         imgFoto.setBackgroundColor(80000000);
-        GlideApp.with(this)
+        Picasso.get()
                 //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
                 .load(pathImage)
                 .placeholder(R.drawable.ic_add_a_photo)
                 .error(R.drawable.ic_highlight_off)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
                 .into(imgFoto);
     }
 }

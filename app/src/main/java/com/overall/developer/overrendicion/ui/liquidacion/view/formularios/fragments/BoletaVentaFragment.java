@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -36,9 +34,10 @@ import com.overall.developer.overrendicion.data.model.entity.formularioEntity.Bo
 import com.overall.developer.overrendicion.ui.liquidacion.view.formularios.FormularioActivity;
 import com.overall.developer.overrendicion.ui.communicator.Communicator;
 import com.overall.developer.overrendicion.ui.communicator.OttoBus;
-import com.overall.developer.overrendicion.utils.GlideApp;
+
 import com.overall.developer.overrendicion.utils.Util;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.angmarch.views.NiceSpinner;
@@ -211,13 +210,11 @@ public class BoletaVentaFragment extends Fragment
         rtgId = String.valueOf(gastoEntity.getRtgId());
         etxObservaciones.setText(String.valueOf(rendicionEntity.getObservacion()));
         //imgFoto.setImageBitmap(BitmapFactory.decodeFile(rendicionEntity.getFoto()));
-        GlideApp.with(this)
+        Picasso.get()
                 //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
                 .load(rendicionEntity.getFoto())
                 .placeholder(R.drawable.ic_add_a_photo)
                 .error(R.drawable.ic_highlight_off)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
                 .into(imgFoto);
 
     }

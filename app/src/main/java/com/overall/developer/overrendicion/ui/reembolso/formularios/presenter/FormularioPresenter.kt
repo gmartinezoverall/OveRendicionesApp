@@ -1,7 +1,9 @@
 package com.overall.developer.overrendicion.ui.reembolso.formularios.presenter
 
 import android.content.Context
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
 import com.overall.developer.overrendicion.ui.reembolso.formularios.interactor.FormularioInteractor
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.IFormularioView
@@ -23,4 +25,12 @@ class FormularioPresenter (internal val mView: IFormularioView, context: Context
     override fun saveDate(typeFragment: ArrayList<String>, objectDinamyc: Any) = mInteractor.saveDate(typeFragment, objectDinamyc)
 
     override fun saveDataSuccess() { mView.saveDataSuccess()}
+
+    override fun getProvinciaDestinoList(): ArrayList<ProvinciaEntity> = mInteractor.getProvinciaDestinoList()
+
+    override fun getRendicionForEdit(codRendicion: String?): RendicionEntity? = mInteractor.getRendicionForEdit(codRendicion)
+
+    override fun getDefaultTipoGasto(rtgId: String?): TipoGastoEntity = mInteractor.getDefaultTipoGasto(rtgId)
+
+    override fun getDefaultProvincia(codDestino: String?): ProvinciaEntity = mInteractor.getDefaultProvincia(codDestino)
 }

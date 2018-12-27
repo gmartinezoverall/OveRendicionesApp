@@ -28,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.swipe.util.Attributes;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
@@ -51,9 +49,9 @@ import com.overall.developer.overrendicion.ui.user.view.Drawable.RecoveryPasswor
 import com.overall.developer.overrendicion.ui.user.view.Drawable.UpdateEmailActivity;
 import com.overall.developer.overrendicion.ui.user.view.Login.LoginActivity;
 
-import com.overall.developer.overrendicion.utils.GlideApp;
 import com.overall.developer.overrendicion.utils.Util;
 import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser;
+import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.File;
@@ -314,13 +312,11 @@ public class RendicionActivity extends AppCompatActivity implements RendicionVie
 
         if (!urlImage.equals("-"))
         {
-            GlideApp.with(this)
+            Picasso.get()
                     //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
                     .load(urlImage)
                     .placeholder(R.drawable.ic_add_a_photo)
                     .error(R.drawable.ic_highlight_off)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
                     .into(imgFoto);
         }
 

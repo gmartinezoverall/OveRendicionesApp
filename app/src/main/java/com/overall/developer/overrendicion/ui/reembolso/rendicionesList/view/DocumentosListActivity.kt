@@ -38,12 +38,14 @@ class DocumentosListActivity : AppCompatActivity(), IDocumentosListView {
     override fun listRendicionSuccess(rendicionEntityList: ArrayList<RendicionEntity>) {
 
         val omegaRecyclerView = findViewById<OmegaRecyclerView>(R.id.recycler_view_contacts)
-        val adapter = DocumentosAdapter(this, mPresenter.getDocumentosReembolso())
+        val adapter = DocumentosAdapter(this, rendicionEntityList)
+        adapter.notifyDataSetChanged()
         omegaRecyclerView.adapter = adapter
+
     }
 
     //region estadosActividad
-    override fun onResume() {
+/*    override fun onResume() {
         super.onResume()
         realmBrowser = RealmBrowser()
         realmBrowser!!.start()
@@ -58,6 +60,12 @@ class DocumentosListActivity : AppCompatActivity(), IDocumentosListView {
             realmBrowser!!.stop()
         }
     }
+    //endregion*/
+
+    //region Functions
+
+    fun deleteRendicion(codRendicion: String){  mPresenter.deleteRendicion(codRendicion)   }
+
     //endregion
 
 }

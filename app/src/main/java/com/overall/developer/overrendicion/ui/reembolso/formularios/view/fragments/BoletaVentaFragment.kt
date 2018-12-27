@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
@@ -21,6 +22,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
 import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletaVentaEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
@@ -28,11 +30,11 @@ import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.utils.Util
 import com.squareup.otto.Subscribe
+import com.squareup.picasso.Picasso
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_boleta_venta_reembolso.*
-import kotlinx.android.synthetic.main.fragment_movilidad_multiple.*
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
 import java.text.SimpleDateFormat
@@ -43,6 +45,8 @@ class BoletaVentaFragment : Fragment() {
     private var pathImage: String? = null
     private val razonSocial: String? = null
     private var spnDialog: SpinnerDialog? = null
+    private var rendicionEntity: RendicionEntity? = null
+    private var gastoEntity: TipoGastoEntity? = null
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View?
     {
@@ -68,16 +72,37 @@ class BoletaVentaFragment : Fragment() {
                 .filter { etx -> etx.isNotEmpty() && etx.length != 11 }
                 .subscribe { etxRuc.error = resources.getString(R.string.validarRuc) }
 
+        val adapterTipoMoneda = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.tipo_moneda))
+        spnTipoMoneda.setAdapter(adapterTipoMoneda)
+
         val itemList = ArrayList<Any>()
         itemList.addAll((context as FormularioActivity).getListSpinner())
-
         spnDialog = SpinnerDialog(activity, itemList, resources.getString(R.string.tittleSpinerTipoGasto))
         spnDialog!!.bindOnSpinerListener { item, position ->
             spnTipoGasto.text = (item as TipoGastoEntity).rtgDes
             rtgId = item.rtgId
         }
 
+        etxValorVenta.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus && etxValorVenta != null && !etxValorVenta.text.toString().isEmpty()) sumaTotal()
+        }
 
+        RxTextView.textChanges(etxRuc).filter { etx -> etx.isNotEmpty() && etx.length != 11 }.subscribe { etx -> etxRuc.error = resources.getString(R.string.validarRuc) }
+
+        RxTextView.textChanges(etxRuc)
+                .filter { etx -> etx.isNotEmpty() && etx.length > 2 && etx.toString().substring(0, 2) == "20" }
+                .subscribe { etxRuc.error = "Ruc no puede empezar con 20" }
+
+
+        RxTextView.textChanges(etxValorVenta)
+                .filter { etx -> etx.isNotEmpty() && java.lang.Double.valueOf(etx.toString()) > 700 }
+                .subscribe { etxValorVenta.error = resources.getString(R.string.validateValorVenta) }
+
+        RxTextView.textChanges(etxOtrosGastos).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+        RxTextView.textChanges(etxValorVenta).filter { etx -> etx.isNotEmpty()}.subscribe { sumaTotal() }
+
+        rendicionEntity = (context as FormularioActivity).getDefaultValues()
+        rendicionEntity?.let { setAllDefaultValues() }
 
     }
     //endregion
@@ -152,15 +177,26 @@ class BoletaVentaFragment : Fragment() {
 
             }
         }
+        chkAfectoIgv.setOnClickListener{
+            if (!etxValorVenta.text.toString().isEmpty()) {
+                sumaTotal()
+            } else {
+                Toast.makeText(context, "Debe ingresar Valor de Venta", Toast.LENGTH_LONG).show()
+                chkAfectoIgv.isChecked = false
+            }
+        }
 
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
         }
 
-/*        btnGuardar.setOnClickListener{
+        btnGuardar.setOnClickListener{
+
+             val tipoMoneda = if (spnTipoMoneda.selectedIndex == 0) "S" else "D"
             (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(),  BoletaVentaEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(),
-                    etxRazonSocial.text.toString(), etxNumDoc.text.toString(), ))
-        }*/
+                    etxRazonSocial.text.toString(), etxNumDoc.text.toString(), txvFechaDocumento.text.toString(), tipoMoneda, resources.getString(R.string.IGV).toString(),
+                    (if (chkAfectoIgv.isChecked) "1" else "0").toString(), etxOtrosGastos.text.toString(), etxPrecioVenta.text.toString(), rtgId.toString(), etxObservaciones.text.toString(), pathImage.toString()))
+        }
 
     }
     //endregion
@@ -202,7 +238,7 @@ class BoletaVentaFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ file ->
-                                img_foto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
                                 pathImage = file.absolutePath
 
                             }, { throwable -> Log.i("ErrorCompressImage", throwable.message) })
@@ -227,4 +263,50 @@ class BoletaVentaFragment : Fragment() {
 
     //endregion
 
+    //region Funciones
+    private fun sumaTotal() {
+        val neto: Double?
+        val igv: Double?
+        val otros: Double?
+
+        if (etxValorVenta != null) {
+            if (etxValorVenta.text.toString().isEmpty()) etxValorVenta.setText("0")
+            neto = ((if (etxValorVenta.text.toString().isEmpty()) 0 else etxValorVenta.text.toString()).toString()).toDouble()
+            igv = java.lang.Double.valueOf(if (chkAfectoIgv.isChecked) (java.lang.Double.valueOf(etxValorVenta.text.toString()) * 0.18).toString() else "0.00")
+            txvMontoIGV.text = String.format("%.2f", igv)
+            otros = java.lang.Double.valueOf((if (etxOtrosGastos.text.toString().isEmpty()) 0 else etxOtrosGastos.text.toString()).toString())
+
+            etxPrecioVenta.text = String.format("%.3f", neto!! + igv!! + otros!!)
+        }
+    }
+
+    private fun setAllDefaultValues() {
+        gastoEntity = (context as FormularioActivity).getDefaultTipoGasto()
+
+        val strings = rendicionEntity?.numeroDoc?.split("-")!!
+        etxRuc.setText(rendicionEntity?.ruc.toString())
+        etxRazonSocial.setText(rendicionEntity?.razonSocial.toString())
+        etxNumDoc.setText(strings[0])
+        etxNSerie.setText(strings[1])
+        txvFechaDocumento.text = rendicionEntity?.fechaDocumento.toString()
+        spnTipoMoneda.selectedIndex = if (rendicionEntity?.tipoMoneda == "S") 0 else 1
+        etxPrecioVenta.text = rendicionEntity?.precioTotal.toString()
+        etxValorVenta.setText(rendicionEntity?.valorNeto.toString())
+        etxOtrosGastos.setText(rendicionEntity?.otroGasto.toString())
+        if (rendicionEntity?.afectoIgv == "1") chkAfectoIgv.isChecked = true
+        txvMontoIGV.text = rendicionEntity?.igv.toString()
+        spnTipoGasto.text = gastoEntity?.rtgDes.toString()
+        rtgId = gastoEntity?.rtgId.toString()
+        etxObservaciones.setText(rendicionEntity?.observacion.toString())
+        pathImage = rendicionEntity?.foto
+        Picasso.get()
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(rendicionEntity?.foto)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .into(imgFoto)
+
+    }
+
+    //endregion
 }

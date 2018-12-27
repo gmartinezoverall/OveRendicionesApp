@@ -14,14 +14,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
 import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletoTerrestreEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
@@ -38,9 +41,11 @@ import java.text.SimpleDateFormat
 class BoletoTerrestreFragment : Fragment() {
 
     private var rtgId: String? = null
+    private var idProvincia: String? = null
     private var pathImage: String? = null
     private val razonSocial: String? = null
     private var spnDialog: SpinnerDialog? = null
+    private var spnDialogProv: SpinnerDialog? = null
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -69,11 +74,22 @@ class BoletoTerrestreFragment : Fragment() {
         itemList.addAll((context as FormularioActivity).getListSpinner())
 
         spnDialog = SpinnerDialog(activity, itemList, resources.getString(R.string.tittleSpinerTipoGasto))
-        spnDialog!!.bindOnSpinerListener { item, position ->
+        spnDialog!!.bindOnSpinerListener { item, _ ->
             spnTipoGasto.text = (item as TipoGastoEntity).rtgDes
             rtgId = item.rtgId
         }
 
+        val itemListProv = ArrayList<Any>()
+        itemListProv.addAll((context as FormularioActivity).getListProvinciaDestino())
+
+        spnDialogProv = SpinnerDialog(activity, itemListProv, resources.getString(R.string.tittleSpinerSearch))
+        spnDialogProv!!.bindOnSpinerListener { item, _ ->
+            spnDestinoViaje.text = (item as ProvinciaEntity).desc
+            idProvincia = item.code
+        }
+
+        val adapterTipoMoneda = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.tipo_moneda))
+        spnTipoMoneda.setAdapter(adapterTipoMoneda)
 
 
     }
@@ -154,6 +170,16 @@ class BoletoTerrestreFragment : Fragment() {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
         }
 
+        btnGuardar.setOnClickListener{
+            val tipoMoneda = if (spnTipoMoneda.selectedIndex == 0) "S" else "D"
+
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), BoletoTerrestreEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(),
+                    etxRazonSocial.text.toString(), etxNDocumento.text.toString() + "-" + etxNSerie.text.toString(), idProvincia.toString(), txvFechaDocumento.text.toString(), tipoMoneda,
+                    etxPrecioVenta.text.toString(), resources.getString(R.string.IGV).toString(), (if (chkAfectoIgv.isChecked) "1" else "0").toString(), etxOtrosGastos.text.toString(),
+                    rtgId.toString(), pathImage.toString()))
+
+        }
+
     }
     //endregion
 
@@ -214,6 +240,25 @@ class BoletoTerrestreFragment : Fragment() {
                 }
                 return
             }
+        }
+    }
+
+    //endregion
+
+    //region Funciones
+    private fun sumaTotal() {
+        val neto: Double?
+        val igv: Double?
+        val otros: Double?
+
+        if (etxValorVenta != null) {
+            if (etxValorVenta.text.toString().isEmpty()) etxValorVenta.setText("0")
+            neto = ((if (etxValorVenta.text.toString().isEmpty()) 0 else etxValorVenta.text.toString()).toString()).toDouble()
+            igv = java.lang.Double.valueOf(if (chkAfectoIgv.isChecked) (java.lang.Double.valueOf(etxValorVenta.text.toString()) * 0.18).toString() else "0.00")
+            txvMontoIGV.text = String.format("%.2f", igv)
+            otros = java.lang.Double.valueOf((if (etxOtrosGastos.text.toString().isEmpty()) 0 else etxOtrosGastos.text.toString()).toString())
+
+            etxPrecioVenta.text = String.format("%.3f", neto!! + igv!! + otros!!)
         }
     }
 

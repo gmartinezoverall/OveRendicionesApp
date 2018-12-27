@@ -14,19 +14,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
 import com.jakewharton.rxbinding2.widget.RxTextView
 
 import com.overall.developer.overrendicion.R
+import com.overall.developer.overrendicion.data.model.entity.ProvinciaEntity
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
+import com.overall.developer.overrendicion.data.model.entity.RendicionEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.BoletoAereoEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.utils.Util
 import com.squareup.otto.Subscribe
+import com.squareup.picasso.Picasso
 import id.zelory.compressor.Compressor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -39,9 +44,14 @@ import java.text.SimpleDateFormat
 class BoletoAereoFragment : Fragment() {
 
     private var rtgId: String? = null
+    private var idProvincia: String? = null
     private var pathImage: String? = null
     private val razonSocial: String? = null
     private var spnDialog: SpinnerDialog? = null
+    private var spnDialogProv: SpinnerDialog? = null
+    private var rendicionEntity: RendicionEntity? = null
+    private var gastoEntity: TipoGastoEntity? = null
+    private var provinciaEntity: ProvinciaEntity? = null
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -66,16 +76,32 @@ class BoletoAereoFragment : Fragment() {
                 .filter { etx -> etx.isNotEmpty() && etx.length != 11 }
                 .subscribe { etxRuc.error = resources.getString(R.string.validarRuc) }
 
+        RxTextView.textChanges(etxOtrosGastos).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+        RxTextView.textChanges(etxValorVenta).filter { etx -> etx.isNotEmpty() }.subscribe { sumaTotal() }
+
         val itemList = ArrayList<Any>()
         itemList.addAll((context as FormularioActivity).getListSpinner())
 
         spnDialog = SpinnerDialog(activity, itemList, resources.getString(R.string.tittleSpinerTipoGasto))
-        spnDialog!!.bindOnSpinerListener { item, position ->
+        spnDialog!!.bindOnSpinerListener { item, _ ->
             spnTipoGasto.text = (item as TipoGastoEntity).rtgDes
             rtgId = item.rtgId
         }
 
+        val itemListProv = ArrayList<Any>()
+        itemListProv.addAll((context as FormularioActivity).getListProvinciaDestino())
 
+        spnDialogProv = SpinnerDialog(activity, itemListProv, resources.getString(R.string.tittleSpinerSearch))
+        spnDialogProv!!.bindOnSpinerListener { item, _ ->
+            spnDestinoViaje.text = (item as ProvinciaEntity).desc
+            idProvincia = item.code
+        }
+
+        val adapterTipoMoneda = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.tipo_moneda))
+        spnTipoMoneda.setAdapter(adapterTipoMoneda)
+
+        rendicionEntity = (context as FormularioActivity).getDefaultValues()
+        rendicionEntity?.let { setAllDefaultValues() }
 
     }
     //endregion
@@ -141,6 +167,9 @@ class BoletoAereoFragment : Fragment() {
         spnTipoGasto.setOnClickListener {
             spnDialog!!.showSpinerDialog()
         }
+        spnDestinoViaje.setOnClickListener {
+            spnDialogProv!!.showSpinerDialog()
+        }
 
         btnSearch.setOnClickListener {
             if (etxRuc.text.toString().length == 11) {
@@ -154,6 +183,17 @@ class BoletoAereoFragment : Fragment() {
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
         }
+
+        btnGuardar.setOnClickListener{
+            val tipoMoneda = if (spnTipoMoneda.selectedIndex == 0) "S" else "D"
+            // Log.i("NDa", ((TipoGastoEntity) spnTipoGasto.getSelectedItem()).getRtgId());
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), BoletoAereoEntity((context as FormularioActivity).getSelectTypoDoc().toString(), etxRuc.text.toString(),
+                    etxRazonSocial.text.toString(), etxNDocumento.text.toString() + "-" + etxNSerie.text.toString(), idProvincia.toString(), txvFechaDocumento.text.toString(), tipoMoneda,
+                    etxPrecioVenta.text.toString(), resources.getString(R.string.IGV).toString(), (if (chkAfectoIgv.isChecked) "1" else "0").toString(), etxOtrosGastos.text.toString(),
+                    rtgId.toString(), pathImage.toString()))
+
+        }
+
 
     }
     //endregion
@@ -195,7 +235,7 @@ class BoletoAereoFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ file ->
-                                img_foto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
+                                imgFoto.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
                                 pathImage = file.absolutePath
 
                             }, { throwable -> Log.i("ErrorCompressImage", throwable.message) })
@@ -216,6 +256,57 @@ class BoletoAereoFragment : Fragment() {
                 return
             }
         }
+    }
+
+    //endregion
+
+    //region Funciones
+    private fun sumaTotal() {
+        val neto: Double?
+        val igv: Double?
+        val otros: Double?
+
+        if (etxValorVenta != null) {
+            if (etxValorVenta.text.toString().isEmpty()) etxValorVenta.setText("0")
+            neto = ((if (etxValorVenta.text.toString().isEmpty()) 0 else etxValorVenta.text.toString()).toString()).toDouble()
+            igv = java.lang.Double.valueOf(if (chkAfectoIgv.isChecked) (java.lang.Double.valueOf(etxValorVenta.text.toString()) * 0.18).toString() else "0.00")
+            txvMontoIGV.text = String.format("%.2f", igv)
+            otros = java.lang.Double.valueOf((if (etxOtrosGastos.text.toString().isEmpty()) 0 else etxOtrosGastos.text.toString()).toString())
+
+            etxPrecioVenta.text = String.format("%.3f", neto!! + igv!! + otros!!)
+        }
+    }
+
+    private fun setAllDefaultValues() {
+        gastoEntity = (context as FormularioActivity).getDefaultTipoGasto()
+        provinciaEntity = (context as FormularioActivity).getDefaultProvincia()
+
+        val strings = rendicionEntity?.numeroDoc?.split("-")!!
+
+        etxRuc.setText(rendicionEntity?.ruc.toString())
+        etxRazonSocial.setText(rendicionEntity?.razonSocial.toString())
+        etxNSerie.setText(strings[0])
+        etxNDocumento.setText(strings[1])
+        spnDestinoViaje.text = provinciaEntity?.desc.toString()
+        idProvincia = provinciaEntity?.code.toString()
+        txvFechaDocumento.text = rendicionEntity?.fechaDocumento.toString()
+        spnTipoMoneda.selectedIndex = if (rendicionEntity?.tipoMoneda == "S") 0 else 1
+        etxValorVenta.setText(rendicionEntity?.valorNeto.toString())
+        if (rendicionEntity?.afectoIgv == "1") chkAfectoIgv.isChecked = true
+        txvMontoIGV.text = rendicionEntity?.igv.toString()
+        etxPrecioVenta.text = rendicionEntity?.precioTotal.toString()
+        etxOtrosGastos.setText(rendicionEntity?.otroGasto.toString())
+        spnTipoGasto.text = gastoEntity?.rtgDes.toString()
+        rtgId = gastoEntity?.rtgId.toString()
+        pathImage = rendicionEntity?.foto
+
+        Picasso.get()
+                //.load("https://s3.us-east-2.amazonaws.com/overrendicion-userfiles-mobilehub-1058830409/uploads/20180826233027.jpg")
+                .load(rendicionEntity?.foto)
+                .placeholder(R.drawable.ic_add_a_photo)
+                .error(R.drawable.ic_highlight_off)
+                .into(imgFoto)
+
     }
 
     //endregion

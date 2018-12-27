@@ -18,4 +18,5 @@ class DocumentosListPresenter(internal val mView: IDocumentosListView): IDocumen
 
     override fun getDocumentosReembolso(): ArrayList<RendicionEntity> = mInteractor.getDocumentosReembolso()
 
+    override fun deleteRendicion(codRendicion: String) {mInteractor.deleteRendicion(codRendicion)}
 }

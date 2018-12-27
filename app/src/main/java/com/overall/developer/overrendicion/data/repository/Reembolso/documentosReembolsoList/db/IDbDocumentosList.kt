@@ -5,7 +5,12 @@ import com.overall.developer.overrendicion.data.model.bean.RendicionReembolsoBea
 import io.realm.RealmResults
 
 interface IDbDocumentosList {
+
     fun getReembolsoBean(): ReembolsoBean
+
     fun getDocumentosReembolsoDB(): RealmResults<RendicionReembolsoBean>
+
     fun insertRendicionDB(reembolsoBeans: ArrayList<RendicionReembolsoBean>)
+
+    fun deleteRendicionDb(codRendicion: String)
 }

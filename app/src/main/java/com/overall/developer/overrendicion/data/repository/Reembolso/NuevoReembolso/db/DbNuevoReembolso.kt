@@ -12,7 +12,7 @@ class DbNuevoReembolso(internal val mInteractor: INuevoReembolsoInteractor): IDb
         val realm = Realm.getDefaultInstance()
 
         //reembolsoBean.codReemboslo = (reembolsoBean.codReemboslo.toInt() + 1).toString()
-        realm.executeTransaction{realm ->
+        realm.executeTransaction{
             run {
                 reembolsoBean.estadoR = true
                 when(reembolsoBean.estado){

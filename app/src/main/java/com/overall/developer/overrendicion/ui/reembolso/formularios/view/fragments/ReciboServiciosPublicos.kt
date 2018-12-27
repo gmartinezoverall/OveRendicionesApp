@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.fxn.pix.Pix
 import com.fxn.utility.PermUtil
@@ -22,6 +23,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.ReciboServiciosPublicosEntity
 import com.overall.developer.overrendicion.ui.communicator.Communicator
 import com.overall.developer.overrendicion.ui.communicator.OttoBus
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
@@ -74,6 +76,8 @@ class ReciboServiciosPublicos : Fragment() {
             rtgId = item.rtgId
         }
 
+        val adapterTipoServicio = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, resources.getStringArray(R.array.tipo_servicio))
+        spnTipoServicio.setAdapter(adapterTipoServicio)
 
 
     }
@@ -152,6 +156,12 @@ class ReciboServiciosPublicos : Fragment() {
 
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
+        }
+
+        btnGuardar.setOnClickListener{
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), ReciboServiciosPublicosEntity((context as FormularioActivity).getSelectTypoDoc().toString(),
+                    etxRuc.text.toString(), etxRazonSocial.text.toString(), etxNDocumento.text.toString() + "-" + etxNSerie.text.toString(), txvFechaDocumento.text.toString(), rtgId.toString(), txvIgv.text.toString(), "1",
+                    etxImpNoAfectado.text.toString(), etxPrecioVenta.text.toString(), pathImage.toString()))
         }
 
     }

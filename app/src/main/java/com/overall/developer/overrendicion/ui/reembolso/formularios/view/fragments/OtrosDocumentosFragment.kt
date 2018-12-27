@@ -23,6 +23,7 @@ import com.fxn.utility.PermUtil
 import com.overall.developer.overrendicion.R
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.TipoGastoEntity
+import com.overall.developer.overrendicion.data.model.entity.formularioEntity.OtrosDocumentosEntity
 import com.overall.developer.overrendicion.ui.reembolso.formularios.view.FormularioActivity
 import com.overall.developer.overrendicion.utils.Util
 import id.zelory.compressor.Compressor
@@ -138,6 +139,12 @@ class OtrosDocumentosFragment : Fragment() {
 
         btnFoto.setOnClickListener {
             Pix.start(this, 100, 1)//esta preparado para admitir mas de 1 imagenes y mostrar mas de 1 tambien solo se debe cambiar el numero
+        }
+
+        btnGuardar.setOnClickListener{
+            (context as FormularioActivity).saveAndSendData((context as FormularioActivity).getSelectTypoDoc(), OtrosDocumentosEntity((context as FormularioActivity).getSelectTypoDoc().toString(),
+                    txvFechaDocumento.text.toString(), etxNDocumento.text.toString() + "-" + etxNSerie.text.toString(), etxMontoAfectado.text.toString(), etxMontoNoAfectado.text.toString(), rtgId.toString(),
+                    etxObservaciones.text.toString(), pathImage.toString()))
         }
 
     }

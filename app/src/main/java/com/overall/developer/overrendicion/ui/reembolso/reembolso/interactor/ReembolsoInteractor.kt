@@ -1,6 +1,8 @@
 package com.overall.developer.overrendicion.ui.reembolso.reembolso.interactor
 
+import com.overall.developer.overrendicion.RendicionApplication
 import com.overall.developer.overrendicion.data.model.bean.ReembolsoBean
+import com.overall.developer.overrendicion.data.model.bean.RendicionReembolsoBean
 import com.overall.developer.overrendicion.data.model.entity.ReembolsoEntity
 import com.overall.developer.overrendicion.data.model.entity.convertReembolsoBeanInEntity
 import com.overall.developer.overrendicion.data.repository.reembolso.Reembolso.api.ApiReembolso
@@ -38,5 +40,14 @@ class ReembolsoInteractor (internal val mPresenter: IReembolsoPresenter): IReemb
 
     override fun changeStatusReembolso(codReembolso: String) {
         mDbReembolso.changeStatusReembolsoDB(codReembolso)
+    }
+
+    override fun sendResume(codReembolso: String) {
+        mApiReembolso.sendResumeApi(codReembolso)
+    }
+
+    override fun sendResumeSuccess() {
+
+        mPresenter.sendResumeSuccess()
     }
 }

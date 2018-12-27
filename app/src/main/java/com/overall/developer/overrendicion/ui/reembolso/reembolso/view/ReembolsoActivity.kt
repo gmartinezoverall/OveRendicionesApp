@@ -20,6 +20,7 @@ import com.overall.developer.overrendicion.utils.realmBrowser.RealmBrowser
 import kotlinx.android.synthetic.main.activity_reembolso.*
 import kotlinx.android.synthetic.main.toolbar_reembolso.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import xyz.sangcomz.stickytimelineview.RecyclerSectionItemDecoration
 import xyz.sangcomz.stickytimelineview.TimeLineRecyclerView
 import xyz.sangcomz.stickytimelineview.model.SectionInfo
@@ -93,25 +94,35 @@ class ReembolsoActivity : AppCompatActivity(), IReembolsoView,  NavigationView.O
     //region estadosActividad
     override fun onResume() {
         super.onResume()
-/*        realmBrowser = RealmBrowser()
+        realmBrowser = RealmBrowser()
         realmBrowser!!.start()
-        realmBrowser!!.showServerAddress(this)*/
+        realmBrowser!!.showServerAddress(this)
 
     }
 
     override fun onStop() {
         super.onStop()
 
-/*        if (realmBrowser != null) {
+        if (realmBrowser != null) {
             realmBrowser!!.stop()
-        }*/
+        }
     }
 
     //endregion
 
+    //region functions
     fun changeStatusReembolso(codReembolso: String){
         mPresenter.changeStatusReembolso(codReembolso)
     }
+    fun sendResume(codReembolso: String){
+        mPresenter.sendResume(codReembolso)
+    }
+
+    override fun sendResumeSuccess() {
+        toast(getString(R.string.sendDataSuccess))
+    }
+
+    //endregion
 
     override fun listReembolsoSuccess(reembolsoEntityList: ArrayList<ReembolsoEntity>)
     {

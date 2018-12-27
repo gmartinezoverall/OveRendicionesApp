@@ -5,21 +5,32 @@
     android:orientation="horizontal">
 
     <ImageButton
-        android:id="@+id/imagebutton_voicemail"
+        android:id="@+id/btnEdit"
         android:layout_width="72dp"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@color/swipeoption_green"
         android:foreground="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_edit"
+        android:tint="@android:color/white"/>
+
+<!--    <ImageButton
+        android:id="@+id/btnAddPhoto"
+        android:layout_width="72dp"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@color/colorAccent"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_add_a_photo_white" />-->
 
     <ImageButton
-        android:id="@+id/imagebutton_bubble"
+        android:id="@+id/btnDelete"
         android:layout_width="72dp"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@color/swipeoption_purple"
         android:foreground="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_add_a_photo_white" />
+        android:src="@drawable/ic_delete"
+        android:tint="@android:color/white"/>
 
 </LinearLayout>

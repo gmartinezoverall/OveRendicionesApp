@@ -7,6 +7,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.overall.developer.overrendicion.BuildConfig
+import com.overall.developer.overrendicion.data.model.request.EditRendicionReembolsoRequest
 import com.overall.developer.overrendicion.data.model.request.InsertRendicionReembolsoRequest
 import com.overall.developer.overrendicion.data.model.request.RendicionRequest
 import com.overall.developer.overrendicion.ui.reembolso.formularios.interactor.FormularioInteractor
@@ -104,7 +105,7 @@ class ApiFormulario (internal val mInteractor: FormularioInteractor): IApiFormul
 
     }
 
-    override fun sendDataForUpdateApi(request: RendicionRequest, idRendicion: Int) {
+    override fun sendDataForUpdateApi(request: EditRendicionReembolsoRequest, idRendicion: Int) {
 
         AndroidNetworking.post(UrlApi.urlEditarRendicionReembolso)
                 .addBodyParameter("apiKey", BuildConfig.API_KEY)

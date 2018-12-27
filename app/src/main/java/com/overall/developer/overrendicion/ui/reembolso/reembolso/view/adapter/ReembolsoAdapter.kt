@@ -71,6 +71,11 @@ class ReembolsoAdapter(private val items: ArrayList<ReembolsoEntity>, val contex
                 (context as ReembolsoActivity).changeStatusReembolso(items[position].codReembolso)
                 context.startActivity<DocumentosListActivity>() }
 
+            btnEnviarResumen.setOnClickListener {
+                (context as ReembolsoActivity).sendResume(items[position].codReembolso)
+
+            }
+
             with(lytContent)
             {
                 setHoverView(hover)
