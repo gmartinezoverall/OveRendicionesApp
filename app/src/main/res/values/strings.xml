@@ -89,13 +89,13 @@
 
     <array name="tipo_moneda">
         <item>Soles</item>
-        <item>Dolares</item>
+        <item>Dólares</item>
     </array>
 
     <array name="tipo_servicio">
         <item>Luz</item>
         <item>Agua</item>
-        <item>Telefono</item>
+        <item>Teléfono</item>
     </array>
 
     <array name="tipo_ingreso">

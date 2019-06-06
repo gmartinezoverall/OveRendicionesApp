@@ -27,10 +27,10 @@
             android:id="@+id/nav_liqPend"
             android:icon="@drawable/ic_list"
             android:title="@string/liquidaciones_pendientes" />
-        <item
+        <!--item
             android:id="@+id/nav_reenbolso"
             android:icon="@drawable/ic_sync"
-            android:title="@string/reembolso"/>
+            android:title="@string/reembolso"/-->
         <item
             android:id="@+id/nav_configuracion"
             android:icon="@drawable/ic_settings"

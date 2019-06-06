@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.overall.developer.overrendicion">
+    package="com.overall.developer.overrendicion2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".RendicionApplication"
+        android:name="com.overall.developer.overrendicion2.RendicionApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.user.view.Login.LoginActivity"
+            android:name="com.overall.developer.overrendicion2.ui.user.view.Login.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,23 +28,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.liquidacion.view.pendiente.PendienteActivity"
+            android:name="com.overall.developer.overrendicion2.ui.liquidacion.view.pendiente.PendienteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.view.CreateAccount.CreateAccountActivity"
+            android:name="com.overall.developer.overrendicion2.ui.user.view.CreateAccount.CreateAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".ui.liquidacion.view.rendicion.RendicionActivity"
+            android:name="com.overall.developer.overrendicion2.ui.liquidacion.view.rendicion.RendicionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.liquidacion.view.formularios.FormularioActivity"
+            android:name="com.overall.developer.overrendicion2.ui.liquidacion.view.formularios.FormularioActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.liquidacion.view.datosGenerales.DatosGeneralesActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.liquidacion.view.datosGenerales.DatosGeneralesActivity" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
-        <service android:name=".utils.notification.MessagingService">
+        <service android:name="com.overall.developer.overrendicion2.utils.notification.MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -55,7 +55,7 @@
             android:value="d5ba6603f446f535647ee0629e0ca511ed970e4f" />
 
         <receiver
-            android:name=".utils.background.InitialServiceBrodcast"
+            android:name="com.overall.developer.overrendicion2.utils.background.InitialServiceBrodcast"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -65,17 +65,17 @@
         </receiver>
 
         <service
-            android:name=".utils.background.SendDataService"
+            android:name="com.overall.developer.overrendicion2.utils.background.SendDataService"
             android:enabled="true"
             android:exported="true"
             android:stopWithTask="false" />
 
-        <activity android:name=".ui.user.view.Drawable.RecoveryPasswordActivity" />
-        <activity android:name=".ui.user.view.Drawable.UpdateEmailActivity" />
-        <activity android:name=".ui.reembolso.reembolso.view.ReembolsoActivity" />
-        <activity android:name=".ui.reembolso.datosGenerales.view.NuevoReembolsoActivity" />
-        <activity android:name=".ui.reembolso.rendicionesList.view.DocumentosListActivity" />
-        <activity android:name=".ui.reembolso.formularios.view.FormularioActivity"/>
+        <activity android:name="com.overall.developer.overrendicion2.ui.user.view.Drawable.RecoveryPasswordActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.user.view.Drawable.UpdateEmailActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.reembolso.reembolso.view.ReembolsoActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.reembolso.datosGenerales.view.NuevoReembolsoActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.reembolso.rendicionesList.view.DocumentosListActivity" />
+        <activity android:name="com.overall.developer.overrendicion2.ui.reembolso.formularios.view.FormularioActivity"/>
     </application>
 
 </manifest>

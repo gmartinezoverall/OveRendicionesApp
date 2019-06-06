@@ -22,7 +22,7 @@ android {
     compileSdkVersion gradle.compileSdk
     buildToolsVersion gradle.buildTools
     defaultConfig {
-        applicationId "com.overall.developer.overrendicion"
+        applicationId 'com.overall.developer.overrendicion2'
         minSdkVersion gradle.minSdk
         targetSdkVersion gradle.targetSdk
         versionName gradle.versionName
@@ -31,7 +31,6 @@ android {
         multiDexEnabled true
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
-
     }
     buildTypes {
         release {
@@ -64,8 +63,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crash:11.8.0'
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
-
     testImplementation 'junit:junit:4.12'
+
+    //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':DialogLibrary')
@@ -179,6 +179,7 @@ dependencies {
 
     //Anko
     implementation "org.jetbrains.anko:anko:$gradle.ankoVersion"
+
     //implementation "org.jetbrains.anko:anko-commons:$gradle.ankoVersion"
 
     //omega Library recyclerView, Swipe and others
@@ -186,7 +187,6 @@ dependencies {
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-
 }
 
 apply plugin: 'com.google.gms.google-services'

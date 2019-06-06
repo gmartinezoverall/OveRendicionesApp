@@ -36,8 +36,8 @@
 -keep class android.net.** { *; }
 -dontwarn android.net.**
 
--keep class com.overall.developer.overrendicion.** { *; }
--dontwarn com.overall.developer.overrendicion.**
+-keep class com.overall.developer.overrendicion2.** { *; }
+-dontwarn com.overall.developer.overrendicion2.**
 
 # Class names are needed in reflection
 -keepnames class com.amazonaws.**

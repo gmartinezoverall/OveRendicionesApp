@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:551013620695:android:acadae7a2bcc0b53",
         "android_client_info": {
-          "package_name": "com.overall.developer.overrendicion"
+          "package_name": "com.overall.developer.overrendicion2"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "551013620695-6hdcn2nfr7m9dofgds8k3gl3f737q703.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.overall.developer.overrendicion",
+            "package_name": "com.overall.developer.overrendicion2",
             "certificate_hash": "b38538a7345f079fa6dadeab1711ad4c55880715"
           }
         },
